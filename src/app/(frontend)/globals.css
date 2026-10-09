@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-purple-950: #1c0a33;
+  --color-purple-900: #2e1150;
+  --color-purple-800: #3b1765;
+  --color-purple-700: #4b1d7a;
+  --color-purple-600: #5e2a94;
+  --color-purple-100: #efe7f8;
+  --color-purple-50: #f7f2fc;
+  --color-saffron-600: #e0a100;
+  --color-saffron-500: #f5b700;
+  --color-saffron-300: #ffd75e;
+  --color-saffron-100: #fff3cc;
+  --color-cream: #fbf8f2;
+  --color-ink: #24182f;
+  --color-muted: #6b5f75;
+
+  --font-serif: var(--font-marcellus), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-serif text-purple-800;
+  }
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors;
+}
+
+@utility btn-donate {
+  @apply btn bg-saffron-500 text-purple-950 hover:bg-saffron-600;
+}
+
+@utility btn-primary {
+  @apply btn bg-purple-700 text-white hover:bg-purple-800;
+}
+
+@utility btn-outline {
+  @apply btn border border-current hover:bg-white/10;
+}
