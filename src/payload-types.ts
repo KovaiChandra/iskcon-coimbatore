@@ -217,6 +217,11 @@ export interface Festival {
    */
   timeLabel?: string | null;
   image?: (number | null) | Media;
+  /**
+   * Illustration shown until a photo is uploaded
+   */
+  artwork?: ('temple' | 'lamps' | 'hill' | 'moon' | 'book' | 'chariot' | 'lotus') | null;
+  showInHero?: boolean | null;
   shortDescription: string;
   significance?: {
     root: {
@@ -261,6 +266,10 @@ export interface Seva {
   endDate?: string | null;
   shortDescription: string;
   image?: (number | null) | Media;
+  /**
+   * Illustration shown until a photo is uploaded
+   */
+  artwork?: ('temple' | 'lamps' | 'hill' | 'moon' | 'book' | 'chariot' | 'lotus') | null;
   /**
    * Quick amounts shown on donation cards, e.g. 1500 and 3000
    */
@@ -584,6 +593,8 @@ export interface FestivalsSelect<T extends boolean = true> {
   date?: T;
   timeLabel?: T;
   image?: T;
+  artwork?: T;
+  showInHero?: T;
   shortDescription?: T;
   significance?: T;
   schedule?:
@@ -610,6 +621,7 @@ export interface SevasSelect<T extends boolean = true> {
   endDate?: T;
   shortDescription?: T;
   image?: T;
+  artwork?: T;
   presetAmounts?:
     | T
     | {
@@ -864,13 +876,25 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface HomePage {
   id: number;
+  /**
+   * Extra slides shown first in the slideshow. Upcoming festivals and running festival sevas are added automatically after these.
+   */
   heroSlides?:
     | {
-        image: number | Media;
-        heading?: string | null;
-        text?: string | null;
         /**
-         * Optional, e.g. /festivals/kartik or /donate/annadaan
+         * Small line above the heading, e.g. "Every Sunday"
+         */
+        eyebrow?: string | null;
+        heading: string;
+        text?: string | null;
+        image?: (number | null) | Media;
+        /**
+         * Used when there is no image
+         */
+        artwork?: ('temple' | 'lamps' | 'hill' | 'moon' | 'book' | 'chariot' | 'lotus') | null;
+        buttonLabel?: string | null;
+        /**
+         * e.g. /festivals/kartik or /donate/annadaan
          */
         link?: string | null;
         id?: string | null;
@@ -959,9 +983,12 @@ export interface HomePageSelect<T extends boolean = true> {
   heroSlides?:
     | T
     | {
-        image?: T;
+        eyebrow?: T;
         heading?: T;
         text?: T;
+        image?: T;
+        artwork?: T;
+        buttonLabel?: T;
         link?: T;
         id?: T;
       };

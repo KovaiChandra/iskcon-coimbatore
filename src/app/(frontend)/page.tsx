@@ -1,306 +1,421 @@
 import Link from 'next/link'
-import type { Seva } from '@/payload-types'
+import type { Festival, Seva } from '@/payload-types'
 import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
 import { InstagramIcon, WhatsAppIcon } from '@/components/Icons'
-import { SectionHeading } from '@/components/SectionHeading'
+import { Mandala, Sparkle } from '@/components/art/Mandala'
+import type { ArtTheme } from '@/components/art/FestivalArt'
 import { DonationCard } from '@/components/home/DonationCard'
+import { HeroSlider, type HeroSlide } from '@/components/home/HeroSlider'
 import { NityaSevaForm } from '@/components/home/NityaSevaForm'
+import { ScheduleTicker } from '@/components/home/ScheduleTicker'
 import { SubscribeForm } from '@/components/home/SubscribeForm'
-import { formatDate, waLink } from '@/lib/format'
+import { formatDate, mediaUrl, waLink } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
 import { isSevaActive, populated } from '@/lib/sevas'
 
 export const revalidate = 60
 
+const DAY = 86_400_000
+
+function daysUntil(date: string) {
+  const startOfToday = new Date(new Date().setHours(0, 0, 0, 0)).getTime()
+  const d = Math.round((new Date(date).setHours(0, 0, 0, 0) - startOfToday) / DAY)
+  return d <= 0 ? 'Today' : d === 1 ? 'Tomorrow' : `In ${d} days`
+}
+
+function Eyebrow({ children, light }: { children: React.ReactNode; light?: boolean }) {
+  return (
+    <p className={`mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] ${light ? 'text-saffron-300' : 'text-saffron-600'}`}>
+      <Sparkle className="size-2.5" />
+      {children}
+    </p>
+  )
+}
+
 export default async function HomePage() {
   const payload = await getPayloadClient()
   const todayStart = new Date(new Date().setHours(0, 0, 0, 0)).toISOString()
 
-  const [home, settings, festivals, services, courses, posts, monthlySevas, latestDarshan] = await Promise.all([
+  const [home, settings, timings, festivals, services, courses, posts, monthlySevas, festivalSevas] = await Promise.all([
     payload.findGlobal({ slug: 'home-page', depth: 2 }),
     payload.findGlobal({ slug: 'site-settings' }),
-    payload.find({ collection: 'festivals', where: { date: { greater_than_equal: todayStart } }, sort: 'date', limit: 3 }),
+    payload.findGlobal({ slug: 'temple-timings' }),
+    payload.find({ collection: 'festivals', where: { date: { greater_than_equal: todayStart } }, sort: 'date', limit: 4 }),
     payload.find({ collection: 'services', where: { featured: { equals: true } }, limit: 3 }),
     payload.find({ collection: 'courses', where: { featured: { equals: true } }, limit: 3 }),
     payload.find({ collection: 'posts', where: { _status: { equals: 'published' } }, sort: '-publishedAt', limit: 3 }),
     payload.find({ collection: 'sevas', where: { allowMonthly: { equals: true } }, limit: 20 }),
-    payload.find({ collection: 'darshan-days', sort: '-date', limit: 1 }),
+    payload.find({ collection: 'sevas', where: { category: { equals: 'festival' } }, limit: 10 }),
   ])
 
-  const slide = home.heroSlides?.[0]
-  const heroImage = slide?.image ?? populated(latestDarshan.docs[0]?.photos)[0]
+  // ---- Slideshow: admin slides → running festival sevas → upcoming festivals → welcome
+  const imageOf = (m: Parameters<typeof mediaUrl>[0]) => {
+    const url = mediaUrl(m, 'hero')
+    return url && typeof m === 'object' && m ? { url, alt: m.alt } : null
+  }
+  const slides: HeroSlide[] = [
+    ...(home.heroSlides ?? []).map((s, i) => ({
+      id: `custom-${s.id ?? i}`,
+      eyebrow: s.eyebrow || 'ISKCON Coimbatore',
+      title: s.heading,
+      text: s.text,
+      image: imageOf(s.image),
+      art: (s.artwork ?? 'temple') as ArtTheme,
+      primary: { label: s.buttonLabel || 'Learn more', href: s.link || '/festivals' },
+      navLabel: s.heading,
+      navMeta: s.eyebrow || '',
+    })),
+    ...festivalSevas.docs.filter((s) => isSevaActive(s)).map((s) => ({
+      id: `seva-${s.id}`,
+      eyebrow: s.endDate ? `Offer seva until ${formatDate(s.endDate, { day: 'numeric', month: 'short' })}` : 'Festival seva',
+      title: s.title,
+      text: s.shortDescription,
+      image: imageOf(s.image),
+      art: (s.artwork ?? 'lamps') as ArtTheme,
+      primary: { label: 'Offer this seva', href: `/donate/${s.slug}` },
+      secondary: { label: 'All sevas', href: '/donate' },
+      navLabel: s.title,
+      navMeta: 'Seva now open',
+    })),
+    ...festivals.docs.filter((f) => f.showInHero !== false).map((f) => ({
+      id: `festival-${f.id}`,
+      eyebrow: `${formatDate(f.date, { weekday: 'short', day: 'numeric', month: 'long' })} · ${daysUntil(f.date)}`,
+      title: f.name,
+      text: f.shortDescription,
+      image: imageOf(f.image),
+      art: (f.artwork ?? 'lotus') as ArtTheme,
+      primary: { label: 'Sponsor the festival', href: `/festivals/${f.slug}` },
+      secondary: { label: 'Festival calendar', href: '/festivals' },
+      navLabel: f.name,
+      navMeta: `${formatDate(f.date, { day: 'numeric', month: 'short' })} · ${daysUntil(f.date)}`,
+    })),
+  ]
+  slides.unshift({
+    id: 'welcome',
+    eyebrow: 'Hare Krishna · Welcome home',
+    title: 'Abode of Sri Sri Jagannath, Baladeva & Subhadra',
+    text: 'Come for darshan, stay for kirtan and prasadam. Everyone is welcome at Sri Jagannath Mandir, Coimbatore.',
+    image: null,
+    art: 'temple',
+    primary: { label: "Today's Darshan", href: '/daily-darshan' },
+    secondary: { label: 'Temple timings', href: '/contact#timings' },
+    navLabel: 'Sri Jagannath Mandir',
+    navMeta: 'Open daily',
+  })
+
   const highlights = populated<Seva>(home.highlightSevas).filter((s) => isSevaActive(s))
   const donationSevas = populated<Seva>(home.donationSevas).filter((s) => isSevaActive(s))
 
   return (
     <>
-      {/* 1. Hero */}
-      <section className="relative isolate flex min-h-[78vh] items-center overflow-hidden bg-purple-950 text-white">
-        {heroImage && <ImageOrPlaceholder media={heroImage} size="hero" sizes="100vw" priority className="-z-10 opacity-60" />}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-purple-950 via-purple-950/50 to-purple-900/20" />
-        <div className="container-x py-24 pb-40">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-saffron-300">Hare Krishna · Welcome</p>
-          <h1 className="max-w-3xl text-4xl leading-tight text-white md:text-6xl">
-            {slide?.heading || 'Abode of Sri Sri Jagannath, Baladeva & Subhadra'}
-          </h1>
-          <p className="mt-5 max-w-xl text-lg text-purple-100">
-            {slide?.text || 'Come for darshan, stay for kirtan and prasadam. Everyone is welcome at Sri Jagannath Mandir, Coimbatore.'}
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={slide?.link || '/contact#timings'} className="btn-donate">
-              Temple Schedule
-            </Link>
-            <Link href="/daily-darshan" className="btn-outline text-white">
-              View Daily Darshan
-            </Link>
-          </div>
-        </div>
-      </section>
+      <HeroSlider slides={slides.slice(0, 6)} />
+      <ScheduleTicker items={(timings.schedule ?? []).map(({ time, activity }) => ({ time, activity }))} />
 
-      {/* 2. Highlight cards overlapping the banner */}
+      {/* Three ways to serve — arch cards */}
       {highlights.length > 0 && (
-        <section className="container-x relative z-10 -mt-24 grid gap-4 md:grid-cols-3">
-          {highlights.map((s) => (
-            <Link
-              key={s.id}
-              href={`/donate/${s.slug}`}
-              className="group rounded-2xl border-b-4 border-saffron-500 bg-white p-6 shadow-xl transition hover:-translate-y-1"
-            >
-              <h3 className="text-xl group-hover:text-purple-600">{s.title}</h3>
-              <p className="mt-2 line-clamp-2 text-sm text-muted">{s.shortDescription}</p>
-              <span className="mt-4 inline-block text-sm font-semibold text-purple-700">Offer seva →</span>
-            </Link>
-          ))}
+        <section className="relative overflow-hidden bg-cream py-20">
+          <Mandala className="pointer-events-none absolute -right-48 top-10 size-[520px] text-purple-200/60" />
+          <div className="container-x relative">
+            <div className="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+              <div>
+                <Eyebrow>Begin with one offering</Eyebrow>
+                <h2 className="text-4xl md:text-5xl">Three ways to serve today</h2>
+              </div>
+              <Link href="/donate" className="font-semibold text-purple-700 hover:text-purple-900">All sevas →</Link>
+            </div>
+            <div className="grid gap-8 md:grid-cols-3">
+              {highlights.map((s, i) => (
+                <Link key={s.id} href={`/donate/${s.slug}`} className="group text-center">
+                  <div className="arch relative mx-auto aspect-[3/4] w-full max-w-[240px] overflow-hidden md:max-w-xs ring-4 ring-white shadow-xl transition duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl">
+                    <div className="absolute inset-0 transition duration-700 group-hover:scale-110">
+                      <ImageOrPlaceholder media={s.image} art={(s.artwork ?? (['lotus', 'lamps', 'book'] as const)[i % 3]) as ArtTheme} />
+                    </div>
+                    <div className="arch pointer-events-none absolute inset-3 border border-saffron-300/70" />
+                  </div>
+                  <h3 className="mt-6 text-2xl group-hover:text-purple-600">{s.title}</h3>
+                  <p className="mx-auto mt-2 max-w-xs text-sm text-muted">{s.shortDescription}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
         </section>
       )}
 
-      {/* 3. About */}
-      <section className="container-x grid items-center gap-12 py-20 md:grid-cols-2">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-lg">
-          <ImageOrPlaceholder media={home.about?.image} alt="Srila Prabhupada" sizes="(min-width: 768px) 50vw, 100vw" />
+      {/* About */}
+      <section className="container-x grid items-center gap-16 py-24 lg:grid-cols-[1fr_1.1fr]">
+        <div className="relative mx-auto w-full max-w-md">
+          <Mandala className="spin-slow absolute -inset-16 text-saffron-500/25" />
+          <div className="arch relative aspect-[4/5] overflow-hidden shadow-2xl ring-8 ring-white">
+            <ImageOrPlaceholder media={home.about?.image} art="temple" alt="Srila Prabhupada" sizes="(min-width: 1024px) 40vw, 100vw" />
+          </div>
+          <div className="absolute -bottom-6 -right-4 rounded-2xl bg-saffron-500 px-5 py-4 text-purple-950 shadow-xl md:-right-10">
+            <p className="font-serif text-3xl leading-none">1966</p>
+            <p className="text-xs font-semibold uppercase tracking-wider">ISKCON founded</p>
+          </div>
         </div>
         <div>
-          <SectionHeading eyebrow="About ISKCON" title="A home for everyone seeking Krishna" />
-          <p className="whitespace-pre-line text-muted">
+          <Eyebrow>About ISKCON Coimbatore</Eyebrow>
+          <h2 className="text-4xl leading-tight md:text-5xl">
+            A spiritual home for <span className="italic text-purple-600">everyone</span> seeking Krishna
+          </h2>
+          <p className="mt-6 whitespace-pre-line text-lg leading-relaxed text-muted">
             {home.about?.text ||
-              'ISKCON Coimbatore was established to share the timeless teachings of Bhagavad-gita and the joy of chanting the holy names, as taught by His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada.\n\nAt Sri Jagannath Mandir we welcome families, students and seekers to daily worship, festivals, classes and prasadam.'}
+              'ISKCON Coimbatore shares the timeless teachings of Bhagavad-gita and the joy of chanting the holy names, as taught by His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada.\n\nAt Sri Jagannath Mandir, families, students and seekers gather for daily worship, festivals, classes and prasadam.'}
           </p>
-          <ul className="mt-6 space-y-3">
-            {['Spiritual guidance for everyone', 'Festivals, seva & community programmes', 'Prasadam distribution'].map((p) => (
-              <li key={p} className="flex items-center gap-3">
-                <span className="grid size-6 place-items-center rounded-full bg-saffron-100 text-xs text-purple-800">✓</span>
-                {p}
+          <ol className="mt-8 grid gap-4 sm:grid-cols-3">
+            {['Spiritual guidance for everyone', 'Festivals, seva & community', 'Prasadam for all'].map((p, i) => (
+              <li key={p} className="rounded-2xl border border-purple-100 p-4">
+                <span className="font-serif text-2xl text-saffron-600">0{i + 1}</span>
+                <p className="mt-1 text-sm font-medium">{p}</p>
               </li>
             ))}
-          </ul>
-          <Link href="/about" className="btn-primary mt-8">
-            Read More
-          </Link>
+          </ol>
+          <Link href="/about" className="btn-primary mt-8 px-7 py-3">Our story →</Link>
         </div>
       </section>
 
-      {/* 4. WhatsApp help strip */}
-      {settings.whatsapp && (
-        <section className="bg-saffron-100">
-          <div className="container-x flex flex-col items-center gap-4 py-8 text-center md:flex-row md:text-left">
-            <WhatsAppIcon className="size-10 shrink-0 text-[#25d366]" />
-            <p className="flex-1 text-purple-900">
-              <strong className="font-serif text-lg">Your personal seva assistant</strong> — download receipts, ask questions and get
-              temple information on WhatsApp.
-            </p>
-            <a href={waLink(settings.whatsapp, 'Hare Krishna!')} target="_blank" rel="noopener noreferrer" className="btn-primary">
-              Chat on WhatsApp
-            </a>
-          </div>
-        </section>
-      )}
-
-      {/* 5. Quote */}
-      <section className="bg-purple-800 py-20 text-center text-white">
+      {/* Quote */}
+      <section className="relative isolate overflow-hidden bg-purple-950 py-28 text-center text-white">
+        <Mandala className="spin-slow absolute left-1/2 top-1/2 -z-10 size-[760px] -translate-x-1/2 -translate-y-1/2 text-saffron-500/15" rings={5} />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,transparent_0%,#1c0a33_70%)]" />
         <div className="container-x max-w-3xl">
-          <p className="font-serif text-2xl leading-relaxed md:text-3xl">
-            “Whatever you do, whatever you eat, whatever you offer or give away, and whatever austerities you perform — do that as an
-            offering unto Me.”
+          <p className="font-serif text-6xl leading-none text-saffron-500">“</p>
+          <p className="text-gold-gradient font-serif text-3xl leading-snug md:text-4xl">
+            Whatever you do, whatever you eat, whatever you offer or give away, and whatever austerities you perform — do that as an offering unto Me.
           </p>
-          <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-saffron-300">Bhagavad-gītā 9.27</p>
+          <p className="mt-8 text-sm font-semibold uppercase tracking-[0.3em] text-purple-100">Bhagavad-gītā 9.27</p>
         </div>
       </section>
 
-      {/* 6. Donation cards */}
+      {/* Donation bento */}
       {donationSevas.length > 0 && (
-        <section className="bg-cream py-20">
+        <section className="py-24">
           <div className="container-x">
-            <SectionHeading eyebrow="Offer a seva" title="Turn your offering into prasad" center />
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {donationSevas.map((s) => (
+            <div className="mb-12 text-center">
+              <Eyebrow>Offer a seva</Eyebrow>
+              <h2 className="text-4xl md:text-5xl">Turn your offering into prasad</h2>
+            </div>
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {donationSevas.map((s, i) => (
                 <DonationCard
                   key={s.id}
+                  featured={i === 0}
+                  wide={donationSevas.length === 4 && i === 3}
+                  badge={s.category === 'festival' ? 'Festival' : i === 0 ? 'Most loved' : undefined}
                   slug={s.slug}
                   title={s.title}
                   description={s.shortDescription}
                   amounts={(s.presetAmounts ?? []).map((p) => p.amount)}
-                  image={<ImageOrPlaceholder media={s.image} sizes="(min-width: 1024px) 25vw, 50vw" />}
+                  image={<ImageOrPlaceholder media={s.image} art={(s.artwork ?? 'lotus') as ArtTheme} sizes="(min-width: 1024px) 33vw, 100vw" />}
                 />
               ))}
             </div>
-            <div className="mt-10 text-center">
-              <Link href="/donate" className="btn-primary">
-                View All Sevas
-              </Link>
-            </div>
           </div>
         </section>
       )}
 
-      {/* 7. Nitya Seva */}
-      {monthlySevas.docs.length > 0 && (
-        <section className="container-x py-16">
-          <div className="rounded-3xl bg-gradient-to-br from-purple-700 to-purple-900 p-8 text-white md:p-12">
-            <div className="mb-6 max-w-xl">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-saffron-300">Nitya Seva</p>
-              <h2 className="text-3xl text-white">Offer a little every month</h2>
-            </div>
+      {/* Nitya Seva + WhatsApp, side by side */}
+      <section className="container-x grid gap-5 pb-24 lg:grid-cols-[1.6fr_1fr]">
+        {monthlySevas.docs.length > 0 && (
+          <div className="relative isolate overflow-hidden rounded-3xl bg-gradient-to-br from-purple-700 via-purple-800 to-purple-950 p-8 text-white md:p-12">
+            <Mandala className="absolute -bottom-32 -right-32 -z-10 size-96 text-saffron-500/20" />
+            <Eyebrow light>Nitya Seva · monthly</Eyebrow>
+            <h2 className="max-w-md text-3xl text-white md:text-4xl">Offer a little, every month</h2>
+            <p className="mb-8 mt-3 max-w-md text-purple-100">Set it once, serve all year. Cancel anytime on WhatsApp or email.</p>
             <NityaSevaForm sevas={monthlySevas.docs.map((s) => ({ slug: s.slug, title: s.title }))} />
-            <p className="mt-4 text-sm text-purple-100">All donations are eligible for 80G and an instant receipt.</p>
+            <p className="mt-4 text-xs text-purple-100/80">Eligible for 80G · Instant receipt</p>
           </div>
-        </section>
-      )}
-
-      {/* 8. Live puja */}
-      {home.livePuja?.link && (
-        <section className="container-x pb-16">
-          <div className="flex flex-col items-start gap-4 rounded-3xl border border-purple-100 p-8 md:flex-row md:items-center">
-            <span className="rounded-full bg-red-500 px-3 py-1 text-xs font-bold uppercase text-white">Live</span>
-            <div className="flex-1">
-              <h2 className="text-2xl">Join the daily puja live</h2>
-              <p className="text-muted">{home.livePuja.schedule} · Free to join</p>
-            </div>
-            <a href={home.livePuja.link} target="_blank" rel="noopener noreferrer" className="btn-primary">
-              Join
+        )}
+        <div className="flex flex-col gap-5">
+          {settings.whatsapp && (
+            <a
+              href={waLink(settings.whatsapp, 'Hare Krishna!')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-1 flex-col justify-between rounded-3xl bg-[#e7f9ee] p-8 transition hover:bg-[#d8f5e3]"
+            >
+              <WhatsAppIcon className="size-10 text-[#25d366]" />
+              <div className="mt-6">
+                <h3 className="text-2xl">Your seva assistant</h3>
+                <p className="mt-1 text-sm text-muted">Receipts, questions and temple information on WhatsApp.</p>
+                <span className="mt-4 inline-block font-semibold text-[#128c4a] group-hover:underline">Start a chat →</span>
+              </div>
             </a>
-          </div>
-        </section>
-      )}
+          )}
+          {home.livePuja?.link && (
+            <a
+              href={home.livePuja.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-1 flex-col justify-between rounded-3xl bg-saffron-100 p-8 transition hover:bg-saffron-300/50"
+            >
+              <span className="inline-flex w-fit items-center gap-2 rounded-full bg-red-600 px-3 py-1 text-xs font-bold uppercase text-white">
+                <span className="relative flex size-2">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-white opacity-75" />
+                  <span className="relative inline-flex size-2 rounded-full bg-white" />
+                </span>
+                Live
+              </span>
+              <div className="mt-6">
+                <h3 className="text-2xl">Join the puja live</h3>
+                <p className="mt-1 text-sm text-muted">{home.livePuja.schedule} · Free to join</p>
+                <span className="mt-4 inline-block font-semibold text-purple-700 group-hover:underline">Watch now →</span>
+              </div>
+            </a>
+          )}
+        </div>
+      </section>
 
-      {/* 9. Upcoming festivals */}
+      {/* Festival timeline */}
       {festivals.docs.length > 0 && (
-        <section className="bg-cream py-20">
+        <section className="relative overflow-hidden bg-cream py-24">
           <div className="container-x">
-            <SectionHeading eyebrow="Celebrate with us" title="Upcoming festivals" center />
-            <div className="grid gap-6 md:grid-cols-3">
-              {festivals.docs.map((f) => (
-                <article key={f.id} className="overflow-hidden rounded-2xl bg-white shadow-sm">
-                  <div className="relative aspect-video">
-                    <ImageOrPlaceholder media={f.image} />
-                    <span className="absolute left-4 top-4 rounded-full bg-saffron-500 px-3 py-1 text-xs font-bold text-purple-950">
-                      {formatDate(f.date, { day: 'numeric', month: 'short' })}
-                    </span>
+            <div className="mb-14 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+              <div>
+                <Eyebrow>Celebrate with us</Eyebrow>
+                <h2 className="text-4xl md:text-5xl">The festival calendar</h2>
+              </div>
+              <Link href="/festivals" className="font-semibold text-purple-700 hover:text-purple-900">Full calendar →</Link>
+            </div>
+            <ol className="relative grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+              <span className="absolute left-0 right-0 top-[38px] hidden h-px bg-gradient-to-r from-saffron-500 via-purple-300 to-transparent lg:block" />
+              {festivals.docs.map((f: Festival) => (
+                <li key={f.id} className="group relative">
+                  <div className="relative mb-6 flex items-end gap-3">
+                    <div className="z-10 grid size-[76px] shrink-0 place-items-center rounded-2xl bg-purple-800 text-center text-white shadow-lg ring-4 ring-cream transition group-hover:bg-saffron-500 group-hover:text-purple-950">
+                      <div>
+                        <p className="font-serif text-3xl leading-none">{formatDate(f.date, { day: 'numeric' })}</p>
+                        <p className="text-[11px] font-semibold uppercase tracking-wider">{formatDate(f.date, { month: 'short' })}</p>
+                      </div>
+                    </div>
+                    <p className="pb-1 text-xs font-semibold uppercase tracking-wider text-saffron-600">{daysUntil(f.date)}</p>
                   </div>
-                  <div className="p-5">
-                    <h3 className="text-xl">
-                      <Link href={`/festivals/${f.slug}`} className="hover:text-purple-600">{f.name}</Link>
-                    </h3>
-                    <p className="mt-2 line-clamp-2 text-sm text-muted">{f.shortDescription}</p>
-                    <Link href={`/festivals/${f.slug}`} className="btn-donate mt-4">Support</Link>
-                  </div>
-                </article>
+                  <Link href={`/festivals/${f.slug}`} className="block overflow-hidden rounded-2xl bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl">
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <ImageOrPlaceholder media={f.image} art={(f.artwork ?? 'lotus') as ArtTheme} sizes="(min-width: 1024px) 25vw, 50vw" />
+                    </div>
+                    <div className="p-5">
+                      <h3 className="text-xl">{f.name}</h3>
+                      {f.timeLabel && <p className="text-xs text-muted">{f.timeLabel}</p>}
+                      <p className="mt-2 line-clamp-2 text-sm text-muted">{f.shortDescription}</p>
+                      <span className="mt-4 inline-block text-sm font-semibold text-purple-700">Support →</span>
+                    </div>
+                  </Link>
+                </li>
               ))}
-            </div>
-            <div className="mt-10 text-center">
-              <Link href="/festivals" className="btn-primary">View All Festivals</Link>
-            </div>
+            </ol>
           </div>
         </section>
       )}
 
-      {/* 10. Festival alerts */}
-      <section className="bg-purple-900 py-16">
-        <div className="container-x max-w-3xl">
-          <h2 className="mb-2 text-center text-3xl text-white">Never miss a festival</h2>
-          <p className="mb-8 text-center text-purple-100">Get a reminder before every festival and special programme.</p>
+      {/* Subscribe */}
+      <section className="relative isolate overflow-hidden bg-purple-800 py-20">
+        <Mandala className="absolute -left-40 -top-40 -z-10 size-[480px] text-saffron-500/15" />
+        <Mandala className="absolute -bottom-40 -right-40 -z-10 size-[480px] text-saffron-500/15" />
+        <div className="container-x max-w-3xl text-center">
+          <Eyebrow light>Festival alerts</Eyebrow>
+          <h2 className="text-4xl text-white md:text-5xl">Never miss a festival</h2>
+          <p className="mb-10 mt-3 text-purple-100">One gentle reminder before every festival and special programme.</p>
           <SubscribeForm />
         </div>
       </section>
 
-      {/* 11. Devotional services */}
+      {/* Services */}
       {services.docs.length > 0 && (
-        <section className="container-x py-20">
-          <SectionHeading eyebrow="Serve and be served" title="Devotional services" center />
+        <section className="container-x py-24">
+          <div className="mb-12 text-center">
+            <Eyebrow>Serve and be served</Eyebrow>
+            <h2 className="text-4xl md:text-5xl">Devotional services</h2>
+          </div>
           <div className="grid gap-6 md:grid-cols-3">
-            {services.docs.map((s) => (
-              <article key={s.id} className="overflow-hidden rounded-2xl border border-purple-100">
-                <div className="relative aspect-video">
-                  <ImageOrPlaceholder media={s.image} />
+            {services.docs.map((s, i) => (
+              <article key={s.id} className="group overflow-hidden rounded-3xl border border-purple-100 bg-white transition hover:-translate-y-1 hover:border-saffron-300 hover:shadow-xl">
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <div className="absolute inset-0 transition duration-700 group-hover:scale-105">
+                    <ImageOrPlaceholder media={s.image} art={(['lotus', 'temple', 'lamps'] as const)[i % 3]} />
+                  </div>
                 </div>
-                <div className="p-5">
+                <div className="p-6">
                   <h3 className="text-xl">{s.title}</h3>
-                  <p className="mt-2 line-clamp-2 text-sm text-muted">{s.description}</p>
+                  <p className="mt-2 text-sm text-muted">{s.description}</p>
                 </div>
               </article>
             ))}
           </div>
           <div className="mt-10 text-center">
-            <Link href="/services" className="btn-primary">View All Services</Link>
+            <Link href="/services" className="btn-primary px-7 py-3">All services</Link>
           </div>
         </section>
       )}
 
-      {/* 13. Courses (12. YouTube strip needs a YouTube API key; added later) */}
+      {/* Courses — numbered list */}
       {courses.docs.length > 0 && (
-        <section className="bg-cream py-20">
-          <div className="container-x">
-            <SectionHeading eyebrow="Learn" title="Spiritual courses" center />
-            <div className="grid gap-6 md:grid-cols-3">
-              {courses.docs.map((c) => (
-                <article key={c.id} className="flex flex-col rounded-2xl bg-white p-6 shadow-sm">
-                  <h3 className="text-xl">{c.title}</h3>
-                  {c.schedule && <p className="mt-1 text-sm font-medium text-saffron-600">{c.schedule}</p>}
-                  <p className="mt-3 flex-1 text-sm text-muted">{c.description}</p>
+        <section className="bg-purple-50 py-24">
+          <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr]">
+            <div>
+              <Eyebrow>Learn</Eyebrow>
+              <h2 className="text-4xl md:text-5xl">Wisdom for everyday life</h2>
+              <p className="mt-4 text-muted">Free classes on chanting, Bhagavad-gita and Srimad Bhagavatam, online and at the temple.</p>
+              <Link href="/courses" className="btn-primary mt-8 px-7 py-3">All courses</Link>
+            </div>
+            <ol className="divide-y divide-purple-200 border-y border-purple-200">
+              {courses.docs.map((c, i) => (
+                <li key={c.id} className="group grid grid-cols-[auto_1fr] items-center gap-x-6 gap-y-3 py-7 sm:grid-cols-[auto_1fr_auto]">
+                  <span className="font-serif text-4xl text-saffron-500 transition group-hover:text-purple-600">0{i + 1}</span>
+                  <div>
+                    <h3 className="text-2xl">{c.title}</h3>
+                    <p className="mt-1 text-sm text-muted">
+                      {c.schedule}
+                      {c.mode && ` · ${c.mode === 'online' ? 'Online' : c.mode === 'temple' ? 'At the temple' : 'Online & at the temple'}`}
+                    </p>
+                  </div>
                   {c.zoomLink ? (
-                    <a href={c.zoomLink} target="_blank" rel="noopener noreferrer" className="btn-primary mt-5">Join on Zoom</a>
+                    <a href={c.zoomLink} target="_blank" rel="noopener noreferrer" className="btn-outline col-start-2 w-fit text-purple-700 sm:col-start-auto">Join on Zoom</a>
                   ) : (
-                    <Link href="/courses" className="btn-primary mt-5">Register</Link>
+                    <Link href="/courses" className="btn-outline col-start-2 w-fit text-purple-700 sm:col-start-auto">Register</Link>
                   )}
-                </article>
+                </li>
               ))}
-            </div>
-            <div className="mt-10 text-center">
-              <Link href="/courses" className="btn-outline text-purple-700">View All Courses</Link>
-            </div>
+            </ol>
           </div>
         </section>
       )}
 
-      {/* 14. Latest blogs */}
+      {/* Blog */}
       {posts.docs.length > 0 && (
-        <section className="container-x py-20">
-          <SectionHeading eyebrow="From the blog" title="Latest articles" center />
+        <section className="container-x py-24">
+          <div className="mb-12 flex items-end justify-between">
+            <div>
+              <Eyebrow>From the blog</Eyebrow>
+              <h2 className="text-4xl md:text-5xl">Latest articles</h2>
+            </div>
+            <Link href="/blog" className="font-semibold text-purple-700">All articles →</Link>
+          </div>
           <div className="grid gap-6 md:grid-cols-3">
             {posts.docs.map((p) => (
-              <Link key={p.id} href={`/blog/${p.slug}`} className="group overflow-hidden rounded-2xl border border-purple-100">
-                <div className="relative aspect-video">
-                  <ImageOrPlaceholder media={p.image} />
+              <Link key={p.id} href={`/blog/${p.slug}`} className="group">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
+                  <ImageOrPlaceholder media={p.image} className="transition duration-700 group-hover:scale-105" />
                 </div>
-                <div className="p-5">
-                  <p className="text-xs text-muted">{formatDate(p.publishedAt)}</p>
-                  <h3 className="mt-1 text-lg group-hover:text-purple-600">{p.title}</h3>
-                </div>
+                <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-saffron-600">{p.category} · {formatDate(p.publishedAt)}</p>
+                <h3 className="mt-1 text-xl group-hover:text-purple-600">{p.title}</h3>
               </Link>
             ))}
           </div>
-          <div className="mt-10 text-center">
-            <Link href="/blog" className="btn-primary">View All Blogs</Link>
-          </div>
         </section>
       )}
 
-      {/* 15. Instagram */}
+      {/* Instagram */}
       {settings.instagram && (
-        <section className="border-t border-purple-100 py-12 text-center">
-          <p className="font-serif text-2xl text-purple-800">Follow ISKCON Coimbatore on Instagram</p>
-          <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="btn-primary mt-5">
-            <InstagramIcon /> Follow us
-          </a>
+        <section className="border-t border-purple-100 bg-cream">
+          <div className="container-x flex flex-col items-center justify-between gap-6 py-12 md:flex-row">
+            <p className="font-serif text-3xl text-purple-800">
+              Darshan, every day, on <span className="italic text-purple-600">Instagram</span>
+            </p>
+            <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="btn-primary px-7 py-3">
+              <InstagramIcon /> Follow us
+            </a>
+          </div>
         </section>
       )}
     </>

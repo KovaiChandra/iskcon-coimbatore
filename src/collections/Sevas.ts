@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { anyone, authenticated } from '../access'
+import { ART_OPTIONS } from '../lib/art'
 
 export const Sevas: CollectionConfig = {
   slug: 'sevas',
@@ -31,6 +32,7 @@ export const Sevas: CollectionConfig = {
     },
     { name: 'shortDescription', type: 'textarea', required: true },
     { name: 'image', type: 'upload', relationTo: 'media' },
+    { name: 'artwork', type: 'select', defaultValue: 'lotus', options: ART_OPTIONS, admin: { description: 'Illustration shown until a photo is uploaded' } },
     {
       name: 'presetAmounts',
       type: 'array',

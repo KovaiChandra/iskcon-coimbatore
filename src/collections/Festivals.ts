@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { anyone, authenticated } from '../access'
+import { ART_OPTIONS } from '../lib/art'
 
 export const Festivals: CollectionConfig = {
   slug: 'festivals',
@@ -12,6 +13,14 @@ export const Festivals: CollectionConfig = {
     { name: 'date', type: 'date', required: true, index: true },
     { name: 'timeLabel', type: 'text', admin: { description: 'e.g. "5:30 AM onwards"' } },
     { name: 'image', type: 'upload', relationTo: 'media' },
+    {
+      name: 'artwork',
+      type: 'select',
+      defaultValue: 'lotus',
+      options: ART_OPTIONS,
+      admin: { description: 'Illustration shown until a photo is uploaded' },
+    },
+    { name: 'showInHero', type: 'checkbox', defaultValue: true, label: 'Show in home page slideshow while upcoming', admin: { position: 'sidebar' } },
     { name: 'shortDescription', type: 'textarea', required: true },
     { name: 'significance', type: 'richText' },
     {

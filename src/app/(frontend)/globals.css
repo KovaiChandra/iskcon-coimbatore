@@ -53,3 +53,41 @@
 @utility btn-outline {
   @apply btn border border-current hover:bg-white/10;
 }
+
+/* ---------- Art + motion ---------- */
+@keyframes flame { 0%, 100% { transform: scaleY(1) skewX(0deg); } 33% { transform: scaleY(1.08) skewX(2deg); } 66% { transform: scaleY(0.94) skewX(-2deg); } }
+@keyframes glow { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
+@keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.9; } }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes flag { 0%, 100% { transform: skewY(0deg); } 50% { transform: skewY(-6deg); } }
+@keyframes shimmer { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.55; } }
+@keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.12); } }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+.art-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: flame 1.6s ease-in-out infinite; }
+.art-glow { animation: glow 4s ease-in-out infinite; }
+.art-twinkle { animation: twinkle 3s ease-in-out infinite; }
+.art-flag { transform-box: fill-box; transform-origin: 0 50%; animation: flag 2.5s ease-in-out infinite; }
+.art-shimmer { animation: shimmer 3s ease-in-out infinite; }
+.art-rays { animation: spin-slow 80s linear infinite; }
+.art-wheel { animation: spin-slow 12s linear infinite; transform-box: fill-box; transform-origin: center; }
+.spin-slow { animation: spin-slow 120s linear infinite; }
+.kenburns { animation: kenburns 9s ease-out forwards; }
+.rise { animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.marquee { animation: marquee 40s linear infinite; }
+
+.text-gold-gradient {
+  background: linear-gradient(100deg, #ffd75e 0%, #f5b700 40%, #fff3cc 55%, #f5b700 70%, #e0a100 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Temple-arch frame for images */
+.arch { border-radius: 999px 999px 1.5rem 1.5rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

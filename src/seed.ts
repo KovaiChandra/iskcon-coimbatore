@@ -1,6 +1,6 @@
 /**
  * Fills an empty local database with sample content so every home page section renders.
- * Run with: npm run seed   (safe to re-run; skips anything that already exists)
+ * Run with: npm run seed   (safe to re-run; updates sample docs in place by slug/title)
  * Festival dates and amounts are placeholders for the temple to correct in /admin.
  */
 import config from '@payload-config'
@@ -18,7 +18,10 @@ async function upsert<T extends 'sevas' | 'festivals' | 'services' | 'courses'>(
   const ids: number[] = []
   for (const doc of data) {
     const found = await payload.find({ collection, where: { [key]: { equals: doc[key] } }, limit: 1 })
-    const id = found.docs[0]?.id ?? (await payload.create({ collection, data: doc as never })).id
+    const existing = found.docs[0]
+    const id = existing
+      ? (await payload.update({ collection, id: existing.id, data: doc as never })).id
+      : (await payload.create({ collection, data: doc as never })).id
     ids.push(id as number)
   }
   return ids
@@ -59,6 +62,7 @@ const sevaIds = await upsert('sevas', 'slug', [
   {
     title: 'Annadaan Seva',
     slug: 'annadaan',
+    artwork: 'lotus',
     shortDescription: 'Feed devotees and visitors with sanctified Krishna prasadam.',
     presetAmounts: [{ amount: 1500 }, { amount: 3000 }],
     items: [{ label: 'Annadaan – 25 plates', price: 1000 }],
@@ -68,6 +72,7 @@ const sevaIds = await upsert('sevas', 'slug', [
   {
     title: 'Kartik Deepa Daan',
     slug: 'kartik-deepa-daan',
+    artwork: 'lamps',
     category: 'festival',
     startDate: day(-3),
     endDate: day(30),
@@ -78,6 +83,7 @@ const sevaIds = await upsert('sevas', 'slug', [
   {
     title: 'Vidya Daan – Gift of Gita',
     slug: 'vidya-daan',
+    artwork: 'book',
     shortDescription: 'Sponsor Bhagavad-gita copies for schools, colleges and seekers.',
     presetAmounts: [{ amount: 1000 }, { amount: 2500 }],
     allowMonthly: true,
@@ -86,6 +92,7 @@ const sevaIds = await upsert('sevas', 'slug', [
   {
     title: 'Birthday Annadaan',
     slug: 'birthday-seva',
+    artwork: 'temple',
     shortDescription: 'Make your birthday special by sponsoring prasadam in your name.',
     presetAmounts: [{ amount: 2500 }, { amount: 5000 }],
     order: 4,
@@ -93,6 +100,7 @@ const sevaIds = await upsert('sevas', 'slug', [
   {
     title: 'Gau Seva',
     slug: 'gau-seva',
+    artwork: 'hill',
     shortDescription: 'Care for the cows of our goshala.',
     presetAmounts: [{ amount: 1100 }, { amount: 2100 }],
     allowMonthly: true,
@@ -101,6 +109,7 @@ const sevaIds = await upsert('sevas', 'slug', [
   {
     title: 'Kovai Chandra – New Temple',
     slug: 'new-temple',
+    artwork: 'temple',
     shortDescription: 'Contribute to building the new temple.',
     presetAmounts: [{ amount: 5000 }, { amount: 10000 }],
     order: 6,
@@ -117,9 +126,10 @@ const sevaIds = await upsert('sevas', 'slug', [
 const [annadaan, kartik, vidya, birthday] = sevaIds
 
 await upsert('festivals', 'slug', [
-  { name: 'Govardhan Puja', slug: 'govardhan-puja', date: day(20), timeLabel: '5:30 AM onwards', shortDescription: 'Celebrate the lifting of Govardhan Hill with an Annakut mountain of offerings.', seva: annadaan },
-  { name: 'Rasa Purnima', slug: 'rasa-purnima', date: day(34), timeLabel: '6:00 PM onwards', shortDescription: 'The full-moon night of Kartik, celebrated with kirtan and abhishek.', seva: kartik },
-  { name: 'Gita Jayanti', slug: 'gita-jayanti', date: day(60), timeLabel: '8:00 AM onwards', shortDescription: 'The appearance of Bhagavad-gita, celebrated with a full recitation and book distribution.', seva: vidya },
+  { name: 'Govardhan Puja', slug: 'govardhan-puja', artwork: 'hill', date: day(20), timeLabel: '5:30 AM onwards', shortDescription: 'Celebrate the lifting of Govardhan Hill with an Annakut mountain of offerings.', seva: annadaan },
+  { name: 'Rasa Purnima', slug: 'rasa-purnima', artwork: 'moon', date: day(34), timeLabel: '6:00 PM onwards', shortDescription: 'The full-moon night of Kartik, celebrated with kirtan and abhishek.', seva: kartik },
+  { name: 'Ratha Yatra', slug: 'ratha-yatra', artwork: 'chariot', date: day(75), timeLabel: '3:00 PM onwards', shortDescription: 'Pull the chariot of Lord Jagannath through the streets of Coimbatore.', seva: annadaan },
+  { name: 'Gita Jayanti', slug: 'gita-jayanti', artwork: 'book', date: day(60), timeLabel: '8:00 AM onwards', shortDescription: 'The appearance of Bhagavad-gita, celebrated with a full recitation and book distribution.', seva: vidya },
 ])
 
 await upsert('services', 'title', [

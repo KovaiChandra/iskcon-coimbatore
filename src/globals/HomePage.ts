@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { anyone, authenticated } from '../access'
+import { ART_OPTIONS } from '../lib/art'
 
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
@@ -8,11 +9,23 @@ export const HomePage: GlobalConfig = {
     {
       name: 'heroSlides',
       type: 'array',
+      admin: {
+        description:
+          'Extra slides shown first in the slideshow. Upcoming festivals and running festival sevas are added automatically after these.',
+      },
       fields: [
-        { name: 'image', type: 'upload', relationTo: 'media', required: true },
-        { name: 'heading', type: 'text' },
+        { name: 'eyebrow', type: 'text', admin: { description: 'Small line above the heading, e.g. "Every Sunday"' } },
+        { name: 'heading', type: 'text', required: true },
         { name: 'text', type: 'textarea' },
-        { name: 'link', type: 'text', admin: { description: 'Optional, e.g. /festivals/kartik or /donate/annadaan' } },
+        { name: 'image', type: 'upload', relationTo: 'media' },
+        { name: 'artwork', type: 'select', defaultValue: 'temple', options: ART_OPTIONS, admin: { description: 'Used when there is no image' } },
+        {
+          type: 'row',
+          fields: [
+            { name: 'buttonLabel', type: 'text' },
+            { name: 'link', type: 'text', admin: { description: 'e.g. /festivals/kartik or /donate/annadaan' } },
+          ],
+        },
       ],
     },
     {
