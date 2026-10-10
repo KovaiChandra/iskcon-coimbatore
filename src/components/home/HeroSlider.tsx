@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { DiyaRow, FestivalArt, type ArtTheme } from '@/components/art/FestivalArt'
+import { FestivalArt, type ArtTheme } from '@/components/art/FestivalArt'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
 
 export type HeroSlide = {
@@ -148,12 +148,6 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
       />
       <Embers />
       <Embers warm className={`transition-opacity duration-[1400ms] ${lamp ? 'opacity-100' : 'opacity-0'}`} />
-      <DiyaRow
-        count={4}
-        className={`pointer-events-none absolute bottom-24 right-4 -z-10 w-48 transition-opacity duration-[1400ms] lg:hidden ${
-          lamp ? 'opacity-90' : 'opacity-0'
-        }`}
-      />
 
       <div className="container-x grid min-h-[600px] items-center gap-12 pb-28 pt-14 lg:min-h-[min(82vh,860px)] lg:grid-cols-[1.15fr_0.85fr] lg:pb-28">
         {/* Text */}
@@ -224,21 +218,8 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               </div>
             ))}
             <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-purple-950/40 to-transparent" />
-            {/* lamplight moving over the deities */}
-            <div
-              className={`absolute inset-0 mix-blend-screen transition-opacity duration-[1400ms] ${lamp ? 'opacity-100' : 'opacity-0'}`}
-            >
-              <div className="lamp-flicker size-full bg-[radial-gradient(ellipse_at_50%_95%,rgba(255,160,40,0.45),transparent_60%)]" />
-            </div>
           </div>
 
-          {/* Row of lit diyas on the arch's base */}
-          <DiyaRow
-            count={5}
-            className={`absolute -bottom-9 left-1/2 w-[78%] -translate-x-1/2 drop-shadow-[0_0_18px_rgba(255,138,0,0.6)] transition-[opacity,transform] duration-[1400ms] ${
-              lamp ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-            }`}
-          />
 
         </div>
       </div>
