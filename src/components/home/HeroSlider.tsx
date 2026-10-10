@@ -126,7 +126,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
       <Mandala className="spin-slow pointer-events-none absolute -left-48 -top-48 -z-10 size-[560px] text-saffron-500/10" />
       <Embers />
 
-      <div className="container-x grid min-h-[600px] items-center gap-12 pb-36 pt-14 lg:min-h-[min(82vh,860px)] lg:grid-cols-[1.15fr_0.85fr] lg:pb-32">
+      <div className="container-x grid min-h-[600px] items-center gap-12 pb-28 pt-14 lg:min-h-[min(82vh,860px)] lg:grid-cols-[1.15fr_0.85fr] lg:pb-28">
         {/* Text */}
         <div key={slide.id} className="max-w-2xl [text-shadow:0_2px_16px_rgba(28,10,51,0.85)] lg:[text-shadow:none]" aria-live={paused ? 'polite' : 'off'}>
           <p className="rise inline-flex items-center gap-2 rounded-full border border-saffron-500/40 bg-purple-950/40 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-saffron-300 backdrop-blur-sm">
@@ -201,53 +201,59 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         </div>
       </div>
 
-      {/* Slide navigation */}
+      {/* Slide navigation: thin progress segments, counter, arrows */}
       {count > 1 && (
-        <div className="absolute inset-x-0 bottom-0 border-t border-white/10 bg-purple-950/60 backdrop-blur-md">
-          <div className="container-x flex items-stretch">
-            <ol className="hidden flex-1 grid-cols-[repeat(auto-fit,minmax(0,1fr))] md:grid">
-              {slides.map((s, i) => (
-                <li key={s.id}>
-                  <button
-                    type="button"
-                    onClick={() => go(i)}
-                    aria-label={`Show slide ${i + 1}: ${s.navLabel}`}
-                    aria-current={i === index}
-                    className={`group relative w-full px-4 py-5 text-left transition ${i === index ? '' : 'opacity-60 hover:opacity-100'}`}
-                  >
-                    <span className="absolute inset-x-4 top-0 h-0.5 overflow-hidden bg-white/15">
-                      {i === index && (
-                        <span
-                          key={`${s.id}-${paused}`}
-                          className="block h-full origin-left bg-saffron-500"
-                          style={{ animation: paused ? 'none' : `progress ${DURATION}ms linear forwards`, transform: paused ? 'scaleX(1)' : undefined }}
-                        />
-                      )}
-                    </span>
-                    <span className="font-serif text-sm text-saffron-300">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="mt-1 block truncate text-sm font-medium">{s.navLabel}</span>
-                    <span className="block truncate text-xs text-purple-100/70">{s.navMeta}</span>
-                  </button>
-                </li>
-              ))}
-            </ol>
-            <div className="flex min-w-0 flex-1 items-center gap-2 py-4 md:hidden">
+        <div className="absolute inset-x-0 bottom-0">
+          <div className="container-x flex items-center gap-5 pb-8">
+            <div className="flex items-center gap-2">
               {slides.map((s, i) => (
                 <button
                   key={s.id}
                   type="button"
                   onClick={() => go(i)}
                   aria-label={`Show slide ${i + 1}: ${s.navLabel}`}
-                  className={`h-1.5 shrink-0 rounded-full transition-all ${i === index ? 'w-8 bg-saffron-500' : 'w-3 bg-white/30'}`}
-                />
+                  aria-current={i === index}
+                  className="group py-3"
+                >
+                  <span
+                    className={`relative block h-0.5 overflow-hidden rounded-full bg-white/25 transition-all duration-500 group-hover:bg-white/50 ${
+                      i === index ? 'w-16' : 'w-8'
+                    }`}
+                  >
+                    {i === index && (
+                      <span
+                        key={`${s.id}-${paused}`}
+                        className="absolute inset-0 origin-left bg-saffron-500"
+                        style={{
+                          animation: paused ? 'none' : `progress ${DURATION}ms linear forwards`,
+                          transform: paused ? 'scaleX(1)' : undefined,
+                        }}
+                      />
+                    )}
+                  </span>
+                </button>
               ))}
-              <span className="ml-2 truncate text-xs text-purple-100/80">{slide.navMeta}</span>
             </div>
-            <div className="hidden items-center gap-2 pl-4 sm:flex">
-              <button type="button" onClick={() => go(index - 1)} aria-label="Previous slide" className="grid size-10 place-items-center rounded-full border border-white/25 hover:border-saffron-500 hover:text-saffron-300">
+            <p className="text-sm tabular-nums text-purple-100/80" aria-hidden>
+              <span className="font-serif text-base text-saffron-300">{String(index + 1).padStart(2, '0')}</span>
+              <span className="mx-1.5">/</span>
+              {String(count).padStart(2, '0')}
+            </p>
+            <div className="ml-auto hidden items-center gap-2 sm:flex">
+              <button
+                type="button"
+                onClick={() => go(index - 1)}
+                aria-label="Previous slide"
+                className="grid size-10 place-items-center rounded-full border border-white/25 transition hover:border-saffron-500 hover:text-saffron-300"
+              >
                 ←
               </button>
-              <button type="button" onClick={() => go(index + 1)} aria-label="Next slide" className="grid size-10 place-items-center rounded-full border border-white/25 hover:border-saffron-500 hover:text-saffron-300">
+              <button
+                type="button"
+                onClick={() => go(index + 1)}
+                aria-label="Next slide"
+                className="grid size-10 place-items-center rounded-full border border-white/25 transition hover:border-saffron-500 hover:text-saffron-300"
+              >
                 →
               </button>
             </div>
