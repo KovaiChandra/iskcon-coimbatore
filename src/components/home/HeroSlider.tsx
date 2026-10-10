@@ -62,7 +62,8 @@ function SlideVisual({ slide, active, priority, variant }: { slide: HeroSlide; a
         alt={variant === 'arch' ? slide.image.alt : ''}
         fill
         priority={priority}
-        sizes={variant === 'arch' ? '(min-width: 1024px) 440px, 0px' : '100vw'}
+        quality={90}
+        sizes={variant === 'arch' ? '(min-width: 1024px) 480px, 1px' : '100vw'}
         className={`object-cover ${active ? 'kenburns' : ''} ${variant === 'backdrop' ? 'lg:scale-110 lg:blur-2xl' : ''}`}
       />
     )
@@ -120,14 +121,14 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
           <SlideVisual slide={s} active={i === index} priority={i === 0} variant="backdrop" />
         </div>
       ))}
-      <div className="absolute inset-0 -z-20 bg-gradient-to-r from-purple-950 via-purple-950/80 to-purple-950/30 lg:via-purple-950/70" />
-      <div className="absolute inset-0 -z-20 bg-gradient-to-t from-purple-950 via-transparent to-purple-950/40" />
+      <div className="absolute inset-0 -z-20 bg-gradient-to-r from-purple-950/70 via-purple-950/35 to-transparent lg:from-purple-950 lg:via-purple-950/70 lg:to-purple-950/30" />
+      <div className="absolute inset-0 -z-20 bg-gradient-to-t from-purple-950 via-purple-950/20 to-purple-950/30" />
       <Mandala className="spin-slow pointer-events-none absolute -left-48 -top-48 -z-10 size-[560px] text-saffron-500/10" />
       <Embers />
 
       <div className="container-x grid min-h-[600px] items-center gap-12 pb-36 pt-14 lg:min-h-[min(82vh,860px)] lg:grid-cols-[1.15fr_0.85fr] lg:pb-32">
         {/* Text */}
-        <div key={slide.id} className="max-w-2xl" aria-live={paused ? 'polite' : 'off'}>
+        <div key={slide.id} className="max-w-2xl [text-shadow:0_2px_16px_rgba(28,10,51,0.85)] lg:[text-shadow:none]" aria-live={paused ? 'polite' : 'off'}>
           <p className="rise inline-flex items-center gap-2 rounded-full border border-saffron-500/40 bg-purple-950/40 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-saffron-300 backdrop-blur-sm">
             <Sparkle className="size-3" />
             {slide.eyebrow}
@@ -176,7 +177,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 <SlideVisual slide={s} active={i === index} variant="arch" />
               </div>
             ))}
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-purple-950/70 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-purple-950/40 to-transparent" />
           </div>
 
           {/* Next-up card */}

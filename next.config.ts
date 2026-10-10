@@ -8,6 +8,8 @@ const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
   images: {
+    // Hero photos are served at 90 for sharper deity details; everything else at the default 75.
+    qualities: [75, 90],
     localPatterns: [
       {
         pathname: '/api/media/file/**',
