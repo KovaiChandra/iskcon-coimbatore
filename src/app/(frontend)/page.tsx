@@ -81,6 +81,7 @@ export default async function HomePage() {
     title: s.heading,
     text: s.text,
     verse: s.verse,
+    layout: s.layout ?? 'arch',
     image: imageOf(s.image),
     art: (s.artwork ?? 'temple') as ArtTheme,
     primary: { label: s.buttonLabel || 'Learn more', href: s.link || '/festivals' },

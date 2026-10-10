@@ -14,17 +14,54 @@ export const HomePage: GlobalConfig = {
           'Extra slides shown first in the slideshow. Upcoming festivals and running festival sevas are added automatically after these.',
       },
       fields: [
-        { name: 'eyebrow', type: 'text', admin: { description: 'Small line above the heading, e.g. "Every Sunday"' } },
+        {
+          name: 'layout',
+          type: 'select',
+          defaultValue: 'arch',
+          options: [
+            { label: 'Arch: text left, photo in a temple arch', value: 'arch' },
+            {
+              label: 'Wide window: landscape photo in a broad arch, text centred below',
+              value: 'cinematic',
+            },
+          ],
+          admin: { description: 'Use Wide window for landscape photos, Arch for portrait photos' },
+        },
+        {
+          name: 'eyebrow',
+          type: 'text',
+          admin: { description: 'Small line above the heading, e.g. "Every Sunday"' },
+        },
         { name: 'heading', type: 'text', required: true },
         { name: 'text', type: 'textarea' },
-        { name: 'verse', type: 'text', admin: { description: 'Optional short scripture line shown under the text, e.g. from Damodarastakam' } },
+        {
+          name: 'verse',
+          type: 'text',
+          admin: {
+            description:
+              'Optional short scripture line shown under the text, e.g. from Damodarastakam',
+          },
+        },
         { name: 'image', type: 'upload', relationTo: 'media' },
-        { name: 'artwork', type: 'select', defaultValue: 'temple', options: ART_OPTIONS, admin: { description: 'Used when there is no image. "Lamps" also gives the slide a warm Kartik lamplight look.' } },
+        {
+          name: 'artwork',
+          type: 'select',
+          defaultValue: 'temple',
+          options: ART_OPTIONS,
+          admin: {
+            description:
+              'Used when there is no image. "Lamps" also gives the slide a warm Kartik lamplight look.',
+          },
+        },
         {
           type: 'row',
           fields: [
             { name: 'buttonLabel', type: 'text' },
-            { name: 'link', type: 'text', admin: { description: 'e.g. /festivals/kartik or /donate/annadaan' } },
+            {
+              name: 'link',
+              type: 'text',
+              admin: { description: 'e.g. /festivals/kartik or /donate/annadaan' },
+            },
           ],
         },
       ],
@@ -43,7 +80,10 @@ export const HomePage: GlobalConfig = {
       relationTo: 'sevas',
       hasMany: true,
       maxRows: 4,
-      admin: { description: 'Donation cards row. Festival sevas outside their dates are hidden automatically.' },
+      admin: {
+        description:
+          'Donation cards row. Festival sevas outside their dates are hidden automatically.',
+      },
     },
     {
       name: 'about',
@@ -57,7 +97,11 @@ export const HomePage: GlobalConfig = {
       name: 'livePuja',
       type: 'group',
       fields: [
-        { name: 'schedule', type: 'text', admin: { description: 'e.g. "Daily 4:15 AM Mangala Arati · 7:15 PM Sandhya Arati"' } },
+        {
+          name: 'schedule',
+          type: 'text',
+          admin: { description: 'e.g. "Daily 4:15 AM Mangala Arati · 7:15 PM Sandhya Arati"' },
+        },
         { name: 'link', type: 'text', label: 'Zoom / YouTube live link' },
       ],
     },

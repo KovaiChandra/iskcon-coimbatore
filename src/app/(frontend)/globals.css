@@ -87,6 +87,8 @@
 
 /* Temple-arch frame for images */
 .arch { border-radius: 999px 999px 1.5rem 1.5rem; }
+/* Wide arch (torana) for landscape photos */
+.torana { border-radius: 50% 50% 1.25rem 1.25rem / 42% 42% 1.25rem 1.25rem; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }

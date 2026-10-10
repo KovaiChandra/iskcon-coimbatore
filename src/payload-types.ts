@@ -882,6 +882,10 @@ export interface HomePage {
   heroSlides?:
     | {
         /**
+         * Use Wide window for landscape photos, Arch for portrait photos
+         */
+        layout?: ('arch' | 'cinematic') | null;
+        /**
          * Small line above the heading, e.g. "Every Sunday"
          */
         eyebrow?: string | null;
@@ -987,6 +991,7 @@ export interface HomePageSelect<T extends boolean = true> {
   heroSlides?:
     | T
     | {
+        layout?: T;
         eyebrow?: T;
         heading?: T;
         text?: T;
