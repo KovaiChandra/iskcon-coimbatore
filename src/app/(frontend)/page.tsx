@@ -142,7 +142,7 @@ export default async function HomePage() {
       )}
 
       {/* About */}
-      <section className="container-x grid items-center gap-16 py-24 lg:grid-cols-[1fr_1.1fr]">
+      <section className="container-x grid items-center gap-16 overflow-x-clip py-24 lg:grid-cols-[1fr_1.1fr]">
         <div className="relative mx-auto w-full max-w-md">
           <Mandala className="spin-slow absolute -inset-16 text-saffron-500/25" />
           <div className="arch relative aspect-[4/5] overflow-hidden shadow-2xl ring-8 ring-white">

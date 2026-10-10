@@ -91,3 +91,13 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Hero */
+@keyframes reveal-up { from { transform: translateY(110%); } to { transform: none; } }
+@keyframes ember {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 0.9; }
+  100% { transform: translate(var(--drift, 0px), -85vh); opacity: 0; }
+}
+.reveal-up { animation: reveal-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.ember { animation: ember 8s linear infinite both; }
