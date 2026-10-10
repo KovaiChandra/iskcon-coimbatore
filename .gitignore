@@ -52,3 +52,6 @@ node_modules/
 # local SQLite database
 *.db
 *.db-journal
+
+# one-off photo imports
+/media-import

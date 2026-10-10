@@ -90,7 +90,8 @@ export default async function HomePage() {
       navMeta: `${formatDate(f.date, { day: 'numeric', month: 'short' })} · ${daysUntil(f.date)}`,
     })),
   ]
-  slides.unshift({
+  // Built-in welcome slide, used until staff add their own slides in admin
+  if (!home.heroSlides?.length) slides.unshift({
     id: 'welcome',
     eyebrow: 'Hare Krishna · Welcome home',
     title: 'Abode of Sri Sri Jagannath, Baladeva & Subhadra',
@@ -108,7 +109,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroSlider slides={slides.slice(0, 6)} />
+      <HeroSlider slides={slides.slice(0, 8)} />
       <ScheduleTicker items={(timings.schedule ?? []).map(({ time, activity }) => ({ time, activity }))} />
 
       {/* Three ways to serve — arch cards */}

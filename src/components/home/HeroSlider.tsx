@@ -132,7 +132,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             <Sparkle className="size-3" />
             {slide.eyebrow}
           </p>
-          <h1 className="mt-6 text-[2.6rem] leading-[1.04] text-white sm:text-6xl xl:text-7xl">
+          <h1 className={`mt-6 text-[2.6rem] leading-[1.04] text-white sm:text-6xl ${slide.title.length > 28 ? 'xl:text-[4rem]' : 'xl:text-7xl'}`}>
             {slide.title.split(' ').map((word, i) => (
               <span key={i} className="inline-block overflow-hidden pb-[0.12em] align-bottom">
                 <span className="reveal-up inline-block" style={{ animationDelay: `${150 + i * 70}ms` }}>
@@ -230,19 +230,19 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 </li>
               ))}
             </ol>
-            <div className="flex flex-1 items-center gap-2 py-4 md:hidden">
+            <div className="flex min-w-0 flex-1 items-center gap-2 py-4 md:hidden">
               {slides.map((s, i) => (
                 <button
                   key={s.id}
                   type="button"
                   onClick={() => go(i)}
                   aria-label={`Show slide ${i + 1}: ${s.navLabel}`}
-                  className={`h-1.5 rounded-full transition-all ${i === index ? 'w-8 bg-saffron-500' : 'w-3 bg-white/30'}`}
+                  className={`h-1.5 shrink-0 rounded-full transition-all ${i === index ? 'w-8 bg-saffron-500' : 'w-3 bg-white/30'}`}
                 />
               ))}
               <span className="ml-2 truncate text-xs text-purple-100/80">{slide.navMeta}</span>
             </div>
-            <div className="flex items-center gap-2 pl-4">
+            <div className="hidden items-center gap-2 pl-4 sm:flex">
               <button type="button" onClick={() => go(index - 1)} aria-label="Previous slide" className="grid size-10 place-items-center rounded-full border border-white/25 hover:border-saffron-500 hover:text-saffron-300">
                 ←
               </button>
