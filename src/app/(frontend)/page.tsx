@@ -80,6 +80,7 @@ export default async function HomePage() {
     eyebrow: s.eyebrow || 'ISKCON Coimbatore',
     title: s.heading,
     text: s.text,
+    verse: s.verse,
     image: imageOf(s.image),
     art: (s.artwork ?? 'temple') as ArtTheme,
     primary: { label: s.buttonLabel || 'Learn more', href: s.link || '/festivals' },

@@ -17,8 +17,9 @@ export const HomePage: GlobalConfig = {
         { name: 'eyebrow', type: 'text', admin: { description: 'Small line above the heading, e.g. "Every Sunday"' } },
         { name: 'heading', type: 'text', required: true },
         { name: 'text', type: 'textarea' },
+        { name: 'verse', type: 'text', admin: { description: 'Optional short scripture line shown under the text, e.g. from Damodarastakam' } },
         { name: 'image', type: 'upload', relationTo: 'media' },
-        { name: 'artwork', type: 'select', defaultValue: 'temple', options: ART_OPTIONS, admin: { description: 'Used when there is no image' } },
+        { name: 'artwork', type: 'select', defaultValue: 'temple', options: ART_OPTIONS, admin: { description: 'Used when there is no image. "Lamps" also gives the slide a warm Kartik lamplight look.' } },
         {
           type: 'row',
           fields: [

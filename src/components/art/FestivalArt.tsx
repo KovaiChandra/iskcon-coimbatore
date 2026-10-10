@@ -24,7 +24,7 @@ function Stars({ seed = 1, count = 40 }: { seed?: number; count?: number }) {
   )
 }
 
-function Diya({ x, y, scale = 1, delay = 0 }: { x: number; y: number; scale?: number; delay?: number }) {
+export function Diya({ x, y, scale = 1, delay = 0 }: { x: number; y: number; scale?: number; delay?: number }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${scale})`}>
       <ellipse cx="0" cy="-26" rx="26" ry="30" fill={GOLD} opacity="0.18" className="art-glow" style={{ animationDelay: `${delay}s` }} />
@@ -189,6 +189,19 @@ export function FestivalArt({ theme = 'lotus', className = '', compact }: { them
       <rect width="800" height="420" fill="url(#sky)" />
       <Stars seed={theme?.length ?? 3} />
       <Scene />
+    </svg>
+  )
+}
+
+/** A row of lit clay lamps, e.g. along the base of the hero arch during Kartik. */
+export function DiyaRow({ count = 5, className = '' }: { count?: number; className?: string }) {
+  const gap = 70
+  const width = gap * (count - 1) + 80
+  return (
+    <svg viewBox={`0 -60 ${width} 80`} className={className} aria-hidden>
+      {Array.from({ length: count }, (_, i) => (
+        <Diya key={i} x={40 + i * gap} y={4} scale={0.9 + (i % 2) * 0.15} delay={(i * 0.37) % 1.6} />
+      ))}
     </svg>
   )
 }

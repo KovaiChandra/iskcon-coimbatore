@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { FestivalArt, type ArtTheme } from '@/components/art/FestivalArt'
+import { DiyaRow, FestivalArt, type ArtTheme } from '@/components/art/FestivalArt'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
 
 export type HeroSlide = {
@@ -11,6 +11,7 @@ export type HeroSlide = {
   eyebrow: string
   title: string
   text?: string | null
+  verse?: string | null
   /** focalX/focalY (0–100) come from the focal point staff set on the photo in admin. */
   image?: { url: string; alt: string; focalX?: number; focalY?: number } | null
   art: ArtTheme
@@ -23,21 +24,26 @@ export type HeroSlide = {
 const DURATION = 7000
 
 // Fixed positions so server and client render identical sparks.
-const EMBERS = Array.from({ length: 22 }, (_, i) => ({
-  left: (i * 37 + 11) % 100,
-  size: 2 + (i % 3),
-  delay: (i * 0.73) % 9,
-  duration: 7 + (i % 5) * 1.6,
-  drift: ((i % 7) - 3) * 12,
-}))
+const makeEmbers = (count: number, seed: number) =>
+  Array.from({ length: count }, (_, i) => ({
+    left: (i * 37 + seed) % 100,
+    size: 2 + ((i + seed) % 3),
+    delay: ((i + seed) * 0.73) % 9,
+    duration: 7 + ((i + seed) % 5) * 1.6,
+    drift: (((i + seed) % 7) - 3) * 12,
+  }))
+const EMBERS = makeEmbers(22, 11)
+const WARM_EMBERS = makeEmbers(34, 5)
 
-function Embers() {
+function Embers({ warm, className = '' }: { warm?: boolean; className?: string }) {
   return (
-    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden>
-      {EMBERS.map((e, i) => (
+    <div className={`pointer-events-none absolute inset-0 -z-10 overflow-hidden ${className}`} aria-hidden>
+      {(warm ? WARM_EMBERS : EMBERS).map((e, i) => (
         <span
           key={i}
-          className="ember absolute bottom-0 rounded-full bg-saffron-300 shadow-[0_0_8px_2px] shadow-saffron-500/60"
+          className={`ember absolute bottom-0 rounded-full ${
+            warm ? 'bg-orange-300 shadow-[0_0_10px_3px] shadow-orange-500/70' : 'bg-saffron-300 shadow-[0_0_8px_2px] shadow-saffron-500/60'
+          }`}
           style={
             {
               left: `${e.left}%`,
@@ -88,7 +94,8 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   }, [index, paused, count, go])
 
   const slide = slides[index]
-  const next = slides[(index + 1) % count]
+  // Slides with the "Lamps" artwork (Kartik / Damodar month) get a warm lamplight treatment.
+  const lamp = slide.art === 'lamps'
 
   return (
     <section
@@ -125,8 +132,28 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
       ))}
       <div className="absolute inset-0 -z-20 bg-gradient-to-r from-purple-950/70 via-purple-950/35 to-transparent lg:from-purple-950 lg:via-purple-950/70 lg:to-purple-950/30" />
       <div className="absolute inset-0 -z-20 bg-gradient-to-t from-purple-950 via-purple-950/20 to-purple-950/30" />
-      <Mandala className="spin-slow pointer-events-none absolute -left-48 -top-48 -z-10 size-[560px] text-saffron-500/10" />
+      {/* Kartik lamplight: amber wash, glow from below, extra embers */}
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-0 -z-20 transition-opacity duration-[1400ms] ${lamp ? 'opacity-100' : 'opacity-0'}`}
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_72%_62%,rgba(255,138,0,0.42),transparent_58%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#7a2e00]/60 via-[#ff8a00]/10 to-transparent" />
+        <div className="lamp-flicker absolute inset-0 bg-[radial-gradient(ellipse_at_30%_100%,rgba(255,170,60,0.25),transparent_55%)]" />
+      </div>
+      <Mandala
+        className={`spin-slow pointer-events-none absolute -left-48 -top-48 -z-10 size-[560px] transition-colors duration-[1400ms] ${
+          lamp ? 'text-orange-400/20' : 'text-saffron-500/10'
+        }`}
+      />
       <Embers />
+      <Embers warm className={`transition-opacity duration-[1400ms] ${lamp ? 'opacity-100' : 'opacity-0'}`} />
+      <DiyaRow
+        count={4}
+        className={`pointer-events-none absolute bottom-24 right-4 -z-10 w-48 transition-opacity duration-[1400ms] lg:hidden ${
+          lamp ? 'opacity-90' : 'opacity-0'
+        }`}
+      />
 
       <div className="container-x grid min-h-[600px] items-center gap-12 pb-28 pt-14 lg:min-h-[min(82vh,860px)] lg:grid-cols-[1.15fr_0.85fr] lg:pb-28">
         {/* Text */}
@@ -138,7 +165,12 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
           <h1 className={`mt-6 text-[2.6rem] leading-[1.04] text-white sm:text-6xl ${slide.title.length > 28 ? 'xl:text-[4rem]' : 'xl:text-7xl'}`}>
             {slide.title.split(' ').map((word, i) => (
               <span key={i} className="inline-block overflow-hidden pb-[0.12em] align-bottom">
-                <span className="reveal-up inline-block" style={{ animationDelay: `${150 + i * 70}ms` }}>
+                <span
+                  className={`reveal-up inline-block ${
+                    lamp ? 'text-gold-gradient [text-shadow:none] drop-shadow-[0_2px_14px_rgba(255,138,0,0.35)]' : ''
+                  }`}
+                  style={{ animationDelay: `${150 + i * 70}ms` }}
+                >
                   {word}&nbsp;
                 </span>
               </span>
@@ -148,6 +180,11 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
           {slide.text && (
             <p className="rise mt-5 max-w-xl text-base leading-relaxed text-purple-100 md:text-lg" style={{ animationDelay: '450ms' }}>
               {slide.text}
+            </p>
+          )}
+          {slide.verse && (
+            <p className="rise mt-4 font-serif text-lg italic text-saffron-300/90" style={{ animationDelay: '500ms' }}>
+              “{slide.verse}”
             </p>
           )}
           <div className="rise mt-9 flex flex-wrap gap-3" style={{ animationDelay: '550ms' }}>
@@ -165,6 +202,13 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         {/* Temple-arch window (desktop) */}
         <div className="relative mx-auto hidden w-full max-w-[420px] lg:block" aria-hidden>
           <div className="absolute left-1/2 top-1/2 size-[150%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(245,183,0,0.35)_0%,rgba(245,183,0,0.08)_40%,transparent_70%)]" />
+          <div
+            className={`absolute left-1/2 top-[60%] size-[170%] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-[1400ms] ${
+              lamp ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <div className="lamp-flicker size-full rounded-full bg-[radial-gradient(circle,rgba(255,138,0,0.45)_0%,rgba(255,100,0,0.12)_40%,transparent_68%)]" />
+          </div>
           <Mandala className="spin-slow absolute left-1/2 top-1/2 size-[135%] -translate-x-1/2 -translate-y-1/2 text-saffron-300/30" rings={5} />
           <div className="arch absolute -inset-3 border border-saffron-300/60" />
           <div className="arch absolute -inset-6 border border-saffron-300/20" />
@@ -180,26 +224,22 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               </div>
             ))}
             <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-purple-950/40 to-transparent" />
+            {/* lamplight moving over the deities */}
+            <div
+              className={`absolute inset-0 mix-blend-screen transition-opacity duration-[1400ms] ${lamp ? 'opacity-100' : 'opacity-0'}`}
+            >
+              <div className="lamp-flicker size-full bg-[radial-gradient(ellipse_at_50%_95%,rgba(255,160,40,0.45),transparent_60%)]" />
+            </div>
           </div>
 
-          {/* Next-up card */}
-          {count > 1 && (
-            <button
-              type="button"
-              tabIndex={-1}
-              onClick={() => go(index + 1)}
-              className="absolute -bottom-6 -left-12 flex w-60 items-center gap-3 rounded-2xl border border-white/15 bg-purple-950/70 p-2.5 pr-4 text-left shadow-xl backdrop-blur-md transition hover:border-saffron-500/60"
-            >
-              <span className="relative size-14 shrink-0 overflow-hidden rounded-xl">
-                <SlideVisual slide={next} active={false} variant="arch" />
-              </span>
-              <span className="min-w-0">
-                <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-saffron-300">Next up</span>
-                <span className="block truncate font-serif text-base">{next.navLabel}</span>
-                <span className="block truncate text-xs text-purple-100/70">{next.navMeta}</span>
-              </span>
-            </button>
-          )}
+          {/* Row of lit diyas on the arch's base */}
+          <DiyaRow
+            count={5}
+            className={`absolute -bottom-9 left-1/2 w-[78%] -translate-x-1/2 drop-shadow-[0_0_18px_rgba(255,138,0,0.6)] transition-[opacity,transform] duration-[1400ms] ${
+              lamp ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+            }`}
+          />
+
         </div>
       </div>
 

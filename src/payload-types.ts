@@ -887,9 +887,13 @@ export interface HomePage {
         eyebrow?: string | null;
         heading: string;
         text?: string | null;
+        /**
+         * Optional short scripture line shown under the text, e.g. from Damodarastakam
+         */
+        verse?: string | null;
         image?: (number | null) | Media;
         /**
-         * Used when there is no image
+         * Used when there is no image. "Lamps" also gives the slide a warm Kartik lamplight look.
          */
         artwork?: ('temple' | 'lamps' | 'hill' | 'moon' | 'book' | 'chariot' | 'lotus') | null;
         buttonLabel?: string | null;
@@ -986,6 +990,7 @@ export interface HomePageSelect<T extends boolean = true> {
         eyebrow?: T;
         heading?: T;
         text?: T;
+        verse?: T;
         image?: T;
         artwork?: T;
         buttonLabel?: T;
