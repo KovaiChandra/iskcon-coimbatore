@@ -73,7 +73,7 @@ export default async function HomePage() {
   // ---- Slideshow: the slides staff curate in admin; if there are none, an automatic set
   const imageOf = (m: Parameters<typeof mediaUrl>[0]) => {
     const url = mediaUrl(m, 'hero')
-    return url && typeof m === 'object' && m ? { url, alt: m.alt } : null
+    return url && typeof m === 'object' && m ? { url, alt: m.alt, focalX: m.focalX ?? 50, focalY: m.focalY ?? 50 } : null
   }
   const customSlides: HeroSlide[] = (home.heroSlides ?? []).map((s, i) => ({
     id: `custom-${s.id ?? i}`,

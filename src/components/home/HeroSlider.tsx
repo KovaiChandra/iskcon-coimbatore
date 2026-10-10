@@ -11,7 +11,8 @@ export type HeroSlide = {
   eyebrow: string
   title: string
   text?: string | null
-  image?: { url: string; alt: string } | null
+  /** focalX/focalY (0–100) come from the focal point staff set on the photo in admin. */
+  image?: { url: string; alt: string; focalX?: number; focalY?: number } | null
   art: ArtTheme
   primary: { label: string; href: string }
   secondary?: { label: string; href: string }
@@ -64,6 +65,7 @@ function SlideVisual({ slide, active, priority, variant }: { slide: HeroSlide; a
         priority={priority}
         quality={90}
         sizes={variant === 'arch' ? '(min-width: 1024px) 480px, 1px' : '100vw'}
+        style={{ objectPosition: `${slide.image.focalX ?? 50}% ${slide.image.focalY ?? 50}%` }}
         className={`object-cover ${active ? 'kenburns' : ''} ${variant === 'backdrop' ? 'lg:scale-110 lg:blur-2xl' : ''}`}
       />
     )
