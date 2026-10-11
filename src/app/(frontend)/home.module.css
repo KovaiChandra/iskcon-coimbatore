@@ -900,3 +900,37 @@
 .sevaCard:hover .sevaButton svg {
   transform: translateX(3px);
 }
+
+/* Smaller, wider-photo seva cards: 16:10 photos show the whole Annadaan picture */
+.sevaImage {
+  aspect-ratio: 16 / 10;
+}
+.sevaBody {
+  padding: 1.125rem 1.25rem 1.25rem;
+}
+.sevaTitle {
+  font-size: 1.3rem;
+}
+.sevaText {
+  margin-top: 0.375rem;
+  font-size: 0.875rem;
+}
+.sevaFoot {
+  margin-top: 1rem;
+  padding-top: 0.875rem;
+}
+.sevaFrom {
+  font-size: 1.125rem;
+}
+.sevaButton {
+  padding: 0.45rem 0.95rem;
+  font-size: 0.8125rem;
+}
+@media (min-width: 768px) {
+  .serveGrid:has(.sevaCard) {
+    max-width: 62rem;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 1.5rem;
+  }
+}
