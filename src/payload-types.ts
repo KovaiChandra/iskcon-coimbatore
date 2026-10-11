@@ -924,6 +924,10 @@ export interface HomePage {
     image?: (number | null) | Media;
     text?: string | null;
   };
+  /**
+   * Photo beside the darshan timings card on the home page
+   */
+  visitImage?: (number | null) | Media;
   livePuja?: {
     /**
      * e.g. "Daily 4:15 AM Mangala Arati · 7:15 PM Sandhya Arati"
@@ -1015,6 +1019,7 @@ export interface HomePageSelect<T extends boolean = true> {
         image?: T;
         text?: T;
       };
+  visitImage?: T;
   livePuja?:
     | T
     | {

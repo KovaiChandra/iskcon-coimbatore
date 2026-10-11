@@ -109,6 +109,13 @@ export const HomePage: GlobalConfig = {
       ],
     },
     {
+      name: 'visitImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: '"Plan your visit" photo',
+      admin: { description: 'Photo beside the darshan timings card on the home page' },
+    },
+    {
       name: 'livePuja',
       type: 'group',
       fields: [

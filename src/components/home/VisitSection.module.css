@@ -1,0 +1,267 @@
+/* =========================================================================
+   "Plan your visit" section: temple photo + elegant timings card
+   ========================================================================= */
+.section {
+  position: relative;
+  background: linear-gradient(to bottom, var(--white), var(--cream));
+  padding: 5rem 0;
+}
+.grid {
+  display: grid;
+  align-items: center;
+}
+
+/* ---------- Photo ---------- */
+.photoWrap {
+  position: relative;
+}
+.photo {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 1.75rem;
+  box-shadow: 0 30px 60px -25px rgb(40 15 5 / 0.45);
+}
+
+/* ---------- Card ---------- */
+.card {
+  position: relative;
+  z-index: 1;
+  margin: -3rem 1rem 0;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.8);
+  border-radius: 1.75rem;
+  background:
+    radial-gradient(120% 80% at 0% 0%, rgb(255 255 255 / 0.7), transparent 60%),
+    rgb(251 246 238 / 0.94);
+  padding: 1.75rem 1.5rem 1.5rem;
+  color: var(--ink);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow:
+    0 40px 80px -30px rgb(40 15 5 / 0.45),
+    0 2px 6px rgb(40 15 5 / 0.06),
+    inset 0 1px 0 rgb(255 255 255 / 0.9);
+}
+/* Saffron accent along the top edge */
+.card::before {
+  content: '';
+  position: absolute;
+  left: 2.5rem;
+  right: 2.5rem;
+  top: -1px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--saffron-500), transparent);
+}
+/* Fine gold inner frame with corner stars */
+.frame {
+  pointer-events: none;
+  position: absolute;
+  inset: 0.625rem;
+  border: 1px solid rgb(168 107 0 / 0.28);
+  border-radius: 1.3rem;
+}
+.corner {
+  position: absolute;
+  color: #b8820a;
+  background: rgb(251 246 238);
+  border-radius: 9999px;
+  padding: 1px;
+  box-sizing: content-box;
+}
+.corner-tl {
+  left: 1.1rem;
+  top: -5px;
+}
+.corner-tr {
+  right: 1.1rem;
+  top: -5px;
+}
+.corner-bl {
+  left: 1.1rem;
+  bottom: -5px;
+}
+.corner-br {
+  right: 1.1rem;
+  bottom: -5px;
+}
+/* Faint mandala watermark */
+.mandala {
+  pointer-events: none;
+  position: absolute;
+  right: -5.5rem;
+  top: -5.5rem;
+  width: 15rem;
+  height: 15rem;
+  color: rgb(168 107 0 / 0.1);
+}
+.top,
+.title,
+.rule,
+.times,
+.address,
+.buttons {
+  position: relative;
+}
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #9a6400;
+}
+.status {
+  border: 1px solid rgb(59 23 101 / 0.08);
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.9);
+  padding: 0.3rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--purple-900);
+  box-shadow: 0 2px 8px -2px rgb(40 15 5 / 0.12);
+}
+.title {
+  margin-top: 0.875rem;
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  line-height: 1.1;
+  color: var(--purple-900);
+}
+/* Gold rule with a small star */
+.rule {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: #b8820a;
+}
+.rule::before,
+.rule::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+}
+.rule::before {
+  max-width: 3rem;
+  background: rgb(168 107 0 / 0.45);
+}
+.rule::after {
+  background: linear-gradient(to right, rgb(168 107 0 / 0.45), transparent);
+}
+/* Timings list with hairline dividers */
+.times {
+  margin-top: 0.75rem;
+  display: grid;
+  column-gap: 2rem;
+}
+.times li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px solid rgb(59 23 101 / 0.09);
+  padding: 0.65rem 0;
+}
+.activity {
+  font-size: 0.875rem;
+  color: var(--ink);
+  opacity: 0.8;
+}
+.time {
+  white-space: nowrap;
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  color: var(--purple-800);
+}
+.address {
+  margin-top: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.address svg {
+  margin-top: 0.1rem;
+  flex-shrink: 0;
+  color: #a86b00;
+}
+.buttons {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+.primary {
+  box-shadow: 0 0 40px -10px rgb(245 183 0 / 0.7);
+}
+.primary svg {
+  transition: transform 0.2s;
+}
+.primary:hover svg {
+  transform: translateX(3px);
+}
+/* Quiet text link with an underline that slides in */
+.secondary {
+  position: relative;
+  padding: 0.25rem 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--purple-800);
+}
+.secondary::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0.35);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.secondary:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Bigger screens ---------- */
+@media (min-width: 640px) {
+  .card {
+    margin: -4rem 2rem 0;
+    padding: 2rem 2.25rem 1.75rem;
+  }
+  .times {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .title {
+    font-size: 2.75rem;
+  }
+}
+/* Desktop: photo on the left, card overlapping it on the right */
+@media (min-width: 1024px) {
+  .section {
+    padding: 6.5rem 0;
+  }
+  .grid {
+    grid-template-columns: 1.15fr 1fr;
+  }
+  .photo {
+    aspect-ratio: 4 / 3.2;
+  }
+  .card {
+    margin: 0 0 0 -5rem;
+  }
+}

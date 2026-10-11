@@ -7,6 +7,7 @@ import { HeroSlider } from '@/components/home/HeroSlider'
 import { NityaSevaForm } from '@/components/home/NityaSevaForm'
 import { ScheduleTicker } from '@/components/home/ScheduleTicker'
 import { SubscribeForm } from '@/components/home/SubscribeForm'
+import { VisitSection } from '@/components/home/VisitSection'
 import { blurDataURL } from '@/lib/blur'
 import { formatDate, mediaUrl, waLink } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
@@ -237,6 +238,15 @@ export default async function HomePage() {
           </Link>
         </div>
       </section>
+
+      {/* Plan your visit: darshan timings card */}
+      <VisitSection
+        image={home.visitImage}
+        address={settings.address}
+        mapUrl={settings.mapUrl}
+        schedule={(timings.schedule ?? []).map(({ time, activity }) => ({ time, activity }))}
+        sessions={(timings.openSessions ?? []).map(({ opens, closes }) => ({ opens, closes }))}
+      />
 
       {/* Quote */}
       <section className={styles.quote}>
