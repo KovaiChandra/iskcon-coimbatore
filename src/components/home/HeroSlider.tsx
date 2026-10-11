@@ -106,7 +106,7 @@ function SlideVisual({
       placeholder={slide.image.blur ? 'blur' : 'empty'}
       blurDataURL={slide.image.blur}
       style={{ objectPosition: `${slide.image.focalX ?? 50}% ${slide.image.focalY ?? 50}%` }}
-      className={`object-cover ${active ? 'kenburns' : ''} ${softBackdrop ? 'lg:scale-110 lg:blur-2xl' : ''}`}
+      className={`object-cover ${active && slide.layout !== 'cinematic' ? 'kenburns' : ''} ${softBackdrop ? 'lg:scale-110 lg:blur-2xl' : ''}`}
     />
   )
 }
@@ -318,7 +318,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
           className={`absolute inset-0 -z-30 transition-[opacity,transform] duration-[1400ms] ease-out ${
             i === index
               ? `scale-100 opacity-100 ${s.layout === 'cinematic' ? '' : 'lg:opacity-45'}`
-              : 'scale-105 opacity-0'
+              : `opacity-0 ${s.layout === 'cinematic' ? '' : 'scale-105'}`
           }`}
         >
           <SlideVisual slide={s} active={i === index} priority={i === 0} variant="backdrop" />
