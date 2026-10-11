@@ -36,10 +36,6 @@ export type HeroSlide = {
 
 const DURATION = 7000
 
-/** Full-photo slide whose photo is too narrow to fill the banner without cropping (desktop). */
-const isSplit = (s: HeroSlide) =>
-  s.layout === 'cinematic' && !!s.image && (s.image.ratio ?? 2) < 1.7
-
 // Fixed positions so server and client render identical sparks.
 const EMBERS = Array.from({ length: 22 }, (_, i) => ({
   left: (i * 37 + 11) % 100,
@@ -104,53 +100,6 @@ function SlideVisual({
     placeholder: image.blur ? ('blur' as const) : ('empty' as const),
     blurDataURL: image.blur,
     ...(priority ? { priority: true } : { loading: 'eager' as const }),
-  }
-
-  // Cinematic + a photo much narrower than the banner (e.g. 4:3): filling the width would crop the
-  // deities' crowns. On desktop, show the whole photo on the right and continue it to the left with a
-  // mirrored, blurred copy of its own left edge, so the colours flow across the join.
-  if (variant === 'backdrop' && isSplit(slide)) {
-    return (
-      <>
-        {/* Phones: the photo fills the banner as usual */}
-        <Image
-          {...shared}
-          alt={image.alt}
-          fill
-          sizes="(min-width: 1024px) 1px, 100vw"
-          style={{ objectPosition: `${image.focalX ?? 50}% ${image.focalY ?? 50}%` }}
-          className={`object-cover lg:hidden ${active ? 'kenburns' : ''}`}
-        />
-        <div className="absolute inset-0 hidden lg:flex">
-          <div className="relative flex-1">
-            {/* Oversized, and running under the photo's faded edge, so the two blend with no seam */}
-            <div className="absolute -inset-y-16 -left-16 -right-48">
-              <Image
-                {...shared}
-                alt=""
-                fill
-                sizes="50vw"
-                style={{ objectPosition: '0% 50%', transform: 'scaleX(-1)' }}
-                className="object-cover blur-2xl saturate-125"
-              />
-            </div>
-          </div>
-          <div
-            className="relative z-10 h-full shrink-0 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_14%)]"
-            style={{ aspectRatio: image.ratio }}
-          >
-            <Image
-              key={active ? `on-${slide.id}` : slide.id}
-              {...shared}
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 75vw, 1px"
-              className={`object-cover ${active ? 'kenburns' : ''}`}
-            />
-          </div>
-        </div>
-      </>
-    )
   }
 
   return (
@@ -345,7 +294,6 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
 
   const slide = slides[index]
   const cinematic = slide.layout === 'cinematic'
-  const split = isSplit(slide)
   const fade = (on: boolean) =>
     `transition-opacity duration-[1400ms] ${on ? 'opacity-100' : 'opacity-0'}`
 
@@ -391,14 +339,9 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         <div className="absolute inset-0 bg-gradient-to-t from-purple-950 via-purple-950/20 to-purple-950/30" />
       </div>
       {/* Cinematic layout: darken only the lower-left, where the text sits */}
-      <div aria-hidden className={`absolute inset-0 -z-20 ${fade(cinematic && !split)}`}>
+      <div aria-hidden className={`absolute inset-0 -z-20 ${fade(cinematic)}`}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 via-35% to-transparent to-70%" />
         <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-black/60 to-transparent sm:w-2/3" />
-      </div>
-      {/* Split photo: a royal-purple wash over the blurred side ties the photo to the site colours */}
-      <div aria-hidden className={`absolute inset-0 -z-20 ${fade(split)}`}>
-        <div className="absolute inset-0 bg-gradient-to-t from-purple-950/90 via-purple-950/30 via-35% to-transparent to-70%" />
-        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-purple-950/75 via-purple-950/45 to-transparent sm:w-2/3 lg:w-[45%] lg:from-purple-950/85 lg:via-purple-950/55" />
       </div>
 
       <Mandala
