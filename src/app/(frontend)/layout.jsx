@@ -1,4 +1,3 @@
-import type { Metadata } from 'next'
 import { Inter, Marcellus } from 'next/font/google'
 import React from 'react'
 import { Footer } from '@/components/Footer'
@@ -12,13 +11,16 @@ import './globals.css'
 const marcellus = Marcellus({ subsets: ['latin'], weight: '400', variable: '--font-marcellus' })
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
-export const metadata: Metadata = {
-  title: { default: 'ISKCON Coimbatore · Sri Jagannath Mandir', template: '%s · ISKCON Coimbatore' },
+export const metadata = {
+  title: {
+    default: 'ISKCON Coimbatore · Sri Jagannath Mandir',
+    template: '%s · ISKCON Coimbatore',
+  },
   description:
     'Sri Jagannath Mandir, ISKCON Coimbatore. Daily darshan, festivals, courses, Annadaan and seva opportunities.',
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }) {
   const payload = await getPayloadClient()
   const [settings, timings] = await Promise.all([
     payload.findGlobal({ slug: 'site-settings' }),

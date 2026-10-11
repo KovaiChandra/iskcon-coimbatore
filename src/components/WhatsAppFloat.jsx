@@ -2,7 +2,7 @@ import { waLink } from '@/lib/format'
 import { WhatsAppIcon } from './Icons'
 import styles from './WhatsAppFloat.module.css'
 
-export function WhatsAppFloat({ number }: { number: string }) {
+export function WhatsAppFloat({ number }) {
   return (
     <a
       href={waLink(number, 'Hare Krishna! I have a question.')}

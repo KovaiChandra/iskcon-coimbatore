@@ -1,5 +1,5 @@
 /** Decorative mandala built from rotated petal rings. Colour comes from `currentColor`. */
-export function Mandala({ className = '', rings = 4 }: { className?: string; rings?: number }) {
+export function Mandala({ className = '', rings = 4 }) {
   const ringDefs = [
     { r: 18, count: 8, len: 14, w: 6 },
     { r: 34, count: 12, len: 16, w: 7 },
@@ -9,7 +9,13 @@ export function Mandala({ className = '', rings = 4 }: { className?: string; rin
   ].slice(0, rings + 1)
 
   return (
-    <svg viewBox="-100 -100 200 200" className={className} fill="none" stroke="currentColor" aria-hidden>
+    <svg
+      viewBox="-100 -100 200 200"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      aria-hidden
+    >
       <circle r="6" strokeWidth="1" />
       {ringDefs.map(({ r, count, len, w }, i) => (
         <g key={r} strokeWidth={i % 2 ? 0.6 : 0.9}>
@@ -28,8 +34,16 @@ export function Mandala({ className = '', rings = 4 }: { className?: string; rin
 }
 
 /** Small four-point star used as a separator. */
-export const Sparkle = ({ size = 12, className, style }: { size?: number; className?: string; style?: React.CSSProperties }) => (
-  <svg viewBox="0 0 24 24" width={size} height={size} className={className} style={{ flexShrink: 0, ...style }} fill="currentColor" aria-hidden>
+export const Sparkle = ({ size = 12, className, style }) => (
+  <svg
+    viewBox="0 0 24 24"
+    width={size}
+    height={size}
+    className={className}
+    style={{ flexShrink: 0, ...style }}
+    fill="currentColor"
+    aria-hidden
+  >
     <path d="M12 0c.8 6.4 5.6 11.2 12 12-6.4.8-11.2 5.6-12 12-.8-6.4-5.6-11.2-12-12C6.4 11.2 11.2 6.4 12 0Z" />
   </svg>
 )

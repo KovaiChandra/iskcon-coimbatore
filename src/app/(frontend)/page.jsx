@@ -1,11 +1,9 @@
 import Link from 'next/link'
-import type { Festival, Media, Seva } from '@/payload-types'
 import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
 import { InstagramIcon, WhatsAppIcon } from '@/components/Icons'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
-import type { ArtTheme } from '@/components/art/FestivalArt'
 import { DonationCard } from '@/components/home/DonationCard'
-import { HeroSlider, type HeroSlide } from '@/components/home/HeroSlider'
+import { HeroSlider } from '@/components/home/HeroSlider'
 import { NityaSevaForm } from '@/components/home/NityaSevaForm'
 import { ScheduleTicker } from '@/components/home/ScheduleTicker'
 import { SubscribeForm } from '@/components/home/SubscribeForm'
@@ -19,13 +17,13 @@ export const revalidate = 60
 
 const DAY = 86_400_000
 
-function daysUntil(date: string) {
+function daysUntil(date) {
   const startOfToday = new Date(new Date().setHours(0, 0, 0, 0)).getTime()
   const d = Math.round((new Date(date).setHours(0, 0, 0, 0) - startOfToday) / DAY)
   return d <= 0 ? 'Today' : d === 1 ? 'Tomorrow' : `In ${d} days`
 }
 
-function Eyebrow({ children, light }: { children: React.ReactNode; light?: boolean }) {
+function Eyebrow({ children, light }) {
   return (
     <p className={`${styles.eyebrow} ${light ? styles.eyebrowLight : ''}`}>
       <Sparkle size={10} />
@@ -71,8 +69,8 @@ export default async function HomePage() {
   ])
 
   // ---- Slideshow: the slides staff curate in admin; if there are none, an automatic set
-  const heroMedia = new Map<string, Media>()
-  const imageOf = (m: Parameters<typeof mediaUrl>[0]) => {
+  const heroMedia = new Map()
+  const imageOf = (m) => {
     const url = mediaUrl(m, 'hero')
     if (!url || typeof m !== 'object' || !m) return null
     heroMedia.set(url, m)
@@ -84,7 +82,7 @@ export default async function HomePage() {
       ratio: m.width && m.height ? m.width / m.height : undefined,
     }
   }
-  const customSlides: HeroSlide[] = (home.heroSlides ?? []).map((s, i) => ({
+  const customSlides = (home.heroSlides ?? []).map((s, i) => ({
     id: `custom-${s.id ?? i}`,
     eyebrow: s.eyebrow || 'ISKCON Coimbatore',
     title: s.heading,
@@ -92,12 +90,12 @@ export default async function HomePage() {
     verse: s.verse,
     layout: s.layout ?? 'arch',
     image: imageOf(s.image),
-    art: (s.artwork ?? 'temple') as ArtTheme,
+    art: s.artwork ?? 'temple',
     primary: { label: s.buttonLabel || 'Learn more', href: s.link || '/festivals' },
     navLabel: s.heading,
     navMeta: s.eyebrow || '',
   }))
-  const autoSlides: HeroSlide[] = [
+  const autoSlides = [
     ...festivalSevas.docs
       .filter((s) => isSevaActive(s))
       .map((s) => ({
@@ -108,7 +106,7 @@ export default async function HomePage() {
         title: s.title,
         text: s.shortDescription,
         image: imageOf(s.image),
-        art: (s.artwork ?? 'lamps') as ArtTheme,
+        art: s.artwork ?? 'lamps',
         primary: { label: 'Offer this seva', href: `/donate/${s.slug}` },
         secondary: { label: 'All sevas', href: '/donate' },
         navLabel: s.title,
@@ -122,7 +120,7 @@ export default async function HomePage() {
         title: f.name,
         text: f.shortDescription,
         image: imageOf(f.image),
-        art: (f.artwork ?? 'lotus') as ArtTheme,
+        art: f.artwork ?? 'lotus',
         primary: { label: 'Sponsor the festival', href: `/festivals/${f.slug}` },
         secondary: { label: 'Festival calendar', href: '/festivals' },
         navLabel: f.name,
@@ -150,8 +148,8 @@ export default async function HomePage() {
     }),
   )
 
-  const highlights = populated<Seva>(home.highlightSevas).filter((s) => isSevaActive(s))
-  const donationSevas = populated<Seva>(home.donationSevas).filter((s) => isSevaActive(s))
+  const highlights = populated(home.highlightSevas).filter((s) => isSevaActive(s))
+  const donationSevas = populated(home.donationSevas).filter((s) => isSevaActive(s))
 
   return (
     <>
@@ -181,9 +179,7 @@ export default async function HomePage() {
                     <div className={styles.media}>
                       <ImageOrPlaceholder
                         media={s.image}
-                        art={
-                          (s.artwork ?? (['lotus', 'lamps', 'book'] as const)[i % 3]) as ArtTheme
-                        }
+                        art={s.artwork ?? ['lotus', 'lamps', 'book'][i % 3]}
                       />
                     </div>
                     <div className={`arch ${styles.serveArchLine}`} />
@@ -217,8 +213,7 @@ export default async function HomePage() {
         <div>
           <Eyebrow>About ISKCON Coimbatore</Eyebrow>
           <h2 className={`${styles.h2} ${styles.aboutTitle}`}>
-            A spiritual home for <span className={styles.accent}>everyone</span> seeking
-            Krishna
+            A spiritual home for <span className={styles.accent}>everyone</span> seeking Krishna
           </h2>
           <p className={styles.aboutText}>
             {home.about?.text ||
@@ -244,10 +239,7 @@ export default async function HomePage() {
 
       {/* Quote */}
       <section className={styles.quote}>
-        <Mandala
-          className={`spin-slow ${styles.quoteMandala}`}
-          rings={5}
-        />
+        <Mandala className={`spin-slow ${styles.quoteMandala}`} rings={5} />
         <div className={styles.quoteVignette} />
         <div className={`container-x ${styles.quoteInner}`}>
           <p className={styles.quoteMark}>“</p>
@@ -255,9 +247,7 @@ export default async function HomePage() {
             Whatever you do, whatever you eat, whatever you offer or give away, and whatever
             austerities you perform — do that as an offering unto Me.
           </p>
-          <p className={styles.quoteSource}>
-            Bhagavad-gītā 9.27
-          </p>
+          <p className={styles.quoteSource}>Bhagavad-gītā 9.27</p>
         </div>
       </section>
 
@@ -285,7 +275,7 @@ export default async function HomePage() {
                   image={
                     <ImageOrPlaceholder
                       media={s.image}
-                      art={(s.artwork ?? 'lotus') as ArtTheme}
+                      art={s.artwork ?? 'lotus'}
                       sizes="(min-width: 1024px) 33vw, 100vw"
                     />
                   }
@@ -302,9 +292,7 @@ export default async function HomePage() {
           <div className={styles.nitya}>
             <Mandala className={styles.nityaMandala} />
             <Eyebrow light>Nitya Seva · monthly</Eyebrow>
-            <h2 className={styles.nityaTitle}>
-              Offer a little, every month
-            </h2>
+            <h2 className={styles.nityaTitle}>Offer a little, every month</h2>
             <p className={styles.nityaText}>
               Set it once, serve all year. Cancel anytime on WhatsApp or email.
             </p>
@@ -328,9 +316,7 @@ export default async function HomePage() {
                 <p className={styles.sideText}>
                   Receipts, questions and temple information on WhatsApp.
                 </p>
-                <span className={`${styles.sideLink} ${styles.whatsappLink}`}>
-                  Start a chat →
-                </span>
+                <span className={`${styles.sideLink} ${styles.whatsappLink}`}>Start a chat →</span>
               </div>
             </a>
           )}
@@ -351,9 +337,7 @@ export default async function HomePage() {
               <div className={styles.sideBody}>
                 <h3 className={styles.sideTitle}>Join the puja live</h3>
                 <p className={styles.sideText}>{home.livePuja.schedule} · Free to join</p>
-                <span className={`${styles.sideLink} ${styles.liveLink}`}>
-                  Watch now →
-                </span>
+                <span className={`${styles.sideLink} ${styles.liveLink}`}>Watch now →</span>
               </div>
             </a>
           )}
@@ -375,31 +359,22 @@ export default async function HomePage() {
             </div>
             <ol className={styles.timeline}>
               <span className={styles.timelineLine} />
-              {festivals.docs.map((f: Festival) => (
+              {festivals.docs.map((f) => (
                 <li key={f.id} className={styles.festival}>
                   <div className={styles.dateRow}>
                     <div className={styles.dateBox}>
                       <div>
-                        <p className={styles.dateDay}>
-                          {formatDate(f.date, { day: 'numeric' })}
-                        </p>
-                        <p className={styles.dateMonth}>
-                          {formatDate(f.date, { month: 'short' })}
-                        </p>
+                        <p className={styles.dateDay}>{formatDate(f.date, { day: 'numeric' })}</p>
+                        <p className={styles.dateMonth}>{formatDate(f.date, { month: 'short' })}</p>
                       </div>
                     </div>
-                    <p className={styles.countdown}>
-                      {daysUntil(f.date)}
-                    </p>
+                    <p className={styles.countdown}>{daysUntil(f.date)}</p>
                   </div>
-                  <Link
-                    href={`/festivals/${f.slug}`}
-                    className={styles.festivalCard}
-                  >
+                  <Link href={`/festivals/${f.slug}`} className={styles.festivalCard}>
                     <div className={styles.cardImage}>
                       <ImageOrPlaceholder
                         media={f.image}
-                        art={(f.artwork ?? 'lotus') as ArtTheme}
+                        art={f.artwork ?? 'lotus'}
                         sizes="(min-width: 1024px) 25vw, 50vw"
                       />
                     </div>
@@ -407,9 +382,7 @@ export default async function HomePage() {
                       <h3 className={styles.cardTitle}>{f.name}</h3>
                       {f.timeLabel && <p className={styles.small}>{f.timeLabel}</p>}
                       <p className={styles.clamp2}>{f.shortDescription}</p>
-                      <span className={styles.support}>
-                        Support →
-                      </span>
+                      <span className={styles.support}>Support →</span>
                     </div>
                   </Link>
                 </li>
@@ -442,16 +415,10 @@ export default async function HomePage() {
           </div>
           <div className={styles.threeGrid}>
             {services.docs.map((s, i) => (
-              <article
-                key={s.id}
-                className={styles.service}
-              >
+              <article key={s.id} className={styles.service}>
                 <div className={styles.cardImage}>
                   <div className={styles.media}>
-                    <ImageOrPlaceholder
-                      media={s.image}
-                      art={(['lotus', 'temple', 'lamps'] as const)[i % 3]}
-                    />
+                    <ImageOrPlaceholder media={s.image} art={['lotus', 'temple', 'lamps'][i % 3]} />
                   </div>
                 </div>
                 <div className={styles.cardBodyLarge}>
@@ -480,16 +447,17 @@ export default async function HomePage() {
                 Free classes on chanting, Bhagavad-gita and Srimad Bhagavatam, online and at the
                 temple.
               </p>
-              <Link href="/courses" className={`btn-primary ${styles.btnBig} ${styles.aboutButton}`}>
+              <Link
+                href="/courses"
+                className={`btn-primary ${styles.btnBig} ${styles.aboutButton}`}
+              >
                 All courses
               </Link>
             </div>
             <ol className={styles.courseList}>
               {courses.docs.map((c, i) => (
                 <li key={c.id} className={styles.course}>
-                  <span className={styles.courseNumber}>
-                    0{i + 1}
-                  </span>
+                  <span className={styles.courseNumber}>0{i + 1}</span>
                   <div>
                     <h3 className={styles.courseTitle}>{c.title}</h3>
                     <p className={styles.courseMeta}>
@@ -508,10 +476,7 @@ export default async function HomePage() {
                       Join on Zoom
                     </a>
                   ) : (
-                    <Link
-                      href="/courses"
-                      className={`btn-outline ${styles.courseButton}`}
-                    >
+                    <Link href="/courses" className={`btn-outline ${styles.courseButton}`}>
                       Register
                     </Link>
                   )}
@@ -538,10 +503,7 @@ export default async function HomePage() {
             {posts.docs.map((p) => (
               <Link key={p.id} href={`/blog/${p.slug}`} className={styles.post}>
                 <div className={styles.postImage}>
-                  <ImageOrPlaceholder
-                    media={p.image}
-                    className={styles.postImg}
-                  />
+                  <ImageOrPlaceholder media={p.image} className={styles.postImg} />
                 </div>
                 <p className={styles.postMeta}>
                   {p.category} · {formatDate(p.publishedAt)}

@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { templeStatus, type Session } from '@/lib/temple-status'
+import { templeStatus } from '@/lib/temple-status'
 import styles from './TempleStatus.module.css'
 
-export function TempleStatus({ sessions }: { sessions: Session[] }) {
+export function TempleStatus({ sessions }) {
   // Computed on the client so cached pages still show the live status.
-  const [status, setStatus] = useState<ReturnType<typeof templeStatus> | null>(null)
+  const [status, setStatus] = useState(null)
 
   useEffect(() => {
     const update = () => setStatus(templeStatus(sessions))

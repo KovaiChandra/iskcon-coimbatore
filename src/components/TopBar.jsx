@@ -1,10 +1,8 @@
 import Link from 'next/link'
-import type { ReactNode } from 'react'
-import type { Session } from '@/lib/temple-status'
 import { TempleStatus } from './TempleStatus'
 import styles from './TopBar.module.css'
 
-export function TopBar({ sessions, socials }: { sessions: Session[]; socials: ReactNode }) {
+export function TopBar({ sessions, socials }) {
   return (
     <div className={styles.bar}>
       <div className={`container-x ${styles.inner}`}>

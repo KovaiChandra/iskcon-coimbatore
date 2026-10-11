@@ -2,23 +2,23 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useState } from 'react'
 import { NAV } from '@/lib/nav'
 import { ChevronDown, LotusMark, SearchIcon } from './Icons'
 import styles from './Header.module.css'
 
-export function Header({ socials }: { socials: ReactNode }) {
+export function Header({ socials }) {
   const pathname = usePathname()
   // Remember which page the menu was opened on, so navigating closes it.
-  const [openOn, setOpenOn] = useState<string | null>(null)
-  const [expanded, setExpanded] = useState<string | null>(null)
+  const [openOn, setOpenOn] = useState(null)
+  const [expanded, setExpanded] = useState(null)
   const menuOpen = openOn === pathname
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
   }, [menuOpen])
 
-  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
+  const isActive = (href) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
 
   return (
     <header className={styles.header}>
@@ -72,7 +72,14 @@ export function Header({ socials }: { socials: ReactNode }) {
             aria-expanded={menuOpen}
             onClick={() => setOpenOn(menuOpen ? null : pathname)}
           >
-            <svg viewBox="0 0 24 24" className={styles.menuIcon} fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <svg
+              viewBox="0 0 24 24"
+              className={styles.menuIcon}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden
+            >
               {menuOpen ? <path d="M6 6l12 12M18 6 6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
             </svg>
           </button>
@@ -94,7 +101,10 @@ export function Header({ socials }: { socials: ReactNode }) {
                         onClick={() => setExpanded((e) => (e === item.label ? null : item.label))}
                       >
                         {item.label}
-                        <ChevronDown size={16} className={`${styles.chevron} ${expanded === item.label ? styles.chevronOpen : ''}`} />
+                        <ChevronDown
+                          size={16}
+                          className={`${styles.chevron} ${expanded === item.label ? styles.chevronOpen : ''}`}
+                        />
                       </button>
                       {expanded === item.label && (
                         <ul className={styles.mobileSub}>

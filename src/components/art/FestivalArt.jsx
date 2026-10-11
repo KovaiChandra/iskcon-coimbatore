@@ -2,14 +2,13 @@
  * Illustrated scenes shown when a slide or festival has no photo yet.
  * Pure SVG + CSS animation, so they stay crisp and cost nothing to load.
  */
-export type ArtTheme = 'temple' | 'lamps' | 'hill' | 'moon' | 'book' | 'chariot' | 'lotus'
 
 const GOLD = '#f5b700'
 const GOLD_LIGHT = '#ffd75e'
 
-function Stars({ seed = 1, count = 40 }: { seed?: number; count?: number }) {
+function Stars({ seed = 1, count = 40 }) {
   // Integer hash (exact on server and client), rounded so SSR and hydration match.
-  const rand = (i: number, k: number) => {
+  const rand = (i, k) => {
     let h = Math.imul(seed, 73856093) ^ Math.imul(i, 19349663) ^ Math.imul(k, 83492791)
     h = Math.imul(h ^ (h >>> 13), 1274126177)
     h ^= h >>> 16
@@ -18,18 +17,46 @@ function Stars({ seed = 1, count = 40 }: { seed?: number; count?: number }) {
   return (
     <g fill="#fff">
       {Array.from({ length: count }, (_, i) => (
-        <circle key={i} cx={rand(i, 1) * 800} cy={rand(i, 2) * 380} r={rand(i, 3) * 1.4 + 0.3} className="art-twinkle" style={{ animationDelay: `${rand(i, 4) * 4}s` }} opacity={0.4 + rand(i, 5) * 0.5} />
+        <circle
+          key={i}
+          cx={rand(i, 1) * 800}
+          cy={rand(i, 2) * 380}
+          r={rand(i, 3) * 1.4 + 0.3}
+          className="art-twinkle"
+          style={{ animationDelay: `${rand(i, 4) * 4}s` }}
+          opacity={0.4 + rand(i, 5) * 0.5}
+        />
       ))}
     </g>
   )
 }
 
-function Diya({ x, y, scale = 1, delay = 0 }: { x: number; y: number; scale?: number; delay?: number }) {
+function Diya({ x, y, scale = 1, delay = 0 }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      <ellipse cx="0" cy="-26" rx="26" ry="30" fill={GOLD} opacity="0.18" className="art-glow" style={{ animationDelay: `${delay}s` }} />
-      <path d="M0 -44 C 9 -30, 8 -20, 0 -14 C -8 -20, -9 -30, 0 -44 Z" fill={GOLD_LIGHT} className="art-flame" style={{ animationDelay: `${delay}s` }} />
-      <path d="M0 -34 C 4 -26, 4 -21, 0 -17 C -4 -21, -4 -26, 0 -34 Z" fill="#fff" opacity="0.85" className="art-flame" style={{ animationDelay: `${delay}s` }} />
+      <ellipse
+        cx="0"
+        cy="-26"
+        rx="26"
+        ry="30"
+        fill={GOLD}
+        opacity="0.18"
+        className="art-glow"
+        style={{ animationDelay: `${delay}s` }}
+      />
+      <path
+        d="M0 -44 C 9 -30, 8 -20, 0 -14 C -8 -20, -9 -30, 0 -44 Z"
+        fill={GOLD_LIGHT}
+        className="art-flame"
+        style={{ animationDelay: `${delay}s` }}
+      />
+      <path
+        d="M0 -34 C 4 -26, 4 -21, 0 -17 C -4 -21, -4 -26, 0 -34 Z"
+        fill="#fff"
+        opacity="0.85"
+        className="art-flame"
+        style={{ animationDelay: `${delay}s` }}
+      />
       <path d="M-24 -12 Q 0 -6 24 -12 Q 20 8 0 10 Q -20 8 -24 -12 Z" fill="#c2410c" />
       <path d="M-24 -12 Q 0 -6 24 -12" stroke={GOLD} strokeWidth="2" fill="none" />
       <path d="M-14 0 Q 0 4 14 0" stroke={GOLD} strokeWidth="1.5" fill="none" opacity="0.7" />
@@ -37,7 +64,7 @@ function Diya({ x, y, scale = 1, delay = 0 }: { x: number; y: number; scale?: nu
   )
 }
 
-function Lotus({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
+function Lotus({ x, y, scale = 1 }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${scale})`}>
       <path d="M0 -60 C 18 -38, 18 -14, 0 0 C -18 -14, -18 -38, 0 -60 Z" fill="#f9a8d4" />
@@ -49,7 +76,7 @@ function Lotus({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
   )
 }
 
-const scenes: Record<ArtTheme, () => React.ReactNode> = {
+const scenes = {
   temple: () => (
     <>
       <circle cx="560" cy="250" r="170" fill="url(#sun)" className="art-glow" />
@@ -75,9 +102,16 @@ const scenes: Record<ArtTheme, () => React.ReactNode> = {
     <>
       <circle cx="560" cy="220" r="160" fill="url(#sun)" opacity="0.5" />
       {[
-        [470, 250, 1.3, 0], [600, 240, 1.5, 0.6], [720, 270, 1.1, 1.2],
-        [420, 330, 1.1, 0.3], [540, 345, 1.6, 0.9], [680, 350, 1.3, 1.5], [780, 340, 0.9, 0.4],
-      ].map(([x, y, s, d], i) => <Diya key={i} x={x} y={y} scale={s} delay={d} />)}
+        [470, 250, 1.3, 0],
+        [600, 240, 1.5, 0.6],
+        [720, 270, 1.1, 1.2],
+        [420, 330, 1.1, 0.3],
+        [540, 345, 1.6, 0.9],
+        [680, 350, 1.3, 1.5],
+        [780, 340, 0.9, 0.4],
+      ].map(([x, y, s, d], i) => (
+        <Diya key={i} x={x} y={y} scale={s} delay={d} />
+      ))}
     </>
   ),
   hill: () => (
@@ -105,7 +139,18 @@ const scenes: Record<ArtTheme, () => React.ReactNode> = {
       <circle cx="610" cy="195" r="9" fill="#f3e2b5" opacity="0.6" />
       <rect x="320" y="330" width="500" height="100" fill="#1c0a33" opacity="0.6" />
       {[0, 1, 2, 3].map((i) => (
-        <rect key={i} x={540 - i * 6} y={345 + i * 14} width={80 + i * 12} height="3" rx="1.5" fill="#fff7e0" opacity={0.5 - i * 0.1} className="art-shimmer" style={{ animationDelay: `${i * 0.4}s` }} />
+        <rect
+          key={i}
+          x={540 - i * 6}
+          y={345 + i * 14}
+          width={80 + i * 12}
+          height="3"
+          rx="1.5"
+          fill="#fff7e0"
+          opacity={0.5 - i * 0.1}
+          className="art-shimmer"
+          style={{ animationDelay: `${i * 0.4}s` }}
+        />
       ))}
       <Lotus x={430} y={380} scale={0.6} />
       <Lotus x={740} y={395} scale={0.45} />
@@ -115,7 +160,13 @@ const scenes: Record<ArtTheme, () => React.ReactNode> = {
     <>
       <g className="art-rays" style={{ transformOrigin: '570px 260px' }}>
         {Array.from({ length: 18 }, (_, i) => (
-          <path key={i} d="M570 260 L560 40 L580 40 Z" fill={GOLD} opacity="0.18" transform={`rotate(${i * 20} 570 260)`} />
+          <path
+            key={i}
+            d="M570 260 L560 40 L580 40 Z"
+            fill={GOLD}
+            opacity="0.18"
+            transform={`rotate(${i * 20} 570 260)`}
+          />
         ))}
       </g>
       <circle cx="570" cy="260" r="120" fill="url(#sun)" />
@@ -129,7 +180,10 @@ const scenes: Record<ArtTheme, () => React.ReactNode> = {
             <path d={`M15 ${12 + i * 12} Q 70 ${-8 + i * 12} 130 ${8 + i * 12}`} fill="none" />
           </g>
         ))}
-        <path d="M-160 62 Q -70 44 0 76 Q 70 44 160 62 L 160 72 Q 70 56 0 86 Q -70 56 -160 72 Z" fill="#7c2d12" />
+        <path
+          d="M-160 62 Q -70 44 0 76 Q 70 44 160 62 L 160 72 Q 70 56 0 86 Q -70 56 -160 72 Z"
+          fill="#7c2d12"
+        />
       </g>
     </>
   ),
@@ -140,14 +194,31 @@ const scenes: Record<ArtTheme, () => React.ReactNode> = {
         <path d="M-70 300 L-50 150 L0 80 L50 150 L70 300 Z" fill="#b91c1c" />
         <path d="M-50 150 L0 80 L50 150" stroke={GOLD} strokeWidth="3" fill="none" />
         {[-40, -14, 14, 40].map((x) => (
-          <rect key={x} x={x - 6} y="160" width="12" height="130" fill={x % 28 ? GOLD : '#facc15'} opacity="0.9" />
+          <rect
+            key={x}
+            x={x - 6}
+            y="160"
+            width="12"
+            height="130"
+            fill={x % 28 ? GOLD : '#facc15'}
+            opacity="0.9"
+          />
         ))}
         <rect x="-110" y="295" width="220" height="24" rx="4" fill="#7c2d12" />
         {[-80, 0, 80].map((x) => (
           <g key={x} transform={`translate(${x} 345)`} className="art-wheel">
             <circle r="34" fill="none" stroke={GOLD} strokeWidth="6" />
             {Array.from({ length: 8 }, (_, i) => (
-              <line key={i} x1="0" y1="0" x2="0" y2="-32" stroke={GOLD} strokeWidth="3" transform={`rotate(${i * 45})`} />
+              <line
+                key={i}
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="-32"
+                stroke={GOLD}
+                strokeWidth="3"
+                transform={`rotate(${i * 45})`}
+              />
             ))}
           </g>
         ))}
@@ -166,10 +237,15 @@ const scenes: Record<ArtTheme, () => React.ReactNode> = {
 }
 
 /** `compact` crops to the scene's subject, for cards and portrait frames. */
-export function FestivalArt({ theme = 'lotus', className = '', compact }: { theme?: ArtTheme | null; className?: string; compact?: boolean }) {
+export function FestivalArt({ theme = 'lotus', className = '', compact }) {
   const Scene = scenes[theme ?? 'lotus'] ?? scenes.lotus
   return (
-    <svg viewBox={compact ? '340 20 460 400' : '0 0 800 420'} preserveAspectRatio="xMidYMid slice" className={className} aria-hidden>
+    <svg
+      viewBox={compact ? '340 20 460 400' : '0 0 800 420'}
+      preserveAspectRatio="xMidYMid slice"
+      className={className}
+      aria-hidden
+    >
       <defs>
         <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#1c0a33" />
@@ -192,4 +268,3 @@ export function FestivalArt({ theme = 'lotus', className = '', compact }: { them
     </svg>
   )
 }
-

@@ -1,9 +1,9 @@
 import { Sparkle } from '@/components/art/Mandala'
 import styles from './ScheduleTicker.module.css'
 
-export function ScheduleTicker({ items }: { items: { time: string; activity: string }[] }) {
+export function ScheduleTicker({ items }) {
   if (items.length === 0) return null
-  const row = (hidden?: boolean) => (
+  const row = (hidden) => (
     <ul className={styles.list} aria-hidden={hidden}>
       {items.map((t, i) => (
         <li key={i} className={styles.item}>

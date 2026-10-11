@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import type { SiteSetting, TempleTiming } from '@/payload-types'
 import { LotusMark } from './Icons'
 import { SocialLinks } from './SocialLinks'
 import styles from './Footer.module.css'
@@ -37,7 +36,7 @@ const COLUMNS = [
   },
 ]
 
-export function Footer({ settings, timings }: { settings: SiteSetting; timings: TempleTiming }) {
+export function Footer({ settings, timings }) {
   const footerTimings = (timings.schedule ?? []).filter((t) => t.showInFooter)
 
   return (
@@ -46,7 +45,9 @@ export function Footer({ settings, timings }: { settings: SiteSetting; timings: 
         <div className={`container-x ${styles.ctaInner}`}>
           <div>
             <h2 className={styles.ctaTitle}>Begin Your Journey With Krishna Today</h2>
-            <p className={styles.ctaText}>Sponsor a meal, offer a seva, join a course or visit the temple.</p>
+            <p className={styles.ctaText}>
+              Sponsor a meal, offer a seva, join a course or visit the temple.
+            </p>
           </div>
           <div className={styles.ctaButtons}>
             <Link href="/donate/annadaan" className="btn-donate">
@@ -86,7 +87,10 @@ export function Footer({ settings, timings }: { settings: SiteSetting; timings: 
               <ul className={styles.links}>
                 {col.links.map((l) => (
                   <li key={l.label}>
-                    <Link href={l.href === 'youtube' ? settings.youtube || '#' : l.href} className={styles.hoverWhite}>
+                    <Link
+                      href={l.href === 'youtube' ? settings.youtube || '#' : l.href}
+                      className={styles.hoverWhite}
+                    >
                       {l.label}
                     </Link>
                   </li>
@@ -113,17 +117,27 @@ export function Footer({ settings, timings }: { settings: SiteSetting; timings: 
             Donations to ISKCON Coimbatore are eligible for tax exemption under Section 80G.
             {settings.reg80G && <> Registration no.: {settings.reg80G}.</>}
           </p>
-          {footerTimings.length > 0 && <p>{footerTimings.map((t) => `${t.activity} ${t.time}`).join(' · ')}</p>}
+          {footerTimings.length > 0 && (
+            <p>{footerTimings.map((t) => `${t.activity} ${t.time}`).join(' · ')}</p>
+          )}
         </div>
 
         <div className={styles.bottom}>
           <div className={`container-x ${styles.bottomInner}`}>
             <p>© {new Date().getFullYear()} ISKCON Coimbatore. All rights reserved.</p>
             <nav className={styles.legal}>
-              <Link href="/terms" className={styles.hoverWhite}>Terms &amp; Conditions</Link>
-              <Link href="/privacy" className={styles.hoverWhite}>Privacy Policy</Link>
-              <Link href="/refund-policy" className={styles.hoverWhite}>Refund Policy</Link>
-              <Link href="/sitemap.xml" className={styles.hoverWhite}>Sitemap</Link>
+              <Link href="/terms" className={styles.hoverWhite}>
+                Terms &amp; Conditions
+              </Link>
+              <Link href="/privacy" className={styles.hoverWhite}>
+                Privacy Policy
+              </Link>
+              <Link href="/refund-policy" className={styles.hoverWhite}>
+                Refund Policy
+              </Link>
+              <Link href="/sitemap.xml" className={styles.hoverWhite}>
+                Sitemap
+              </Link>
             </nav>
           </div>
         </div>

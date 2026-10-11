@@ -1,11 +1,9 @@
-export type Session = { opens: string; closes: string }
-
-const toMinutes = (hhmm: string) => {
+const toMinutes = (hhmm) => {
   const [h, m] = hhmm.split(':').map(Number)
   return h * 60 + (m || 0)
 }
 
-const to12h = (hhmm: string) => {
+const to12h = (hhmm) => {
   const mins = toMinutes(hhmm)
   const h = Math.floor(mins / 60)
   const m = mins % 60
@@ -20,11 +18,11 @@ export function nowInIndia(date = new Date()) {
     minute: '2-digit',
     hour12: false,
   }).formatToParts(date)
-  const get = (t: string) => Number(parts.find((p) => p.type === t)?.value)
+  const get = (t) => Number(parts.find((p) => p.type === t)?.value)
   return (get('hour') % 24) * 60 + get('minute')
 }
 
-export function templeStatus(sessions: Session[], now = nowInIndia()) {
+export function templeStatus(sessions, now = nowInIndia()) {
   const sorted = [...sessions].sort((a, b) => toMinutes(a.opens) - toMinutes(b.opens))
   const current = sorted.find((s) => now >= toMinutes(s.opens) && now < toMinutes(s.closes))
   if (current) return { open: true, label: `Temple Open · closes ${to12h(current.closes)}` }

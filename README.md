@@ -26,12 +26,18 @@ Open `/admin` and create the first staff user.
 | Home page section styles | `src/app/(frontend)/home.module.css` |
 | Menu | `src/lib/nav.ts` |
 | Header / top bar / footer | `src/components/` |
-| Home page (15 sections) | `src/app/(frontend)/page.tsx` |
+| Home page (15 sections) | `src/app/(frontend)/page.jsx` |
 | Content types | `src/collections/` (Sevas, Festivals, Services, Courses, Posts, Daily Darshan, Media) |
 | Records from the public site | `src/collections/Submissions.ts` (Donations, Subscribers, Volunteers, Contact messages) |
 | Site-wide settings | `src/globals/` (Home page, Temple timings, Site settings) |
 
 Brand colours: royal purple `#4B1D7A`, saffron yellow `#F5B700`, white.
+
+## Languages
+
+The website itself (pages, layout, components, `src/lib`) is plain JavaScript (`.jsx` / `.js`).
+Payload's admin/backend setup — `src/collections`, `src/globals`, `src/access`, `payload.config.ts`,
+`seed.ts` and the auto-generated `payload-types.ts` — stays in TypeScript.
 
 ## Styling
 

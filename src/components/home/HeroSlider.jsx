@@ -3,43 +3,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { FestivalArt, type ArtTheme } from '@/components/art/FestivalArt'
+import { FestivalArt } from '@/components/art/FestivalArt'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
 import styles from './HeroSlider.module.css'
-
-export type HeroSlide = {
-  id: string
-  eyebrow: string
-  title: string
-  text?: string | null
-  verse?: string | null
-  /** 'arch': text left, photo in a tall temple arch. 'cinematic': photo fills the banner, text bottom-left. */
-  layout?: 'arch' | 'cinematic'
-  /**
-   * focalX/focalY (0–100) come from the focal point staff set on the photo in admin.
-   * blur is a tiny data-URL preview shown while the full photo loads.
-   */
-  image?: {
-    url: string
-    alt: string
-    focalX?: number
-    focalY?: number
-    blur?: string
-    /** width / height of the original photo */
-    ratio?: number
-  } | null
-  art: ArtTheme
-  primary: { label: string; href: string }
-  secondary?: { label: string; href: string }
-  navLabel: string
-  navMeta: string
-}
 
 const DURATION = 7000
 
 /** Full-photo slide whose photo is too narrow to fill the banner without cropping (desktop). */
-const isSplit = (s: HeroSlide) =>
-  s.layout === 'cinematic' && !!s.image && (s.image.ratio ?? 2) < 1.7
+const isSplit = (s) => s.layout === 'cinematic' && !!s.image && (s.image.ratio ?? 2) < 1.7
 
 // Fixed positions so server and client render identical sparks.
 const EMBERS = Array.from({ length: 22 }, (_, i) => ({
@@ -50,48 +21,30 @@ const EMBERS = Array.from({ length: 22 }, (_, i) => ({
   drift: (((i + 11) % 7) - 3) * 12,
 }))
 
-function Embers({ className = '' }: { className?: string }) {
+function Embers({ className = '' }) {
   return (
     <div className={`${styles.embers} ${className}`} aria-hidden>
       {EMBERS.map((e, i) => (
         <span
           key={i}
           className={`ember ${styles.ember}`}
-          style={
-            {
-              left: `${e.left}%`,
-              width: e.size,
-              height: e.size,
-              animationDelay: `${e.delay}s`,
-              animationDuration: `${e.duration}s`,
-              '--drift': `${e.drift}px`,
-            } as React.CSSProperties
-          }
+          style={{
+            left: `${e.left}%`,
+            width: e.size,
+            height: e.size,
+            animationDelay: `${e.delay}s`,
+            animationDuration: `${e.duration}s`,
+            '--drift': `${e.drift}px`,
+          }}
         />
       ))}
     </div>
   )
 }
 
-function SlideVisual({
-  slide,
-  active,
-  priority,
-  variant,
-}: {
-  slide: HeroSlide
-  active: boolean
-  priority?: boolean
-  variant: 'backdrop' | 'arch'
-}) {
+function SlideVisual({ slide, active, priority, variant }) {
   if (!slide.image) {
-    return (
-      <FestivalArt
-        theme={slide.art}
-        compact={variant === 'arch'}
-        className={styles.art}
-      />
-    )
+    return <FestivalArt theme={slide.art} compact={variant === 'arch'} className={styles.art} />
   }
   // Behind the arch the backdrop is a soft blurred copy; in the cinematic layout it is the sharp photo itself.
   const softBackdrop = variant === 'backdrop' && slide.layout !== 'cinematic'
@@ -99,9 +52,9 @@ function SlideVisual({
   const shared = {
     src: image.url,
     quality: 90,
-    placeholder: image.blur ? ('blur' as const) : ('empty' as const),
+    placeholder: image.blur ? 'blur' : 'empty',
     blurDataURL: image.blur,
-    ...(priority ? { priority: true } : { loading: 'eager' as const }),
+    ...(priority ? { priority: true } : { loading: 'eager' }),
   }
 
   // Cinematic + a photo much narrower than the banner (e.g. 4:3): filling the width would crop the
@@ -148,7 +101,7 @@ function SlideVisual({
       src={slide.image.url}
       alt={variant === 'arch' || slide.layout === 'cinematic' ? slide.image.alt : ''}
       fill
-      {...(priority ? { priority: true } : { loading: 'eager' as const })}
+      {...(priority ? { priority: true } : { loading: 'eager' })}
       quality={90}
       sizes={variant === 'arch' ? '(min-width: 1024px) 480px, 1px' : '100vw'}
       placeholder={slide.image.blur ? 'blur' : 'empty'}
@@ -159,20 +112,14 @@ function SlideVisual({
   )
 }
 
-function Cta({ slide }: { slide: HeroSlide }) {
+function Cta({ slide }) {
   return (
     <>
-      <Link
-        href={slide.primary.href}
-        className={`btn-donate btn-lg ${styles.cta}`}
-      >
+      <Link href={slide.primary.href} className={`btn-donate btn-lg ${styles.cta}`}>
         {slide.primary.label}
       </Link>
       {slide.secondary && (
-        <Link
-          href={slide.secondary.href}
-          className={`btn-outline btn-lg ${styles.ctaOutline}`}
-        >
+        <Link href={slide.secondary.href} className={`btn-outline btn-lg ${styles.ctaOutline}`}>
           {slide.secondary.label}
         </Link>
       )}
@@ -180,12 +127,15 @@ function Cta({ slide }: { slide: HeroSlide }) {
   )
 }
 
-function Title({ slide, className }: { slide: HeroSlide; className: string }) {
+function Title({ slide, className }) {
   return (
     <h1 className={className}>
       {slide.title.split(' ').map((word, i) => (
         <span key={i} className={styles.word}>
-          <span className={`reveal-up ${styles.wordInner}`} style={{ animationDelay: `${150 + i * 70}ms` }}>
+          <span
+            className={`reveal-up ${styles.wordInner}`}
+            style={{ animationDelay: `${150 + i * 70}ms` }}
+          >
             {word}&nbsp;
           </span>
         </span>
@@ -195,24 +145,10 @@ function Title({ slide, className }: { slide: HeroSlide; className: string }) {
 }
 
 /** Arch layout: text on the left, photo in a tall temple arch on the right (desktop). */
-function ArchSlide({
-  slide,
-  slides,
-  index,
-  paused,
-}: {
-  slide: HeroSlide
-  slides: HeroSlide[]
-  index: number
-  paused: boolean
-}) {
+function ArchSlide({ slide, slides, index, paused }) {
   return (
     <div className={`container-x ${styles.archGrid}`}>
-      <div
-        key={slide.id}
-        className={styles.archText}
-        aria-live={paused ? 'polite' : 'off'}
-      >
+      <div key={slide.id} className={styles.archText} aria-live={paused ? 'polite' : 'off'}>
         <p className={`rise ${styles.pill}`}>
           <Sparkle size={12} />
           {slide.eyebrow}
@@ -221,23 +157,14 @@ function ArchSlide({
           slide={slide}
           className={`${styles.archTitle} ${slide.title.length > 28 ? styles.archTitleLong : ''}`}
         />
-        <div
-          className={`rise ${styles.rule}`}
-          style={{ animationDelay: '350ms' }}
-        />
+        <div className={`rise ${styles.rule}`} style={{ animationDelay: '350ms' }} />
         {slide.text && (
-          <p
-            className={`rise ${styles.archLead}`}
-            style={{ animationDelay: '450ms' }}
-          >
+          <p className={`rise ${styles.archLead}`} style={{ animationDelay: '450ms' }}>
             {slide.text}
           </p>
         )}
         {slide.verse && (
-          <p
-            className={`rise ${styles.archVerse}`}
-            style={{ animationDelay: '500ms' }}
-          >
+          <p className={`rise ${styles.archVerse}`} style={{ animationDelay: '500ms' }}>
             “{slide.verse}”
           </p>
         )}
@@ -248,10 +175,7 @@ function ArchSlide({
 
       <div className={styles.archWindow} aria-hidden>
         <div className={styles.archGlow} />
-        <Mandala
-          className={`spin-slow ${styles.archMandala}`}
-          rings={5}
-        />
+        <Mandala className={`spin-slow ${styles.archMandala}`} rings={5} />
         <div className={`arch ${styles.archLine1}`} />
         <div className={`arch ${styles.archLine2}`} />
         <div className={`arch ${styles.archFrame}`}>
@@ -271,14 +195,10 @@ function ArchSlide({
 }
 
 /** Cinematic layout: the photo fills the banner; quiet text in the lower-left. */
-function CinematicSlide({ slide, paused }: { slide: HeroSlide; paused: boolean }) {
+function CinematicSlide({ slide, paused }) {
   return (
     <div className={`container-x ${styles.cine}`}>
-      <div
-        key={slide.id}
-        className={styles.cineText}
-        aria-live={paused ? 'polite' : 'off'}
-      >
+      <div key={slide.id} className={styles.cineText} aria-live={paused ? 'polite' : 'off'}>
         <p className={`rise ${styles.eyebrow}`}>
           <span className={styles.eyebrowLine} />
           {slide.eyebrow}
@@ -288,34 +208,26 @@ function CinematicSlide({ slide, paused }: { slide: HeroSlide; paused: boolean }
           className={`${styles.cineTitle} ${slide.title.length > 28 ? styles.cineTitleLong : ''}`}
         />
         {slide.verse && (
-          <p
-            className={`rise ${styles.cineVerse}`}
-            style={{ animationDelay: '350ms' }}
-          >
+          <p className={`rise ${styles.cineVerse}`} style={{ animationDelay: '350ms' }}>
             {slide.verse}
           </p>
         )}
-        <div
-          className={`rise ${styles.cineActions}`}
-          style={{ animationDelay: '500ms' }}
-        >
+        <div className={`rise ${styles.cineActions}`} style={{ animationDelay: '500ms' }}>
           <Cta slide={slide} />
-          {slide.text && (
-            <p className={styles.cineLead}>{slide.text}</p>
-          )}
+          {slide.text && <p className={styles.cineLead}>{slide.text}</p>}
         </div>
       </div>
     </div>
   )
 }
 
-export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
+export function HeroSlider({ slides }) {
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
-  const touchX = useRef<number | null>(null)
+  const touchX = useRef(null)
   const count = slides.length
 
-  const go = useCallback((i: number) => setIndex(((i % count) + count) % count), [count])
+  const go = useCallback((i) => setIndex(((i % count) + count) % count), [count])
 
   useEffect(() => {
     if (paused || count < 2) return
@@ -326,7 +238,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   const slide = slides[index]
   const cinematic = slide.layout === 'cinematic'
   const split = isSplit(slide)
-  const fade = (on: boolean) => `${styles.fade} ${on ? styles.on : styles.off}`
+  const fade = (on) => `${styles.fade} ${on ? styles.on : styles.off}`
 
   return (
     <section
@@ -384,9 +296,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         <div className={styles.splitShadeSide} />
       </div>
 
-      <Mandala
-        className={`spin-slow ${styles.mandala} ${fade(!cinematic)}`}
-      />
+      <Mandala className={`spin-slow ${styles.mandala} ${fade(!cinematic)}`} />
       <Embers className={fade(!cinematic)} />
 
       {cinematic ? (
@@ -409,9 +319,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                   aria-current={i === index}
                   className={styles.dotButton}
                 >
-                  <span
-                    className={`${styles.dot} ${i === index ? styles.dotOn : ''}`}
-                  >
+                  <span className={`${styles.dot} ${i === index ? styles.dotOn : ''}`}>
                     {i === index && (
                       <span
                         key={`${s.id}-${paused}`}
@@ -427,9 +335,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               ))}
             </div>
             <p className={styles.counter} aria-hidden>
-              <span className={styles.counterNow}>
-                {String(index + 1).padStart(2, '0')}
-              </span>
+              <span className={styles.counterNow}>{String(index + 1).padStart(2, '0')}</span>
               <span className={styles.counterSlash}>/</span>
               {String(count).padStart(2, '0')}
             </p>

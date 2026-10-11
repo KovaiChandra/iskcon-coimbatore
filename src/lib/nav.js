@@ -1,6 +1,4 @@
-export type NavItem = { label: string; href: string; children?: { label: string; href: string }[] }
-
-export const NAV: NavItem[] = [
+export const NAV = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   {
