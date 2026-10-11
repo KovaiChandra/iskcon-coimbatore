@@ -945,6 +945,18 @@ export interface HomePage {
      * Small photo, top-left of the collage
      */
     smallImage?: (number | null) | Media;
+    /**
+     * Framed card, bottom-left of the collage (uses the founder photo if empty)
+     */
+    cardImage?: (number | null) | Media;
+    /**
+     * e.g. "Sri Jagannath"
+     */
+    cardTitle?: string | null;
+    /**
+     * e.g. "Lord of the Universe"
+     */
+    cardSubtitle?: string | null;
     text?: string | null;
   };
   /**
@@ -1071,6 +1083,9 @@ export interface HomePageSelect<T extends boolean = true> {
     | {
         image?: T;
         smallImage?: T;
+        cardImage?: T;
+        cardTitle?: T;
+        cardSubtitle?: T;
         text?: T;
       };
   visitImage?: T;

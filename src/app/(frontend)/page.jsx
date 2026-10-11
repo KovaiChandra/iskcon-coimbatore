@@ -193,15 +193,15 @@ export default async function HomePage() {
             <div className={styles.collageFounder}>
               <div className={styles.collageFounderPhoto}>
                 <ImageOrPlaceholder
-                  media={home.founder?.image}
+                  media={home.about?.cardImage || home.founder?.image}
                   art="book"
-                  alt="Srila Prabhupada"
+                  alt={home.about?.cardTitle || 'Srila Prabhupada'}
                   sizes="(min-width: 1024px) 18vw, 45vw"
                 />
               </div>
               <p className={styles.collageFounderName}>
-                Srila Prabhupada
-                <span>Founder-Acharya of ISKCON</span>
+                {home.about?.cardTitle || 'Srila Prabhupada'}
+                <span>{home.about?.cardSubtitle || 'Founder-Acharya of ISKCON'}</span>
               </p>
             </div>
           </div>

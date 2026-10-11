@@ -140,6 +140,21 @@ export const HomePage: GlobalConfig = {
           relationTo: 'media',
           admin: { description: 'Small photo, top-left of the collage' },
         },
+        {
+          name: 'cardImage',
+          type: 'upload',
+          relationTo: 'media',
+          admin: {
+            description:
+              'Framed card, bottom-left of the collage (uses the founder photo if empty)',
+          },
+        },
+        { name: 'cardTitle', type: 'text', admin: { description: 'e.g. "Sri Jagannath"' } },
+        {
+          name: 'cardSubtitle',
+          type: 'text',
+          admin: { description: 'e.g. "Lord of the Universe"' },
+        },
         { name: 'text', type: 'textarea' },
       ],
     },
