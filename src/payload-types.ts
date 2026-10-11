@@ -899,7 +899,18 @@ export interface HomePage {
          * Optional short scripture line shown under the text, e.g. from Damodarastakam
          */
         verse?: string | null;
+        /**
+         * Photo. For a video slide, this is shown while the video loads
+         */
         image?: (number | null) | Media;
+        /**
+         * Optional background video (MP4 or MOV) for "Full photo" slides. Plays silently; the slide lasts as long as the video
+         */
+        video?: (number | null) | Media;
+        /**
+         * Optional WebM version of the same video, for browsers that cannot play the MP4/MOV (e.g. Firefox)
+         */
+        videoWebm?: (number | null) | Media;
         /**
          * Used when there is no image. "Lamps" also gives the slide a warm Kartik lamplight look.
          */
@@ -1006,6 +1017,8 @@ export interface HomePageSelect<T extends boolean = true> {
         text?: T;
         verse?: T;
         image?: T;
+        video?: T;
+        videoWebm?: T;
         artwork?: T;
         buttonLabel?: T;
         link?: T;

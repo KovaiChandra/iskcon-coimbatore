@@ -6,7 +6,8 @@ export const Media: CollectionConfig = {
   access: { read: anyone, create: authenticated, update: authenticated, delete: authenticated },
   fields: [{ name: 'alt', type: 'text', required: true }],
   upload: {
-    mimeTypes: ['image/*'],
+    // Videos are stored as-is (no resizing); images get the sizes below
+    mimeTypes: ['image/*', 'video/mp4', 'video/quicktime', 'video/webm'],
     imageSizes: [
       { name: 'thumb', width: 400 },
       { name: 'card', width: 800 },

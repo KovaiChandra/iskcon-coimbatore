@@ -57,7 +57,31 @@ export const HomePage: GlobalConfig = {
               'Optional short scripture line shown under the text, e.g. from Damodarastakam',
           },
         },
-        { name: 'image', type: 'upload', relationTo: 'media' },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: 'Photo. For a video slide, this is shown while the video loads' },
+        },
+        {
+          name: 'video',
+          type: 'upload',
+          relationTo: 'media',
+          admin: {
+            description:
+              'Optional background video (MP4 or MOV) for "Full photo" slides. Plays silently; the slide lasts as long as the video',
+          },
+        },
+        {
+          name: 'videoWebm',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Video (WebM copy)',
+          admin: {
+            description:
+              'Optional WebM version of the same video, for browsers that cannot play the MP4/MOV (e.g. Firefox)',
+          },
+        },
         {
           name: 'artwork',
           type: 'select',

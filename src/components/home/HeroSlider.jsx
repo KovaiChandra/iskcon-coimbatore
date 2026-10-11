@@ -13,7 +13,8 @@ const DURATION = 7000
 const LIGHT_TONES = ['ivory']
 
 /** Full-photo slide whose photo is too narrow to fill the banner without cropping (desktop). */
-const isSplit = (s) => s.layout === 'cinematic' && !!s.image && (s.image.ratio ?? 2) < 1.7
+const isSplit = (s) =>
+  s.layout === 'cinematic' && !s.video && !!s.image && (s.image.ratio ?? 2) < 1.7
 
 // Fixed positions so server and client render identical sparks.
 const EMBERS = Array.from({ length: 22 }, (_, i) => ({
@@ -42,6 +43,40 @@ function Embers({ className = '' }) {
         />
       ))}
     </div>
+  )
+}
+
+/** Background video for a slide: plays from the start while its slide is showing, silent and looping. */
+function SlideVideo({ slide, active, onDuration }) {
+  const ref = useRef(null)
+  useEffect(() => {
+    const v = ref.current
+    if (!v) return
+    if (active && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      v.currentTime = 0
+      v.play().catch(() => {})
+    } else {
+      v.pause()
+    }
+  }, [active])
+  // MP4/MOV first; HEVC files are labelled so browsers that cannot decode them skip to the WebM copy
+  const mainType =
+    slide.video.type === 'video/quicktime' ? 'video/mp4; codecs="hvc1"' : slide.video.type
+  return (
+    <video
+      ref={ref}
+      className={styles.video}
+      muted
+      loop
+      playsInline
+      preload={active ? 'auto' : 'metadata'}
+      poster={slide.image?.url}
+      onLoadedMetadata={(e) => onDuration?.(slide.id, e.currentTarget.duration)}
+      aria-hidden
+    >
+      <source src={slide.video.url} type={mainType} />
+      {slide.videoWebm && <source src={slide.videoWebm.url} type="video/webm" />}
+    </video>
   )
 }
 
@@ -231,13 +266,22 @@ export function HeroSlider({ slides }) {
 
   const go = useCallback((i) => setIndex(((i % count) + count) % count), [count])
 
+  // Video slides last as long as their video (once its length is known)
+  const [videoLengths, setVideoLengths] = useState({})
+  const onDuration = useCallback(
+    (id, seconds) =>
+      Number.isFinite(seconds) && setVideoLengths((d) => (d[id] ? d : { ...d, [id]: seconds })),
+    [],
+  )
+  const slide = slides[index]
+  const duration = slide.video && videoLengths[slide.id] ? videoLengths[slide.id] * 1000 : DURATION
+
   useEffect(() => {
     if (paused || count < 2) return
-    const id = setTimeout(() => go(index + 1), DURATION)
+    const id = setTimeout(() => go(index + 1), duration)
     return () => clearTimeout(id)
-  }, [index, paused, count, go])
+  }, [index, paused, count, go, duration])
 
-  const slide = slides[index]
   const cinematic = slide.layout === 'cinematic'
   const split = isSplit(slide)
   const fade = (on) => `${styles.fade} ${on ? styles.on : styles.off}`
@@ -278,7 +322,11 @@ export function HeroSlider({ slides }) {
                 : styles.backdropOffZoom
           }`}
         >
-          <SlideVisual slide={s} active={i === index} priority={i === 0} variant="backdrop" />
+          {s.video ? (
+            <SlideVideo slide={s} active={i === index} onDuration={onDuration} />
+          ) : (
+            <SlideVisual slide={s} active={i === index} priority={i === 0} variant="backdrop" />
+          )}
         </div>
       ))}
 
@@ -327,7 +375,7 @@ export function HeroSlider({ slides }) {
                         key={`${s.id}-${paused}`}
                         className={styles.progress}
                         style={{
-                          animation: paused ? 'none' : `progress ${DURATION}ms linear forwards`,
+                          animation: paused ? 'none' : `progress ${duration}ms linear forwards`,
                           transform: paused ? 'scaleX(1)' : undefined,
                         }}
                       />

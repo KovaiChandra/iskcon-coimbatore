@@ -83,6 +83,8 @@ export default async function HomePage() {
       ratio: m.width && m.height ? m.width / m.height : undefined,
     }
   }
+  const videoOf = (m) =>
+    m && typeof m === 'object' && m.url ? { url: m.url, type: m.mimeType || 'video/mp4' } : null
   const customSlides = (home.heroSlides ?? []).map((s, i) => ({
     id: `custom-${s.id ?? i}`,
     eyebrow: s.eyebrow || 'ISKCON Coimbatore',
@@ -92,6 +94,8 @@ export default async function HomePage() {
     layout: s.layout ?? 'arch',
     tone: s.tone ?? 'purple',
     image: imageOf(s.image),
+    video: videoOf(s.video),
+    videoWebm: videoOf(s.videoWebm),
     art: s.artwork ?? 'temple',
     primary: { label: s.buttonLabel || 'Learn more', href: s.link || '/festivals' },
     navLabel: s.heading,
