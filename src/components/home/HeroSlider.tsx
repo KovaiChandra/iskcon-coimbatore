@@ -232,7 +232,12 @@ function CinematicSlide({ slide, paused }: { slide: HeroSlide; paused: boolean }
         </p>
         <Title
           slide={slide}
-          className="mt-4 max-w-xl font-serif text-[2.5rem] leading-[1.05] text-white sm:text-5xl md:text-6xl"
+          className={`mt-4 font-serif leading-[1.05] text-white ${
+            // Long titles stay on two lines so they sit below the deities' faces
+            slide.title.length > 28
+              ? 'max-w-3xl text-[2.2rem] sm:text-5xl lg:text-[3.25rem]'
+              : 'max-w-xl text-[2.5rem] sm:text-5xl md:text-6xl'
+          }`}
         />
         {slide.verse && (
           <p
@@ -318,7 +323,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
       </div>
       {/* Cinematic layout: darken only the lower-left, where the text sits */}
       <div aria-hidden className={`absolute inset-0 -z-20 ${fade(cinematic)}`}>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 via-35% to-transparent to-70%" />
         <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-black/60 to-transparent sm:w-2/3" />
       </div>
 
