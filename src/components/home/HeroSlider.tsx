@@ -107,8 +107,8 @@ function SlideVisual({
   }
 
   // Cinematic + a photo much narrower than the banner (e.g. 4:3): filling the width would crop the
-  // deities' crowns. On desktop, show the whole photo on the right and continue it to the left with a
-  // mirrored, blurred copy of its own left edge, so the colours flow across the join.
+  // deities' crowns. On desktop, show the whole photo on the right, fading into solid royal purple
+  // on the left where the text sits.
   if (variant === 'backdrop' && isSplit(slide)) {
     return (
       <>
@@ -122,21 +122,10 @@ function SlideVisual({
           className="object-cover lg:hidden"
         />
         <div className="absolute inset-0 hidden lg:flex">
-          <div className="relative flex-1">
-            {/* Oversized, and running under the photo's faded edge, so the two blend with no seam */}
-            <div className="absolute -inset-y-16 -left-16 -right-48">
-              <Image
-                {...shared}
-                alt=""
-                fill
-                sizes="50vw"
-                style={{ objectPosition: '0% 50%', transform: 'scaleX(-1)' }}
-                className="object-cover blur-md saturate-125"
-              />
-            </div>
-          </div>
+          {/* Solid royal purple behind the text; the photo's left edge fades into it */}
+          <div className="relative flex-1 bg-purple-950" />
           <div
-            className="relative z-10 h-full shrink-0 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_14%)]"
+            className="relative z-10 h-full shrink-0 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_22%)]"
             style={{ aspectRatio: image.ratio }}
           >
             <Image
