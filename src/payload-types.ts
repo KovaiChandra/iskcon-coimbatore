@@ -944,6 +944,12 @@ export interface HomePage {
    * Photo beside the darshan timings card on the home page
    */
   visitImage?: (number | null) | Media;
+  founder?: {
+    /**
+     * Portrait of Srila Prabhupada
+     */
+    image?: (number | null) | Media;
+  };
   livePuja?: {
     /**
      * Deity photo beside the live puja text
@@ -1060,6 +1066,11 @@ export interface HomePageSelect<T extends boolean = true> {
         text?: T;
       };
   visitImage?: T;
+  founder?:
+    | T
+    | {
+        image?: T;
+      };
   livePuja?:
     | T
     | {

@@ -140,6 +140,19 @@ export const HomePage: GlobalConfig = {
       admin: { description: 'Photo beside the darshan timings card on the home page' },
     },
     {
+      name: 'founder',
+      type: 'group',
+      label: 'Founder section',
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: 'Portrait of Srila Prabhupada' },
+        },
+      ],
+    },
+    {
       name: 'livePuja',
       type: 'group',
       fields: [

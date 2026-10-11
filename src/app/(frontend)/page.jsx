@@ -170,6 +170,105 @@ export default async function HomePage() {
         items={(timings.schedule ?? []).map(({ time, activity }) => ({ time, activity }))}
       />
 
+      {/* About */}
+      <section className={`container-x ${styles.about}`}>
+        <div className={styles.aboutPhotoWrap}>
+          <Mandala className={`spin-slow ${styles.aboutMandala}`} />
+          <div className={`arch ${styles.aboutPhoto}`}>
+            <ImageOrPlaceholder
+              media={home.about?.image}
+              art="temple"
+              alt="Srila Prabhupada"
+              sizes="(min-width: 1024px) 40vw, 100vw"
+            />
+          </div>
+          <div className={styles.yearBadge}>
+            <p className={styles.yearNumber}>1966</p>
+            <p className={styles.yearLabel}>ISKCON founded</p>
+          </div>
+        </div>
+        <div>
+          <Eyebrow>About ISKCON Coimbatore</Eyebrow>
+          <h2 className={`${styles.h2} ${styles.aboutTitle}`}>
+            A spiritual home for <span className={styles.accent}>everyone</span> seeking Krishna
+          </h2>
+          <p className={styles.aboutText}>
+            {home.about?.text ||
+              'ISKCON Coimbatore shares the timeless teachings of Bhagavad-gita and the joy of chanting the holy names, as taught by His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada.\n\nAt Sri Jagannath Mandir, families, students and seekers gather for daily worship, festivals, classes and prasadam.'}
+          </p>
+          <ol className={styles.points}>
+            {[
+              'Spiritual guidance for everyone',
+              'Festivals, seva & community',
+              'Prasadam for all',
+            ].map((p, i) => (
+              <li key={p} className={styles.point}>
+                <span className={styles.pointNumber}>0{i + 1}</span>
+                <p className={styles.pointText}>{p}</p>
+              </li>
+            ))}
+          </ol>
+          <Link href="/about" className={`btn-primary ${styles.btnBig} ${styles.aboutButton}`}>
+            Our story →
+          </Link>
+        </div>
+      </section>
+
+      {/* Founder-acharya and how ISKCON began */}
+      <section className={styles.founder}>
+        <Mandala className={`spin-slow ${styles.founderMandala}`} rings={5} />
+        <div className={`container-x ${styles.founderGrid}`}>
+          <div className={styles.founderPortraitWrap}>
+            <div className={styles.founderPortrait}>
+              <ImageOrPlaceholder
+                media={home.founder?.image}
+                art="book"
+                alt="His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada"
+                sizes="(min-width: 1024px) 30vw, 80vw"
+              />
+            </div>
+            <p className={styles.founderCaption}>
+              His Divine Grace
+              <span>A.C. Bhaktivedanta Swami Srila Prabhupada</span>
+              Founder-Acharya of ISKCON
+            </p>
+          </div>
+          <div>
+            <Eyebrow light>How ISKCON began</Eyebrow>
+            <h2 className={`${styles.h2} ${styles.h2White}`}>
+              One sage, a trunk of books, and a promise to his teacher
+            </h2>
+            <p className={styles.founderText}>
+              In 1965, at the age of sixty-nine, Srila Prabhupada sailed from Kolkata to New York on
+              a cargo ship, carrying little more than his translations of Srimad Bhagavatam. He had
+              been asked by his spiritual master to share Lord Krishna&apos;s teachings in the
+              English language. A year later he founded the International Society for Krishna
+              Consciousness.
+            </p>
+            <ol className={styles.timeline2}>
+              {[
+                ['1896', 'Born in Kolkata as Abhay Charan De'],
+                ['1922', 'Meets his guru, who asks him to preach in English'],
+                ['1965', 'Sails to America aboard the Jaladuta'],
+                ['1966', 'Founds ISKCON in New York City'],
+                ['1977', 'Leaves a worldwide family of temples and devotees'],
+              ].map(([year, text]) => (
+                <li key={year}>
+                  <span className={styles.tlYear}>{year}</span>
+                  <span className={styles.tlText}>{text}</span>
+                </li>
+              ))}
+            </ol>
+            <Link
+              href="/about#founder"
+              className={`btn-donate ${styles.btnBig} ${styles.founderButton}`}
+            >
+              Read his story →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Three ways to serve — seva cards */}
       {highlights.length > 0 && (
         <section className={styles.serve}>
@@ -233,50 +332,6 @@ export default async function HomePage() {
           </div>
         </section>
       )}
-
-      {/* About */}
-      <section className={`container-x ${styles.about}`}>
-        <div className={styles.aboutPhotoWrap}>
-          <Mandala className={`spin-slow ${styles.aboutMandala}`} />
-          <div className={`arch ${styles.aboutPhoto}`}>
-            <ImageOrPlaceholder
-              media={home.about?.image}
-              art="temple"
-              alt="Srila Prabhupada"
-              sizes="(min-width: 1024px) 40vw, 100vw"
-            />
-          </div>
-          <div className={styles.yearBadge}>
-            <p className={styles.yearNumber}>1966</p>
-            <p className={styles.yearLabel}>ISKCON founded</p>
-          </div>
-        </div>
-        <div>
-          <Eyebrow>About ISKCON Coimbatore</Eyebrow>
-          <h2 className={`${styles.h2} ${styles.aboutTitle}`}>
-            A spiritual home for <span className={styles.accent}>everyone</span> seeking Krishna
-          </h2>
-          <p className={styles.aboutText}>
-            {home.about?.text ||
-              'ISKCON Coimbatore shares the timeless teachings of Bhagavad-gita and the joy of chanting the holy names, as taught by His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada.\n\nAt Sri Jagannath Mandir, families, students and seekers gather for daily worship, festivals, classes and prasadam.'}
-          </p>
-          <ol className={styles.points}>
-            {[
-              'Spiritual guidance for everyone',
-              'Festivals, seva & community',
-              'Prasadam for all',
-            ].map((p, i) => (
-              <li key={p} className={styles.point}>
-                <span className={styles.pointNumber}>0{i + 1}</span>
-                <p className={styles.pointText}>{p}</p>
-              </li>
-            ))}
-          </ol>
-          <Link href="/about" className={`btn-primary ${styles.btnBig} ${styles.aboutButton}`}>
-            Our story →
-          </Link>
-        </div>
-      </section>
 
       {/* Plan your visit: darshan timings card */}
       <VisitSection

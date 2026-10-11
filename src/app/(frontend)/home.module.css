@@ -1192,3 +1192,108 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* ---------- Founder-acharya: how ISKCON began ---------- */
+.founder {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 50% 70% at 20% 40%, rgb(94 42 148 / 0.55), transparent 70%),
+    var(--purple-950);
+  padding: 6rem 0;
+  color: var(--white);
+}
+.founderMandala {
+  position: absolute;
+  left: -14rem;
+  top: 50%;
+  z-index: -1;
+  width: 720px;
+  height: 720px;
+  translate: 0 -50%;
+  color: rgb(245 183 0 / 0.1);
+}
+.founderGrid {
+  display: grid;
+  align-items: center;
+  gap: 3.5rem;
+}
+.founderPortraitWrap {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 22rem;
+  text-align: center;
+}
+.founderPortrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 1.75rem;
+  box-shadow: 0 0 0 1px rgb(255 215 94 / 0.5), 0 0 0 10px rgb(255 215 94 / 0.08), 0 40px 70px -30px rgb(0 0 0 / 0.7);
+}
+.founderCaption {
+  margin-top: 1.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--purple-100);
+}
+.founderCaption span {
+  display: block;
+  margin: 0.4rem 0;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--saffron-300);
+}
+.founderText {
+  margin-top: 1.25rem;
+  max-width: 38rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--purple-100);
+}
+.timeline2 {
+  margin-top: 2rem;
+  max-width: 34rem;
+  border-left: 1px solid rgb(255 215 94 / 0.35);
+}
+.timeline2 li {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  padding: 0.55rem 0 0.55rem 1.5rem;
+}
+.timeline2 li::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 1.05rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background: var(--saffron-500);
+  box-shadow: 0 0 0 4px rgb(245 183 0 / 0.18);
+}
+.tlYear {
+  flex-shrink: 0;
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  color: var(--saffron-300);
+}
+.tlText {
+  font-size: 0.9375rem;
+  color: rgb(255 255 255 / 0.85);
+}
+.founderButton {
+  margin-top: 2.25rem;
+}
+@media (min-width: 1024px) {
+  .founderGrid {
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 5rem;
+  }
+}
