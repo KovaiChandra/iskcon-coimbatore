@@ -126,14 +126,16 @@ function SlideVisual({
           <div className="relative flex-1 bg-gradient-to-l from-purple-800 via-purple-900 to-purple-950" />
           <div
             className="relative z-10 h-full shrink-0 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_22%)]"
-            style={{ aspectRatio: image.ratio }}
+            // Wider than the photo: the photo zooms in slightly and reaches further left
+            style={{ aspectRatio: (image.ratio ?? 1.33) * 1.18 }}
           >
             <Image
               key={active ? `on-${slide.id}` : slide.id}
               {...shared}
               alt=""
               fill
-              sizes="(min-width: 1024px) 75vw, 1px"
+              sizes="(min-width: 1024px) 85vw, 1px"
+              style={{ objectPosition: `50% ${image.focalY ?? 50}%` }}
               className="object-cover"
             />
           </div>
