@@ -788,3 +788,115 @@
     grid-template-columns: 1fr 1.6fr;
   }
 }
+
+/* ---------- Seva cards (Three ways to serve) ---------- */
+.sevaCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(59 23 101 / 0.08);
+  border-radius: 1.5rem;
+  background: var(--white);
+  box-shadow: 0 1px 2px rgb(28 10 51 / 0.04), 0 12px 32px -18px rgb(28 10 51 / 0.25);
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.sevaCard:hover {
+  transform: translateY(-6px);
+  border-color: rgb(245 183 0 / 0.5);
+  box-shadow: 0 2px 4px rgb(28 10 51 / 0.05), 0 28px 50px -22px rgb(28 10 51 / 0.4);
+}
+.sevaCard:hover .media {
+  transform: scale(1.06);
+}
+.sevaImage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+/* Soft fade at the bottom of the photo */
+.sevaImage::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 35%;
+  background: linear-gradient(to top, rgb(28 10 51 / 0.35), transparent);
+  pointer-events: none;
+}
+.sevaTag {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 1;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.92);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--purple-800);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 8px -2px rgb(0 0 0 / 0.2);
+}
+.sevaBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+.sevaTitle {
+  font-size: 1.5rem;
+  line-height: 1.25;
+  color: var(--purple-900);
+}
+.sevaText {
+  margin-top: 0.5rem;
+  flex: 1;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.sevaFoot {
+  margin-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid rgb(59 23 101 / 0.08);
+  padding-top: 1rem;
+}
+.sevaFrom {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--purple-800);
+}
+.sevaFrom span {
+  margin-right: 0.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.sevaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 9999px;
+  background: var(--saffron-500);
+  padding: 0.55rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--purple-950);
+  transition: background-color 0.2s;
+}
+.sevaButton svg {
+  transition: transform 0.2s;
+}
+.sevaCard:hover .sevaButton {
+  background: var(--saffron-600);
+}
+.sevaCard:hover .sevaButton svg {
+  transform: translateX(3px);
+}

@@ -9,7 +9,7 @@ import { ScheduleTicker } from '@/components/home/ScheduleTicker'
 import { SubscribeForm } from '@/components/home/SubscribeForm'
 import { VisitSection } from '@/components/home/VisitSection'
 import { blurDataURL } from '@/lib/blur'
-import { formatDate, mediaUrl, waLink } from '@/lib/format'
+import { formatDate, inr, mediaUrl, waLink } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
 import { isSevaActive, populated } from '@/lib/sevas'
 import styles from './home.module.css'
@@ -164,7 +164,7 @@ export default async function HomePage() {
         items={(timings.schedule ?? []).map(({ time, activity }) => ({ time, activity }))}
       />
 
-      {/* Three ways to serve — arch cards */}
+      {/* Three ways to serve — seva cards */}
       {highlights.length > 0 && (
         <section className={styles.serve}>
           <Mandala className={styles.serveMandala} />
@@ -179,21 +179,50 @@ export default async function HomePage() {
               </Link>
             </div>
             <div className={styles.serveGrid}>
-              {highlights.map((s, i) => (
-                <Link key={s.id} href={`/donate/${s.slug}`} className={styles.serveCard}>
-                  <div className={`arch ${styles.serveArch}`}>
-                    <div className={styles.media}>
-                      <ImageOrPlaceholder
-                        media={s.image}
-                        art={s.artwork ?? ['lotus', 'lamps', 'book'][i % 3]}
-                      />
+              {highlights.map((s, i) => {
+                const from = Math.min(...(s.presetAmounts ?? []).map((p) => p.amount))
+                return (
+                  <Link key={s.id} href={`/donate/${s.slug}`} className={styles.sevaCard}>
+                    <div className={styles.sevaImage}>
+                      <div className={styles.media}>
+                        <ImageOrPlaceholder
+                          media={s.image}
+                          art={s.artwork ?? ['lotus', 'lamps', 'book'][i % 3]}
+                          sizes="(min-width: 768px) 33vw, 100vw"
+                        />
+                      </div>
+                      <span className={styles.sevaTag}>
+                        {s.allowMonthly ? 'Monthly or one-time' : 'One-time seva'}
+                      </span>
                     </div>
-                    <div className={`arch ${styles.serveArchLine}`} />
-                  </div>
-                  <h3 className={styles.serveTitle}>{s.title}</h3>
-                  <p className={styles.serveText}>{s.shortDescription}</p>
-                </Link>
-              ))}
+                    <div className={styles.sevaBody}>
+                      <h3 className={styles.sevaTitle}>{s.title}</h3>
+                      <p className={styles.sevaText}>{s.shortDescription}</p>
+                      <div className={styles.sevaFoot}>
+                        {Number.isFinite(from) && (
+                          <p className={styles.sevaFrom}>
+                            <span>From</span> {inr(from)}
+                          </p>
+                        )}
+                        <span className={styles.sevaButton}>
+                          Offer seva
+                          <svg
+                            viewBox="0 0 24 24"
+                            width="16"
+                            height="16"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.2"
+                            aria-hidden
+                          >
+                            <path d="M5 12h14M13 6l6 6-6 6" />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </section>
