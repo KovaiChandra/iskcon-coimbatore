@@ -1071,3 +1071,71 @@
     max-width: 34rem;
   }
 }
+
+/* ---------- Visit slide: light around the temple tower ----------
+   --tower-x / --tower-y = where the dome sits in the banner (phones centre the photo on it) */
+.hero {
+  --tower-x: 50%;
+  --tower-y: 40%;
+}
+@media (min-width: 1024px) {
+  .hero {
+    --tower-x: 64%;
+    --tower-y: 36%;
+  }
+}
+/* Soft golden glow around the dome, breathing gently */
+.visitHalo {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at var(--tower-x) var(--tower-y), rgb(255 236 190 / 0.55) 0%, rgb(255 200 110 / 0.22) 9%, transparent 26%),
+    radial-gradient(ellipse 60% 45% at var(--tower-x) var(--tower-y), rgb(255 180 80 / 0.18), transparent 70%);
+  animation: halo-breathe 6s ease-in-out infinite;
+}
+@keyframes halo-breathe {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+/* Faint sunbeams fanning out from behind the dome, turning very slowly */
+.visitRays {
+  position: absolute;
+  left: var(--tower-x);
+  top: var(--tower-y);
+  width: 160vmax;
+  height: 160vmax;
+  translate: -50% -50%;
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgb(255 225 160 / 0.22) 0deg 4deg,
+    transparent 4deg 15deg
+  );
+  -webkit-mask-image: radial-gradient(circle, black 0%, rgb(0 0 0 / 0.55) 12%, transparent 32%);
+  mask-image: radial-gradient(circle, black 0%, rgb(0 0 0 / 0.55) 12%, transparent 32%);
+  animation: spin-slow 160s linear infinite;
+}
+/* Phones: card sits lower so the dome and flag show above it */
+@media (max-width: 639px) {
+  .visit {
+    padding-top: 19rem;
+  }
+  .hero {
+    --tower-y: 22%;
+  }
+  .visitStatus {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .visitPhotoTop {
+    object-position: 64% 10% !important;
+  }
+}

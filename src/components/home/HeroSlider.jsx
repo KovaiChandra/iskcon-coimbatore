@@ -113,7 +113,7 @@ function SlideVisual({ slide, active, priority, variant }) {
       placeholder={slide.image.blur ? 'blur' : 'empty'}
       blurDataURL={slide.image.blur}
       style={{ objectPosition: `${slide.image.focalX ?? 50}% ${slide.image.focalY ?? 50}%` }}
-      className={`${styles.photo} ${active && !FULL_PHOTO.includes(slide.layout) ? 'kenburns' : ''} ${softBackdrop ? styles.photoSoft : ''}`}
+      className={`${styles.photo} ${slide.layout === 'card' ? styles.visitPhotoTop : ''} ${active && !FULL_PHOTO.includes(slide.layout) ? 'kenburns' : ''} ${softBackdrop ? styles.photoSoft : ''}`}
     />
   )
 }
@@ -412,6 +412,9 @@ export function HeroSlider({ slides, visit }) {
       {/* Visit layout: light vignette so the nav stays readable; the photo stays bright */}
       <div aria-hidden className={`${styles.shade} ${fade(card)}`}>
         <div className={`${styles.fill} ${styles.visitShade}`} />
+        {/* Golden halo and slow sunbeams behind the temple tower */}
+        <div className={styles.visitRays} />
+        <div className={styles.visitHalo} />
       </div>
 
       <Mandala className={`spin-slow ${styles.mandala} ${fade(arch)}`} />
