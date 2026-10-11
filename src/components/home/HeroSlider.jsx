@@ -5,13 +5,9 @@ import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FestivalArt } from '@/components/art/FestivalArt'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
-import { TempleStatus } from '@/components/TempleStatus'
 import styles from './HeroSlider.module.css'
 
 const DURATION = 7000
-
-/** Layouts where the photo fills the whole banner */
-const FULL_PHOTO = ['cinematic', 'card']
 
 /** Pale slide colours: these get dark text instead of white */
 const LIGHT_TONES = ['ivory']
@@ -54,7 +50,7 @@ function SlideVisual({ slide, active, priority, variant }) {
     return <FestivalArt theme={slide.art} compact={variant === 'arch'} className={styles.art} />
   }
   // Behind the arch the backdrop is a soft blurred copy; in the cinematic layout it is the sharp photo itself.
-  const softBackdrop = variant === 'backdrop' && !FULL_PHOTO.includes(slide.layout)
+  const softBackdrop = variant === 'backdrop' && slide.layout !== 'cinematic'
   const image = slide.image
   const shared = {
     src: image.url,
@@ -105,7 +101,7 @@ function SlideVisual({ slide, active, priority, variant }) {
     <Image
       key={active ? `on-${slide.id}` : slide.id}
       src={slide.image.url}
-      alt={variant === 'arch' || FULL_PHOTO.includes(slide.layout) ? slide.image.alt : ''}
+      alt={variant === 'arch' || slide.layout === 'cinematic' ? slide.image.alt : ''}
       fill
       {...(priority ? { priority: true } : { loading: 'eager' })}
       quality={90}
@@ -113,7 +109,7 @@ function SlideVisual({ slide, active, priority, variant }) {
       placeholder={slide.image.blur ? 'blur' : 'empty'}
       blurDataURL={slide.image.blur}
       style={{ objectPosition: `${slide.image.focalX ?? 50}% ${slide.image.focalY ?? 50}%` }}
-      className={`${styles.photo} ${slide.layout === 'card' ? styles.visitPhotoTop : ''} ${active && !FULL_PHOTO.includes(slide.layout) ? 'kenburns' : ''} ${softBackdrop ? styles.photoSoft : ''}`}
+      className={`${styles.photo} ${active && slide.layout !== 'cinematic' ? 'kenburns' : ''} ${softBackdrop ? styles.photoSoft : ''}`}
     />
   )
 }
@@ -227,112 +223,7 @@ function CinematicSlide({ slide, paused }) {
   )
 }
 
-/** Visit layout: the photo fills the banner; a frosted card holds live status, timings and directions. */
-function VisitSlide({ slide, paused, visit }) {
-  const directions =
-    visit?.mapUrl ||
-    (visit?.address
-      ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(visit.address.replace(/,?\s*\n\s*/g, ', '))}`
-      : null)
-  const schedule = (visit?.schedule ?? []).slice(0, 4)
-
-  return (
-    <div className={`container-x ${styles.visit}`}>
-      <div
-        key={slide.id}
-        className={`rise ${styles.visitCard}`}
-        aria-live={paused ? 'polite' : 'off'}
-      >
-        {/* Fine gold inner frame with corner ornaments, and a faint mandala watermark */}
-        <span aria-hidden className={styles.visitFrame}>
-          {['tl', 'tr', 'bl', 'br'].map((c) => (
-            <Sparkle
-              key={c}
-              size={9}
-              className={`${styles.visitCorner} ${styles[`corner-${c}`]}`}
-            />
-          ))}
-        </span>
-        <Mandala className={styles.visitMandala} rings={4} />
-
-        <div className={styles.visitTop}>
-          <p className={styles.visitEyebrow}>
-            <Sparkle size={10} />
-            {slide.eyebrow}
-          </p>
-          {visit?.sessions?.length > 0 && (
-            <span className={styles.visitStatus}>
-              <TempleStatus sessions={visit.sessions} />
-            </span>
-          )}
-        </div>
-
-        <Title slide={slide} className={styles.visitTitle} />
-        <div className={styles.visitRule}>
-          <Sparkle size={8} />
-        </div>
-
-        {schedule.length > 0 && (
-          <ul className={styles.visitTimes}>
-            {schedule.map((t) => (
-              <li key={`${t.time}-${t.activity}`}>
-                <span className={styles.visitTime}>{t.time}</span>
-                <span className={styles.visitActivity}>{t.activity}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {visit?.address && (
-          <p className={styles.visitAddress}>
-            <svg
-              viewBox="0 0 24 24"
-              width="16"
-              height="16"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden
-            >
-              <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z" />
-              <circle cx="12" cy="9.5" r="2.5" />
-            </svg>
-            {visit.address.replace(/,?\s*\n\s*/g, ', ')}
-          </p>
-        )}
-
-        <div className={styles.visitButtons}>
-          {directions && (
-            <a
-              href={directions}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`btn-donate btn-lg ${styles.cta} ${styles.visitPrimary}`}
-            >
-              Get directions
-              <svg
-                viewBox="0 0 24 24"
-                width="16"
-                height="16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                aria-hidden
-              >
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </a>
-          )}
-          <Link href={slide.primary.href} className={styles.visitSecondary}>
-            All timings
-          </Link>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export function HeroSlider({ slides, visit }) {
+export function HeroSlider({ slides }) {
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
   const touchX = useRef(null)
@@ -348,8 +239,6 @@ export function HeroSlider({ slides, visit }) {
 
   const slide = slides[index]
   const cinematic = slide.layout === 'cinematic'
-  const card = slide.layout === 'card'
-  const arch = !FULL_PHOTO.includes(slide.layout)
   const split = isSplit(slide)
   const fade = (on) => `${styles.fade} ${on ? styles.on : styles.off}`
 
@@ -381,10 +270,10 @@ export function HeroSlider({ slides, visit }) {
           aria-hidden={i !== index}
           className={`${styles.backdrop} ${styles[`tone-${s.tone}`] ?? ''} ${
             i === index
-              ? FULL_PHOTO.includes(s.layout)
+              ? s.layout === 'cinematic'
                 ? ''
                 : styles.backdropDim
-              : FULL_PHOTO.includes(s.layout)
+              : s.layout === 'cinematic'
                 ? styles.backdropOff
                 : styles.backdropOffZoom
           }`}
@@ -394,7 +283,7 @@ export function HeroSlider({ slides, visit }) {
       ))}
 
       {/* Arch layout: fade to purple on the text side */}
-      <div aria-hidden className={`${styles.shade} ${fade(arch)}`}>
+      <div aria-hidden className={`${styles.shade} ${fade(!cinematic)}`}>
         <div className={`${styles.fill} ${styles.archShadeSide}`} />
         <div className={`${styles.fill} ${styles.archShadeBottom}`} />
       </div>
@@ -409,20 +298,10 @@ export function HeroSlider({ slides, visit }) {
         <div className={styles.splitShadeSide} />
       </div>
 
-      {/* Visit layout: light vignette so the nav stays readable; the photo stays bright */}
-      <div aria-hidden className={`${styles.shade} ${fade(card)}`}>
-        <div className={`${styles.fill} ${styles.visitShade}`} />
-        {/* Golden halo and slow sunbeams behind the temple tower */}
-        <div className={styles.visitRays} />
-        <div className={styles.visitHalo} />
-      </div>
+      <Mandala className={`spin-slow ${styles.mandala} ${fade(!cinematic)}`} />
+      <Embers className={fade(!cinematic)} />
 
-      <Mandala className={`spin-slow ${styles.mandala} ${fade(arch)}`} />
-      <Embers className={fade(arch)} />
-
-      {card ? (
-        <VisitSlide slide={slide} paused={paused} visit={visit} />
-      ) : cinematic ? (
+      {cinematic ? (
         <CinematicSlide slide={slide} paused={paused} />
       ) : (
         <ArchSlide slide={slide} slides={slides} index={index} paused={paused} />
