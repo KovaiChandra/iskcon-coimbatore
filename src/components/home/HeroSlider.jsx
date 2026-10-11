@@ -73,22 +73,21 @@ function SlideVisual({ slide, active, priority, variant }) {
           className={styles.splitPhone}
         />
         <div className={styles.split}>
-          {/* Purple gradient behind the text; the photo's left edge fades into it.
-              Colours: .split and .splitColor in HeroSlider.module.css */}
-          <div className={styles.splitColor} />
+          {/* Royal purple panel behind the text (.split). The photo sits on the right (.splitPhoto),
+              its left edge tinted purple (.splitTint) and faded out so the two melt together. */}
           <div
             className={styles.splitPhoto}
-            // Wider than the photo: the photo zooms in slightly and reaches further left
-            style={{ aspectRatio: (image.ratio ?? 2.93) * 1.48 }}
+            style={{ '--focal': `${image.focalX ?? 50}% ${image.focalY ?? 50}%` }}
           >
             <Image
               key={active ? `on-${slide.id}` : slide.id}
               {...shared}
               alt=""
               fill
-              sizes="(min-width: 1024px) 75vw, 1px"
-              className={styles.photo}
+              sizes="(min-width: 1024px) 65vw, 1px"
+              className={styles.splitImg}
             />
+            <div className={styles.splitTint} />
           </div>
         </div>
       </>

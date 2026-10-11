@@ -67,7 +67,12 @@
   }
 }
 
-/* ---------- Split photo (slide 1): purple on the left, whole photo on the right ---------- */
+/* ---------- Split photo (slide 1): purple on the left, photo on the right ----------
+   Desktop only. To adjust:
+   - how much of the banner the photo takes:  .splitPhoto width
+   - the purple behind the text:               .split background
+   - how far the purple tint reaches into the photo: .splitTint
+   - how softly the photo's edge fades:        .splitPhoto mask-image */
 .splitPhone {
   object-fit: cover;
 }
@@ -75,31 +80,38 @@
   position: absolute;
   inset: 0;
   display: none;
-  /* Colour the photo's left edge fades into — keep it the same as the gradient's right end */
-  background: var(--purple-800);
+  /* Deep royal purple with a soft glow behind the title */
+  background:
+    radial-gradient(ellipse 55% 70% at 22% 62%, rgb(75 29 122 / 0.55), transparent 70%),
+    var(--purple-950);
 }
-/* Purple gradient behind the text: lighter next to the photo (right), darker at the far left */
-.splitColor {
-  position: relative;
-  flex: 1;
-  background: linear-gradient(to left, var(--purple-800), var(--purple-900), var(--purple-950));
-}
-/* Box holding the photo; its left 22% fades out into the purple */
 .splitPhoto {
-  position: relative;
-  z-index: 10;
-  height: 100%;
-  flex-shrink: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 68%;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent, black 22%);
-  mask-image: linear-gradient(to right, transparent, black 22%);
+  /* Left 22% of the photo fades into the purple */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 22%);
+  mask-image: linear-gradient(to right, transparent 0%, black 22%);
+}
+.splitImg {
+  object-fit: cover;
+  object-position: var(--focal, 50% 50%);
+}
+/* Purple tint over the photo's left edge: turns the marble and pinks lavender so they blend */
+.splitTint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgb(28 10 51 / 0.8) 0%, rgb(46 17 80 / 0.35) 16%, rgb(46 17 80 / 0) 32%);
 }
 @media (min-width: 1024px) {
   .splitPhone {
     display: none;
   }
   .split {
-    display: flex;
+    display: block;
   }
 }
 
@@ -136,7 +148,8 @@
   background: linear-gradient(to right, rgb(0 0 0 / 0.6), transparent);
 }
 
-/* Split photo: purple shading so the text stays readable */
+/* Split photo: purple shading so the text stays readable (phones: over the photo;
+   desktop: just a soft fade at the bottom, since the text already sits on solid purple) */
 .splitShadeBottom {
   background: linear-gradient(to top, rgb(28 10 51 / 0.9), rgb(28 10 51 / 0.3) 35%, transparent 70%);
 }
@@ -156,8 +169,10 @@
 }
 @media (min-width: 1024px) {
   .splitShadeSide {
-    width: 45%;
-    background: linear-gradient(to right, rgb(28 10 51 / 0.85), rgb(28 10 51 / 0.55), transparent);
+    display: none;
+  }
+  .splitShadeBottom {
+    background: linear-gradient(to top, rgb(28 10 51 / 0.85), transparent 30%);
   }
 }
 
