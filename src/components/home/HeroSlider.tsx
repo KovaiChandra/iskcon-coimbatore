@@ -12,10 +12,13 @@ export type HeroSlide = {
   title: string
   text?: string | null
   verse?: string | null
-  /** 'arch': text left, photo in a tall temple arch. 'cinematic': wide photo in a broad arch, text centred below. */
+  /** 'arch': text left, photo in a tall temple arch. 'cinematic': photo fills the banner, text bottom-left. */
   layout?: 'arch' | 'cinematic'
-  /** focalX/focalY (0–100) come from the focal point staff set on the photo in admin. */
-  image?: { url: string; alt: string; focalX?: number; focalY?: number } | null
+  /**
+   * focalX/focalY (0–100) come from the focal point staff set on the photo in admin.
+   * blur is a tiny data-URL preview shown while the full photo loads.
+   */
+  image?: { url: string; alt: string; focalX?: number; focalY?: number; blur?: string } | null
   art: ArtTheme
   primary: { label: string; href: string }
   secondary?: { label: string; href: string }
@@ -26,31 +29,24 @@ export type HeroSlide = {
 const DURATION = 7000
 
 // Fixed positions so server and client render identical sparks.
-const makeEmbers = (count: number, seed: number) =>
-  Array.from({ length: count }, (_, i) => ({
-    left: (i * 37 + seed) % 100,
-    size: 2 + ((i + seed) % 3),
-    delay: ((i + seed) * 0.73) % 9,
-    duration: 7 + ((i + seed) % 5) * 1.6,
-    drift: (((i + seed) % 7) - 3) * 12,
-  }))
-const EMBERS = makeEmbers(22, 11)
-const WARM_EMBERS = makeEmbers(34, 5)
+const EMBERS = Array.from({ length: 22 }, (_, i) => ({
+  left: (i * 37 + 11) % 100,
+  size: 2 + ((i + 11) % 3),
+  delay: ((i + 11) * 0.73) % 9,
+  duration: 7 + ((i + 11) % 5) * 1.6,
+  drift: (((i + 11) % 7) - 3) * 12,
+}))
 
-function Embers({ warm, className = '' }: { warm?: boolean; className?: string }) {
+function Embers({ className = '' }: { className?: string }) {
   return (
     <div
       className={`pointer-events-none absolute inset-0 -z-10 overflow-hidden ${className}`}
       aria-hidden
     >
-      {(warm ? WARM_EMBERS : EMBERS).map((e, i) => (
+      {EMBERS.map((e, i) => (
         <span
           key={i}
-          className={`ember absolute bottom-0 rounded-full ${
-            warm
-              ? 'bg-orange-300 shadow-[0_0_10px_3px] shadow-orange-500/70'
-              : 'bg-saffron-300 shadow-[0_0_8px_2px] shadow-saffron-500/60'
-          }`}
+          className="ember absolute bottom-0 rounded-full bg-saffron-300 shadow-[0_0_8px_2px] shadow-saffron-500/60"
           style={
             {
               left: `${e.left}%`,
@@ -76,130 +72,185 @@ function SlideVisual({
   slide: HeroSlide
   active: boolean
   priority?: boolean
-  variant: 'backdrop' | 'arch' | 'panorama'
+  variant: 'backdrop' | 'arch'
 }) {
-  if (slide.image) {
+  if (!slide.image) {
     return (
-      <Image
-        key={active ? `on-${slide.id}` : slide.id}
-        src={slide.image.url}
-        alt={variant === 'backdrop' ? '' : slide.image.alt}
-        fill
-        priority={priority}
-        quality={90}
-        sizes={
-          variant === 'arch'
-            ? '(min-width: 1024px) 480px, 1px'
-            : variant === 'panorama'
-              ? '(min-width: 1024px) 1024px, 100vw'
-              : '100vw'
-        }
-        style={{ objectPosition: `${slide.image.focalX ?? 50}% ${slide.image.focalY ?? 50}%` }}
-        className={`object-cover ${active ? 'kenburns' : ''} ${variant === 'backdrop' ? (slide.layout === 'cinematic' ? 'scale-110 blur-2xl' : 'lg:scale-110 lg:blur-2xl') : ''}`}
+      <FestivalArt
+        theme={slide.art}
+        compact={variant === 'arch'}
+        className="absolute inset-0 size-full"
       />
     )
   }
+  // Behind the arch the backdrop is a soft blurred copy; in the cinematic layout it is the sharp photo itself.
+  const softBackdrop = variant === 'backdrop' && slide.layout !== 'cinematic'
   return (
-    <FestivalArt
-      theme={slide.art}
-      compact={variant !== 'backdrop'}
-      className="absolute inset-0 size-full"
+    <Image
+      key={active ? `on-${slide.id}` : slide.id}
+      src={slide.image.url}
+      alt={variant === 'arch' || slide.layout === 'cinematic' ? slide.image.alt : ''}
+      fill
+      {...(priority ? { priority: true } : { loading: 'eager' as const })}
+      quality={90}
+      sizes={variant === 'arch' ? '(min-width: 1024px) 480px, 1px' : '100vw'}
+      placeholder={slide.image.blur ? 'blur' : 'empty'}
+      blurDataURL={slide.image.blur}
+      style={{ objectPosition: `${slide.image.focalX ?? 50}% ${slide.image.focalY ?? 50}%` }}
+      className={`object-cover ${active ? 'kenburns' : ''} ${softBackdrop ? 'lg:scale-110 lg:blur-2xl' : ''}`}
     />
   )
 }
 
-function SlideText({
+function Cta({ slide }: { slide: HeroSlide }) {
+  return (
+    <>
+      <Link
+        href={slide.primary.href}
+        className="btn-donate whitespace-nowrap px-7 py-3 text-base shadow-[0_0_40px_-8px] shadow-saffron-500/70"
+      >
+        {slide.primary.label}
+      </Link>
+      {slide.secondary && (
+        <Link
+          href={slide.secondary.href}
+          className="btn-outline whitespace-nowrap px-7 py-3 text-base text-white"
+        >
+          {slide.secondary.label}
+        </Link>
+      )}
+    </>
+  )
+}
+
+function Title({ slide, className }: { slide: HeroSlide; className: string }) {
+  return (
+    <h1 className={className}>
+      {slide.title.split(' ').map((word, i) => (
+        <span key={i} className="inline-block overflow-hidden pb-[0.12em] align-bottom">
+          <span className="reveal-up inline-block" style={{ animationDelay: `${150 + i * 70}ms` }}>
+            {word}&nbsp;
+          </span>
+        </span>
+      ))}
+    </h1>
+  )
+}
+
+/** Arch layout: text on the left, photo in a tall temple arch on the right (desktop). */
+function ArchSlide({
   slide,
-  lamp,
+  slides,
+  index,
   paused,
-  centered,
 }: {
   slide: HeroSlide
-  lamp: boolean
+  slides: HeroSlide[]
+  index: number
   paused: boolean
-  centered?: boolean
 }) {
   return (
-    <div
-      key={slide.id}
-      className={`${centered ? 'mx-auto max-w-5xl text-center' : 'max-w-2xl'} [text-shadow:0_2px_16px_rgba(28,10,51,0.85)] ${
-        centered ? '' : 'lg:[text-shadow:none]'
-      }`}
-      aria-live={paused ? 'polite' : 'off'}
-    >
-      {!centered && (
+    <div className="container-x grid min-h-[600px] items-center gap-12 pb-28 pt-14 lg:min-h-[min(82vh,860px)] lg:grid-cols-[1.15fr_0.85fr]">
+      <div
+        key={slide.id}
+        className="max-w-2xl [text-shadow:0_2px_16px_rgba(28,10,51,0.85)] lg:[text-shadow:none]"
+        aria-live={paused ? 'polite' : 'off'}
+      >
         <p className="rise inline-flex items-center gap-2 rounded-full border border-saffron-500/40 bg-purple-950/40 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-saffron-300 backdrop-blur-sm">
           <Sparkle className="size-3" />
           {slide.eyebrow}
         </p>
-      )}
-      <h1
-        className={`leading-[1.04] text-white ${
-          centered
-            ? 'text-[2.1rem] sm:text-5xl xl:text-[3.6rem]'
-            : slide.title.length > 28
-              ? 'xl:text-[4rem]'
-              : 'xl:text-7xl'
-        } ${centered ? '' : 'mt-6 text-[2.6rem] sm:text-6xl'}`}
-      >
-        {slide.title.split(' ').map((word, i) => (
-          <span key={i} className="inline-block overflow-hidden pb-[0.12em] align-bottom">
-            <span
-              className={`reveal-up inline-block ${
-                lamp
-                  ? 'text-gold-gradient [text-shadow:none] drop-shadow-[0_2px_14px_rgba(255,138,0,0.35)]'
-                  : ''
-              }`}
-              style={{ animationDelay: `${150 + i * 70}ms` }}
-            >
-              {word}&nbsp;
-            </span>
-          </span>
-        ))}
-      </h1>
-      {centered && slide.verse && (
-        <p
-          className="rise mt-1 font-serif text-lg italic text-saffron-300/90 md:text-xl"
+        <Title
+          slide={slide}
+          className={`mt-6 text-[2.6rem] leading-[1.04] text-white sm:text-6xl ${
+            slide.title.length > 28 ? 'xl:text-[4rem]' : 'xl:text-7xl'
+          }`}
+        />
+        <div
+          className="rise mt-5 h-px w-24 bg-gradient-to-r from-saffron-500 to-transparent"
           style={{ animationDelay: '350ms' }}
-        >
-          {slide.verse}
-        </p>
-      )}
+        />
+        {slide.text && (
+          <p
+            className="rise mt-5 max-w-xl text-base leading-relaxed text-purple-100 md:text-lg"
+            style={{ animationDelay: '450ms' }}
+          >
+            {slide.text}
+          </p>
+        )}
+        {slide.verse && (
+          <p
+            className="rise mt-4 font-serif text-lg italic text-saffron-300/90"
+            style={{ animationDelay: '500ms' }}
+          >
+            “{slide.verse}”
+          </p>
+        )}
+        <div className="rise mt-9 flex flex-wrap gap-3" style={{ animationDelay: '550ms' }}>
+          <Cta slide={slide} />
+        </div>
+      </div>
+
+      <div className="relative mx-auto hidden w-full max-w-[420px] lg:block" aria-hidden>
+        <div className="absolute left-1/2 top-1/2 size-[150%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(245,183,0,0.35)_0%,rgba(245,183,0,0.08)_40%,transparent_70%)]" />
+        <Mandala
+          className="spin-slow absolute left-1/2 top-1/2 size-[135%] -translate-x-1/2 -translate-y-1/2 text-saffron-300/30"
+          rings={5}
+        />
+        <div className="arch absolute -inset-3 border border-saffron-300/60" />
+        <div className="arch absolute -inset-6 border border-saffron-300/20" />
+        <div className="arch relative aspect-[4/5] overflow-hidden bg-purple-900 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] ring-2 ring-saffron-500">
+          {slides.map((s, i) => (
+            <div
+              key={s.id}
+              className={`absolute inset-0 transition-[opacity,transform,filter] duration-[1200ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] ${
+                i === index ? 'scale-100 opacity-100 blur-0' : 'scale-110 opacity-0 blur-sm'
+              }`}
+            >
+              <SlideVisual slide={s} active={i === index} variant="arch" />
+            </div>
+          ))}
+          <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-purple-950/40 to-transparent" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/** Cinematic layout: the photo fills the banner; quiet text in the lower-left. */
+function CinematicSlide({ slide, paused }: { slide: HeroSlide; paused: boolean }) {
+  return (
+    <div className="container-x flex min-h-[600px] flex-col justify-end pb-28 pt-14 lg:min-h-[min(82vh,860px)]">
       <div
-        className={`rise mt-5 h-px w-24 bg-gradient-to-r from-saffron-500 to-transparent ${centered ? 'mx-auto via-saffron-500 from-transparent' : ''}`}
-        style={{ animationDelay: '350ms' }}
-      />
-      {slide.text && (
-        <p
-          className={`rise mt-5 text-base leading-relaxed text-purple-100 md:text-lg ${centered ? 'mx-auto max-w-2xl lg:hidden' : 'max-w-xl'}`}
-          style={{ animationDelay: '450ms' }}
-        >
-          {slide.text}
+        key={slide.id}
+        className="max-w-2xl [text-shadow:0_2px_18px_rgba(0,0,0,0.6)]"
+        aria-live={paused ? 'polite' : 'off'}
+      >
+        <p className="rise flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-saffron-300 sm:text-xs sm:tracking-[0.3em]">
+          <span className="h-px w-8 shrink-0 bg-saffron-300 sm:w-10" />
+          {slide.eyebrow}
         </p>
-      )}
-      {!centered && slide.verse && (
-        <p
-          className="rise mt-4 font-serif text-lg italic text-saffron-300/90"
+        <Title
+          slide={slide}
+          className="mt-4 max-w-xl font-serif text-[2.5rem] leading-[1.05] text-white sm:text-5xl md:text-6xl"
+        />
+        {slide.verse && (
+          <p
+            className="rise mt-2 font-serif text-lg italic text-saffron-200/90"
+            style={{ animationDelay: '350ms' }}
+          >
+            {slide.verse}
+          </p>
+        )}
+        <div
+          className="rise mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6"
           style={{ animationDelay: '500ms' }}
         >
-          “{slide.verse}”
-        </p>
-      )}
-      <div
-        className={`rise flex flex-wrap gap-3 ${centered ? 'mt-7 justify-center lg:mt-6' : 'mt-9'}`}
-        style={{ animationDelay: '550ms' }}
-      >
-        <Link
-          href={slide.primary.href}
-          className="btn-donate px-7 py-3 text-base shadow-[0_0_40px_-8px] shadow-saffron-500/70"
-        >
-          {slide.primary.label}
-        </Link>
-        {slide.secondary && (
-          <Link href={slide.secondary.href} className="btn-outline px-7 py-3 text-base text-white">
-            {slide.secondary.label}
-          </Link>
-        )}
+          <Cta slide={slide} />
+          {slide.text && (
+            <p className="max-w-sm text-sm leading-relaxed text-white/75">{slide.text}</p>
+          )}
+        </div>
       </div>
     </div>
   )
@@ -220,9 +271,9 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   }, [index, paused, count, go])
 
   const slide = slides[index]
-  // Slides with the "Lamps" artwork (Kartik / Damodar month) get a warm lamplight treatment.
-  const lamp = slide.art === 'lamps'
   const cinematic = slide.layout === 'cinematic'
+  const fade = (on: boolean) =>
+    `transition-opacity duration-[1400ms] ${on ? 'opacity-100' : 'opacity-0'}`
 
   return (
     <section
@@ -245,110 +296,41 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         touchX.current = null
       }}
     >
-      {/* Backdrop: the slide's photo (blurred behind the arch on desktop) or its illustrated scene */}
+      {/* Backdrops for every slide, cross-faded. All load up front so changing slide never waits. */}
       {slides.map((s, i) => (
         <div
           key={s.id}
-          aria-hidden
+          aria-hidden={i !== index}
           className={`absolute inset-0 -z-30 transition-[opacity,transform] duration-[1400ms] ease-out ${
             i === index
-              ? `scale-100 ${s.layout === 'cinematic' ? 'opacity-50' : 'opacity-100 lg:opacity-45'}`
+              ? `scale-100 opacity-100 ${s.layout === 'cinematic' ? '' : 'lg:opacity-45'}`
               : 'scale-105 opacity-0'
           }`}
         >
           <SlideVisual slide={s} active={i === index} priority={i === 0} variant="backdrop" />
         </div>
       ))}
+
       {/* Arch layout: fade to purple on the text side */}
-      <div
-        aria-hidden
-        className={`absolute inset-0 -z-20 transition-opacity duration-[1400ms] ${cinematic ? 'opacity-0' : 'opacity-100'}`}
-      >
+      <div aria-hidden className={`absolute inset-0 -z-20 ${fade(!cinematic)}`}>
         <div className="absolute inset-0 bg-gradient-to-r from-purple-950/70 via-purple-950/35 to-transparent lg:from-purple-950 lg:via-purple-950/70 lg:to-purple-950/30" />
         <div className="absolute inset-0 bg-gradient-to-t from-purple-950 via-purple-950/20 to-purple-950/30" />
       </div>
-      {/* Full-width layout: vignette that keeps the deities lit and the text readable */}
-      <div
-        aria-hidden
-        className={`absolute inset-0 -z-20 transition-opacity duration-[1400ms] ${cinematic ? 'opacity-100' : 'opacity-0'}`}
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_35%,transparent_20%,rgba(20,6,2,0.75)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-[#140602] via-[#140602]/80 to-transparent" />
-        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#140602]/70 to-transparent" />
+      {/* Cinematic layout: darken only the lower-left, where the text sits */}
+      <div aria-hidden className={`absolute inset-0 -z-20 ${fade(cinematic)}`}>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
+        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-black/60 to-transparent sm:w-2/3" />
       </div>
-      {/* Kartik lamplight: amber wash, glow from below, extra embers */}
-      <div
-        aria-hidden
-        className={`pointer-events-none absolute inset-0 -z-20 transition-opacity duration-[1400ms] ${lamp ? 'opacity-100' : 'opacity-0'}`}
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_72%_62%,rgba(255,138,0,0.42),transparent_58%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#7a2e00]/60 via-[#ff8a00]/10 to-transparent" />
-        <div className="lamp-flicker absolute inset-0 bg-[radial-gradient(ellipse_at_30%_100%,rgba(255,170,60,0.25),transparent_55%)]" />
-      </div>
+
       <Mandala
-        className={`spin-slow pointer-events-none absolute -left-48 -top-48 -z-10 size-[560px] transition-[color,opacity] duration-[1400ms] ${
-          lamp ? 'text-orange-400/20' : 'text-saffron-500/10'
-        } ${cinematic ? 'opacity-0' : 'opacity-100'}`}
+        className={`spin-slow pointer-events-none absolute -left-48 -top-48 -z-10 size-[560px] text-saffron-500/10 ${fade(!cinematic)}`}
       />
-      <Embers />
-      <Embers
-        warm
-        className={`transition-opacity duration-[1400ms] ${lamp ? 'opacity-100' : 'opacity-0'}`}
-      />
+      <Embers className={fade(!cinematic)} />
 
       {cinematic ? (
-        <div className="container-x flex min-h-[600px] flex-col items-center justify-center gap-8 pb-28 pt-10 lg:min-h-[min(82vh,860px)] lg:pt-8">
-          {/* Wide torana window: the whole photo, sharp, with all deities in view */}
-          <div key={slide.id} className="rise relative w-full max-w-[min(56rem,calc((82vh-330px)*2.5))]" aria-hidden>
-            <div className="absolute -inset-x-16 -inset-y-10 bg-[radial-gradient(ellipse_at_center,rgba(255,138,0,0.35),transparent_65%)]" />
-            <div className="torana absolute -inset-1.5 border border-saffron-300/60 sm:-inset-2.5" />
-            <div className="torana absolute -inset-3 border border-saffron-300/20 sm:-inset-5" />
-            <div className="torana relative aspect-[2.5/1] overflow-hidden bg-[#140602] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.85)] ring-2 ring-saffron-500">
-              <SlideVisual slide={slide} active variant="panorama" />
-            </div>
-            <p className="absolute -bottom-4 left-1/2 inline-flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-saffron-500/60 bg-[#1c0a05] px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-saffron-300 shadow-lg sm:text-xs">
-              <Sparkle className="size-3" />
-              {slide.eyebrow}
-            </p>
-          </div>
-          <SlideText slide={slide} lamp={lamp} paused={paused} centered />
-        </div>
+        <CinematicSlide slide={slide} paused={paused} />
       ) : (
-        <div className="container-x grid min-h-[600px] items-center gap-12 pb-28 pt-14 lg:min-h-[min(82vh,860px)] lg:grid-cols-[1.15fr_0.85fr] lg:pb-28">
-          {/* Text */}
-          <SlideText slide={slide} lamp={lamp} paused={paused} />
-
-          {/* Temple-arch window (desktop) */}
-          <div className="relative mx-auto hidden w-full max-w-[420px] lg:block" aria-hidden>
-            <div className="absolute left-1/2 top-1/2 size-[150%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(245,183,0,0.35)_0%,rgba(245,183,0,0.08)_40%,transparent_70%)]" />
-            <div
-              className={`absolute left-1/2 top-[60%] size-[170%] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-[1400ms] ${
-                lamp ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
-              <div className="lamp-flicker size-full rounded-full bg-[radial-gradient(circle,rgba(255,138,0,0.45)_0%,rgba(255,100,0,0.12)_40%,transparent_68%)]" />
-            </div>
-            <Mandala
-              className="spin-slow absolute left-1/2 top-1/2 size-[135%] -translate-x-1/2 -translate-y-1/2 text-saffron-300/30"
-              rings={5}
-            />
-            <div className="arch absolute -inset-3 border border-saffron-300/60" />
-            <div className="arch absolute -inset-6 border border-saffron-300/20" />
-            <div className="arch relative aspect-[4/5] overflow-hidden bg-purple-900 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] ring-2 ring-saffron-500">
-              {slides.map((s, i) => (
-                <div
-                  key={s.id}
-                  className={`absolute inset-0 transition-[opacity,transform,filter] duration-[1200ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] ${
-                    i === index ? 'scale-100 opacity-100 blur-0' : 'scale-110 opacity-0 blur-sm'
-                  }`}
-                >
-                  <SlideVisual slide={s} active={i === index} variant="arch" />
-                </div>
-              ))}
-              <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-purple-950/40 to-transparent" />
-            </div>
-          </div>
-        </div>
+        <ArchSlide slide={slide} slides={slides} index={index} paused={paused} />
       )}
 
       {/* Slide navigation: thin progress segments, counter, arrows */}

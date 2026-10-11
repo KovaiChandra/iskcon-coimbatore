@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { Festival, Seva } from '@/payload-types'
+import type { Festival, Media, Seva } from '@/payload-types'
 import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
 import { InstagramIcon, WhatsAppIcon } from '@/components/Icons'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
@@ -9,6 +9,7 @@ import { HeroSlider, type HeroSlide } from '@/components/home/HeroSlider'
 import { NityaSevaForm } from '@/components/home/NityaSevaForm'
 import { ScheduleTicker } from '@/components/home/ScheduleTicker'
 import { SubscribeForm } from '@/components/home/SubscribeForm'
+import { blurDataURL } from '@/lib/blur'
 import { formatDate, mediaUrl, waLink } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
 import { isSevaActive, populated } from '@/lib/sevas'
@@ -71,9 +72,12 @@ export default async function HomePage() {
   ])
 
   // ---- Slideshow: the slides staff curate in admin; if there are none, an automatic set
+  const heroMedia = new Map<string, Media>()
   const imageOf = (m: Parameters<typeof mediaUrl>[0]) => {
     const url = mediaUrl(m, 'hero')
-    return url && typeof m === 'object' && m ? { url, alt: m.alt, focalX: m.focalX ?? 50, focalY: m.focalY ?? 50 } : null
+    if (!url || typeof m !== 'object' || !m) return null
+    heroMedia.set(url, m)
+    return { url, alt: m.alt, focalX: m.focalX ?? 50, focalY: m.focalY ?? 50 }
   }
   const customSlides: HeroSlide[] = (home.heroSlides ?? []).map((s, i) => ({
     id: `custom-${s.id ?? i}`,
@@ -133,6 +137,13 @@ export default async function HomePage() {
     navMeta: 'Open daily',
   })
   const slides = customSlides.length > 0 ? customSlides : autoSlides.slice(0, 3)
+  // Tiny blurred previews so each hero photo appears instantly while the full image loads
+  await Promise.all(
+    slides.map(async (s) => {
+      const m = s.image && heroMedia.get(s.image.url)
+      if (s.image && m) s.image.blur = await blurDataURL(m)
+    }),
+  )
 
   const highlights = populated<Seva>(home.highlightSevas).filter((s) => isSevaActive(s))
   const donationSevas = populated<Seva>(home.donationSevas).filter((s) => isSevaActive(s))

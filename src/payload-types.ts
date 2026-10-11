@@ -882,7 +882,7 @@ export interface HomePage {
   heroSlides?:
     | {
         /**
-         * Use Wide window for landscape photos, Arch for portrait photos
+         * Use Full photo for landscape photos, Arch for portrait photos
          */
         layout?: ('arch' | 'cinematic') | null;
         /**

@@ -87,8 +87,6 @@
 
 /* Temple-arch frame for images */
 .arch { border-radius: 999px 999px 1.5rem 1.5rem; }
-/* Wide arch (torana) for landscape photos */
-.torana { border-radius: 50% 50% 1.25rem 1.25rem / 42% 42% 1.25rem 1.25rem; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -104,13 +102,3 @@
 .reveal-up { animation: reveal-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 .ember { animation: ember 8s linear infinite both; }
 
-/* Kartik lamplight */
-@keyframes lamp-flicker {
-  0%, 100% { opacity: 1; }
-  20% { opacity: 0.82; }
-  35% { opacity: 0.95; }
-  55% { opacity: 0.78; }
-  70% { opacity: 1; }
-  85% { opacity: 0.88; }
-}
-.lamp-flicker { animation: lamp-flicker 3.2s ease-in-out infinite; }

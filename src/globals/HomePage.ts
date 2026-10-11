@@ -21,11 +21,11 @@ export const HomePage: GlobalConfig = {
           options: [
             { label: 'Arch: text left, photo in a temple arch', value: 'arch' },
             {
-              label: 'Wide window: landscape photo in a broad arch, text centred below',
+              label: 'Full photo: the photo fills the banner, text bottom-left',
               value: 'cinematic',
             },
           ],
-          admin: { description: 'Use Wide window for landscape photos, Arch for portrait photos' },
+          admin: { description: 'Use Full photo for landscape photos, Arch for portrait photos' },
         },
         {
           name: 'eyebrow',
