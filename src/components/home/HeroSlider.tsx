@@ -121,9 +121,9 @@ function SlideVisual({
           style={{ objectPosition: `${image.focalX ?? 50}% ${image.focalY ?? 50}%` }}
           className="object-cover lg:hidden"
         />
-        <div className="absolute inset-0 hidden lg:flex">
+        <div className="absolute inset-0 hidden bg-purple-800 lg:flex">
           {/* Solid royal purple behind the text; the photo's left edge fades into it */}
-          <div className="relative flex-1 bg-purple-950" />
+          <div className="relative flex-1 bg-gradient-to-l from-purple-800 via-purple-900 to-purple-950" />
           <div
             className="relative z-10 h-full shrink-0 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_22%)]"
             style={{ aspectRatio: image.ratio }}
