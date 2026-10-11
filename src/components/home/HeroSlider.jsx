@@ -243,6 +243,18 @@ function VisitSlide({ slide, paused, visit }) {
         className={`rise ${styles.visitCard}`}
         aria-live={paused ? 'polite' : 'off'}
       >
+        {/* Fine gold inner frame with corner ornaments, and a faint mandala watermark */}
+        <span aria-hidden className={styles.visitFrame}>
+          {['tl', 'tr', 'bl', 'br'].map((c) => (
+            <Sparkle
+              key={c}
+              size={9}
+              className={`${styles.visitCorner} ${styles[`corner-${c}`]}`}
+            />
+          ))}
+        </span>
+        <Mandala className={styles.visitMandala} rings={4} />
+
         <div className={styles.visitTop}>
           <p className={styles.visitEyebrow}>
             <Sparkle size={10} />
@@ -256,7 +268,9 @@ function VisitSlide({ slide, paused, visit }) {
         </div>
 
         <Title slide={slide} className={styles.visitTitle} />
-        <div className={styles.visitRule} />
+        <div className={styles.visitRule}>
+          <Sparkle size={8} />
+        </div>
 
         {schedule.length > 0 && (
           <ul className={styles.visitTimes}>
@@ -293,12 +307,23 @@ function VisitSlide({ slide, paused, visit }) {
               href={directions}
               target="_blank"
               rel="noopener noreferrer"
-              className={`btn-donate btn-lg ${styles.cta}`}
+              className={`btn-donate btn-lg ${styles.cta} ${styles.visitPrimary}`}
             >
               Get directions
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                aria-hidden
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
             </a>
           )}
-          <Link href={slide.primary.href} className={`btn-outline btn-lg ${styles.visitSecondary}`}>
+          <Link href={slide.primary.href} className={styles.visitSecondary}>
             All timings
           </Link>
         </div>
