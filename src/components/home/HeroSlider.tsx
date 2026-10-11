@@ -18,7 +18,15 @@ export type HeroSlide = {
    * focalX/focalY (0–100) come from the focal point staff set on the photo in admin.
    * blur is a tiny data-URL preview shown while the full photo loads.
    */
-  image?: { url: string; alt: string; focalX?: number; focalY?: number; blur?: string } | null
+  image?: {
+    url: string
+    alt: string
+    focalX?: number
+    focalY?: number
+    blur?: string
+    /** width / height of the original photo */
+    ratio?: number
+  } | null
   art: ArtTheme
   primary: { label: string; href: string }
   secondary?: { label: string; href: string }
@@ -85,6 +93,45 @@ function SlideVisual({
   }
   // Behind the arch the backdrop is a soft blurred copy; in the cinematic layout it is the sharp photo itself.
   const softBackdrop = variant === 'backdrop' && slide.layout !== 'cinematic'
+  const image = slide.image
+  const shared = {
+    src: image.url,
+    quality: 90,
+    placeholder: image.blur ? ('blur' as const) : ('empty' as const),
+    blurDataURL: image.blur,
+    ...(priority ? { priority: true } : { loading: 'eager' as const }),
+  }
+
+  // Cinematic + a photo much narrower than the banner (e.g. 4:3): filling the width would crop the
+  // deities' crowns, so on desktop show the whole photo on the right and a blurred copy behind the text.
+  if (variant === 'backdrop' && slide.layout === 'cinematic' && (image.ratio ?? 2) < 1.7) {
+    return (
+      <>
+        <Image
+          {...shared}
+          alt={image.alt}
+          fill
+          sizes="100vw"
+          style={{ objectPosition: `${image.focalX ?? 50}% ${image.focalY ?? 50}%` }}
+          className={`object-cover lg:scale-110 lg:blur-2xl lg:brightness-75 ${active ? 'kenburns' : ''}`}
+        />
+        <div
+          className="absolute inset-y-0 right-0 hidden overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%)] lg:block"
+          style={{ aspectRatio: image.ratio }}
+        >
+          <Image
+            key={active ? `on-${slide.id}` : slide.id}
+            {...shared}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 75vw, 1px"
+            className={`object-cover ${active ? 'kenburns' : ''}`}
+          />
+        </div>
+      </>
+    )
+  }
+
   return (
     <Image
       key={active ? `on-${slide.id}` : slide.id}
@@ -324,7 +371,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
       {/* Cinematic layout: darken only the lower-left, where the text sits */}
       <div aria-hidden className={`absolute inset-0 -z-20 ${fade(cinematic)}`}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 via-35% to-transparent to-70%" />
-        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-black/60 to-transparent sm:w-2/3" />
+        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-black/60 to-transparent sm:w-2/3 lg:w-[42%] lg:from-black/70" />
       </div>
 
       <Mandala

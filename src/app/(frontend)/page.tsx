@@ -77,7 +77,13 @@ export default async function HomePage() {
     const url = mediaUrl(m, 'hero')
     if (!url || typeof m !== 'object' || !m) return null
     heroMedia.set(url, m)
-    return { url, alt: m.alt, focalX: m.focalX ?? 50, focalY: m.focalY ?? 50 }
+    return {
+      url,
+      alt: m.alt,
+      focalX: m.focalX ?? 50,
+      focalY: m.focalY ?? 50,
+      ratio: m.width && m.height ? m.width / m.height : undefined,
+    }
   }
   const customSlides: HeroSlide[] = (home.heroSlides ?? []).map((s, i) => ({
     id: `custom-${s.id ?? i}`,
