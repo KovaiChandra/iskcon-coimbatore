@@ -5,12 +5,22 @@ import { ART_OPTIONS } from '../lib/art'
 export const Sevas: CollectionConfig = {
   slug: 'sevas',
   labels: { singular: 'Seva', plural: 'Sevas' },
-  admin: { useAsTitle: 'title', defaultColumns: ['title', 'category', 'startDate', 'endDate', 'order'] },
+  admin: {
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'category', 'startDate', 'endDate', 'order'],
+  },
   access: { read: anyone, create: authenticated, update: authenticated, delete: authenticated },
   defaultSort: 'order',
   fields: [
     { name: 'title', type: 'text', required: true },
-    { name: 'slug', type: 'text', required: true, unique: true, index: true, admin: { position: 'sidebar' } },
+    {
+      name: 'slug',
+      type: 'text',
+      required: true,
+      unique: true,
+      index: true,
+      admin: { position: 'sidebar' },
+    },
     {
       name: 'category',
       type: 'select',
@@ -32,7 +42,23 @@ export const Sevas: CollectionConfig = {
     },
     { name: 'shortDescription', type: 'textarea', required: true },
     { name: 'image', type: 'upload', relationTo: 'media' },
-    { name: 'artwork', type: 'select', defaultValue: 'lotus', options: ART_OPTIONS, admin: { description: 'Illustration shown until a photo is uploaded' } },
+    {
+      name: 'cardImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Donation card photo',
+      admin: {
+        description:
+          'Optional different photo for the "Offer a seva" donation cards (uses the main photo if empty)',
+      },
+    },
+    {
+      name: 'artwork',
+      type: 'select',
+      defaultValue: 'lotus',
+      options: ART_OPTIONS,
+      admin: { description: 'Illustration shown until a photo is uploaded' },
+    },
     {
       name: 'presetAmounts',
       type: 'array',
@@ -49,7 +75,12 @@ export const Sevas: CollectionConfig = {
         { name: 'price', type: 'number', required: true, min: 1 },
       ],
     },
-    { name: 'allowMonthly', type: 'checkbox', label: 'Offer as monthly Nitya Seva', admin: { position: 'sidebar' } },
+    {
+      name: 'allowMonthly',
+      type: 'checkbox',
+      label: 'Offer as monthly Nitya Seva',
+      admin: { position: 'sidebar' },
+    },
     { name: 'order', type: 'number', defaultValue: 0, admin: { position: 'sidebar' } },
   ],
 }

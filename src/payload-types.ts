@@ -267,6 +267,10 @@ export interface Seva {
   shortDescription: string;
   image?: (number | null) | Media;
   /**
+   * Optional different photo for the "Offer a seva" donation cards (uses the main photo if empty)
+   */
+  cardImage?: (number | null) | Media;
+  /**
    * Illustration shown until a photo is uploaded
    */
   artwork?: ('temple' | 'lamps' | 'hill' | 'moon' | 'book' | 'chariot' | 'lotus') | null;
@@ -621,6 +625,7 @@ export interface SevasSelect<T extends boolean = true> {
   endDate?: T;
   shortDescription?: T;
   image?: T;
+  cardImage?: T;
   artwork?: T;
   presetAmounts?:
     | T
@@ -941,11 +946,33 @@ export interface HomePage {
   visitImage?: (number | null) | Media;
   livePuja?: {
     /**
+     * Deity photo beside the live puja text
+     */
+    image?: (number | null) | Media;
+    title?: string | null;
+    text?: string | null;
+    /**
+     * e.g. "Every day · 7:00 PM IST"
+     */
+    time?: string | null;
+    platform?: string | null;
+    /**
      * e.g. "Daily 4:15 AM Mangala Arati · 7:15 PM Sandhya Arati"
      */
     schedule?: string | null;
     link?: string | null;
   };
+  /**
+   * Videos shown in the "ISKCON Coimbatore on YouTube" section. Paste the YouTube link; the thumbnail is fetched automatically.
+   */
+  youtubeVideos?:
+    | {
+        title: string;
+        url: string;
+        date?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1036,8 +1063,21 @@ export interface HomePageSelect<T extends boolean = true> {
   livePuja?:
     | T
     | {
+        image?: T;
+        title?: T;
+        text?: T;
+        time?: T;
+        platform?: T;
         schedule?: T;
         link?: T;
+      };
+  youtubeVideos?:
+    | T
+    | {
+        title?: T;
+        url?: T;
+        date?: T;
+        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;

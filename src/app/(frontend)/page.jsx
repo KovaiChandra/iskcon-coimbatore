@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
-import { InstagramIcon, WhatsAppIcon } from '@/components/Icons'
+import { InstagramIcon, WhatsAppIcon, YoutubeIcon } from '@/components/Icons'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
 import { DonationCard } from '@/components/home/DonationCard'
 import { HeroSlider } from '@/components/home/HeroSlider'
@@ -22,6 +22,12 @@ function daysUntil(date) {
   const startOfToday = new Date(new Date().setHours(0, 0, 0, 0)).getTime()
   const d = Math.round((new Date(date).setHours(0, 0, 0, 0) - startOfToday) / DAY)
   return d <= 0 ? 'Today' : d === 1 ? 'Tomorrow' : `In ${d} days`
+}
+
+/** Video id from a YouTube link (watch?v=, youtu.be/, /live/, /shorts/) */
+function youtubeId(url = '') {
+  const m = url.match(/(?:v=|youtu\.be\/|\/live\/|\/shorts\/|\/embed\/)([\w-]{11})/)
+  return m ? m[1] : null
 }
 
 function Eyebrow({ children, light }) {
@@ -318,7 +324,7 @@ export default async function HomePage() {
                   amounts={(s.presetAmounts ?? []).map((p) => p.amount)}
                   image={
                     <ImageOrPlaceholder
-                      media={s.image}
+                      media={s.cardImage || s.image}
                       art={s.artwork ?? 'lotus'}
                       sizes="(min-width: 1024px) 33vw, 100vw"
                     />
@@ -364,74 +370,152 @@ export default async function HomePage() {
               </div>
             </a>
           )}
-          {home.livePuja?.link && (
-            <a
-              href={home.livePuja.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${styles.sideCard} ${styles.liveCard}`}
-            >
-              <span className={styles.liveBadge}>
+        </div>
+      </section>
+
+      {/* Live puja */}
+      {home.livePuja?.link && (
+        <section className={styles.live}>
+          <div className={`container-x ${styles.liveGrid}`}>
+            <div className={styles.liveFrame}>
+              <div className={styles.livePhoto}>
+                <ImageOrPlaceholder
+                  media={home.livePuja.image}
+                  art="temple"
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                />
+              </div>
+              <span className={styles.liveOnAir}>
                 <span className={styles.liveDot}>
                   <span className={styles.liveDotPing} />
                   <span className={styles.liveDotCore} />
                 </span>
                 Live
               </span>
-              <div className={styles.sideBody}>
-                <h3 className={styles.sideTitle}>Join the puja live</h3>
-                <p className={styles.sideText}>{home.livePuja.schedule} · Free to join</p>
-                <span className={`${styles.sideLink} ${styles.liveLink}`}>Watch now →</span>
+            </div>
+            <div>
+              <Eyebrow>Blessings from Sri Sri Jagannath</Eyebrow>
+              <h2 className={styles.h2}>{home.livePuja.title || 'Live online puja'}</h2>
+              <p className={styles.liveText}>
+                {home.livePuja.text ||
+                  'Join the daily arati at Sri Jagannath Mandir from wherever you are. Offer your prayers at the lotus feet of the Lord for your family, health and spiritual growth.'}
+              </p>
+              <div className={styles.liveFacts}>
+                <div className={styles.liveFact}>
+                  <span className={styles.liveIcon}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="22"
+                      height="22"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      aria-hidden
+                    >
+                      <circle cx="12" cy="12" r="9" />
+                      <path d="M12 7v5l3 2" />
+                    </svg>
+                  </span>
+                  <div>
+                    <p className={styles.liveFactLabel}>Schedule</p>
+                    <p className={styles.liveFactValue}>
+                      {home.livePuja.time || home.livePuja.schedule}
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.liveFact}>
+                  <span className={styles.liveIcon}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="22"
+                      height="22"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      aria-hidden
+                    >
+                      <rect x="3" y="6" width="13" height="12" rx="2" />
+                      <path d="m16 10 5-3v10l-5-3" />
+                    </svg>
+                  </span>
+                  <div>
+                    <p className={styles.liveFactLabel}>Platform</p>
+                    <p className={styles.liveFactValue}>
+                      {home.livePuja.platform || 'Free to join'}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </a>
-          )}
-        </div>
-      </section>
+              <a
+                href={home.livePuja.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`btn-donate ${styles.btnBig} ${styles.liveButton}`}
+              >
+                Join the live puja
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
 
-      {/* Festival timeline */}
+      {/* Upcoming festivals */}
       {festivals.docs.length > 0 && (
         <section className={styles.festivals}>
           <div className="container-x">
             <div className={`${styles.sectionHead} ${styles.festivalsHead}`}>
               <div>
                 <Eyebrow>Celebrate with us</Eyebrow>
-                <h2 className={styles.h2}>The festival calendar</h2>
+                <h2 className={styles.h2}>Upcoming festivals</h2>
+                <p className={styles.festivalsIntro}>
+                  Celebrate the sacred festivals of the Vaishnava tradition with kirtan, abhishek
+                  and prasadam.
+                </p>
               </div>
-              <Link href="/festivals" className={styles.moreLink}>
-                Full calendar →
+              <Link href="/festivals" className={`btn-primary ${styles.btnBig}`}>
+                View all festivals
               </Link>
             </div>
-            <ol className={styles.timeline}>
-              <span className={styles.timelineLine} />
+            <div className={styles.festGrid}>
               {festivals.docs.map((f) => (
-                <li key={f.id} className={styles.festival}>
-                  <div className={styles.dateRow}>
-                    <div className={styles.dateBox}>
-                      <div>
-                        <p className={styles.dateDay}>{formatDate(f.date, { day: 'numeric' })}</p>
-                        <p className={styles.dateMonth}>{formatDate(f.date, { month: 'short' })}</p>
-                      </div>
-                    </div>
-                    <p className={styles.countdown}>{daysUntil(f.date)}</p>
-                  </div>
-                  <Link href={`/festivals/${f.slug}`} className={styles.festivalCard}>
-                    <div className={styles.cardImage}>
-                      <ImageOrPlaceholder
-                        media={f.image}
-                        art={f.artwork ?? 'lotus'}
-                        sizes="(min-width: 1024px) 25vw, 50vw"
-                      />
-                    </div>
-                    <div className={styles.cardBody}>
-                      <h3 className={styles.cardTitle}>{f.name}</h3>
-                      {f.timeLabel && <p className={styles.small}>{f.timeLabel}</p>}
-                      <p className={styles.clamp2}>{f.shortDescription}</p>
-                      <span className={styles.support}>Support →</span>
-                    </div>
+                <article key={f.id} className={styles.fest}>
+                  <Link href={`/festivals/${f.slug}`} className={styles.festImage}>
+                    <ImageOrPlaceholder
+                      media={f.image}
+                      art={f.artwork ?? 'lotus'}
+                      sizes="(min-width: 1024px) 15vw, 35vw"
+                    />
                   </Link>
-                </li>
+                  <div className={styles.festBody}>
+                    <span className={styles.festTag}>{daysUntil(f.date)}</span>
+                    <h3 className={styles.festTitle}>
+                      <Link href={`/festivals/${f.slug}`}>{f.name}</Link>
+                    </h3>
+                    <p className={styles.clamp2}>{f.shortDescription}</p>
+                    <div className={styles.festFoot}>
+                      <span className={styles.festDate}>
+                        <svg
+                          viewBox="0 0 24 24"
+                          width="18"
+                          height="18"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          aria-hidden
+                        >
+                          <rect x="3" y="5" width="18" height="16" rx="2" />
+                          <path d="M3 10h18M8 3v4M16 3v4" />
+                        </svg>
+                        {formatDate(f.date, { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </span>
+                      <Link href={`/festivals/${f.slug}`} className={styles.festButton}>
+                        Support
+                      </Link>
+                    </div>
+                  </div>
+                </article>
               ))}
-            </ol>
+            </div>
           </div>
         </section>
       )}
@@ -527,6 +611,70 @@ export default async function HomePage() {
                 </li>
               ))}
             </ol>
+          </div>
+        </section>
+      )}
+
+      {/* YouTube */}
+      {(home.youtubeVideos?.length > 0 || settings.youtube) && (
+        <section className={styles.youtube}>
+          <div className="container-x">
+            <div className={styles.sectionHeadCenter}>
+              <Eyebrow>Watch and hear</Eyebrow>
+              <h2 className={styles.h2}>ISKCON Coimbatore on YouTube</h2>
+              <p className={styles.youtubeIntro}>
+                Darshan, kirtan and classes from Sri Jagannath Mandir: watch, reflect and deepen
+                your connection with the Lord.
+              </p>
+            </div>
+            {home.youtubeVideos?.length > 0 && (
+              <div className={styles.threeGrid}>
+                {home.youtubeVideos.slice(0, 3).map((v) => {
+                  const id = youtubeId(v.url)
+                  return (
+                    <a
+                      key={v.id ?? v.url}
+                      href={v.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.ytCard}
+                    >
+                      <div className={styles.ytThumb}>
+                        {id && (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+                            alt=""
+                            loading="lazy"
+                          />
+                        )}
+                        <span className={styles.ytPlay} aria-hidden>
+                          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </span>
+                      </div>
+                      <div className={styles.ytBody}>
+                        <h3 className={styles.ytTitle}>{v.title}</h3>
+                        {v.date && <p className={styles.small}>{formatDate(v.date)}</p>}
+                      </div>
+                    </a>
+                  )
+                })}
+              </div>
+            )}
+            {settings.youtube && (
+              <div className={styles.buttonRow}>
+                <a
+                  href={settings.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`btn-primary ${styles.btnBig}`}
+                >
+                  <YoutubeIcon size={18} /> Visit our channel
+                </a>
+              </div>
+            )}
           </div>
         </section>
       )}

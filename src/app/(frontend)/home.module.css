@@ -934,3 +934,261 @@
     gap: 1.5rem;
   }
 }
+
+/* ---------- Live puja ---------- */
+.live {
+  background:
+    radial-gradient(ellipse 60% 70% at 20% 50%, rgb(245 183 0 / 0.14), transparent 70%),
+    linear-gradient(to bottom, #fdf3e2, var(--cream));
+  padding: 5rem 0;
+}
+.liveGrid {
+  display: grid;
+  align-items: center;
+  gap: 3rem;
+}
+.liveFrame {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 26rem;
+  border-radius: 2rem;
+  padding: 0.625rem;
+  background: linear-gradient(145deg, #f7d27a, #c98a16 55%, #f5c14b);
+  box-shadow: 0 30px 60px -28px rgb(120 70 0 / 0.55);
+}
+.livePhoto {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 1.5rem;
+}
+.liveOnAir {
+  position: absolute;
+  left: 1.5rem;
+  top: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: #dc2626;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white);
+  box-shadow: 0 6px 16px -6px rgb(220 38 38 / 0.7);
+}
+.liveText {
+  margin-top: 1rem;
+  max-width: 36rem;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.liveFacts {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1.25rem;
+}
+.liveFact {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.liveIcon {
+  display: grid;
+  width: 3.25rem;
+  height: 3.25rem;
+  flex-shrink: 0;
+  place-items: center;
+  border: 1.5px solid var(--purple-800);
+  border-radius: 9999px;
+  color: var(--purple-800);
+}
+.liveFactLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--purple-700);
+}
+.liveFactValue {
+  margin-top: 0.125rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.liveButton {
+  margin-top: 2.25rem;
+  box-shadow: 0 10px 30px -10px rgb(245 183 0 / 0.8);
+}
+
+/* ---------- Upcoming festivals (horizontal cards) ---------- */
+.festivalsIntro {
+  margin-top: 0.75rem;
+  max-width: 38rem;
+  color: var(--muted);
+}
+.festGrid {
+  display: grid;
+  gap: 1.5rem;
+}
+.fest {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 1rem;
+  border: 1px solid rgb(245 183 0 / 0.45);
+  border-radius: 1.25rem;
+  background: #fffaf2;
+  padding: 0.75rem;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.fest:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -24px rgb(120 70 0 / 0.45);
+}
+.festImage {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 0.875rem;
+}
+.festBody {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 0.25rem 0.25rem 0.25rem 0;
+}
+.festTag {
+  width: fit-content;
+  border-radius: 9999px;
+  background: var(--saffron-100);
+  padding: 0.2rem 0.7rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8a5a00;
+}
+.festTitle {
+  margin-top: 0.5rem;
+  font-size: 1.375rem;
+  line-height: 1.2;
+  color: var(--purple-900);
+}
+.festTitle a:hover {
+  color: var(--purple-600);
+}
+.festFoot {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.875rem;
+}
+.festDate {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--purple-900);
+}
+.festDate svg {
+  color: var(--saffron-600);
+}
+.festButton {
+  border-radius: 9999px;
+  background: var(--purple-800);
+  padding: 0.5rem 1.1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--white);
+  transition: background-color 0.2s;
+}
+.festButton:hover {
+  background: var(--purple-700);
+}
+
+/* ---------- YouTube ---------- */
+.youtube {
+  padding: 5.5rem 0;
+}
+.youtubeIntro {
+  margin: 0.75rem auto 0;
+  max-width: 40rem;
+  color: var(--muted);
+}
+.ytCard {
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgb(245 183 0 / 0.4);
+  border-radius: 1.25rem;
+  background: #fffaf2;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.ytCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 44px -24px rgb(28 10 51 / 0.45);
+}
+.ytThumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--purple-950);
+}
+.ytThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ytPlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  translate: -50% -50%;
+  place-items: center;
+  border: 3px solid var(--saffron-500);
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.95);
+  color: var(--purple-900);
+  transition: transform 0.2s;
+}
+.ytCard:hover .ytPlay {
+  transform: scale(1.08);
+}
+.ytBody {
+  padding: 1rem 1.25rem 1.25rem;
+}
+.ytTitle {
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  color: var(--purple-900);
+}
+
+@media (min-width: 640px) {
+  .liveFacts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .fest {
+    grid-template-columns: 10rem 1fr;
+    gap: 1.25rem;
+  }
+}
+@media (min-width: 1024px) {
+  .liveGrid {
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 5rem;
+  }
+  .festGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

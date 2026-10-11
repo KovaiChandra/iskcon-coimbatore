@@ -144,11 +144,36 @@ export const HomePage: GlobalConfig = {
       type: 'group',
       fields: [
         {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: 'Deity photo beside the live puja text' },
+        },
+        { name: 'title', type: 'text', defaultValue: 'Live online puja' },
+        { name: 'text', type: 'textarea' },
+        { name: 'time', type: 'text', admin: { description: 'e.g. "Every day · 7:00 PM IST"' } },
+        { name: 'platform', type: 'text', defaultValue: 'YouTube · Free to join' },
+        {
           name: 'schedule',
           type: 'text',
           admin: { description: 'e.g. "Daily 4:15 AM Mangala Arati · 7:15 PM Sandhya Arati"' },
         },
         { name: 'link', type: 'text', label: 'Zoom / YouTube live link' },
+      ],
+    },
+    {
+      name: 'youtubeVideos',
+      type: 'array',
+      label: 'YouTube videos',
+      maxRows: 6,
+      admin: {
+        description:
+          'Videos shown in the "ISKCON Coimbatore on YouTube" section. Paste the YouTube link; the thumbnail is fetched automatically.',
+      },
+      fields: [
+        { name: 'title', type: 'text', required: true },
+        { name: 'url', type: 'text', required: true },
+        { name: 'date', type: 'date' },
       ],
     },
   ],
