@@ -28,6 +28,20 @@ export const HomePage: GlobalConfig = {
           admin: { description: 'Use Full photo for landscape photos, Arch for portrait photos' },
         },
         {
+          name: 'tone',
+          type: 'select',
+          defaultValue: 'purple',
+          label: 'Colour',
+          options: [
+            { label: 'Royal purple', value: 'purple' },
+            { label: 'Sunset maroon', value: 'maroon' },
+            { label: 'Dusk indigo', value: 'indigo' },
+            { label: 'Forest green', value: 'green' },
+            { label: 'Saffron gold', value: 'saffron' },
+          ],
+          admin: { description: 'Colour the photo fades into behind the text (Full photo layout)' },
+        },
+        {
           name: 'eyebrow',
           type: 'text',
           admin: { description: 'Small line above the heading, e.g. "Every Sunday"' },

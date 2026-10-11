@@ -7,6 +7,9 @@
    ========================================================================= */
 
 .hero {
+  /* Slide colour (set per slide in admin → "Colour"). Values are R G B. */
+  --tone-deep: 28 10 51; /* darkest: behind the text */
+  --tone-mid: 46 17 80; /* lighter: where the photo fades in */
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -82,15 +85,15 @@
   display: none;
   /* Deep royal purple with a soft glow behind the title */
   background:
-    radial-gradient(ellipse 55% 70% at 22% 62%, rgb(75 29 122 / 0.55), transparent 70%),
-    var(--purple-950);
+    radial-gradient(ellipse 50% 90% at 22% 62%, rgba(238, 237, 240, 0.55), transparent 70%),
+    rgb(var(--tone-deep));
 }
 .splitPhoto {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 68%;
+  width: 85%;
   overflow: hidden;
   /* Left 22% of the photo fades into the purple */
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 22%);
@@ -104,7 +107,7 @@
 .splitTint {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, rgb(28 10 51 / 0.8) 0%, rgb(46 17 80 / 0.35) 16%, rgb(46 17 80 / 0) 32%);
+  background: linear-gradient(to right, rgb(var(--tone-deep) / 0.8) 0%, rgb(var(--tone-mid) / 0.35) 16%, rgb(var(--tone-mid) / 0) 30%);
 }
 @media (min-width: 1024px) {
   .splitPhone {
@@ -113,6 +116,24 @@
   .split {
     display: block;
   }
+}
+
+/* Colour choices for the "Colour" setting (royal purple is the default above) */
+.tone-maroon {
+  --tone-deep: 42 13 10;
+  --tone-mid: 92 32 22;
+}
+.tone-indigo {
+  --tone-deep: 17 16 54;
+  --tone-mid: 38 36 100;
+}
+.tone-green {
+  --tone-deep: 10 32 22;
+  --tone-mid: 22 66 44;
+}
+.tone-saffron {
+  --tone-deep: 58 30 2;
+  --tone-mid: 120 68 6;
 }
 
 /* ---------- Shading over the photos ---------- */
@@ -151,7 +172,7 @@
 /* Split photo: purple shading so the text stays readable (phones: over the photo;
    desktop: just a soft fade at the bottom, since the text already sits on solid purple) */
 .splitShadeBottom {
-  background: linear-gradient(to top, rgb(28 10 51 / 0.9), rgb(28 10 51 / 0.3) 35%, transparent 70%);
+  background: linear-gradient(to top, rgb(var(--tone-deep) / 0.9), rgb(var(--tone-deep) / 0.3) 35%, transparent 70%);
 }
 .splitShadeSide {
   position: absolute;
@@ -159,7 +180,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background: linear-gradient(to right, rgb(28 10 51 / 0.75), rgb(28 10 51 / 0.45), transparent);
+  background: linear-gradient(to right, rgb(var(--tone-deep) / 0.75), rgb(var(--tone-deep) / 0.45), transparent);
 }
 @media (min-width: 640px) {
   .cineShadeSide,
@@ -172,7 +193,7 @@
     display: none;
   }
   .splitShadeBottom {
-    background: linear-gradient(to top, rgb(28 10 51 / 0.85), transparent 30%);
+    background: linear-gradient(to top, rgb(var(--tone-deep) / 0.85), transparent 30%);
   }
 }
 

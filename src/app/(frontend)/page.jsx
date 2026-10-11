@@ -89,6 +89,7 @@ export default async function HomePage() {
     text: s.text,
     verse: s.verse,
     layout: s.layout ?? 'arch',
+    tone: s.tone ?? 'purple',
     image: imageOf(s.image),
     art: s.artwork ?? 'temple',
     primary: { label: s.buttonLabel || 'Learn more', href: s.link || '/festivals' },

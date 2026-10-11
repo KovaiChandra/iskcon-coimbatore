@@ -241,7 +241,7 @@ export function HeroSlider({ slides }) {
 
   return (
     <section
-      className={styles.hero}
+      className={`${styles.hero} ${styles[`tone-${slide.tone}`] ?? ''}`}
       aria-roledescription="carousel"
       aria-label="Temple highlights"
       onMouseEnter={() => setPaused(true)}
@@ -265,7 +265,7 @@ export function HeroSlider({ slides }) {
         <div
           key={s.id}
           aria-hidden={i !== index}
-          className={`${styles.backdrop} ${
+          className={`${styles.backdrop} ${styles[`tone-${s.tone}`] ?? ''} ${
             i === index
               ? s.layout === 'cinematic'
                 ? ''

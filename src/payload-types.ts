@@ -886,6 +886,10 @@ export interface HomePage {
          */
         layout?: ('arch' | 'cinematic') | null;
         /**
+         * Colour the photo fades into behind the text (Full photo layout)
+         */
+        tone?: ('purple' | 'maroon' | 'indigo' | 'green' | 'saffron') | null;
+        /**
          * Small line above the heading, e.g. "Every Sunday"
          */
         eyebrow?: string | null;
@@ -992,6 +996,7 @@ export interface HomePageSelect<T extends boolean = true> {
     | T
     | {
         layout?: T;
+        tone?: T;
         eyebrow?: T;
         heading?: T;
         text?: T;
