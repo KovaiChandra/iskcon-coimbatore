@@ -888,7 +888,7 @@ export interface HomePage {
         /**
          * Colour the photo fades into behind the text (Full photo layout)
          */
-        tone?: ('purple' | 'maroon' | 'indigo' | 'green' | 'saffron') | null;
+        tone?: ('purple' | 'maroon' | 'indigo' | 'green' | 'saffron' | 'ivory') | null;
         /**
          * Small line above the heading, e.g. "Every Sunday"
          */

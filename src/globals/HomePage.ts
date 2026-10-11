@@ -38,6 +38,7 @@ export const HomePage: GlobalConfig = {
             { label: 'Dusk indigo', value: 'indigo' },
             { label: 'Forest green', value: 'green' },
             { label: 'Saffron gold', value: 'saffron' },
+            { label: 'Ivory (light, dark text)', value: 'ivory' },
           ],
           admin: { description: 'Colour the photo fades into behind the text (Full photo layout)' },
         },

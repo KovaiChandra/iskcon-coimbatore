@@ -9,6 +9,9 @@ import styles from './HeroSlider.module.css'
 
 const DURATION = 7000
 
+/** Pale slide colours: these get dark text instead of white */
+const LIGHT_TONES = ['ivory']
+
 /** Full-photo slide whose photo is too narrow to fill the banner without cropping (desktop). */
 const isSplit = (s) => s.layout === 'cinematic' && !!s.image && (s.image.ratio ?? 2) < 1.7
 
@@ -241,7 +244,7 @@ export function HeroSlider({ slides }) {
 
   return (
     <section
-      className={`${styles.hero} ${styles[`tone-${slide.tone}`] ?? ''}`}
+      className={`${styles.hero} ${styles[`tone-${slide.tone}`] ?? ''} ${LIGHT_TONES.includes(slide.tone) ? styles.light : ''}`}
       aria-roledescription="carousel"
       aria-label="Temple highlights"
       onMouseEnter={() => setPaused(true)}

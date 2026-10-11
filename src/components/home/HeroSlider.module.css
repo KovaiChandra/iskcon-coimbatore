@@ -135,6 +135,11 @@
   --tone-deep: 58 30 2;
   --tone-mid: 120 68 6;
 }
+/* Light: warm ivory with a peach sunset glow. Text switches to dark (see "Light slides" below) */
+.tone-ivory {
+  --tone-deep: 252 246 238;
+  --tone-mid: 247 222 198;
+}
 
 /* ---------- Shading over the photos ---------- */
 .shade {
@@ -566,5 +571,73 @@
   }
   .archTitleLong {
     font-size: 4rem;
+  }
+}
+
+/* ---------- Light slides ("Ivory" colour): dark text on the pale background ---------- */
+.light {
+  color: var(--purple-900);
+}
+.light .cineText {
+  text-shadow: 0 1px 12px rgb(252 246 238 / 0.9);
+}
+.light .eyebrow {
+  color: var(--saffron-600);
+}
+.light .eyebrowLine {
+  background: var(--saffron-600);
+}
+.light .cineTitle {
+  color: var(--purple-900);
+}
+.light .cineVerse {
+  color: var(--purple-700);
+}
+.light .cineLead {
+  color: var(--muted);
+}
+.light .ctaOutline {
+  color: var(--purple-800);
+}
+.light .counter {
+  color: var(--muted);
+}
+.light .counterNow {
+  color: var(--saffron-600);
+}
+.light .dot {
+  background: rgb(59 23 101 / 0.2);
+}
+.light .dotButton:hover .dot {
+  background: rgb(59 23 101 / 0.4);
+}
+.light .arrow {
+  border-color: rgb(59 23 101 / 0.25);
+  color: var(--purple-800);
+}
+.light .arrow:hover {
+  border-color: var(--saffron-500);
+  color: var(--saffron-600);
+}
+/* Soft peach glow behind the title instead of the grey one */
+.light .split {
+  background:
+    radial-gradient(ellipse 55% 80% at 30% 60%, rgb(var(--tone-mid) / 0.6), transparent 70%),
+    rgb(var(--tone-deep));
+}
+/* Soft ivory wash behind the text on desktop, so it stays readable over the photo */
+@media (min-width: 1024px) {
+  .light .splitShadeSide {
+    display: block;
+    width: 62%;
+    background: linear-gradient(
+      to right,
+      rgb(var(--tone-deep) / 0.97) 0%,
+      rgb(var(--tone-deep) / 0.88) 50%,
+      rgb(var(--tone-deep) / 0) 100%
+    );
+  }
+  .light .splitShadeBottom {
+    background: linear-gradient(to top, rgb(var(--tone-deep) / 0.7), transparent 25%);
   }
 }
