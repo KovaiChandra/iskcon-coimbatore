@@ -884,7 +884,7 @@ export interface HomePage {
         /**
          * Use Full photo for landscape photos, Arch for portrait photos
          */
-        layout?: ('arch' | 'cinematic') | null;
+        layout?: ('arch' | 'cinematic' | 'card') | null;
         /**
          * Colour the photo fades into behind the text (Full photo layout)
          */

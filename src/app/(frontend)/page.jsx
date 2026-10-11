@@ -154,7 +154,15 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroSlider slides={slides} />
+      <HeroSlider
+        slides={slides}
+        visit={{
+          address: settings.address,
+          mapUrl: settings.mapUrl,
+          schedule: (timings.schedule ?? []).map(({ time, activity }) => ({ time, activity })),
+          sessions: (timings.openSessions ?? []).map(({ opens, closes }) => ({ opens, closes })),
+        }}
+      />
       <ScheduleTicker
         items={(timings.schedule ?? []).map(({ time, activity }) => ({ time, activity }))}
       />

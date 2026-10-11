@@ -24,6 +24,11 @@ export const HomePage: GlobalConfig = {
               label: 'Full photo: the photo fills the banner, text bottom-left',
               value: 'cinematic',
             },
+            {
+              label:
+                'Visit card: photo fills the banner, card with live status, timings & directions',
+              value: 'card',
+            },
           ],
           admin: { description: 'Use Full photo for landscape photos, Arch for portrait photos' },
         },

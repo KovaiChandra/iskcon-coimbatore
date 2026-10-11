@@ -670,3 +670,170 @@
 .light .eyebrowLine {
   background: #a86b00;
 }
+
+/* =========================================================================
+   Visit layout ("Visit card"): photo fills the banner, frosted ivory card
+   with live open/closed status, today's timings, address and directions
+   ========================================================================= */
+.visitShade {
+  background:
+    linear-gradient(to top, rgb(24 10 4 / 0.55), transparent 28%),
+    linear-gradient(to right, rgb(24 10 4 / 0.25), transparent 45%);
+}
+.visit {
+  display: flex;
+  min-height: 600px;
+  align-items: flex-end;
+  padding-top: 16rem; /* phones: leave the temple visible above the card */
+  padding-bottom: 6.5rem;
+}
+.visitCard {
+  position: relative;
+  width: 100%;
+  max-width: 30rem;
+  border: 1px solid rgb(255 255 255 / 0.65);
+  border-radius: 1.75rem;
+  background: rgb(252 247 240 / 0.86);
+  padding: 1.75rem 1.5rem 1.5rem;
+  color: var(--ink);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
+  box-shadow:
+    0 30px 60px -20px rgb(40 15 5 / 0.45),
+    inset 0 1px 0 rgb(255 255 255 / 0.8);
+}
+/* Thin saffron accent along the top edge */
+.visitCard::before {
+  content: '';
+  position: absolute;
+  left: 1.75rem;
+  right: 1.75rem;
+  top: -1px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(to right, transparent, var(--saffron-500), transparent);
+}
+.visitTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+.visitEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a86b00;
+}
+.visitStatus {
+  border-radius: 9999px;
+  background: var(--white);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--purple-900);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+}
+.visitTitle {
+  margin-top: 0.875rem;
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  line-height: 1.05;
+  color: var(--purple-900);
+}
+.visitRule {
+  margin-top: 1rem;
+  height: 1px;
+  background: linear-gradient(to right, rgb(168 107 0 / 0.5), transparent);
+}
+.visitTimes {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1.25rem;
+}
+.visitTimes li {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid rgb(245 183 0 / 0.6);
+  padding-left: 0.625rem;
+}
+.visitTime {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  color: var(--purple-800);
+}
+.visitActivity {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.visitAddress {
+  margin-top: 1.125rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.visitAddress svg {
+  margin-top: 0.1rem;
+  flex-shrink: 0;
+  color: #a86b00;
+}
+.visitButtons {
+  margin-top: 1.375rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.visitSecondary {
+  color: var(--purple-800);
+}
+.visitSecondary:hover {
+  background: rgb(59 23 101 / 0.06);
+}
+
+@media (min-width: 640px) {
+  .visitCard {
+    padding: 2rem 2rem 1.75rem;
+  }
+  .visitTitle {
+    font-size: 3rem;
+  }
+}
+@media (min-width: 1024px) {
+  .visit {
+    min-height: min(82vh, 860px);
+    align-items: center;
+    padding-top: 3rem;
+    padding-bottom: 6rem;
+  }
+}
+/* Phones: a compact card — two timings, smaller buttons side by side */
+@media (max-width: 639px) {
+  .visit {
+    padding-top: 11rem;
+  }
+  .visitCard {
+    padding: 1.25rem 1.25rem 1.125rem;
+  }
+  .visitTitle {
+    font-size: 2.1rem;
+  }
+  .visitTimes li:nth-child(n + 3) {
+    display: none;
+  }
+  .visitButtons {
+    flex-wrap: nowrap;
+  }
+  .visitButtons > * {
+    padding: 0.625rem 1.125rem;
+    font-size: 0.875rem;
+  }
+}
