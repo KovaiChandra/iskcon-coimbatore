@@ -131,7 +131,7 @@ function SlideVisual({
                 fill
                 sizes="50vw"
                 style={{ objectPosition: '0% 50%', transform: 'scaleX(-1)' }}
-                className="object-cover blur-2xl saturate-125"
+                className="object-cover blur-md saturate-125"
               />
             </div>
           </div>
