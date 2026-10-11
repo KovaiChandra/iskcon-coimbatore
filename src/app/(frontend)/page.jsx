@@ -173,22 +173,36 @@ export default async function HomePage() {
       {/* About */}
       <section className={styles.about2}>
         <div className={`container-x ${styles.about2Grid}`}>
-          <div className={styles.about2Media}>
-            <div className={styles.about2Photo}>
+          {/* Collage: large deity photo, small photo top-left, Prabhupada card bottom-left */}
+          <div className={styles.collage}>
+            <div className={styles.collageMain}>
               <ImageOrPlaceholder
                 media={home.about?.image}
                 art="temple"
-                alt="Sri Jagannath Mandir, Coimbatore"
-                sizes="(min-width: 1024px) 45vw, 100vw"
+                alt="Sri Sri Jagannath, Baladeva and Subhadra"
+                sizes="(min-width: 1024px) 35vw, 75vw"
               />
             </div>
-            <div className={styles.about2Badge}>
-              <p className={styles.yearNumber}>1966</p>
-              <p className={styles.yearLabel}>ISKCON founded</p>
+            <div className={styles.collageSmall}>
+              <ImageOrPlaceholder
+                media={home.about?.smallImage}
+                art="lotus"
+                sizes="(min-width: 1024px) 14vw, 35vw"
+              />
             </div>
-            <div className={styles.about2Place}>
-              <span className={styles.about2PlaceDot} />
-              Sri Jagannath Mandir · Coimbatore
+            <div className={styles.collageFounder}>
+              <div className={styles.collageFounderPhoto}>
+                <ImageOrPlaceholder
+                  media={home.founder?.image}
+                  art="book"
+                  alt="Srila Prabhupada"
+                  sizes="(min-width: 1024px) 18vw, 45vw"
+                />
+              </div>
+              <p className={styles.collageFounderName}>
+                Srila Prabhupada
+                <span>Founder-Acharya of ISKCON</span>
+              </p>
             </div>
           </div>
 

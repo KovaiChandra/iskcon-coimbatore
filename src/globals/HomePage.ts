@@ -128,7 +128,18 @@ export const HomePage: GlobalConfig = {
       name: 'about',
       type: 'group',
       fields: [
-        { name: 'image', type: 'upload', relationTo: 'media' },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: 'Large photo in the About collage' },
+        },
+        {
+          name: 'smallImage',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: 'Small photo, top-left of the collage' },
+        },
         { name: 'text', type: 'textarea' },
       ],
     },

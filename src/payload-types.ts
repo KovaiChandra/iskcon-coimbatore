@@ -937,7 +937,14 @@ export interface HomePage {
    */
   donationSevas?: (number | Seva)[] | null;
   about?: {
+    /**
+     * Large photo in the About collage
+     */
     image?: (number | null) | Media;
+    /**
+     * Small photo, top-left of the collage
+     */
+    smallImage?: (number | null) | Media;
     text?: string | null;
   };
   /**
@@ -1063,6 +1070,7 @@ export interface HomePageSelect<T extends boolean = true> {
     | T
     | {
         image?: T;
+        smallImage?: T;
         text?: T;
       };
   visitImage?: T;
