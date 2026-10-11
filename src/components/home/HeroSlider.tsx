@@ -93,14 +93,6 @@ function SlideVisual({
   }
   // Behind the arch the backdrop is a soft blurred copy; in the cinematic layout it is the sharp photo itself.
   const softBackdrop = variant === 'backdrop' && slide.layout !== 'cinematic'
-  const image = slide.image
-  const shared = {
-    src: image.url,
-    quality: 90,
-    placeholder: image.blur ? ('blur' as const) : ('empty' as const),
-    blurDataURL: image.blur,
-    ...(priority ? { priority: true } : { loading: 'eager' as const }),
-  }
 
   return (
     <Image
