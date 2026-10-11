@@ -30,7 +30,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en" className={`${marcellus.variable} ${inter.variable}`}>
       <body>
         <TopBar sessions={sessions} socials={<SocialLinks settings={settings} />} />
-        <Header socials={<SocialLinks settings={settings} className="gap-5" />} />
+        <Header socials={<SocialLinks settings={settings} gap={1.25} />} />
         <main>{children}</main>
         <Footer settings={settings} timings={timings} />
         {settings.whatsapp && <WhatsAppFloat number={settings.whatsapp} />}

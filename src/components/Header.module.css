@@ -1,0 +1,241 @@
+/* ---------- Sticky white header ---------- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  border-bottom: 1px solid var(--purple-100);
+  background: var(--white);
+}
+.inner {
+  display: flex;
+  height: 4rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Logo + name */
+.brand {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.5rem;
+}
+.logo {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+.brandText {
+  white-space: nowrap;
+  line-height: 1.25;
+}
+.brandName {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--purple-800);
+}
+.brandSub {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ---------- Desktop menu ---------- */
+.nav {
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+.navList {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.navItem {
+  position: relative;
+}
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+  border-radius: 9999px;
+  padding: 0.5rem 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.navLink:hover,
+.active {
+  color: var(--purple-700);
+}
+
+/* Dropdown under a menu item: shown on hover or keyboard focus */
+.dropdown {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  min-width: 12rem;
+  border: 1px solid var(--purple-100);
+  border-radius: 0.75rem;
+  background: var(--white);
+  padding: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  transition: opacity 0.15s, visibility 0.15s;
+}
+.navItem:hover .dropdown,
+.navItem:focus-within .dropdown {
+  visibility: visible;
+  opacity: 1;
+}
+.dropdownLink {
+  display: block;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+.dropdownLink:hover {
+  background: var(--purple-50);
+  color: var(--purple-700);
+}
+
+/* ---------- Right side: search, donate, menu button ---------- */
+.actions {
+  margin-left: auto;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.25rem;
+}
+.search {
+  display: none;
+  border-radius: 9999px;
+  padding: 0.5rem;
+  color: var(--purple-700);
+}
+/* Only on devices with a mouse, so a tapped button doesn't stay highlighted on phones */
+@media (hover: hover) {
+  .search:hover,
+  .menuButton:hover {
+    background: var(--purple-50);
+  }
+}
+.donate {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.menuButton {
+  border-radius: 9999px;
+  padding: 0.5rem;
+  color: var(--purple-800);
+}
+.menuIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* ---------- Mobile full-screen menu ---------- */
+.mobileMenu {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 4rem;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--white);
+}
+.mobileNav {
+  flex: 1;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.mobileList > li + li {
+  border-top: 1px solid var(--purple-100);
+}
+.mobileToggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 0;
+  text-align: left;
+  font-weight: 500;
+}
+.chevron {
+  transition: transform 0.15s;
+}
+.chevronOpen {
+  transform: rotate(180deg);
+}
+.mobileSub {
+  padding-bottom: 0.75rem;
+  padding-left: 1rem;
+}
+.mobileSubLink {
+  display: block;
+  padding: 0.5rem 0;
+  color: var(--muted);
+}
+.mobileLink {
+  display: block;
+  padding: 0.875rem 0;
+  font-weight: 500;
+}
+.mobileSocials {
+  background: var(--purple-800);
+  padding: 1.25rem 0;
+  color: var(--white);
+}
+
+/* ---------- Bigger screens ---------- */
+@media (min-width: 640px) {
+  .brand {
+    gap: 0.75rem;
+  }
+  .logo {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .brandName {
+    font-size: 1.125rem;
+  }
+  .brandSub {
+    font-size: 0.75rem;
+  }
+  .actions {
+    gap: 0.5rem;
+  }
+  .donate {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+/* Desktop: full menu shows, hamburger hides */
+@media (min-width: 1280px) {
+  .inner {
+    height: 5rem;
+  }
+  .logo {
+    width: 3rem;
+    height: 3rem;
+  }
+  .brandName {
+    font-size: 1.25rem;
+  }
+  .nav,
+  .search {
+    display: block;
+  }
+  .actions {
+    margin-left: 0;
+  }
+  .menuButton,
+  .mobileMenu {
+    display: none;
+  }
+}

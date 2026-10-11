@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { SiteSetting, TempleTiming } from '@/payload-types'
 import { LotusMark } from './Icons'
 import { SocialLinks } from './SocialLinks'
+import styles from './Footer.module.css'
 
 const COLUMNS = [
   {
@@ -41,51 +42,51 @@ export function Footer({ settings, timings }: { settings: SiteSetting; timings: 
 
   return (
     <footer>
-      <section className="bg-gradient-to-r from-purple-700 to-purple-900 text-white">
-        <div className="container-x flex flex-col items-start gap-6 py-12 md:flex-row md:items-center md:justify-between">
+      <section className={styles.cta}>
+        <div className={`container-x ${styles.ctaInner}`}>
           <div>
-            <h2 className="font-serif text-3xl text-white">Begin Your Journey With Krishna Today</h2>
-            <p className="mt-2 text-purple-100">Sponsor a meal, offer a seva, join a course or visit the temple.</p>
+            <h2 className={styles.ctaTitle}>Begin Your Journey With Krishna Today</h2>
+            <p className={styles.ctaText}>Sponsor a meal, offer a seva, join a course or visit the temple.</p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className={styles.ctaButtons}>
             <Link href="/donate/annadaan" className="btn-donate">
               Sponsor a Meal
             </Link>
-            <Link href="/contact#timings" className="btn-outline text-white">
+            <Link href="/contact#timings" className={`btn-outline ${styles.ctaOutline}`}>
               Visit the Temple
             </Link>
           </div>
         </div>
       </section>
 
-      <div className="bg-purple-950 text-sm text-purple-100">
-        <div className="container-x grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
+      <div className={styles.main}>
+        <div className={`container-x ${styles.grid}`}>
+          <div className={styles.about}>
+            <div className={styles.brand}>
               <LotusMark />
-              <span className="font-serif text-xl text-white">ISKCON Coimbatore</span>
+              <span className={styles.brandName}>ISKCON Coimbatore</span>
             </div>
-            <p className="whitespace-pre-line">{settings.address}</p>
+            <p className={styles.address}>{settings.address}</p>
             <p>
               Phone:{' '}
-              <a href={`tel:${settings.phone}`} className="hover:text-saffron-300">
+              <a href={`tel:${settings.phone}`} className={styles.hoverGold}>
                 {settings.phone}
               </a>
             </p>
             <p>
               Email:{' '}
-              <a href={`mailto:${settings.email}`} className="hover:text-saffron-300">
+              <a href={`mailto:${settings.email}`} className={styles.hoverGold}>
                 {settings.email}
               </a>
             </p>
-            <SocialLinks settings={settings} className="pt-2 text-white" />
+            <SocialLinks settings={settings} className={styles.socials} />
           </div>
           {COLUMNS.map((col) => {
             const links = (
-              <ul className="mt-3 space-y-2">
+              <ul className={styles.links}>
                 {col.links.map((l) => (
                   <li key={l.label}>
-                    <Link href={l.href === 'youtube' ? settings.youtube || '#' : l.href} className="hover:text-white">
+                    <Link href={l.href === 'youtube' ? settings.youtube || '#' : l.href} className={styles.hoverWhite}>
                       {l.label}
                     </Link>
                   </li>
@@ -94,12 +95,12 @@ export function Footer({ settings, timings }: { settings: SiteSetting; timings: 
             )
             return (
               <div key={col.title}>
-                <div className="hidden md:block">
-                  <h3 className="font-serif text-lg text-saffron-300">{col.title}</h3>
+                <div className={styles.columnDesktop}>
+                  <h3 className={styles.columnTitle}>{col.title}</h3>
                   {links}
                 </div>
-                <details className="border-b border-white/10 pb-3 md:hidden">
-                  <summary className="cursor-pointer font-serif text-lg text-saffron-300">{col.title}</summary>
+                <details className={styles.columnMobile}>
+                  <summary className={styles.columnTitle}>{col.title}</summary>
                   {links}
                 </details>
               </div>
@@ -107,7 +108,7 @@ export function Footer({ settings, timings }: { settings: SiteSetting; timings: 
           })}
         </div>
 
-        <div className="container-x space-y-2 border-t border-white/10 py-6 text-xs text-purple-100/80">
+        <div className={`container-x ${styles.notes}`}>
           <p>
             Donations to ISKCON Coimbatore are eligible for tax exemption under Section 80G.
             {settings.reg80G && <> Registration no.: {settings.reg80G}.</>}
@@ -115,14 +116,14 @@ export function Footer({ settings, timings }: { settings: SiteSetting; timings: 
           {footerTimings.length > 0 && <p>{footerTimings.map((t) => `${t.activity} ${t.time}`).join(' · ')}</p>}
         </div>
 
-        <div className="border-t border-white/10">
-          <div className="container-x flex flex-col gap-2 py-5 text-xs md:flex-row md:justify-between">
+        <div className={styles.bottom}>
+          <div className={`container-x ${styles.bottomInner}`}>
             <p>© {new Date().getFullYear()} ISKCON Coimbatore. All rights reserved.</p>
-            <nav className="flex flex-wrap gap-x-4 gap-y-1">
-              <Link href="/terms" className="hover:text-white">Terms &amp; Conditions</Link>
-              <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
-              <Link href="/refund-policy" className="hover:text-white">Refund Policy</Link>
-              <Link href="/sitemap.xml" className="hover:text-white">Sitemap</Link>
+            <nav className={styles.legal}>
+              <Link href="/terms" className={styles.hoverWhite}>Terms &amp; Conditions</Link>
+              <Link href="/privacy" className={styles.hoverWhite}>Privacy Policy</Link>
+              <Link href="/refund-policy" className={styles.hoverWhite}>Refund Policy</Link>
+              <Link href="/sitemap.xml" className={styles.hoverWhite}>Sitemap</Link>
             </nav>
           </div>
         </div>

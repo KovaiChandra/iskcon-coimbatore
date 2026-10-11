@@ -1,0 +1,35 @@
+/* Thin purple strip above the header (desktop only) */
+.bar {
+  display: none;
+  background: var(--purple-900);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--purple-100);
+}
+@media (min-width: 1024px) {
+  .bar {
+    display: block;
+  }
+}
+.inner {
+  display: flex;
+  height: 2.25rem;
+  align-items: center;
+  gap: 1.25rem;
+}
+.darshan {
+  font-weight: 500;
+  color: var(--saffron-300);
+}
+.darshan:hover {
+  text-decoration: underline;
+}
+.right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.link:hover {
+  color: var(--white);
+}

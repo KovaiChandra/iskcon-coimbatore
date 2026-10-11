@@ -3,7 +3,7 @@
 Website and admin panel for ISKCON Coimbatore. Page structure follows the
 "Page Structure – ISKCON Coimbatore Website" spec (14 pages).
 
-**Stack:** Next.js 16 (App Router) · Payload CMS 3 (admin at `/admin`) · Tailwind CSS 4 ·
+**Stack:** Next.js 16 (App Router) · Payload CMS 3 (admin at `/admin`) · plain CSS (CSS Modules) ·
 SQLite locally → Postgres in production · Razorpay (donations, to come) · Resend (email, to come)
 
 ## Getting started
@@ -21,7 +21,9 @@ Open `/admin` and create the first staff user.
 
 | What | Where |
 | --- | --- |
-| Colours, fonts, button styles | `src/app/(frontend)/globals.css` (`@theme`) |
+| Colours, fonts, buttons, page width, animations | `src/app/(frontend)/globals.css` (colour variables at the top) |
+| Styles for one component | the `.module.css` file next to it, e.g. `src/components/home/HeroSlider.module.css` |
+| Home page section styles | `src/app/(frontend)/home.module.css` |
 | Menu | `src/lib/nav.ts` |
 | Header / top bar / footer | `src/components/` |
 | Home page (15 sections) | `src/app/(frontend)/page.tsx` |
@@ -30,6 +32,19 @@ Open `/admin` and create the first staff user.
 | Site-wide settings | `src/globals/` (Home page, Temple timings, Site settings) |
 
 Brand colours: royal purple `#4B1D7A`, saffron yellow `#F5B700`, white.
+
+## Styling
+
+Plain CSS, no framework. Each component imports its own CSS Module:
+
+```tsx
+import styles from './Footer.module.css'
+<div className={styles.grid}>…</div>   // → .grid { … } in Footer.module.css
+```
+
+Colours are CSS variables defined once in `globals.css` (`--purple-800`, `--saffron-500`, …) and used as
+`color: var(--purple-800)`. Change a variable there to recolour the whole site. Screen-size rules use
+`@media (min-width: 640px | 768px | 1024px | 1280px)`.
 
 ## Status
 

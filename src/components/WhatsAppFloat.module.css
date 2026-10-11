@@ -1,0 +1,19 @@
+/* Round green WhatsApp button fixed to the bottom-right corner */
+.button {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  background: var(--whatsapp);
+  color: var(--white);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  transition: transform 0.15s;
+}
+.button:hover {
+  transform: scale(1.05);
+}

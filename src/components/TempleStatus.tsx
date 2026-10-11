@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { templeStatus, type Session } from '@/lib/temple-status'
+import styles from './TempleStatus.module.css'
 
 export function TempleStatus({ sessions }: { sessions: Session[] }) {
   // Computed on the client so cached pages still show the live status.
@@ -16,8 +17,8 @@ export function TempleStatus({ sessions }: { sessions: Session[] }) {
 
   if (!status || sessions.length === 0) return null
   return (
-    <span className="inline-flex items-center gap-1.5">
-      <span className={`size-2 rounded-full ${status.open ? 'bg-green-400' : 'bg-red-400'}`} />
+    <span className={styles.status}>
+      <span className={`${styles.dot} ${status.open ? styles.open : styles.closed}`} />
       {status.label}
     </span>
   )

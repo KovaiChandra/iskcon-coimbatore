@@ -1,57 +1,179 @@
-@import 'tailwindcss';
+/* =========================================================================
+   ISKCON Coimbatore — global styles
+   Colours, fonts, the page reset, shared buttons and animations live here.
+   Each component has its own *.module.css file next to it for everything else.
+   ========================================================================= */
 
-@theme {
-  --color-purple-950: #1c0a33;
-  --color-purple-900: #2e1150;
-  --color-purple-800: #3b1765;
-  --color-purple-700: #4b1d7a;
-  --color-purple-600: #5e2a94;
-  --color-purple-100: #efe7f8;
-  --color-purple-50: #f7f2fc;
-  --color-saffron-600: #e0a100;
-  --color-saffron-500: #f5b700;
-  --color-saffron-300: #ffd75e;
-  --color-saffron-100: #fff3cc;
-  --color-cream: #fbf8f2;
-  --color-ink: #24182f;
-  --color-muted: #6b5f75;
+/* ---------- Colours & fonts (change a colour here and it updates site-wide) ---------- */
+:root {
+  --purple-950: #1c0a33; /* deepest purple — hero, footer */
+  --purple-900: #2e1150; /* top bar */
+  --purple-800: #3b1765; /* headings */
+  --purple-700: #4b1d7a; /* royal purple — primary buttons */
+  --purple-600: #5e2a94;
+  --purple-200: #e9d5ff;
+  --purple-100: #efe7f8;
+  --purple-50: #f7f2fc;
+  --saffron-600: #e0a100;
+  --saffron-500: #f5b700; /* donate yellow */
+  --saffron-300: #ffd75e;
+  --saffron-200: #fde68a;
+  --saffron-100: #fff3cc;
+  --cream: #fbf8f2;
+  --ink: #24182f; /* body text */
+  --muted: #6b5f75; /* secondary text */
+  --white: #ffffff;
+  --whatsapp: #25d366;
 
   --font-serif: var(--font-marcellus), Georgia, serif;
   --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  /* Screen sizes used in @media rules across the site:
+     640px = large phone, 768px = tablet, 1024px = laptop, 1280px = desktop */
 }
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
+}
+html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  scroll-behavior: smooth;
+}
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: var(--font-serif);
+  color: var(--purple-800);
+}
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+ol,
+ul {
+  list-style: none;
+}
+img,
+svg,
+video {
+  display: block;
+  vertical-align: middle;
+}
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border-radius: 0;
+}
+button,
+select {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+}
+summary {
+  display: list-item;
+}
+[hidden] {
+  display: none !important;
+}
+
+/* Visually hidden but still read by screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* ---------- Page width container ---------- */
+.container-x {
+  width: 100%;
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 640px) {
+  .container-x {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
-  body {
-    @apply bg-white font-sans text-ink antialiased;
-  }
-  h1,
-  h2,
-  h3 {
-    @apply font-serif text-purple-800;
-  }
 }
 
-@utility container-x {
-  @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+/* ---------- Buttons ---------- */
+.btn,
+.btn-donate,
+.btn-primary,
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
 }
-
-@utility btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors;
+.btn-donate {
+  background: var(--saffron-500);
+  color: var(--purple-950);
 }
-
-@utility btn-donate {
-  @apply btn bg-saffron-500 text-purple-950 hover:bg-saffron-600;
+.btn-donate:hover {
+  background: var(--saffron-600);
 }
-
-@utility btn-primary {
-  @apply btn bg-purple-700 text-white hover:bg-purple-800;
+.btn-primary {
+  background: var(--purple-700);
+  color: var(--white);
 }
-
-@utility btn-outline {
-  @apply btn border border-current hover:bg-white/10;
+.btn-primary:hover {
+  background: var(--purple-800);
+}
+.btn-outline {
+  border: 1px solid currentColor;
+}
+.btn-outline:hover {
+  background: rgb(255 255 255 / 0.1);
+}
+/* Larger button size, used in the hero and big call-to-actions */
+.btn-lg {
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 /* ---------- Art + motion ---------- */

@@ -2,6 +2,7 @@ import Image from 'next/image'
 import type { Media } from '@/payload-types'
 import { mediaUrl } from '@/lib/format'
 import { FestivalArt, type ArtTheme } from './art/FestivalArt'
+import styles from './ImageOrPlaceholder.module.css'
 
 type Props = {
   media: number | Media | null | undefined
@@ -18,7 +19,7 @@ export function ImageOrPlaceholder({ media, size = 'card', alt, className = '', 
   const url = mediaUrl(media, size)
   if (!url) {
     return (
-      <FestivalArt compact theme={art ?? 'lotus'} className={`absolute inset-0 size-full ${className}`} />
+      <FestivalArt compact theme={art ?? 'lotus'} className={`${styles.art} ${className}`} />
     )
   }
   return (
@@ -28,7 +29,7 @@ export function ImageOrPlaceholder({ media, size = 'card', alt, className = '', 
       fill
       sizes={sizes}
       priority={priority}
-      className={`object-cover ${className}`}
+      className={`${styles.image} ${className}`}
     />
   )
 }

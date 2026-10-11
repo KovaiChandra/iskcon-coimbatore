@@ -13,6 +13,7 @@ import { blurDataURL } from '@/lib/blur'
 import { formatDate, mediaUrl, waLink } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
 import { isSevaActive, populated } from '@/lib/sevas'
+import styles from './home.module.css'
 
 export const revalidate = 60
 
@@ -26,10 +27,8 @@ function daysUntil(date: string) {
 
 function Eyebrow({ children, light }: { children: React.ReactNode; light?: boolean }) {
   return (
-    <p
-      className={`mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] ${light ? 'text-saffron-300' : 'text-saffron-600'}`}
-    >
-      <Sparkle className="size-2.5" />
+    <p className={`${styles.eyebrow} ${light ? styles.eyebrowLight : ''}`}>
+      <Sparkle size={10} />
       {children}
     </p>
   )
@@ -163,23 +162,23 @@ export default async function HomePage() {
 
       {/* Three ways to serve — arch cards */}
       {highlights.length > 0 && (
-        <section className="relative overflow-hidden bg-cream py-20">
-          <Mandala className="pointer-events-none absolute -right-48 top-10 size-[520px] text-purple-200/60" />
-          <div className="container-x relative">
-            <div className="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <section className={styles.serve}>
+          <Mandala className={styles.serveMandala} />
+          <div className={`container-x ${styles.relative}`}>
+            <div className={styles.sectionHead}>
               <div>
                 <Eyebrow>Begin with one offering</Eyebrow>
-                <h2 className="text-4xl md:text-5xl">Three ways to serve today</h2>
+                <h2 className={styles.h2}>Three ways to serve today</h2>
               </div>
-              <Link href="/donate" className="font-semibold text-purple-700 hover:text-purple-900">
+              <Link href="/donate" className={styles.moreLink}>
                 All sevas →
               </Link>
             </div>
-            <div className="grid gap-8 md:grid-cols-3">
+            <div className={styles.serveGrid}>
               {highlights.map((s, i) => (
-                <Link key={s.id} href={`/donate/${s.slug}`} className="group text-center">
-                  <div className="arch relative mx-auto aspect-[3/4] w-full max-w-[240px] overflow-hidden md:max-w-xs ring-4 ring-white shadow-xl transition duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl">
-                    <div className="absolute inset-0 transition duration-700 group-hover:scale-110">
+                <Link key={s.id} href={`/donate/${s.slug}`} className={styles.serveCard}>
+                  <div className={`arch ${styles.serveArch}`}>
+                    <div className={styles.media}>
                       <ImageOrPlaceholder
                         media={s.image}
                         art={
@@ -187,10 +186,10 @@ export default async function HomePage() {
                         }
                       />
                     </div>
-                    <div className="arch pointer-events-none absolute inset-3 border border-saffron-300/70" />
+                    <div className={`arch ${styles.serveArchLine}`} />
                   </div>
-                  <h3 className="mt-6 text-2xl group-hover:text-purple-600">{s.title}</h3>
-                  <p className="mx-auto mt-2 max-w-xs text-sm text-muted">{s.shortDescription}</p>
+                  <h3 className={styles.serveTitle}>{s.title}</h3>
+                  <p className={styles.serveText}>{s.shortDescription}</p>
                 </Link>
               ))}
             </div>
@@ -199,10 +198,10 @@ export default async function HomePage() {
       )}
 
       {/* About */}
-      <section className="container-x grid items-center gap-16 overflow-x-clip py-24 lg:grid-cols-[1fr_1.1fr]">
-        <div className="relative mx-auto w-full max-w-md">
-          <Mandala className="spin-slow absolute -inset-16 text-saffron-500/25" />
-          <div className="arch relative aspect-[4/5] overflow-hidden shadow-2xl ring-8 ring-white">
+      <section className={`container-x ${styles.about}`}>
+        <div className={styles.aboutPhotoWrap}>
+          <Mandala className={`spin-slow ${styles.aboutMandala}`} />
+          <div className={`arch ${styles.aboutPhoto}`}>
             <ImageOrPlaceholder
               media={home.about?.image}
               art="temple"
@@ -210,53 +209,53 @@ export default async function HomePage() {
               sizes="(min-width: 1024px) 40vw, 100vw"
             />
           </div>
-          <div className="absolute -bottom-6 -right-4 rounded-2xl bg-saffron-500 px-5 py-4 text-purple-950 shadow-xl md:-right-10">
-            <p className="font-serif text-3xl leading-none">1966</p>
-            <p className="text-xs font-semibold uppercase tracking-wider">ISKCON founded</p>
+          <div className={styles.yearBadge}>
+            <p className={styles.yearNumber}>1966</p>
+            <p className={styles.yearLabel}>ISKCON founded</p>
           </div>
         </div>
         <div>
           <Eyebrow>About ISKCON Coimbatore</Eyebrow>
-          <h2 className="text-4xl leading-tight md:text-5xl">
-            A spiritual home for <span className="italic text-purple-600">everyone</span> seeking
+          <h2 className={`${styles.h2} ${styles.aboutTitle}`}>
+            A spiritual home for <span className={styles.accent}>everyone</span> seeking
             Krishna
           </h2>
-          <p className="mt-6 whitespace-pre-line text-lg leading-relaxed text-muted">
+          <p className={styles.aboutText}>
             {home.about?.text ||
               'ISKCON Coimbatore shares the timeless teachings of Bhagavad-gita and the joy of chanting the holy names, as taught by His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada.\n\nAt Sri Jagannath Mandir, families, students and seekers gather for daily worship, festivals, classes and prasadam.'}
           </p>
-          <ol className="mt-8 grid gap-4 sm:grid-cols-3">
+          <ol className={styles.points}>
             {[
               'Spiritual guidance for everyone',
               'Festivals, seva & community',
               'Prasadam for all',
             ].map((p, i) => (
-              <li key={p} className="rounded-2xl border border-purple-100 p-4">
-                <span className="font-serif text-2xl text-saffron-600">0{i + 1}</span>
-                <p className="mt-1 text-sm font-medium">{p}</p>
+              <li key={p} className={styles.point}>
+                <span className={styles.pointNumber}>0{i + 1}</span>
+                <p className={styles.pointText}>{p}</p>
               </li>
             ))}
           </ol>
-          <Link href="/about" className="btn-primary mt-8 px-7 py-3">
+          <Link href="/about" className={`btn-primary ${styles.btnBig} ${styles.aboutButton}`}>
             Our story →
           </Link>
         </div>
       </section>
 
       {/* Quote */}
-      <section className="relative isolate overflow-hidden bg-purple-950 py-28 text-center text-white">
+      <section className={styles.quote}>
         <Mandala
-          className="spin-slow absolute left-1/2 top-1/2 -z-10 size-[760px] -translate-x-1/2 -translate-y-1/2 text-saffron-500/15"
+          className={`spin-slow ${styles.quoteMandala}`}
           rings={5}
         />
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,transparent_0%,#1c0a33_70%)]" />
-        <div className="container-x max-w-3xl">
-          <p className="font-serif text-6xl leading-none text-saffron-500">“</p>
-          <p className="text-gold-gradient font-serif text-3xl leading-snug md:text-4xl">
+        <div className={styles.quoteVignette} />
+        <div className={`container-x ${styles.quoteInner}`}>
+          <p className={styles.quoteMark}>“</p>
+          <p className={`text-gold-gradient ${styles.quoteText}`}>
             Whatever you do, whatever you eat, whatever you offer or give away, and whatever
             austerities you perform — do that as an offering unto Me.
           </p>
-          <p className="mt-8 text-sm font-semibold uppercase tracking-[0.3em] text-purple-100">
+          <p className={styles.quoteSource}>
             Bhagavad-gītā 9.27
           </p>
         </div>
@@ -264,13 +263,13 @@ export default async function HomePage() {
 
       {/* Donation bento */}
       {donationSevas.length > 0 && (
-        <section className="py-24">
+        <section className={styles.donate}>
           <div className="container-x">
-            <div className="mb-12 text-center">
+            <div className={styles.sectionHeadCenter}>
               <Eyebrow>Offer a seva</Eyebrow>
-              <h2 className="text-4xl md:text-5xl">Turn your offering into prasad</h2>
+              <h2 className={styles.h2}>Turn your offering into prasad</h2>
             </div>
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <div className={styles.donateGrid}>
               {donationSevas.map((s, i) => (
                 <DonationCard
                   key={s.id}
@@ -298,38 +297,38 @@ export default async function HomePage() {
       )}
 
       {/* Nitya Seva + WhatsApp, side by side */}
-      <section className="container-x grid gap-5 pb-24 lg:grid-cols-[1.6fr_1fr]">
+      <section className={`container-x ${styles.trio}`}>
         {monthlySevas.docs.length > 0 && (
-          <div className="relative isolate overflow-hidden rounded-3xl bg-gradient-to-br from-purple-700 via-purple-800 to-purple-950 p-8 text-white md:p-12">
-            <Mandala className="absolute -bottom-32 -right-32 -z-10 size-96 text-saffron-500/20" />
+          <div className={styles.nitya}>
+            <Mandala className={styles.nityaMandala} />
             <Eyebrow light>Nitya Seva · monthly</Eyebrow>
-            <h2 className="max-w-md text-3xl text-white md:text-4xl">
+            <h2 className={styles.nityaTitle}>
               Offer a little, every month
             </h2>
-            <p className="mb-8 mt-3 max-w-md text-purple-100">
+            <p className={styles.nityaText}>
               Set it once, serve all year. Cancel anytime on WhatsApp or email.
             </p>
             <NityaSevaForm
               sevas={monthlySevas.docs.map((s) => ({ slug: s.slug, title: s.title }))}
             />
-            <p className="mt-4 text-xs text-purple-100/80">Eligible for 80G · Instant receipt</p>
+            <p className={styles.nityaNote}>Eligible for 80G · Instant receipt</p>
           </div>
         )}
-        <div className="flex flex-col gap-5">
+        <div className={styles.sideCards}>
           {settings.whatsapp && (
             <a
               href={waLink(settings.whatsapp, 'Hare Krishna!')}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-1 flex-col justify-between rounded-3xl bg-[#e7f9ee] p-8 transition hover:bg-[#d8f5e3]"
+              className={`${styles.sideCard} ${styles.whatsappCard}`}
             >
-              <WhatsAppIcon className="size-10 text-[#25d366]" />
-              <div className="mt-6">
-                <h3 className="text-2xl">Your seva assistant</h3>
-                <p className="mt-1 text-sm text-muted">
+              <WhatsAppIcon size={40} className={styles.whatsappIcon} />
+              <div className={styles.sideBody}>
+                <h3 className={styles.sideTitle}>Your seva assistant</h3>
+                <p className={styles.sideText}>
                   Receipts, questions and temple information on WhatsApp.
                 </p>
-                <span className="mt-4 inline-block font-semibold text-[#128c4a] group-hover:underline">
+                <span className={`${styles.sideLink} ${styles.whatsappLink}`}>
                   Start a chat →
                 </span>
               </div>
@@ -340,19 +339,19 @@ export default async function HomePage() {
               href={home.livePuja.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-1 flex-col justify-between rounded-3xl bg-saffron-100 p-8 transition hover:bg-saffron-300/50"
+              className={`${styles.sideCard} ${styles.liveCard}`}
             >
-              <span className="inline-flex w-fit items-center gap-2 rounded-full bg-red-600 px-3 py-1 text-xs font-bold uppercase text-white">
-                <span className="relative flex size-2">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-white opacity-75" />
-                  <span className="relative inline-flex size-2 rounded-full bg-white" />
+              <span className={styles.liveBadge}>
+                <span className={styles.liveDot}>
+                  <span className={styles.liveDotPing} />
+                  <span className={styles.liveDotCore} />
                 </span>
                 Live
               </span>
-              <div className="mt-6">
-                <h3 className="text-2xl">Join the puja live</h3>
-                <p className="mt-1 text-sm text-muted">{home.livePuja.schedule} · Free to join</p>
-                <span className="mt-4 inline-block font-semibold text-purple-700 group-hover:underline">
+              <div className={styles.sideBody}>
+                <h3 className={styles.sideTitle}>Join the puja live</h3>
+                <p className={styles.sideText}>{home.livePuja.schedule} · Free to join</p>
+                <span className={`${styles.sideLink} ${styles.liveLink}`}>
                   Watch now →
                 </span>
               </div>
@@ -363,55 +362,52 @@ export default async function HomePage() {
 
       {/* Festival timeline */}
       {festivals.docs.length > 0 && (
-        <section className="relative overflow-hidden bg-cream py-24">
+        <section className={styles.festivals}>
           <div className="container-x">
-            <div className="mb-14 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div className={`${styles.sectionHead} ${styles.festivalsHead}`}>
               <div>
                 <Eyebrow>Celebrate with us</Eyebrow>
-                <h2 className="text-4xl md:text-5xl">The festival calendar</h2>
+                <h2 className={styles.h2}>The festival calendar</h2>
               </div>
-              <Link
-                href="/festivals"
-                className="font-semibold text-purple-700 hover:text-purple-900"
-              >
+              <Link href="/festivals" className={styles.moreLink}>
                 Full calendar →
               </Link>
             </div>
-            <ol className="relative grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-              <span className="absolute left-0 right-0 top-[38px] hidden h-px bg-gradient-to-r from-saffron-500 via-purple-300 to-transparent lg:block" />
+            <ol className={styles.timeline}>
+              <span className={styles.timelineLine} />
               {festivals.docs.map((f: Festival) => (
-                <li key={f.id} className="group relative">
-                  <div className="relative mb-6 flex items-end gap-3">
-                    <div className="z-10 grid size-[76px] shrink-0 place-items-center rounded-2xl bg-purple-800 text-center text-white shadow-lg ring-4 ring-cream transition group-hover:bg-saffron-500 group-hover:text-purple-950">
+                <li key={f.id} className={styles.festival}>
+                  <div className={styles.dateRow}>
+                    <div className={styles.dateBox}>
                       <div>
-                        <p className="font-serif text-3xl leading-none">
+                        <p className={styles.dateDay}>
                           {formatDate(f.date, { day: 'numeric' })}
                         </p>
-                        <p className="text-[11px] font-semibold uppercase tracking-wider">
+                        <p className={styles.dateMonth}>
                           {formatDate(f.date, { month: 'short' })}
                         </p>
                       </div>
                     </div>
-                    <p className="pb-1 text-xs font-semibold uppercase tracking-wider text-saffron-600">
+                    <p className={styles.countdown}>
                       {daysUntil(f.date)}
                     </p>
                   </div>
                   <Link
                     href={`/festivals/${f.slug}`}
-                    className="block overflow-hidden rounded-2xl bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl"
+                    className={styles.festivalCard}
                   >
-                    <div className="relative aspect-[16/10] overflow-hidden">
+                    <div className={styles.cardImage}>
                       <ImageOrPlaceholder
                         media={f.image}
                         art={(f.artwork ?? 'lotus') as ArtTheme}
                         sizes="(min-width: 1024px) 25vw, 50vw"
                       />
                     </div>
-                    <div className="p-5">
-                      <h3 className="text-xl">{f.name}</h3>
-                      {f.timeLabel && <p className="text-xs text-muted">{f.timeLabel}</p>}
-                      <p className="mt-2 line-clamp-2 text-sm text-muted">{f.shortDescription}</p>
-                      <span className="mt-4 inline-block text-sm font-semibold text-purple-700">
+                    <div className={styles.cardBody}>
+                      <h3 className={styles.cardTitle}>{f.name}</h3>
+                      {f.timeLabel && <p className={styles.small}>{f.timeLabel}</p>}
+                      <p className={styles.clamp2}>{f.shortDescription}</p>
+                      <span className={styles.support}>
                         Support →
                       </span>
                     </div>
@@ -424,13 +420,13 @@ export default async function HomePage() {
       )}
 
       {/* Subscribe */}
-      <section className="relative isolate overflow-hidden bg-purple-800 py-20">
-        <Mandala className="absolute -left-40 -top-40 -z-10 size-[480px] text-saffron-500/15" />
-        <Mandala className="absolute -bottom-40 -right-40 -z-10 size-[480px] text-saffron-500/15" />
-        <div className="container-x max-w-3xl text-center">
+      <section className={styles.subscribe}>
+        <Mandala className={styles.subMandalaTop} />
+        <Mandala className={styles.subMandalaBottom} />
+        <div className={`container-x ${styles.subscribeInner}`}>
           <Eyebrow light>Festival alerts</Eyebrow>
-          <h2 className="text-4xl text-white md:text-5xl">Never miss a festival</h2>
-          <p className="mb-10 mt-3 text-purple-100">
+          <h2 className={`${styles.h2} ${styles.h2White}`}>Never miss a festival</h2>
+          <p className={styles.subscribeText}>
             One gentle reminder before every festival and special programme.
           </p>
           <SubscribeForm />
@@ -439,34 +435,34 @@ export default async function HomePage() {
 
       {/* Services */}
       {services.docs.length > 0 && (
-        <section className="container-x py-24">
-          <div className="mb-12 text-center">
+        <section className={`container-x ${styles.services}`}>
+          <div className={styles.sectionHeadCenter}>
             <Eyebrow>Serve and be served</Eyebrow>
-            <h2 className="text-4xl md:text-5xl">Devotional services</h2>
+            <h2 className={styles.h2}>Devotional services</h2>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className={styles.threeGrid}>
             {services.docs.map((s, i) => (
               <article
                 key={s.id}
-                className="group overflow-hidden rounded-3xl border border-purple-100 bg-white transition hover:-translate-y-1 hover:border-saffron-300 hover:shadow-xl"
+                className={styles.service}
               >
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  <div className="absolute inset-0 transition duration-700 group-hover:scale-105">
+                <div className={styles.cardImage}>
+                  <div className={styles.media}>
                     <ImageOrPlaceholder
                       media={s.image}
                       art={(['lotus', 'temple', 'lamps'] as const)[i % 3]}
                     />
                   </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl">{s.title}</h3>
-                  <p className="mt-2 text-sm text-muted">{s.description}</p>
+                <div className={styles.cardBodyLarge}>
+                  <h3 className={styles.cardTitle}>{s.title}</h3>
+                  <p className={styles.serviceText}>{s.description}</p>
                 </div>
               </article>
             ))}
           </div>
-          <div className="mt-10 text-center">
-            <Link href="/services" className="btn-primary px-7 py-3">
+          <div className={styles.buttonRow}>
+            <Link href="/services" className={`btn-primary ${styles.btnBig}`}>
               All services
             </Link>
           </div>
@@ -475,31 +471,28 @@ export default async function HomePage() {
 
       {/* Courses — numbered list */}
       {courses.docs.length > 0 && (
-        <section className="bg-purple-50 py-24">
-          <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr]">
+        <section className={styles.courses}>
+          <div className={`container-x ${styles.coursesGrid}`}>
             <div>
               <Eyebrow>Learn</Eyebrow>
-              <h2 className="text-4xl md:text-5xl">Wisdom for everyday life</h2>
-              <p className="mt-4 text-muted">
+              <h2 className={styles.h2}>Wisdom for everyday life</h2>
+              <p className={styles.coursesIntro}>
                 Free classes on chanting, Bhagavad-gita and Srimad Bhagavatam, online and at the
                 temple.
               </p>
-              <Link href="/courses" className="btn-primary mt-8 px-7 py-3">
+              <Link href="/courses" className={`btn-primary ${styles.btnBig} ${styles.aboutButton}`}>
                 All courses
               </Link>
             </div>
-            <ol className="divide-y divide-purple-200 border-y border-purple-200">
+            <ol className={styles.courseList}>
               {courses.docs.map((c, i) => (
-                <li
-                  key={c.id}
-                  className="group grid grid-cols-[auto_1fr] items-center gap-x-6 gap-y-3 py-7 sm:grid-cols-[auto_1fr_auto]"
-                >
-                  <span className="font-serif text-4xl text-saffron-500 transition group-hover:text-purple-600">
+                <li key={c.id} className={styles.course}>
+                  <span className={styles.courseNumber}>
                     0{i + 1}
                   </span>
                   <div>
-                    <h3 className="text-2xl">{c.title}</h3>
-                    <p className="mt-1 text-sm text-muted">
+                    <h3 className={styles.courseTitle}>{c.title}</h3>
+                    <p className={styles.courseMeta}>
                       {c.schedule}
                       {c.mode &&
                         ` · ${c.mode === 'online' ? 'Online' : c.mode === 'temple' ? 'At the temple' : 'Online & at the temple'}`}
@@ -510,14 +503,14 @@ export default async function HomePage() {
                       href={c.zoomLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-outline col-start-2 w-fit text-purple-700 sm:col-start-auto"
+                      className={`btn-outline ${styles.courseButton}`}
                     >
                       Join on Zoom
                     </a>
                   ) : (
                     <Link
                       href="/courses"
-                      className="btn-outline col-start-2 w-fit text-purple-700 sm:col-start-auto"
+                      className={`btn-outline ${styles.courseButton}`}
                     >
                       Register
                     </Link>
@@ -531,29 +524,29 @@ export default async function HomePage() {
 
       {/* Blog */}
       {posts.docs.length > 0 && (
-        <section className="container-x py-24">
-          <div className="mb-12 flex items-end justify-between">
+        <section className={`container-x ${styles.blog}`}>
+          <div className={styles.blogHead}>
             <div>
               <Eyebrow>From the blog</Eyebrow>
-              <h2 className="text-4xl md:text-5xl">Latest articles</h2>
+              <h2 className={styles.h2}>Latest articles</h2>
             </div>
-            <Link href="/blog" className="font-semibold text-purple-700">
+            <Link href="/blog" className={styles.moreLink}>
               All articles →
             </Link>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className={styles.threeGrid}>
             {posts.docs.map((p) => (
-              <Link key={p.id} href={`/blog/${p.slug}`} className="group">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
+              <Link key={p.id} href={`/blog/${p.slug}`} className={styles.post}>
+                <div className={styles.postImage}>
                   <ImageOrPlaceholder
                     media={p.image}
-                    className="transition duration-700 group-hover:scale-105"
+                    className={styles.postImg}
                   />
                 </div>
-                <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-saffron-600">
+                <p className={styles.postMeta}>
                   {p.category} · {formatDate(p.publishedAt)}
                 </p>
-                <h3 className="mt-1 text-xl group-hover:text-purple-600">{p.title}</h3>
+                <h3 className={styles.postTitle}>{p.title}</h3>
               </Link>
             ))}
           </div>
@@ -562,16 +555,16 @@ export default async function HomePage() {
 
       {/* Instagram */}
       {settings.instagram && (
-        <section className="border-t border-purple-100 bg-cream">
-          <div className="container-x flex flex-col items-center justify-between gap-6 py-12 md:flex-row">
-            <p className="font-serif text-3xl text-purple-800">
-              Darshan, every day, on <span className="italic text-purple-600">Instagram</span>
+        <section className={styles.instagram}>
+          <div className={`container-x ${styles.instagramInner}`}>
+            <p className={styles.instagramText}>
+              Darshan, every day, on <span className={styles.accent}>Instagram</span>
             </p>
             <a
               href={settings.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary px-7 py-3"
+              className={`btn-primary ${styles.btnBig}`}
             >
               <InstagramIcon /> Follow us
             </a>

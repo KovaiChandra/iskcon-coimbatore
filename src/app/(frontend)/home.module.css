@@ -1,0 +1,790 @@
+/* =========================================================================
+   Home page sections (everything below the hero slider)
+   Screen sizes: 640px large phone · 768px tablet · 1024px laptop
+   ========================================================================= */
+
+/* ---------- Shared ---------- */
+.eyebrow {
+  margin-bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--saffron-600);
+}
+.eyebrowLight {
+  color: var(--saffron-300);
+}
+/* Section title */
+.h2 {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+.h2White {
+  color: var(--white);
+}
+.center {
+  text-align: center;
+}
+.muted {
+  color: var(--muted);
+}
+.moreLink {
+  font-weight: 600;
+  color: var(--purple-700);
+}
+.moreLink:hover {
+  color: var(--purple-900);
+}
+.btnBig {
+  padding: 0.75rem 1.75rem;
+}
+.sectionHead {
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.sectionHeadCenter {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+.media {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.7s;
+}
+.relative {
+  position: relative;
+}
+
+/* ---------- Three ways to serve (arch cards) ---------- */
+.serve {
+  position: relative;
+  overflow: hidden;
+  background: var(--cream);
+  padding: 5rem 0;
+}
+.serveMandala {
+  pointer-events: none;
+  position: absolute;
+  right: -12rem;
+  top: 2.5rem;
+  width: 520px;
+  height: 520px;
+  color: rgb(233 213 255 / 0.6);
+}
+.serveGrid {
+  display: grid;
+  gap: 2rem;
+}
+.serveCard {
+  text-align: center;
+}
+.serveArch {
+  position: relative;
+  margin: 0 auto;
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  max-width: 240px;
+  overflow: hidden;
+  box-shadow: 0 0 0 4px var(--white), 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  transition: transform 0.5s, box-shadow 0.5s;
+}
+.serveCard:hover .serveArch {
+  transform: translateY(-0.5rem);
+  box-shadow: 0 0 0 4px var(--white), 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+.serveCard:hover .media {
+  transform: scale(1.1);
+}
+.serveArchLine {
+  pointer-events: none;
+  position: absolute;
+  inset: 0.75rem;
+  border: 1px solid rgb(255 215 94 / 0.7);
+}
+.serveTitle {
+  margin-top: 1.5rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+.serveCard:hover .serveTitle {
+  color: var(--purple-600);
+}
+.serveText {
+  margin: 0.5rem auto 0;
+  max-width: 20rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--muted);
+}
+
+/* ---------- About ---------- */
+.about {
+  display: grid;
+  align-items: center;
+  gap: 4rem;
+  overflow-x: clip;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+.aboutPhotoWrap {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 28rem;
+}
+.aboutMandala {
+  position: absolute;
+  inset: -4rem;
+  color: rgb(245 183 0 / 0.25);
+}
+.aboutPhoto {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  box-shadow: 0 0 0 8px var(--white), 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+.yearBadge {
+  position: absolute;
+  bottom: -1.5rem;
+  right: -1rem;
+  border-radius: 1rem;
+  background: var(--saffron-500);
+  padding: 1rem 1.25rem;
+  color: var(--purple-950);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+.yearNumber {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  line-height: 1;
+}
+.yearLabel {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.aboutTitle {
+  line-height: 1.25;
+}
+.accent {
+  font-style: italic;
+  color: var(--purple-600);
+}
+.aboutText {
+  margin-top: 1.5rem;
+  white-space: pre-line;
+  font-size: 1.125rem;
+  line-height: 1.625;
+  color: var(--muted);
+}
+.points {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+.point {
+  border: 1px solid var(--purple-100);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+.pointNumber {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  line-height: 2rem;
+  color: var(--saffron-600);
+}
+.pointText {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+.aboutButton {
+  margin-top: 2rem;
+}
+
+/* ---------- Quote ---------- */
+.quote {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--purple-950);
+  padding: 7rem 0;
+  text-align: center;
+  color: var(--white);
+}
+.quoteMandala {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  width: 760px;
+  height: 760px;
+  translate: -50% -50%; /* separate from transform, so the slow spin keeps it centred */
+  color: rgb(245 183 0 / 0.15);
+}
+.quoteVignette {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at center, transparent 0%, var(--purple-950) 70%);
+}
+.quoteInner {
+  max-width: 48rem;
+}
+.quoteMark {
+  font-family: var(--font-serif);
+  font-size: 3.75rem;
+  line-height: 1;
+  color: var(--saffron-500);
+}
+.quoteText {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  line-height: 1.375;
+}
+.quoteSource {
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--purple-100);
+}
+
+/* ---------- Donation cards ---------- */
+.donate {
+  padding: 6rem 0;
+}
+.donateGrid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* ---------- Nitya Seva + WhatsApp + Live ---------- */
+.trio {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 6rem;
+}
+.nitya {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background: linear-gradient(to bottom right, var(--purple-700), var(--purple-800), var(--purple-950));
+  padding: 2rem;
+  color: var(--white);
+}
+.nityaMandala {
+  position: absolute;
+  bottom: -8rem;
+  right: -8rem;
+  z-index: -1;
+  width: 24rem;
+  height: 24rem;
+  color: rgb(245 183 0 / 0.2);
+}
+.nityaTitle {
+  max-width: 28rem;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  color: var(--white);
+}
+.nityaText {
+  margin-top: 0.75rem;
+  margin-bottom: 2rem;
+  max-width: 28rem;
+  color: var(--purple-100);
+}
+.nityaNote {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: rgb(239 231 248 / 0.8);
+}
+.sideCards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.sideCard {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  transition: background-color 0.15s;
+}
+.whatsappCard {
+  background: #e7f9ee;
+}
+.whatsappCard:hover {
+  background: #d8f5e3;
+}
+.whatsappIcon {
+  color: var(--whatsapp);
+}
+.liveCard {
+  background: var(--saffron-100);
+}
+.liveCard:hover {
+  background: rgb(255 215 94 / 0.5);
+}
+.sideBody {
+  margin-top: 1.5rem;
+}
+.sideTitle {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+.sideText {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.sideLink {
+  margin-top: 1rem;
+  display: inline-block;
+  font-weight: 600;
+}
+.sideCard:hover .sideLink {
+  text-decoration: underline;
+}
+.whatsappLink {
+  color: #128c4a;
+}
+.liveLink {
+  color: var(--purple-700);
+}
+.liveBadge {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: #dc2626;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.liveDot {
+  position: relative;
+  display: flex;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+.liveDotPing,
+.liveDotCore {
+  border-radius: 9999px;
+  background: var(--white);
+}
+.liveDotPing {
+  position: absolute;
+  inset: 0;
+  opacity: 0.75;
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.liveDotCore {
+  position: relative;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* ---------- Festival timeline ---------- */
+.festivals {
+  position: relative;
+  overflow: hidden;
+  background: var(--cream);
+  padding: 6rem 0;
+}
+.festivalsHead {
+  margin-bottom: 3.5rem;
+}
+.timeline {
+  position: relative;
+  display: grid;
+  gap: 2.5rem;
+}
+.timelineLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 38px;
+  display: none;
+  height: 1px;
+  background: linear-gradient(to right, var(--saffron-500), #d8b4fe, transparent);
+}
+.festival {
+  position: relative;
+}
+.dateRow {
+  position: relative;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+.dateBox {
+  z-index: 10;
+  display: grid;
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 1rem;
+  background: var(--purple-800);
+  text-align: center;
+  color: var(--white);
+  box-shadow: 0 0 0 4px var(--cream), 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  transition: background-color 0.15s, color 0.15s;
+}
+.festival:hover .dateBox {
+  background: var(--saffron-500);
+  color: var(--purple-950);
+}
+.dateDay {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  line-height: 1;
+}
+.dateMonth {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.countdown {
+  padding-bottom: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--saffron-600);
+}
+.festivalCard {
+  display: block;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: var(--white);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.festival:hover .festivalCard {
+  transform: translateY(-0.25rem);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+.cardImage {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+.cardBody {
+  padding: 1.25rem;
+}
+.cardBodyLarge {
+  padding: 1.5rem;
+}
+.cardTitle {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+.small {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.clamp2 {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.support {
+  margin-top: 1rem;
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--purple-700);
+}
+
+/* ---------- Subscribe ---------- */
+.subscribe {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--purple-800);
+  padding: 5rem 0;
+}
+.subMandalaTop,
+.subMandalaBottom {
+  position: absolute;
+  z-index: -1;
+  width: 480px;
+  height: 480px;
+  color: rgb(245 183 0 / 0.15);
+}
+.subMandalaTop {
+  left: -10rem;
+  top: -10rem;
+}
+.subMandalaBottom {
+  right: -10rem;
+  bottom: -10rem;
+}
+.subscribeInner {
+  max-width: 48rem;
+  text-align: center;
+}
+.subscribeText {
+  margin-top: 0.75rem;
+  margin-bottom: 2.5rem;
+  color: var(--purple-100);
+}
+
+/* ---------- Services ---------- */
+.services {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+.threeGrid {
+  display: grid;
+  gap: 1.5rem;
+}
+.service {
+  overflow: hidden;
+  border: 1px solid var(--purple-100);
+  border-radius: 1.5rem;
+  background: var(--white);
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.service:hover {
+  transform: translateY(-0.25rem);
+  border-color: var(--saffron-300);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+.service:hover .media {
+  transform: scale(1.05);
+}
+.serviceText {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.buttonRow {
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+/* ---------- Courses ---------- */
+.courses {
+  background: var(--purple-50);
+  padding: 6rem 0;
+}
+.coursesGrid {
+  display: grid;
+  gap: 3rem;
+}
+.coursesIntro {
+  margin-top: 1rem;
+  color: var(--muted);
+}
+.courseList {
+  border-top: 1px solid var(--purple-200);
+  border-bottom: 1px solid var(--purple-200);
+}
+.course {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  padding: 1.75rem 0;
+}
+.course + .course {
+  border-top: 1px solid var(--purple-200);
+}
+.courseNumber {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  color: var(--saffron-500);
+  transition: color 0.15s;
+}
+.course:hover .courseNumber {
+  color: var(--purple-600);
+}
+.courseTitle {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+.courseMeta {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.courseButton {
+  grid-column-start: 2;
+  width: fit-content;
+  color: var(--purple-700);
+}
+
+/* ---------- Blog ---------- */
+.blog {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+.blogHead {
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.post {
+  display: block;
+}
+.postImage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 1.5rem;
+}
+.postImg {
+  transition: transform 0.7s;
+}
+.post:hover .postImg {
+  transform: scale(1.05);
+}
+.postMeta {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--saffron-600);
+}
+.postTitle {
+  margin-top: 0.25rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+.post:hover .postTitle {
+  color: var(--purple-600);
+}
+
+/* ---------- Instagram ---------- */
+.instagram {
+  border-top: 1px solid var(--purple-100);
+  background: var(--cream);
+}
+.instagramInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+.instagramText {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  color: var(--purple-800);
+}
+
+/* ---------- Bigger screens ---------- */
+@media (min-width: 640px) {
+  .points {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .course {
+    grid-template-columns: auto 1fr auto;
+  }
+  .courseButton {
+    grid-column-start: auto;
+  }
+}
+@media (min-width: 768px) {
+  .h2 {
+    font-size: 3rem;
+    line-height: 1;
+  }
+  .aboutTitle {
+    line-height: 1.25;
+  }
+  .sectionHead {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  .serveGrid,
+  .threeGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .serveArch {
+    max-width: 20rem;
+  }
+  .yearBadge {
+    right: -2.5rem;
+  }
+  .quoteText {
+    font-size: 2.25rem;
+    line-height: 1.375;
+  }
+  .donateGrid,
+  .timeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .nitya {
+    padding: 3rem;
+  }
+  .nityaTitle {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+  .instagramInner {
+    flex-direction: row;
+  }
+}
+@media (min-width: 1024px) {
+  .about {
+    grid-template-columns: 1fr 1.1fr;
+  }
+  .donateGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .trio {
+    grid-template-columns: 1.6fr 1fr;
+  }
+  .timeline {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .timelineLine {
+    display: block;
+  }
+  .coursesGrid {
+    grid-template-columns: 1fr 1.6fr;
+  }
+}

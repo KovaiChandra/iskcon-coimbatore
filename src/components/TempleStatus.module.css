@@ -1,0 +1,16 @@
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+}
+.open {
+  background: #4ade80; /* green */
+}
+.closed {
+  background: #f87171; /* red */
+}

@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState, type ReactNode } from 'react'
 import { inr } from '@/lib/format'
+import styles from './DonationCard.module.css'
 
 type Props = {
   slug: string
@@ -21,35 +22,31 @@ export function DonationCard({ slug, title, description, amounts, image, badge, 
 
   return (
     <article
-      className={`group relative isolate flex overflow-hidden rounded-3xl bg-purple-950 text-white shadow-lg ring-1 ring-saffron-500/20 transition duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-900/30 ${
-        featured ? 'min-h-[520px] lg:row-span-2' : wide ? 'min-h-[300px] lg:col-span-2' : 'min-h-[300px]'
-      }`}
+      className={`${styles.card} ${featured ? styles.featured : wide ? styles.wide : ''}`}
     >
-      <div className="absolute inset-0 -z-10 transition duration-700 group-hover:scale-105">{image}</div>
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-purple-950 via-purple-950/50 to-transparent" />
+      <div className={styles.image}>{image}</div>
+      <div className={styles.shade} />
       {badge && (
-        <span className="absolute left-5 top-5 rounded-full bg-saffron-500 px-3 py-1 text-xs font-bold uppercase tracking-wider text-purple-950">
+        <span className={styles.badge}>
           {badge}
         </span>
       )}
-      <div className="mt-auto w-full p-6">
-        <h3 className={`text-white ${featured ? 'text-3xl md:text-4xl' : 'text-2xl'}`}>{title}</h3>
-        <p className={`mt-2 text-sm text-purple-100 ${featured ? 'max-w-sm' : 'line-clamp-2'}`}>{description}</p>
-        <div className="mt-5 flex flex-wrap items-center gap-2">
+      <div className={styles.body}>
+        <h3 className={styles.title}>{title}</h3>
+        <p className={styles.text}>{description}</p>
+        <div className={styles.amounts}>
           {amounts.map((a) => (
             <button
               key={a}
               type="button"
               aria-pressed={a === amount}
               onClick={() => setAmount(a)}
-              className={`rounded-full px-3.5 py-1.5 text-sm font-semibold transition ${
-                a === amount ? 'bg-white text-purple-900' : 'bg-white/10 text-white ring-1 ring-white/25 hover:bg-white/20'
-              }`}
+              className={`${styles.amount} ${a === amount ? styles.amountOn : ''}`}
             >
               {inr(a)}
             </button>
           ))}
-          <Link href={href} className="btn-donate ml-auto">
+          <Link href={href} className={`btn-donate ${styles.offer}`}>
             {amount ? `Offer ${inr(amount)}` : 'Offer seva'} →
           </Link>
         </div>

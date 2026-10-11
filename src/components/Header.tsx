@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState, type ReactNode } from 'react'
 import { NAV } from '@/lib/nav'
 import { ChevronDown, LotusMark, SearchIcon } from './Icons'
+import styles from './Header.module.css'
 
 export function Header({ socials }: { socials: ReactNode }) {
   const pathname = usePathname()
@@ -20,34 +21,32 @@ export function Header({ socials }: { socials: ReactNode }) {
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
 
   return (
-    <header className="sticky top-0 z-40 border-b border-purple-100 bg-white">
-      <div className="container-x flex h-16 items-center gap-2 xl:h-20">
-        <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3">
-          <LotusMark className="size-9 shrink-0 sm:size-10 xl:size-12" />
-          <span className="whitespace-nowrap leading-tight">
-            <span className="block font-serif text-base text-purple-800 sm:text-lg xl:text-xl">ISKCON Coimbatore</span>
-            <span className="block text-[11px] text-muted sm:text-xs">Sri Jagannath Mandir</span>
+    <header className={styles.header}>
+      <div className={`container-x ${styles.inner}`}>
+        <Link href="/" className={styles.brand}>
+          <LotusMark className={styles.logo} />
+          <span className={styles.brandText}>
+            <span className={styles.brandName}>ISKCON Coimbatore</span>
+            <span className={styles.brandSub}>Sri Jagannath Mandir</span>
           </span>
         </Link>
 
-        <nav className="mx-auto hidden xl:block" aria-label="Main">
-          <ul className="flex items-center gap-1">
+        <nav className={styles.nav} aria-label="Main">
+          <ul className={styles.navList}>
             {NAV.map((item) => (
-              <li key={item.label} className="group relative">
+              <li key={item.label} className={styles.navItem}>
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-medium hover:text-purple-700 ${
-                    isActive(item.href) ? 'text-purple-700' : 'text-ink'
-                  }`}
+                  className={`${styles.navLink} ${isActive(item.href) ? styles.active : ''}`}
                 >
                   {item.label}
                   {item.children && <ChevronDown />}
                 </Link>
                 {item.children && (
-                  <ul className="invisible absolute left-0 top-full min-w-48 rounded-xl border border-purple-100 bg-white p-2 opacity-0 shadow-lg transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                  <ul className={styles.dropdown}>
                     {item.children.map((c) => (
                       <li key={c.href}>
-                        <Link href={c.href} className="block rounded-lg px-3 py-2 text-sm hover:bg-purple-50 hover:text-purple-700">
+                        <Link href={c.href} className={styles.dropdownLink}>
                           {c.label}
                         </Link>
                       </li>
@@ -59,21 +58,21 @@ export function Header({ socials }: { socials: ReactNode }) {
           </ul>
         </nav>
 
-        <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2 xl:ml-0">
-          <Link href="/search" aria-label="Search" className="hidden rounded-full p-2 text-purple-700 hover:bg-purple-50 xl:block">
+        <div className={styles.actions}>
+          <Link href="/search" aria-label="Search" className={styles.search}>
             <SearchIcon />
           </Link>
-          <Link href="/donate" className="btn-donate px-4 sm:px-5">
+          <Link href="/donate" className={`btn-donate ${styles.donate}`}>
             DONATE
           </Link>
           <button
             type="button"
-            className="rounded-full p-2 text-purple-800 hover:bg-purple-50 xl:hidden"
+            className={styles.menuButton}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
             onClick={() => setOpenOn(menuOpen ? null : pathname)}
           >
-            <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <svg viewBox="0 0 24 24" className={styles.menuIcon} fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
               {menuOpen ? <path d="M6 6l12 12M18 6 6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
             </svg>
           </button>
@@ -81,27 +80,27 @@ export function Header({ socials }: { socials: ReactNode }) {
       </div>
 
       {menuOpen && (
-        <div className="fixed inset-x-0 bottom-0 top-16 z-40 flex flex-col overflow-y-auto bg-white xl:hidden">
-          <nav className="container-x flex-1 py-4" aria-label="Mobile">
-            <ul className="divide-y divide-purple-100">
+        <div className={styles.mobileMenu}>
+          <nav className={`container-x ${styles.mobileNav}`} aria-label="Mobile">
+            <ul className={styles.mobileList}>
               {NAV.map((item) => (
                 <li key={item.label}>
                   {item.children ? (
                     <>
                       <button
                         type="button"
-                        className="flex w-full items-center justify-between py-3.5 text-left font-medium"
+                        className={styles.mobileToggle}
                         aria-expanded={expanded === item.label}
                         onClick={() => setExpanded((e) => (e === item.label ? null : item.label))}
                       >
                         {item.label}
-                        <ChevronDown className={`size-4 transition ${expanded === item.label ? 'rotate-180' : ''}`} />
+                        <ChevronDown size={16} className={`${styles.chevron} ${expanded === item.label ? styles.chevronOpen : ''}`} />
                       </button>
                       {expanded === item.label && (
-                        <ul className="pb-3 pl-4">
+                        <ul className={styles.mobileSub}>
                           {item.children.map((c) => (
                             <li key={c.href}>
-                              <Link href={c.href} className="block py-2 text-muted">
+                              <Link href={c.href} className={styles.mobileSubLink}>
                                 {c.label}
                               </Link>
                             </li>
@@ -110,20 +109,20 @@ export function Header({ socials }: { socials: ReactNode }) {
                       )}
                     </>
                   ) : (
-                    <Link href={item.href} className="block py-3.5 font-medium">
+                    <Link href={item.href} className={styles.mobileLink}>
                       {item.label}
                     </Link>
                   )}
                 </li>
               ))}
               <li>
-                <Link href="/search" className="block py-3.5 font-medium">
+                <Link href="/search" className={styles.mobileLink}>
                   Search
                 </Link>
               </li>
             </ul>
           </nav>
-          <div className="bg-purple-800 py-5 text-white">
+          <div className={styles.mobileSocials}>
             <div className="container-x">{socials}</div>
           </div>
         </div>

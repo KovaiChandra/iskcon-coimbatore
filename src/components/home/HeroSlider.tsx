@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FestivalArt, type ArtTheme } from '@/components/art/FestivalArt'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
+import styles from './HeroSlider.module.css'
 
 export type HeroSlide = {
   id: string
@@ -51,14 +52,11 @@ const EMBERS = Array.from({ length: 22 }, (_, i) => ({
 
 function Embers({ className = '' }: { className?: string }) {
   return (
-    <div
-      className={`pointer-events-none absolute inset-0 -z-10 overflow-hidden ${className}`}
-      aria-hidden
-    >
+    <div className={`${styles.embers} ${className}`} aria-hidden>
       {EMBERS.map((e, i) => (
         <span
           key={i}
-          className="ember absolute bottom-0 rounded-full bg-saffron-300 shadow-[0_0_8px_2px] shadow-saffron-500/60"
+          className={`ember ${styles.ember}`}
           style={
             {
               left: `${e.left}%`,
@@ -91,7 +89,7 @@ function SlideVisual({
       <FestivalArt
         theme={slide.art}
         compact={variant === 'arch'}
-        className="absolute inset-0 size-full"
+        className={styles.art}
       />
     )
   }
@@ -119,24 +117,24 @@ function SlideVisual({
           fill
           sizes="(min-width: 1024px) 1px, 100vw"
           style={{ objectPosition: `${image.focalX ?? 50}% ${image.focalY ?? 50}%` }}
-          className="object-cover lg:hidden"
+          className={styles.splitPhone}
         />
-        <div className="absolute inset-0 hidden bg-purple-800 lg:flex">
-          {/* Solid royal purple behind the text; the photo's left edge fades into it */}
-          <div className="relative flex-1 bg-gradient-to-l from-purple-800 via-purple-900 to-purple-950" />
+        <div className={styles.split}>
+          {/* Purple gradient behind the text; the photo's left edge fades into it.
+              Colours: .split and .splitColor in HeroSlider.module.css */}
+          <div className={styles.splitColor} />
           <div
-            className="relative z-10 h-full shrink-0 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_22%)]"
+            className={styles.splitPhoto}
             // Wider than the photo: the photo zooms in slightly and reaches further left
-            style={{ aspectRatio: (image.ratio ?? 1.33) * 1.18 }}
+            style={{ aspectRatio: (image.ratio ?? 2.93) * 1.48 }}
           >
             <Image
               key={active ? `on-${slide.id}` : slide.id}
               {...shared}
               alt=""
               fill
-              sizes="(min-width: 1024px) 85vw, 1px"
-              style={{ objectPosition: `50% ${image.focalY ?? 50}%` }}
-              className="object-cover"
+              sizes="(min-width: 1024px) 75vw, 1px"
+              className={styles.photo}
             />
           </div>
         </div>
@@ -156,7 +154,7 @@ function SlideVisual({
       placeholder={slide.image.blur ? 'blur' : 'empty'}
       blurDataURL={slide.image.blur}
       style={{ objectPosition: `${slide.image.focalX ?? 50}% ${slide.image.focalY ?? 50}%` }}
-      className={`object-cover ${active && slide.layout !== 'cinematic' ? 'kenburns' : ''} ${softBackdrop ? 'lg:scale-110 lg:blur-2xl' : ''}`}
+      className={`${styles.photo} ${active && slide.layout !== 'cinematic' ? 'kenburns' : ''} ${softBackdrop ? styles.photoSoft : ''}`}
     />
   )
 }
@@ -166,14 +164,14 @@ function Cta({ slide }: { slide: HeroSlide }) {
     <>
       <Link
         href={slide.primary.href}
-        className="btn-donate whitespace-nowrap px-7 py-3 text-base shadow-[0_0_40px_-8px] shadow-saffron-500/70"
+        className={`btn-donate btn-lg ${styles.cta}`}
       >
         {slide.primary.label}
       </Link>
       {slide.secondary && (
         <Link
           href={slide.secondary.href}
-          className="btn-outline whitespace-nowrap px-7 py-3 text-base text-white"
+          className={`btn-outline btn-lg ${styles.ctaOutline}`}
         >
           {slide.secondary.label}
         </Link>
@@ -186,8 +184,8 @@ function Title({ slide, className }: { slide: HeroSlide; className: string }) {
   return (
     <h1 className={className}>
       {slide.title.split(' ').map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden pb-[0.12em] align-bottom">
-          <span className="reveal-up inline-block" style={{ animationDelay: `${150 + i * 70}ms` }}>
+        <span key={i} className={styles.word}>
+          <span className={`reveal-up ${styles.wordInner}`} style={{ animationDelay: `${150 + i * 70}ms` }}>
             {word}&nbsp;
           </span>
         </span>
@@ -209,29 +207,27 @@ function ArchSlide({
   paused: boolean
 }) {
   return (
-    <div className="container-x grid min-h-[600px] items-center gap-12 pb-28 pt-14 lg:min-h-[min(82vh,860px)] lg:grid-cols-[1.15fr_0.85fr]">
+    <div className={`container-x ${styles.archGrid}`}>
       <div
         key={slide.id}
-        className="max-w-2xl [text-shadow:0_2px_16px_rgba(28,10,51,0.85)] lg:[text-shadow:none]"
+        className={styles.archText}
         aria-live={paused ? 'polite' : 'off'}
       >
-        <p className="rise inline-flex items-center gap-2 rounded-full border border-saffron-500/40 bg-purple-950/40 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-saffron-300 backdrop-blur-sm">
-          <Sparkle className="size-3" />
+        <p className={`rise ${styles.pill}`}>
+          <Sparkle size={12} />
           {slide.eyebrow}
         </p>
         <Title
           slide={slide}
-          className={`mt-6 text-[2.6rem] leading-[1.04] text-white sm:text-6xl ${
-            slide.title.length > 28 ? 'xl:text-[4rem]' : 'xl:text-7xl'
-          }`}
+          className={`${styles.archTitle} ${slide.title.length > 28 ? styles.archTitleLong : ''}`}
         />
         <div
-          className="rise mt-5 h-px w-24 bg-gradient-to-r from-saffron-500 to-transparent"
+          className={`rise ${styles.rule}`}
           style={{ animationDelay: '350ms' }}
         />
         {slide.text && (
           <p
-            className="rise mt-5 max-w-xl text-base leading-relaxed text-purple-100 md:text-lg"
+            className={`rise ${styles.archLead}`}
             style={{ animationDelay: '450ms' }}
           >
             {slide.text}
@@ -239,37 +235,35 @@ function ArchSlide({
         )}
         {slide.verse && (
           <p
-            className="rise mt-4 font-serif text-lg italic text-saffron-300/90"
+            className={`rise ${styles.archVerse}`}
             style={{ animationDelay: '500ms' }}
           >
             “{slide.verse}”
           </p>
         )}
-        <div className="rise mt-9 flex flex-wrap gap-3" style={{ animationDelay: '550ms' }}>
+        <div className={`rise ${styles.archButtons}`} style={{ animationDelay: '550ms' }}>
           <Cta slide={slide} />
         </div>
       </div>
 
-      <div className="relative mx-auto hidden w-full max-w-[420px] lg:block" aria-hidden>
-        <div className="absolute left-1/2 top-1/2 size-[150%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(245,183,0,0.35)_0%,rgba(245,183,0,0.08)_40%,transparent_70%)]" />
+      <div className={styles.archWindow} aria-hidden>
+        <div className={styles.archGlow} />
         <Mandala
-          className="spin-slow absolute left-1/2 top-1/2 size-[135%] -translate-x-1/2 -translate-y-1/2 text-saffron-300/30"
+          className={`spin-slow ${styles.archMandala}`}
           rings={5}
         />
-        <div className="arch absolute -inset-3 border border-saffron-300/60" />
-        <div className="arch absolute -inset-6 border border-saffron-300/20" />
-        <div className="arch relative aspect-[4/5] overflow-hidden bg-purple-900 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] ring-2 ring-saffron-500">
+        <div className={`arch ${styles.archLine1}`} />
+        <div className={`arch ${styles.archLine2}`} />
+        <div className={`arch ${styles.archFrame}`}>
           {slides.map((s, i) => (
             <div
               key={s.id}
-              className={`absolute inset-0 transition-[opacity,transform,filter] duration-[1200ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] ${
-                i === index ? 'scale-100 opacity-100 blur-0' : 'scale-110 opacity-0 blur-sm'
-              }`}
+              className={`${styles.archSlide} ${i === index ? '' : styles.archSlideOff}`}
             >
               <SlideVisual slide={s} active={i === index} variant="arch" />
             </div>
           ))}
-          <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-purple-950/40 to-transparent" />
+          <div className={styles.archFrameShade} />
         </div>
       </div>
     </div>
@@ -279,40 +273,35 @@ function ArchSlide({
 /** Cinematic layout: the photo fills the banner; quiet text in the lower-left. */
 function CinematicSlide({ slide, paused }: { slide: HeroSlide; paused: boolean }) {
   return (
-    <div className="container-x flex min-h-[600px] flex-col justify-end pb-28 pt-14 lg:min-h-[min(82vh,860px)]">
+    <div className={`container-x ${styles.cine}`}>
       <div
         key={slide.id}
-        className="max-w-2xl [text-shadow:0_2px_18px_rgba(0,0,0,0.6)]"
+        className={styles.cineText}
         aria-live={paused ? 'polite' : 'off'}
       >
-        <p className="rise flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-saffron-300 sm:text-xs sm:tracking-[0.3em]">
-          <span className="h-px w-8 shrink-0 bg-saffron-300 sm:w-10" />
+        <p className={`rise ${styles.eyebrow}`}>
+          <span className={styles.eyebrowLine} />
           {slide.eyebrow}
         </p>
         <Title
           slide={slide}
-          className={`mt-4 font-serif leading-[1.05] text-white ${
-            // Long titles stay on two lines so they sit below the deities' faces
-            slide.title.length > 28
-              ? 'max-w-3xl text-[2.2rem] sm:text-5xl lg:text-[3.25rem]'
-              : 'max-w-xl text-[2.5rem] sm:text-5xl md:text-6xl'
-          }`}
+          className={`${styles.cineTitle} ${slide.title.length > 28 ? styles.cineTitleLong : ''}`}
         />
         {slide.verse && (
           <p
-            className="rise mt-2 font-serif text-lg italic text-saffron-200/90"
+            className={`rise ${styles.cineVerse}`}
             style={{ animationDelay: '350ms' }}
           >
             {slide.verse}
           </p>
         )}
         <div
-          className="rise mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6"
+          className={`rise ${styles.cineActions}`}
           style={{ animationDelay: '500ms' }}
         >
           <Cta slide={slide} />
           {slide.text && (
-            <p className="max-w-sm text-sm leading-relaxed text-white/75">{slide.text}</p>
+            <p className={styles.cineLead}>{slide.text}</p>
           )}
         </div>
       </div>
@@ -337,12 +326,11 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   const slide = slides[index]
   const cinematic = slide.layout === 'cinematic'
   const split = isSplit(slide)
-  const fade = (on: boolean) =>
-    `transition-opacity duration-[1400ms] ${on ? 'opacity-100' : 'opacity-0'}`
+  const fade = (on: boolean) => `${styles.fade} ${on ? styles.on : styles.off}`
 
   return (
     <section
-      className="relative isolate overflow-hidden bg-purple-950 text-white"
+      className={styles.hero}
       aria-roledescription="carousel"
       aria-label="Temple highlights"
       onMouseEnter={() => setPaused(true)}
@@ -366,10 +354,14 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         <div
           key={s.id}
           aria-hidden={i !== index}
-          className={`absolute inset-0 -z-30 transition-[opacity,transform] duration-[1400ms] ease-out ${
+          className={`${styles.backdrop} ${
             i === index
-              ? `scale-100 opacity-100 ${s.layout === 'cinematic' ? '' : 'lg:opacity-45'}`
-              : `opacity-0 ${s.layout === 'cinematic' ? '' : 'scale-105'}`
+              ? s.layout === 'cinematic'
+                ? ''
+                : styles.backdropDim
+              : s.layout === 'cinematic'
+                ? styles.backdropOff
+                : styles.backdropOffZoom
           }`}
         >
           <SlideVisual slide={s} active={i === index} priority={i === 0} variant="backdrop" />
@@ -377,23 +369,23 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
       ))}
 
       {/* Arch layout: fade to purple on the text side */}
-      <div aria-hidden className={`absolute inset-0 -z-20 ${fade(!cinematic)}`}>
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-950/70 via-purple-950/35 to-transparent lg:from-purple-950 lg:via-purple-950/70 lg:to-purple-950/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-purple-950 via-purple-950/20 to-purple-950/30" />
+      <div aria-hidden className={`${styles.shade} ${fade(!cinematic)}`}>
+        <div className={`${styles.fill} ${styles.archShadeSide}`} />
+        <div className={`${styles.fill} ${styles.archShadeBottom}`} />
       </div>
       {/* Cinematic layout: darken only the lower-left, where the text sits */}
-      <div aria-hidden className={`absolute inset-0 -z-20 ${fade(cinematic && !split)}`}>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 via-35% to-transparent to-70%" />
-        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-black/60 to-transparent sm:w-2/3" />
+      <div aria-hidden className={`${styles.shade} ${fade(cinematic && !split)}`}>
+        <div className={`${styles.fill} ${styles.cineShadeBottom}`} />
+        <div className={styles.cineShadeSide} />
       </div>
       {/* Split photo: a royal-purple wash over the blurred side ties the photo to the site colours */}
-      <div aria-hidden className={`absolute inset-0 -z-20 ${fade(split)}`}>
-        <div className="absolute inset-0 bg-gradient-to-t from-purple-950/90 via-purple-950/30 via-35% to-transparent to-70%" />
-        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-purple-950/75 via-purple-950/45 to-transparent sm:w-2/3 lg:w-[45%] lg:from-purple-950/85 lg:via-purple-950/55" />
+      <div aria-hidden className={`${styles.shade} ${fade(split)}`}>
+        <div className={`${styles.fill} ${styles.splitShadeBottom}`} />
+        <div className={styles.splitShadeSide} />
       </div>
 
       <Mandala
-        className={`spin-slow pointer-events-none absolute -left-48 -top-48 -z-10 size-[560px] text-saffron-500/10 ${fade(!cinematic)}`}
+        className={`spin-slow ${styles.mandala} ${fade(!cinematic)}`}
       />
       <Embers className={fade(!cinematic)} />
 
@@ -405,9 +397,9 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
 
       {/* Slide navigation: thin progress segments, counter, arrows */}
       {count > 1 && (
-        <div className="absolute inset-x-0 bottom-0">
-          <div className="container-x flex items-center gap-5 pb-8">
-            <div className="flex items-center gap-2">
+        <div className={styles.nav}>
+          <div className={`container-x ${styles.navInner}`}>
+            <div className={styles.dots}>
               {slides.map((s, i) => (
                 <button
                   key={s.id}
@@ -415,17 +407,15 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                   onClick={() => go(i)}
                   aria-label={`Show slide ${i + 1}: ${s.navLabel}`}
                   aria-current={i === index}
-                  className="group py-3"
+                  className={styles.dotButton}
                 >
                   <span
-                    className={`relative block h-0.5 overflow-hidden rounded-full bg-white/25 transition-all duration-500 group-hover:bg-white/50 ${
-                      i === index ? 'w-16' : 'w-8'
-                    }`}
+                    className={`${styles.dot} ${i === index ? styles.dotOn : ''}`}
                   >
                     {i === index && (
                       <span
                         key={`${s.id}-${paused}`}
-                        className="absolute inset-0 origin-left bg-saffron-500"
+                        className={styles.progress}
                         style={{
                           animation: paused ? 'none' : `progress ${DURATION}ms linear forwards`,
                           transform: paused ? 'scaleX(1)' : undefined,
@@ -436,19 +426,19 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 </button>
               ))}
             </div>
-            <p className="text-sm tabular-nums text-purple-100/80" aria-hidden>
-              <span className="font-serif text-base text-saffron-300">
+            <p className={styles.counter} aria-hidden>
+              <span className={styles.counterNow}>
                 {String(index + 1).padStart(2, '0')}
               </span>
-              <span className="mx-1.5">/</span>
+              <span className={styles.counterSlash}>/</span>
               {String(count).padStart(2, '0')}
             </p>
-            <div className="ml-auto hidden items-center gap-2 sm:flex">
+            <div className={styles.arrows}>
               <button
                 type="button"
                 onClick={() => go(index - 1)}
                 aria-label="Previous slide"
-                className="grid size-10 place-items-center rounded-full border border-white/25 transition hover:border-saffron-500 hover:text-saffron-300"
+                className={styles.arrow}
               >
                 ←
               </button>
@@ -456,7 +446,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 type="button"
                 onClick={() => go(index + 1)}
                 aria-label="Next slide"
-                className="grid size-10 place-items-center rounded-full border border-white/25 transition hover:border-saffron-500 hover:text-saffron-300"
+                className={styles.arrow}
               >
                 →
               </button>
