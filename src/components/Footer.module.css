@@ -151,3 +151,8 @@
     grid-template-columns: 1.4fr 1fr 1fr 1fr;
   }
 }
+
+.logoImage {
+  width: auto;
+  height: 3.25rem;
+}

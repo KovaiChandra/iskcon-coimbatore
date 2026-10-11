@@ -171,46 +171,81 @@ export default async function HomePage() {
       />
 
       {/* About */}
-      <section className={`container-x ${styles.about}`}>
-        <div className={styles.aboutPhotoWrap}>
-          <Mandala className={`spin-slow ${styles.aboutMandala}`} />
-          <div className={`arch ${styles.aboutPhoto}`}>
-            <ImageOrPlaceholder
-              media={home.about?.image}
-              art="temple"
-              alt="Srila Prabhupada"
-              sizes="(min-width: 1024px) 40vw, 100vw"
-            />
+      <section className={styles.about2}>
+        <div className={`container-x ${styles.about2Grid}`}>
+          <div className={styles.about2Media}>
+            <div className={styles.about2Photo}>
+              <ImageOrPlaceholder
+                media={home.about?.image}
+                art="temple"
+                alt="Sri Jagannath Mandir, Coimbatore"
+                sizes="(min-width: 1024px) 45vw, 100vw"
+              />
+            </div>
+            <div className={styles.about2Badge}>
+              <p className={styles.yearNumber}>1966</p>
+              <p className={styles.yearLabel}>ISKCON founded</p>
+            </div>
+            <div className={styles.about2Place}>
+              <span className={styles.about2PlaceDot} />
+              Sri Jagannath Mandir · Coimbatore
+            </div>
           </div>
-          <div className={styles.yearBadge}>
-            <p className={styles.yearNumber}>1966</p>
-            <p className={styles.yearLabel}>ISKCON founded</p>
+
+          <div>
+            <Eyebrow>About ISKCON Coimbatore</Eyebrow>
+            <h2 className={`${styles.h2} ${styles.aboutTitle}`}>
+              A spiritual home for <span className={styles.accent}>everyone</span> seeking Krishna
+            </h2>
+            <p className={styles.aboutText}>
+              {home.about?.text ||
+                'ISKCON Coimbatore shares the timeless teachings of Bhagavad-gita and the joy of chanting the holy names, as taught by His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada.\n\nAt Sri Jagannath Mandir, families, students and seekers gather for daily worship, festivals, classes and prasadam.'}
+            </p>
+            <ul className={styles.about2Cards}>
+              {[
+                {
+                  title: 'Spiritual guidance',
+                  text: 'Classes, counselling and japa for every age',
+                  icon: <path d="M4 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4zM20 5h-4a3 3 0 0 0-3 3" />,
+                },
+                {
+                  title: 'Festivals & seva',
+                  text: 'Kirtan, abhishek and a community to serve with',
+                  icon: (
+                    <path d="M12 3c2 3 2 6 0 9-2-3-2-6 0-9ZM5 14c3 0 6 2 7 6 1-4 4-6 7-6M4 20h16" />
+                  ),
+                },
+                {
+                  title: 'Prasadam for all',
+                  text: 'Sanctified food offered with love, every day',
+                  icon: <path d="M4 12h16a8 8 0 0 1-16 0ZM12 4v4M8 6v2M16 6v2" />,
+                },
+              ].map((c) => (
+                <li key={c.title} className={styles.about2Card}>
+                  <span className={styles.about2Icon}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="22"
+                      height="22"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      {c.icon}
+                    </svg>
+                  </span>
+                  <p className={styles.about2CardTitle}>{c.title}</p>
+                  <p className={styles.about2CardText}>{c.text}</p>
+                </li>
+              ))}
+            </ul>
+            <Link href="/about" className={`btn-primary ${styles.btnBig} ${styles.aboutButton}`}>
+              Our story →
+            </Link>
           </div>
-        </div>
-        <div>
-          <Eyebrow>About ISKCON Coimbatore</Eyebrow>
-          <h2 className={`${styles.h2} ${styles.aboutTitle}`}>
-            A spiritual home for <span className={styles.accent}>everyone</span> seeking Krishna
-          </h2>
-          <p className={styles.aboutText}>
-            {home.about?.text ||
-              'ISKCON Coimbatore shares the timeless teachings of Bhagavad-gita and the joy of chanting the holy names, as taught by His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada.\n\nAt Sri Jagannath Mandir, families, students and seekers gather for daily worship, festivals, classes and prasadam.'}
-          </p>
-          <ol className={styles.points}>
-            {[
-              'Spiritual guidance for everyone',
-              'Festivals, seva & community',
-              'Prasadam for all',
-            ].map((p, i) => (
-              <li key={p} className={styles.point}>
-                <span className={styles.pointNumber}>0{i + 1}</span>
-                <p className={styles.pointText}>{p}</p>
-              </li>
-            ))}
-          </ol>
-          <Link href="/about" className={`btn-primary ${styles.btnBig} ${styles.aboutButton}`}>
-            Our story →
-          </Link>
         </div>
       </section>
 

@@ -239,3 +239,14 @@
     display: none;
   }
 }
+
+/* Official logo image */
+.logoImage {
+  width: auto;
+  height: 2.6rem;
+}
+@media (min-width: 1280px) {
+  .logoImage {
+    height: 3.25rem;
+  }
+}

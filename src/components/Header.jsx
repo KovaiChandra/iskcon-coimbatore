@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { NAV } from '@/lib/nav'
-import { ChevronDown, LotusMark, SearchIcon } from './Icons'
+import Image from 'next/image'
+import { ChevronDown, SearchIcon } from './Icons'
 import styles from './Header.module.css'
 
 export function Header({ socials }) {
@@ -23,12 +24,16 @@ export function Header({ socials }) {
   return (
     <header className={styles.header}>
       <div className={`container-x ${styles.inner}`}>
-        <Link href="/" className={styles.brand}>
-          <LotusMark className={styles.logo} />
-          <span className={styles.brandText}>
-            <span className={styles.brandName}>ISKCON Coimbatore</span>
-            <span className={styles.brandSub}>Sri Jagannath Mandir</span>
-          </span>
+        <Link href="/" className={styles.brand} aria-label="ISKCON Coimbatore home">
+          {/* Official logo, recoloured gold (public/brand/logo-gold.png) */}
+          <Image
+            src="/brand/logo-gold.png"
+            alt="ISKCON Coimbatore"
+            width={1031}
+            height={334}
+            priority
+            className={styles.logoImage}
+          />
         </Link>
 
         <nav className={styles.nav} aria-label="Main">
