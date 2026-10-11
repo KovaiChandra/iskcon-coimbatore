@@ -629,15 +629,44 @@
 @media (min-width: 1024px) {
   .light .splitShadeSide {
     display: block;
-    width: 62%;
+    width: 46%;
     background: linear-gradient(
       to right,
-      rgb(var(--tone-deep) / 0.97) 0%,
-      rgb(var(--tone-deep) / 0.88) 50%,
+      rgb(var(--tone-deep) / 0.95) 0%,
+      rgb(var(--tone-deep) / 0.8) 45%,
       rgb(var(--tone-deep) / 0) 100%
     );
+  }
+  /* Photo starts further left, so less of the banner is plain ivory */
+  .light .splitPhoto {
+    width: 90%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 14%);
+    mask-image: linear-gradient(to right, transparent 0%, black 14%);
   }
   .light .splitShadeBottom {
     background: linear-gradient(to top, rgb(var(--tone-deep) / 0.7), transparent 25%);
   }
+}
+/* Description sits on a small frosted card so it reads clearly over the photo */
+@media (min-width: 1024px) {
+  .light .cineLead {
+    border-radius: 0.875rem;
+    background: rgb(var(--tone-deep) / 0.78);
+    padding: 0.625rem 0.875rem;
+    color: var(--purple-900);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px -8px rgb(59 23 101 / 0.25);
+  }
+}
+/* Small label: deeper gold with an ivory halo so it stays legible over the photo */
+.light .eyebrow {
+  color: #a86b00;
+  text-shadow:
+    0 0 6px rgb(var(--tone-deep)),
+    0 0 12px rgb(var(--tone-deep)),
+    0 0 2px rgb(var(--tone-deep));
+}
+.light .eyebrowLine {
+  background: #a86b00;
 }
