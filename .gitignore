@@ -55,3 +55,4 @@ node_modules/
 
 # one-off photo imports
 /media-import
+.env*
