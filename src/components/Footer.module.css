@@ -156,3 +156,14 @@
   width: auto;
   height: 3.25rem;
 }
+/* Phones: keep the copyright row clear of the floating WhatsApp button */
+@media (max-width: 767px) {
+  .bottomInner {
+    padding-bottom: 5.5rem;
+  }
+  .grid {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    gap: 1.25rem;
+  }
+}

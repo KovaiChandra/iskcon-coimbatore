@@ -1476,3 +1476,190 @@
     font-size: 0.6875rem;
   }
 }
+
+/* =========================================================================
+   Phones (under 768px): app-like swipe rows, tighter spacing, smaller media
+   ========================================================================= */
+@media (max-width: 767px) {
+  /* Card rows scroll sideways; the next card peeks in to invite a swipe */
+  .swipe {
+    display: flex !important;
+    gap: 0.875rem !important;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 0.25rem 1rem 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 1rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .swipe::-webkit-scrollbar {
+    display: none;
+  }
+  .swipe > * {
+    flex: 0 0 82%;
+    scroll-snap-align: start;
+    min-width: 0;
+  }
+  .about2Cards.swipe > * {
+    flex-basis: 62%;
+  }
+
+  /* Section spacing and headings */
+  .about2,
+  .donate,
+  .services,
+  .blog,
+  .festivals,
+  .courses,
+  .youtube,
+  .live,
+  .founder {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+  .serve,
+  .subscribe {
+    padding: 3.5rem 0;
+  }
+  .trio {
+    padding-bottom: 3.5rem;
+  }
+  .h2 {
+    font-size: 2rem;
+    line-height: 1.15;
+  }
+  .sectionHead,
+  .sectionHeadCenter,
+  .blogHead {
+    margin-bottom: 1.5rem;
+  }
+
+  /* About: shorter collage, tighter text */
+  .about2Grid {
+    gap: 2.25rem;
+  }
+  .collage {
+    max-width: 24rem;
+  }
+  .aboutText {
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+  .about2Cards {
+    margin-top: 1.5rem;
+  }
+
+  /* Founder: smaller portrait */
+  .founderGrid {
+    gap: 2rem;
+  }
+  .founderPortraitWrap {
+    max-width: 14rem;
+  }
+  .founderCaption {
+    margin-top: 1rem;
+  }
+  .founderText {
+    font-size: 0.975rem;
+    line-height: 1.7;
+  }
+  .timeline2 {
+    margin-top: 1.5rem;
+  }
+
+  /* Live puja: landscape photo instead of a tall one */
+  .liveGrid {
+    gap: 2rem;
+  }
+  .liveFrame {
+    max-width: none;
+    padding: 0.4rem;
+    border-radius: 1.5rem;
+  }
+  .livePhoto {
+    aspect-ratio: 4 / 3;
+    border-radius: 1.15rem;
+  }
+  .liveText {
+    font-size: 1rem;
+  }
+  .liveFacts {
+    margin-top: 1.5rem;
+    gap: 1rem;
+  }
+  .liveButton {
+    margin-top: 1.75rem;
+  }
+
+  /* Quote */
+  .quote {
+    padding: 4.5rem 0;
+  }
+  .quoteText {
+    font-size: 1.5rem;
+  }
+  .quoteMark {
+    font-size: 3rem;
+  }
+  .quoteSource {
+    margin-top: 1.25rem;
+    font-size: 0.75rem;
+  }
+
+  /* Festivals: card stacks image above text inside the swipe row */
+  .fest {
+    grid-template-columns: 1fr;
+    padding: 0.625rem;
+  }
+  .festImage {
+    aspect-ratio: 16 / 10;
+  }
+  .festBody {
+    padding: 0.25rem 0.375rem 0.375rem;
+  }
+
+  /* Courses: compact rows */
+  .course {
+    padding: 1.25rem 0;
+    gap: 0.5rem 1rem;
+  }
+  .courseNumber {
+    font-size: 1.75rem;
+  }
+  .courseTitle {
+    font-size: 1.25rem;
+  }
+  .coursesGrid {
+    gap: 2rem;
+  }
+
+  /* Instagram strip */
+  .instagramText {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+}
+@media (max-width: 767px) {
+  .nitya {
+    padding: 1.75rem 1.25rem;
+  }
+  .nityaTitle {
+    font-size: 1.6rem;
+  }
+  .nityaText {
+    margin-bottom: 1.25rem;
+  }
+  .sideCard {
+    padding: 1.5rem;
+  }
+}
+@media (max-width: 767px) {
+  /* Head links/buttons sit compactly under the title */
+  .sectionHead > a {
+    align-self: flex-start;
+    padding: 0.55rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}

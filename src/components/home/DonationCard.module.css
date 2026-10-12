@@ -117,3 +117,16 @@
     grid-column: span 2;
   }
 }
+/* Phones: equal-height cards in the swipe row */
+@media (max-width: 767px) {
+  .card,
+  .featured {
+    min-height: 420px;
+  }
+  .featured .title {
+    font-size: 1.6rem;
+  }
+  .featured .text {
+    display: -webkit-box;
+  }
+}

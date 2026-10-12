@@ -17,3 +17,11 @@
 .button:hover {
   transform: scale(1.05);
 }
+@media (max-width: 639px) {
+  .button {
+    bottom: 1rem;
+    right: 1rem;
+    width: 3.1rem;
+    height: 3.1rem;
+  }
+}

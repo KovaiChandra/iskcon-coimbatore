@@ -215,7 +215,7 @@ export default async function HomePage() {
               {home.about?.text ||
                 'ISKCON Coimbatore shares the timeless teachings of Bhagavad-gita and the joy of chanting the holy names, as taught by His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada.\n\nAt Sri Jagannath Mandir, families, students and seekers gather for daily worship, festivals, classes and prasadam.'}
             </p>
-            <ul className={styles.about2Cards}>
+            <ul className={`${styles.about2Cards} ${styles.swipe}`}>
               {[
                 {
                   title: 'Spiritual guidance',
@@ -332,7 +332,7 @@ export default async function HomePage() {
                 All sevas →
               </Link>
             </div>
-            <div className={styles.serveGrid}>
+            <div className={`${styles.serveGrid} ${styles.swipe}`}>
               {highlights.map((s, i) => {
                 const from = Math.min(...(s.presetAmounts ?? []).map((p) => p.amount))
                 return (
@@ -413,7 +413,7 @@ export default async function HomePage() {
               <Eyebrow>Offer a seva</Eyebrow>
               <h2 className={styles.h2}>Turn your offering into prasad</h2>
             </div>
-            <div className={styles.donateGrid}>
+            <div className={`${styles.donateGrid} ${styles.swipe}`}>
               {donationSevas.map((s, i) => (
                 <DonationCard
                   key={s.id}
@@ -580,7 +580,7 @@ export default async function HomePage() {
                 View all festivals
               </Link>
             </div>
-            <div className={styles.festGrid}>
+            <div className={`${styles.festGrid} ${styles.swipe}`}>
               {festivals.docs.map((f) => (
                 <article key={f.id} className={styles.fest}>
                   <Link href={`/festivals/${f.slug}`} className={styles.festImage}>
@@ -645,7 +645,7 @@ export default async function HomePage() {
             <Eyebrow>Serve and be served</Eyebrow>
             <h2 className={styles.h2}>Devotional services</h2>
           </div>
-          <div className={styles.threeGrid}>
+          <div className={`${styles.threeGrid} ${styles.swipe}`}>
             {services.docs.map((s, i) => (
               <article key={s.id} className={styles.service}>
                 <div className={styles.cardImage}>
@@ -732,7 +732,7 @@ export default async function HomePage() {
               </p>
             </div>
             {home.youtubeVideos?.length > 0 && (
-              <div className={styles.threeGrid}>
+              <div className={`${styles.threeGrid} ${styles.swipe}`}>
                 {home.youtubeVideos.slice(0, 3).map((v) => {
                   const id = youtubeId(v.url)
                   return (
@@ -795,7 +795,7 @@ export default async function HomePage() {
               All articles →
             </Link>
           </div>
-          <div className={styles.threeGrid}>
+          <div className={`${styles.threeGrid} ${styles.swipe}`}>
             {posts.docs.map((p) => (
               <Link key={p.id} href={`/blog/${p.slug}`} className={styles.post}>
                 <div className={styles.postImage}>

@@ -265,3 +265,29 @@
     margin: 0 0 0 -5rem;
   }
 }
+/* Phones: tighter section, compact rows */
+@media (max-width: 639px) {
+  .section {
+    padding: 3.5rem 0;
+  }
+  .photo {
+    aspect-ratio: 16 / 11;
+    border-radius: 1.5rem;
+  }
+  .card {
+    margin: -2.5rem 0.5rem 0;
+    padding: 1.5rem 1.25rem 1.25rem;
+  }
+  .title {
+    font-size: 2rem;
+  }
+  .times li {
+    padding: 0.5rem 0;
+  }
+  .activity {
+    font-size: 0.8125rem;
+  }
+  .time {
+    font-size: 0.975rem;
+  }
+}

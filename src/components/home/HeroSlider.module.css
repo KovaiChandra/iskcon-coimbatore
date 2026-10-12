@@ -679,3 +679,25 @@
   height: 100%;
   object-fit: cover;
 }
+
+/* Phones: slightly shorter hero and title */
+@media (max-width: 639px) {
+  .cine,
+  .archGrid {
+    min-height: 540px;
+    padding-bottom: 6rem;
+  }
+  .cineTitle,
+  .cineTitleLong {
+    font-size: 2.1rem;
+  }
+  .archTitle {
+    font-size: 2.25rem;
+  }
+  .cineActions {
+    margin-top: 1.25rem;
+  }
+  .cineLead {
+    font-size: 0.875rem;
+  }
+}
