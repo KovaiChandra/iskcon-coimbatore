@@ -1,0 +1,1602 @@
+{
+ "collections": {
+  "media": [
+   {
+    "id": 1,
+    "alt": "Sri Jagannath with Sri Sri Gaura-Nitai, ISKCON Coimbatore",
+    "updatedAt": "2026-10-10T18:36:52.254Z",
+    "createdAt": "2026-10-10T18:36:52.253Z",
+    "url": "/api/media/file/sri-jagannath-with-sri-sri-gaura-nitai-iskcon-coimbatore.jpg",
+    "thumbnailURL": "/api/media/file/sri-jagannath-with-sri-sri-gaura-nitai-iskcon-coimbatore-400x533.jpg",
+    "filename": "sri-jagannath-with-sri-sri-gaura-nitai-iskcon-coimbatore.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 1048278,
+    "width": 1800,
+    "height": 2400,
+    "focalX": 50,
+    "focalY": 50,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/sri-jagannath-with-sri-sri-gaura-nitai-iskcon-coimbatore-400x533.jpg",
+      "width": 400,
+      "height": 533,
+      "mimeType": "image/jpeg",
+      "filesize": 81674,
+      "filename": "sri-jagannath-with-sri-sri-gaura-nitai-iskcon-coimbatore-400x533.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/sri-jagannath-with-sri-sri-gaura-nitai-iskcon-coimbatore-800x1067.jpg",
+      "width": 800,
+      "height": 1067,
+      "mimeType": "image/jpeg",
+      "filesize": 265588,
+      "filename": "sri-jagannath-with-sri-sri-gaura-nitai-iskcon-coimbatore-800x1067.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 2,
+    "alt": "Temple shikhara and flag at dusk",
+    "updatedAt": "2026-10-10T18:36:52.344Z",
+    "createdAt": "2026-10-10T18:36:52.344Z",
+    "url": "/api/media/file/temple-shikhara-and-flag-at-dusk.jpg",
+    "thumbnailURL": "/api/media/file/temple-shikhara-and-flag-at-dusk-400x533.jpg",
+    "filename": "temple-shikhara-and-flag-at-dusk.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 261061,
+    "width": 1800,
+    "height": 2400,
+    "focalX": 50,
+    "focalY": 50,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/temple-shikhara-and-flag-at-dusk-400x533.jpg",
+      "width": 400,
+      "height": 533,
+      "mimeType": "image/jpeg",
+      "filesize": 19016,
+      "filename": "temple-shikhara-and-flag-at-dusk-400x533.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/temple-shikhara-and-flag-at-dusk-800x1067.jpg",
+      "width": 800,
+      "height": 1067,
+      "mimeType": "image/jpeg",
+      "filesize": 57071,
+      "filename": "temple-shikhara-and-flag-at-dusk-800x1067.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 3,
+    "alt": "Lord Jagannath in full shringar",
+    "updatedAt": "2026-10-11T11:56:51.421Z",
+    "createdAt": "2026-10-10T18:36:52.452Z",
+    "url": "/api/media/file/lord-jagannath-in-full-shringar.jpg",
+    "thumbnailURL": "/api/media/file/lord-jagannath-in-full-shringar-400x711.jpg",
+    "filename": "lord-jagannath-in-full-shringar.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 977777,
+    "width": 1350,
+    "height": 2400,
+    "focalX": 50,
+    "focalY": 35,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/lord-jagannath-in-full-shringar-400x711.jpg",
+      "width": 400,
+      "height": 711,
+      "mimeType": "image/jpeg",
+      "filesize": 113191,
+      "filename": "lord-jagannath-in-full-shringar-400x711.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/lord-jagannath-in-full-shringar-800x1422.jpg",
+      "width": 800,
+      "height": 1422,
+      "mimeType": "image/jpeg",
+      "filesize": 377820,
+      "filename": "lord-jagannath-in-full-shringar-800x1422.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 4,
+    "alt": "Sri Jagannath Mandir, Coimbatore, at sunset",
+    "updatedAt": "2026-10-11T10:45:56.195Z",
+    "createdAt": "2026-10-10T18:36:52.580Z",
+    "url": "/api/media/file/sri-jagannath-mandir-coimbatore-at-sunset.jpg",
+    "thumbnailURL": "/api/media/file/sri-jagannath-mandir-coimbatore-at-sunset-400x300.jpg",
+    "filename": "sri-jagannath-mandir-coimbatore-at-sunset.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 999197,
+    "width": 2400,
+    "height": 1800,
+    "focalX": 52,
+    "focalY": 52,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/sri-jagannath-mandir-coimbatore-at-sunset-400x300.jpg",
+      "width": 400,
+      "height": 300,
+      "mimeType": "image/jpeg",
+      "filesize": 32321,
+      "filename": "sri-jagannath-mandir-coimbatore-at-sunset-400x300.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/sri-jagannath-mandir-coimbatore-at-sunset-800x600.jpg",
+      "width": 800,
+      "height": 600,
+      "mimeType": "image/jpeg",
+      "filesize": 117814,
+      "filename": "sri-jagannath-mandir-coimbatore-at-sunset-800x600.jpg"
+     },
+     "hero": {
+      "url": "/api/media/file/sri-jagannath-mandir-coimbatore-at-sunset-1920x1440.jpg",
+      "width": 1920,
+      "height": 1440,
+      "mimeType": "image/jpeg",
+      "filesize": 508093,
+      "filename": "sri-jagannath-mandir-coimbatore-at-sunset-1920x1440.jpg"
+     }
+    }
+   },
+   {
+    "id": 5,
+    "alt": "The main altar with Srila Prabhupada and the parampara",
+    "updatedAt": "2026-10-11T00:45:52.932Z",
+    "createdAt": "2026-10-10T18:36:52.732Z",
+    "url": "/api/media/file/the-main-altar-with-srila-prabhupada-and-the-parampara.jpg",
+    "thumbnailURL": "/api/media/file/the-main-altar-with-srila-prabhupada-and-the-parampara-400x300.jpg",
+    "filename": "the-main-altar-with-srila-prabhupada-and-the-parampara.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 1207471,
+    "width": 2400,
+    "height": 1800,
+    "focalX": 50,
+    "focalY": 40,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/the-main-altar-with-srila-prabhupada-and-the-parampara-400x300.jpg",
+      "width": 400,
+      "height": 300,
+      "mimeType": "image/jpeg",
+      "filesize": 44920,
+      "filename": "the-main-altar-with-srila-prabhupada-and-the-parampara-400x300.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/the-main-altar-with-srila-prabhupada-and-the-parampara-800x600.jpg",
+      "width": 800,
+      "height": 600,
+      "mimeType": "image/jpeg",
+      "filesize": 165861,
+      "filename": "the-main-altar-with-srila-prabhupada-and-the-parampara-800x600.jpg"
+     },
+     "hero": {
+      "url": "/api/media/file/the-main-altar-with-srila-prabhupada-and-the-parampara-1920x1440.jpg",
+      "width": 1920,
+      "height": 1440,
+      "mimeType": "image/jpeg",
+      "filesize": 744478,
+      "filename": "the-main-altar-with-srila-prabhupada-and-the-parampara-1920x1440.jpg"
+     }
+    }
+   },
+   {
+    "id": 6,
+    "alt": "Sri Sri Jagannath, Baladeva and Subhadra",
+    "updatedAt": "2026-10-11T01:19:15.537Z",
+    "createdAt": "2026-10-10T18:36:52.996Z",
+    "url": "/api/media/file/sri-sri-jagannath-baladeva-and-subhadra.jpg",
+    "thumbnailURL": "/api/media/file/sri-sri-jagannath-baladeva-and-subhadra-400x300.jpg",
+    "filename": "sri-sri-jagannath-baladeva-and-subhadra.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 1406995,
+    "width": 2400,
+    "height": 1800,
+    "focalX": 50,
+    "focalY": 50,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/sri-sri-jagannath-baladeva-and-subhadra-400x300.jpg",
+      "width": 400,
+      "height": 300,
+      "mimeType": "image/jpeg",
+      "filesize": 49411,
+      "filename": "sri-sri-jagannath-baladeva-and-subhadra-400x300.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/sri-sri-jagannath-baladeva-and-subhadra-800x600.jpg",
+      "width": 800,
+      "height": 600,
+      "mimeType": "image/jpeg",
+      "filesize": 188154,
+      "filename": "sri-sri-jagannath-baladeva-and-subhadra-800x600.jpg"
+     },
+     "hero": {
+      "url": "/api/media/file/sri-sri-jagannath-baladeva-and-subhadra-1920x1440.jpg",
+      "width": 1920,
+      "height": 1440,
+      "mimeType": "image/jpeg",
+      "filesize": 859501,
+      "filename": "sri-sri-jagannath-baladeva-and-subhadra-1920x1440.jpg"
+     }
+    }
+   },
+   {
+    "id": 7,
+    "alt": "Sri Sri Jagannath, Baladeva and Subhadra in the glow of Kartik lamps",
+    "updatedAt": "2026-10-10T18:54:32.487Z",
+    "createdAt": "2026-10-10T18:54:32.487Z",
+    "url": "/api/media/file/kartik-lamps-altar.jpg",
+    "thumbnailURL": "/api/media/file/kartik-lamps-altar-400x179.jpg",
+    "filename": "kartik-lamps-altar.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 412740,
+    "width": 2000,
+    "height": 895,
+    "focalX": 42,
+    "focalY": 45,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/kartik-lamps-altar-400x179.jpg",
+      "width": 400,
+      "height": 179,
+      "mimeType": "image/jpeg",
+      "filesize": 19110,
+      "filename": "kartik-lamps-altar-400x179.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/kartik-lamps-altar-800x358.jpg",
+      "width": 800,
+      "height": 358,
+      "mimeType": "image/jpeg",
+      "filesize": 62340,
+      "filename": "kartik-lamps-altar-800x358.jpg"
+     },
+     "hero": {
+      "url": "/api/media/file/kartik-lamps-altar-1920x859.jpg",
+      "width": 1920,
+      "height": 859,
+      "mimeType": "image/jpeg",
+      "filesize": 243961,
+      "filename": "kartik-lamps-altar-1920x859.jpg"
+     }
+    }
+   },
+   {
+    "id": 8,
+    "alt": "Sri Jagannath Mandir at golden hour",
+    "updatedAt": "2026-10-11T10:45:56.326Z",
+    "createdAt": "2026-10-11T10:45:56.326Z",
+    "url": "/api/media/file/temple-golden-hour.jpg",
+    "thumbnailURL": "/api/media/file/temple-golden-hour-400x205.jpg",
+    "filename": "temple-golden-hour.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 623484,
+    "width": 2000,
+    "height": 1026,
+    "focalX": 64,
+    "focalY": 42,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/temple-golden-hour-400x205.jpg",
+      "width": 400,
+      "height": 205,
+      "mimeType": "image/jpeg",
+      "filesize": 24518,
+      "filename": "temple-golden-hour-400x205.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/temple-golden-hour-800x410.jpg",
+      "width": 800,
+      "height": 410,
+      "mimeType": "image/jpeg",
+      "filesize": 87478,
+      "filename": "temple-golden-hour-800x410.jpg"
+     },
+     "hero": {
+      "url": "/api/media/file/temple-golden-hour-1920x985.jpg",
+      "width": 1920,
+      "height": 985,
+      "mimeType": "image/jpeg",
+      "filesize": 369648,
+      "filename": "temple-golden-hour-1920x985.jpg"
+     }
+    }
+   },
+   {
+    "id": 9,
+    "alt": "A family visiting Sri Jagannath Mandir (video)",
+    "updatedAt": "2026-10-11T10:59:15.318Z",
+    "createdAt": "2026-10-11T10:59:15.318Z",
+    "url": "/api/media/file/visit-the-temple.mp4",
+    "thumbnailURL": null,
+    "filename": "visit-the-temple.mp4",
+    "mimeType": "video/mp4",
+    "filesize": 6775964,
+    "width": null,
+    "height": null,
+    "focalX": null,
+    "focalY": null,
+    "sizes": {
+     "thumb": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     },
+     "card": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 10,
+    "alt": "A family arriving at Sri Jagannath Mandir",
+    "updatedAt": "2026-10-11T10:59:15.359Z",
+    "createdAt": "2026-10-11T10:59:15.359Z",
+    "url": "/api/media/file/visit-the-temple-poster.jpg",
+    "thumbnailURL": "/api/media/file/visit-the-temple-poster-400x225.jpg",
+    "filename": "visit-the-temple-poster.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 208050,
+    "width": 1600,
+    "height": 900,
+    "focalX": 50,
+    "focalY": 50,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/visit-the-temple-poster-400x225.jpg",
+      "width": 400,
+      "height": 225,
+      "mimeType": "image/jpeg",
+      "filesize": 22923,
+      "filename": "visit-the-temple-poster-400x225.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/visit-the-temple-poster-800x450.jpg",
+      "width": 800,
+      "height": 450,
+      "mimeType": "image/jpeg",
+      "filesize": 68843,
+      "filename": "visit-the-temple-poster-800x450.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 11,
+    "alt": "Devotees serving Annadaan prasadam",
+    "updatedAt": "2026-10-11T11:10:09.578Z",
+    "createdAt": "2026-10-11T11:00:21.726Z",
+    "url": "/api/media/file/annadaan-seva.jpg",
+    "thumbnailURL": "/api/media/file/annadaan-seva-400x242.jpg",
+    "filename": "annadaan-seva.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 51475,
+    "width": 573,
+    "height": 347,
+    "focalX": 50,
+    "focalY": 50,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/annadaan-seva-400x242.jpg",
+      "width": 400,
+      "height": 242,
+      "mimeType": "image/jpeg",
+      "filesize": 23689,
+      "filename": "annadaan-seva-400x242.jpg"
+     },
+     "card": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 12,
+    "alt": "Kovai Chandra, the new temple design, under a full moon",
+    "updatedAt": "2026-10-11T11:00:21.767Z",
+    "createdAt": "2026-10-11T11:00:21.767Z",
+    "url": "/api/media/file/new-temple-seva.jpg",
+    "thumbnailURL": "/api/media/file/new-temple-seva-400x240.jpg",
+    "filename": "new-temple-seva.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 38302,
+    "width": 750,
+    "height": 450,
+    "focalX": 50,
+    "focalY": 30,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/new-temple-seva-400x240.jpg",
+      "width": 400,
+      "height": 240,
+      "mimeType": "image/jpeg",
+      "filesize": 12515,
+      "filename": "new-temple-seva-400x240.jpg"
+     },
+     "card": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 13,
+    "alt": "A devotee feeding the cows at the goshala",
+    "updatedAt": "2026-10-11T11:00:21.820Z",
+    "createdAt": "2026-10-11T11:00:21.820Z",
+    "url": "/api/media/file/gau-seva-seva.jpg",
+    "thumbnailURL": "/api/media/file/gau-seva-seva-400x267.jpg",
+    "filename": "gau-seva-seva.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 264376,
+    "width": 1600,
+    "height": 1067,
+    "focalX": 50,
+    "focalY": 40,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/gau-seva-seva-400x267.jpg",
+      "width": 400,
+      "height": 267,
+      "mimeType": "image/jpeg",
+      "filesize": 26308,
+      "filename": "gau-seva-seva-400x267.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/gau-seva-seva-800x534.jpg",
+      "width": 800,
+      "height": 534,
+      "mimeType": "image/jpeg",
+      "filesize": 81762,
+      "filename": "gau-seva-seva-800x534.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 14,
+    "alt": "Kovai Chandra, the new temple, under construction",
+    "updatedAt": "2026-10-11T11:16:01.981Z",
+    "createdAt": "2026-10-11T11:16:01.980Z",
+    "url": "/api/media/file/kovai-chandra-new-temple.jpg",
+    "thumbnailURL": "/api/media/file/kovai-chandra-new-temple-400x225.jpg",
+    "filename": "kovai-chandra-new-temple.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 576763,
+    "width": 2400,
+    "height": 1349,
+    "focalX": 50,
+    "focalY": 40,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/kovai-chandra-new-temple-400x225.jpg",
+      "width": 400,
+      "height": 225,
+      "mimeType": "image/jpeg",
+      "filesize": 21454,
+      "filename": "kovai-chandra-new-temple-400x225.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/kovai-chandra-new-temple-800x450.jpg",
+      "width": 800,
+      "height": 450,
+      "mimeType": "image/jpeg",
+      "filesize": 69378,
+      "filename": "kovai-chandra-new-temple-800x450.jpg"
+     },
+     "hero": {
+      "url": "/api/media/file/kovai-chandra-new-temple-1920x1079.jpg",
+      "width": 1920,
+      "height": 1079,
+      "mimeType": "image/jpeg",
+      "filesize": 302648,
+      "filename": "kovai-chandra-new-temple-1920x1079.jpg"
+     }
+    }
+   },
+   {
+    "id": 15,
+    "alt": "A family honouring prasadam on the temple lawn",
+    "updatedAt": "2026-10-11T11:16:02.064Z",
+    "createdAt": "2026-10-11T11:16:02.064Z",
+    "url": "/api/media/file/family-prasadam.jpg",
+    "thumbnailURL": "/api/media/file/family-prasadam-400x226.jpg",
+    "filename": "family-prasadam.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 210131,
+    "width": 1280,
+    "height": 723,
+    "focalX": 50,
+    "focalY": 45,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/family-prasadam-400x226.jpg",
+      "width": 400,
+      "height": 226,
+      "mimeType": "image/jpeg",
+      "filesize": 26474,
+      "filename": "family-prasadam-400x226.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/family-prasadam-800x452.jpg",
+      "width": 800,
+      "height": 452,
+      "mimeType": "image/jpeg",
+      "filesize": 80282,
+      "filename": "family-prasadam-800x452.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 16,
+    "alt": "A family choosing Bhagavad-gita books at the temple",
+    "updatedAt": "2026-10-11T11:16:02.114Z",
+    "createdAt": "2026-10-11T11:16:02.114Z",
+    "url": "/api/media/file/family-gita-books.jpg",
+    "thumbnailURL": "/api/media/file/family-gita-books-400x226.jpg",
+    "filename": "family-gita-books.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 139056,
+    "width": 1280,
+    "height": 723,
+    "focalX": 50,
+    "focalY": 40,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/family-gita-books-400x226.jpg",
+      "width": 400,
+      "height": 226,
+      "mimeType": "image/jpeg",
+      "filesize": 20583,
+      "filename": "family-gita-books-400x226.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/family-gita-books-800x452.jpg",
+      "width": 800,
+      "height": 452,
+      "mimeType": "image/jpeg",
+      "filesize": 55654,
+      "filename": "family-gita-books-800x452.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 17,
+    "alt": "A family with a devotee at the temple",
+    "updatedAt": "2026-10-11T11:16:02.208Z",
+    "createdAt": "2026-10-11T11:16:02.208Z",
+    "url": "/api/media/file/family-at-temple.jpg",
+    "thumbnailURL": "/api/media/file/family-at-temple-400x226.jpg",
+    "filename": "family-at-temple.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 114619,
+    "width": 1280,
+    "height": 723,
+    "focalX": 50,
+    "focalY": 40,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/family-at-temple-400x226.jpg",
+      "width": 400,
+      "height": 226,
+      "mimeType": "image/jpeg",
+      "filesize": 17522,
+      "filename": "family-at-temple-400x226.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/family-at-temple-800x452.jpg",
+      "width": 800,
+      "height": 452,
+      "mimeType": "image/jpeg",
+      "filesize": 45600,
+      "filename": "family-at-temple-800x452.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 18,
+    "alt": "Annadaan: prasadam being served from the temple van",
+    "updatedAt": "2026-10-11T11:25:11.773Z",
+    "createdAt": "2026-10-11T11:25:11.772Z",
+    "url": "/api/media/file/annadaan-van-distribution.jpg",
+    "thumbnailURL": "/api/media/file/annadaan-van-distribution-400x225.jpg",
+    "filename": "annadaan-van-distribution.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 298198,
+    "width": 1600,
+    "height": 900,
+    "focalX": 45,
+    "focalY": 40,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/annadaan-van-distribution-400x225.jpg",
+      "width": 400,
+      "height": 225,
+      "mimeType": "image/jpeg",
+      "filesize": 26722,
+      "filename": "annadaan-van-distribution-400x225.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/annadaan-van-distribution-800x450.jpg",
+      "width": 800,
+      "height": 450,
+      "mimeType": "image/jpeg",
+      "filesize": 88698,
+      "filename": "annadaan-van-distribution-800x450.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 19,
+    "alt": "Prasadam being served to guests seated in rows",
+    "updatedAt": "2026-10-11T11:27:51.777Z",
+    "createdAt": "2026-10-11T11:27:51.776Z",
+    "url": "/api/media/file/birthday-annadaan-serving.jpg",
+    "thumbnailURL": "/api/media/file/birthday-annadaan-serving-400x267.jpg",
+    "filename": "birthday-annadaan-serving.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 161280,
+    "width": 950,
+    "height": 633,
+    "focalX": 55,
+    "focalY": 45,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/birthday-annadaan-serving-400x267.jpg",
+      "width": 400,
+      "height": 267,
+      "mimeType": "image/jpeg",
+      "filesize": 32759,
+      "filename": "birthday-annadaan-serving-400x267.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/birthday-annadaan-serving-800x533.jpg",
+      "width": 800,
+      "height": 533,
+      "mimeType": "image/jpeg",
+      "filesize": 108651,
+      "filename": "birthday-annadaan-serving-800x533.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 20,
+    "alt": "Devotees serving prasadam at the temple mandapam",
+    "updatedAt": "2026-10-11T11:35:08.593Z",
+    "createdAt": "2026-10-11T11:35:08.592Z",
+    "url": "/api/media/file/annadaan-mandapam.jpg",
+    "thumbnailURL": "/api/media/file/annadaan-mandapam-400x533.jpg",
+    "filename": "annadaan-mandapam.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 290976,
+    "width": 1200,
+    "height": 1600,
+    "focalX": 50,
+    "focalY": 45,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/annadaan-mandapam-400x533.jpg",
+      "width": 400,
+      "height": 533,
+      "mimeType": "image/jpeg",
+      "filesize": 45674,
+      "filename": "annadaan-mandapam-400x533.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/annadaan-mandapam-800x1067.jpg",
+      "width": 800,
+      "height": 1067,
+      "mimeType": "image/jpeg",
+      "filesize": 143746,
+      "filename": "annadaan-mandapam-800x1067.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 21,
+    "alt": "His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada",
+    "updatedAt": "2026-10-11T11:41:59.557Z",
+    "createdAt": "2026-10-11T11:41:59.557Z",
+    "url": "/api/media/file/srila-prabhupada.jpg",
+    "thumbnailURL": "/api/media/file/srila-prabhupada-400x508.jpg",
+    "filename": "srila-prabhupada.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 60225,
+    "width": 491,
+    "height": 624,
+    "focalX": 45,
+    "focalY": 30,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/srila-prabhupada-400x508.jpg",
+      "width": 400,
+      "height": 508,
+      "mimeType": "image/jpeg",
+      "filesize": 41561,
+      "filename": "srila-prabhupada-400x508.jpg"
+     },
+     "card": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 22,
+    "alt": "Devotees singing kirtan at Sri Jagannath Mandir",
+    "updatedAt": "2026-10-11T11:47:57.079Z",
+    "createdAt": "2026-10-11T11:47:57.079Z",
+    "url": "/api/media/file/kirtan-at-the-temple.jpg",
+    "thumbnailURL": "/api/media/file/kirtan-at-the-temple-400x400.jpg",
+    "filename": "kirtan-at-the-temple.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 280388,
+    "width": 1400,
+    "height": 1400,
+    "focalX": 50,
+    "focalY": 45,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/kirtan-at-the-temple-400x400.jpg",
+      "width": 400,
+      "height": 400,
+      "mimeType": "image/jpeg",
+      "filesize": 27882,
+      "filename": "kirtan-at-the-temple-400x400.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/kirtan-at-the-temple-800x800.jpg",
+      "width": 800,
+      "height": 800,
+      "mimeType": "image/jpeg",
+      "filesize": 74205,
+      "filename": "kirtan-at-the-temple-800x800.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 23,
+    "alt": "Sri Sri Jagannath, Baladeva and Subhadra with fruit garlands",
+    "updatedAt": "2026-10-11T11:54:54.406Z",
+    "createdAt": "2026-10-11T11:54:54.405Z",
+    "url": "/api/media/file/deities-fruit-garlands.jpg",
+    "thumbnailURL": "/api/media/file/deities-fruit-garlands-400x600.jpg",
+    "filename": "deities-fruit-garlands.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 650606,
+    "width": 1200,
+    "height": 1800,
+    "focalX": 60,
+    "focalY": 42,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/deities-fruit-garlands-400x600.jpg",
+      "width": 400,
+      "height": 600,
+      "mimeType": "image/jpeg",
+      "filesize": 78280,
+      "filename": "deities-fruit-garlands-400x600.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/deities-fruit-garlands-800x1200.jpg",
+      "width": 800,
+      "height": 1200,
+      "mimeType": "image/jpeg",
+      "filesize": 231679,
+      "filename": "deities-fruit-garlands-800x1200.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 24,
+    "alt": "Lord Krishna speaking the Bhagavad-gita to Arjuna",
+    "updatedAt": "2026-10-11T12:01:59.389Z",
+    "createdAt": "2026-10-11T12:01:59.389Z",
+    "url": "/api/media/file/gita-jayanti.jpg",
+    "thumbnailURL": "/api/media/file/gita-jayanti-400x300.jpg",
+    "filename": "gita-jayanti.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 121913,
+    "width": 880,
+    "height": 660,
+    "focalX": 40,
+    "focalY": 35,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/gita-jayanti-400x300.jpg",
+      "width": 400,
+      "height": 300,
+      "mimeType": "image/jpeg",
+      "filesize": 38532,
+      "filename": "gita-jayanti-400x300.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/gita-jayanti-800x600.jpg",
+      "width": 800,
+      "height": 600,
+      "mimeType": "image/jpeg",
+      "filesize": 121177,
+      "filename": "gita-jayanti-800x600.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 25,
+    "alt": "Krishna lifting Govardhan Hill",
+    "updatedAt": "2026-10-11T12:01:59.450Z",
+    "createdAt": "2026-10-11T12:01:59.450Z",
+    "url": "/api/media/file/govardhan-puja.jpg",
+    "thumbnailURL": "/api/media/file/govardhan-puja-400x400.jpg",
+    "filename": "govardhan-puja.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 200158,
+    "width": 980,
+    "height": 980,
+    "focalX": 50,
+    "focalY": 45,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/govardhan-puja-400x400.jpg",
+      "width": 400,
+      "height": 400,
+      "mimeType": "image/jpeg",
+      "filesize": 40911,
+      "filename": "govardhan-puja-400x400.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/govardhan-puja-800x800.jpg",
+      "width": 800,
+      "height": 800,
+      "mimeType": "image/jpeg",
+      "filesize": 132359,
+      "filename": "govardhan-puja-800x800.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   },
+   {
+    "id": 26,
+    "alt": "Lamps on the river under the Kartik full moon",
+    "updatedAt": "2026-10-11T12:01:59.480Z",
+    "createdAt": "2026-10-11T12:01:59.480Z",
+    "url": "/api/media/file/rasa-purnima.jpg",
+    "thumbnailURL": "/api/media/file/rasa-purnima-400x227.jpg",
+    "filename": "rasa-purnima.jpg",
+    "mimeType": "image/jpeg",
+    "filesize": 75572,
+    "width": 1200,
+    "height": 680,
+    "focalX": 62,
+    "focalY": 40,
+    "sizes": {
+     "thumb": {
+      "url": "/api/media/file/rasa-purnima-400x227.jpg",
+      "width": 400,
+      "height": 227,
+      "mimeType": "image/jpeg",
+      "filesize": 10447,
+      "filename": "rasa-purnima-400x227.jpg"
+     },
+     "card": {
+      "url": "/api/media/file/rasa-purnima-800x453.jpg",
+      "width": 800,
+      "height": 453,
+      "mimeType": "image/jpeg",
+      "filesize": 29108,
+      "filename": "rasa-purnima-800x453.jpg"
+     },
+     "hero": {
+      "url": null,
+      "width": null,
+      "height": null,
+      "mimeType": null,
+      "filesize": null,
+      "filename": null
+     }
+    }
+   }
+  ],
+  "sevas": [
+   {
+    "id": 1,
+    "title": "Annadaan Seva",
+    "slug": "annadaan",
+    "category": "regular",
+    "startDate": null,
+    "endDate": null,
+    "shortDescription": "Feed devotees and visitors with sanctified Krishna prasadam.",
+    "image": 11,
+    "cardImage": 20,
+    "artwork": "lotus",
+    "presetAmounts": [
+     {
+      "id": "6ac9420a592d448db7080b3e",
+      "amount": 1500
+     },
+     {
+      "id": "6ac9420a592d448db7080b3f",
+      "amount": 3000
+     }
+    ],
+    "items": [
+     {
+      "id": "6ac9420a592d448db7080b40",
+      "label": "Annadaan – 25 plates",
+      "price": 1000
+     }
+    ],
+    "allowMonthly": true,
+    "order": 1,
+    "updatedAt": "2026-10-11T11:35:08.612Z",
+    "createdAt": "2026-10-09T19:35:38.342Z"
+   },
+   {
+    "id": 2,
+    "title": "Kartik Deepa Daan",
+    "slug": "kartik-deepa-daan",
+    "category": "festival",
+    "startDate": "2026-10-06T19:35:38.311Z",
+    "endDate": "2026-11-08T19:35:38.311Z",
+    "shortDescription": "Offer lamps to Lord Damodara in the holy month of Kartik.",
+    "image": null,
+    "cardImage": 7,
+    "artwork": "lamps",
+    "presetAmounts": [
+     {
+      "id": "6ac9420a592d448db7080b41",
+      "amount": 501
+     },
+     {
+      "id": "6ac9420a592d448db7080b42",
+      "amount": 1001
+     }
+    ],
+    "items": [],
+    "allowMonthly": null,
+    "order": 2,
+    "updatedAt": "2026-10-11T11:16:02.335Z",
+    "createdAt": "2026-10-09T19:35:38.365Z"
+   },
+   {
+    "id": 3,
+    "title": "Vidya Daan – Gift of Gita",
+    "slug": "vidya-daan",
+    "category": "regular",
+    "startDate": null,
+    "endDate": null,
+    "shortDescription": "Sponsor Bhagavad-gita copies for schools, colleges and seekers.",
+    "image": null,
+    "cardImage": 16,
+    "artwork": "book",
+    "presetAmounts": [
+     {
+      "id": "6ac9420a592d448db7080b43",
+      "amount": 1000
+     },
+     {
+      "id": "6ac9420a592d448db7080b44",
+      "amount": 2500
+     }
+    ],
+    "items": [],
+    "allowMonthly": true,
+    "order": 3,
+    "updatedAt": "2026-10-11T11:16:02.272Z",
+    "createdAt": "2026-10-09T19:35:38.423Z"
+   },
+   {
+    "id": 4,
+    "title": "Birthday Annadaan",
+    "slug": "birthday-seva",
+    "category": "regular",
+    "startDate": null,
+    "endDate": null,
+    "shortDescription": "Make your birthday special by sponsoring prasadam in your name.",
+    "image": 19,
+    "cardImage": 19,
+    "artwork": "temple",
+    "presetAmounts": [
+     {
+      "id": "6ac9420a592d448db7080b45",
+      "amount": 2500
+     },
+     {
+      "id": "6ac9420a592d448db7080b46",
+      "amount": 5000
+     }
+    ],
+    "items": [],
+    "allowMonthly": null,
+    "order": 4,
+    "updatedAt": "2026-10-11T11:27:51.796Z",
+    "createdAt": "2026-10-09T19:35:38.438Z"
+   },
+   {
+    "id": 5,
+    "title": "Gau Seva",
+    "slug": "gau-seva",
+    "category": "regular",
+    "startDate": null,
+    "endDate": null,
+    "shortDescription": "Care for the cows of our goshala.",
+    "image": 13,
+    "cardImage": null,
+    "artwork": "hill",
+    "presetAmounts": [
+     {
+      "id": "6ac9420a592d448db7080b47",
+      "amount": 1100
+     },
+     {
+      "id": "6ac9420a592d448db7080b48",
+      "amount": 2100
+     }
+    ],
+    "items": [],
+    "allowMonthly": true,
+    "order": 5,
+    "updatedAt": "2026-10-11T11:00:21.839Z",
+    "createdAt": "2026-10-09T19:35:38.468Z"
+   },
+   {
+    "id": 6,
+    "title": "Kovai Chandra – New Temple",
+    "slug": "new-temple",
+    "category": "regular",
+    "startDate": null,
+    "endDate": null,
+    "shortDescription": "Contribute to building the new temple.",
+    "image": 14,
+    "cardImage": null,
+    "artwork": "temple",
+    "presetAmounts": [
+     {
+      "id": "6ac9420a592d448db7080b49",
+      "amount": 5000
+     },
+     {
+      "id": "6ac9420a592d448db7080b4a",
+      "amount": 10000
+     }
+    ],
+    "items": [],
+    "allowMonthly": null,
+    "order": 6,
+    "updatedAt": "2026-10-11T11:16:02.004Z",
+    "createdAt": "2026-10-09T19:35:38.480Z"
+   },
+   {
+    "id": 7,
+    "title": "General Donation",
+    "slug": "general-donation",
+    "category": "regular",
+    "startDate": null,
+    "endDate": null,
+    "shortDescription": "Support the daily worship and activities of the temple.",
+    "image": null,
+    "cardImage": null,
+    "artwork": "lotus",
+    "presetAmounts": [
+     {
+      "id": "6ac9420a592d448db7080b4b",
+      "amount": 501
+     },
+     {
+      "id": "6ac9420a592d448db7080b4c",
+      "amount": 1001
+     }
+    ],
+    "items": [],
+    "allowMonthly": true,
+    "order": 7,
+    "updatedAt": "2026-10-09T19:35:38.489Z",
+    "createdAt": "2026-10-09T19:35:38.489Z"
+   }
+  ],
+  "festivals": [
+   {
+    "id": 1,
+    "name": "Govardhan Puja",
+    "slug": "govardhan-puja",
+    "date": "2026-10-29T19:35:38.502Z",
+    "timeLabel": "5:30 AM onwards",
+    "image": 25,
+    "artwork": "hill",
+    "showInHero": true,
+    "shortDescription": "Celebrate the lifting of Govardhan Hill with an Annakut mountain of offerings.",
+    "significance": null,
+    "schedule": [],
+    "seva": 1,
+    "gallery": [],
+    "updatedAt": "2026-10-11T12:01:59.456Z",
+    "createdAt": "2026-10-09T19:35:38.516Z"
+   },
+   {
+    "id": 2,
+    "name": "Rasa Purnima",
+    "slug": "rasa-purnima",
+    "date": "2026-11-12T19:35:38.502Z",
+    "timeLabel": "6:00 PM onwards",
+    "image": 26,
+    "artwork": "moon",
+    "showInHero": true,
+    "shortDescription": "The full-moon night of Kartik, celebrated with kirtan and abhishek.",
+    "significance": null,
+    "schedule": [],
+    "seva": 2,
+    "gallery": [],
+    "updatedAt": "2026-10-11T12:01:59.486Z",
+    "createdAt": "2026-10-09T19:35:38.545Z"
+   },
+   {
+    "id": 3,
+    "name": "Ratha Yatra",
+    "slug": "ratha-yatra",
+    "date": "2026-12-23T19:35:38.502Z",
+    "timeLabel": "3:00 PM onwards",
+    "image": 3,
+    "artwork": "chariot",
+    "showInHero": true,
+    "shortDescription": "Pull the chariot of Lord Jagannath through the streets of Coimbatore.",
+    "significance": null,
+    "schedule": [],
+    "seva": 1,
+    "gallery": [],
+    "updatedAt": "2026-10-10T18:36:53.031Z",
+    "createdAt": "2026-10-09T19:35:38.572Z"
+   },
+   {
+    "id": 4,
+    "name": "Gita Jayanti",
+    "slug": "gita-jayanti",
+    "date": "2026-12-08T19:35:38.502Z",
+    "timeLabel": "8:00 AM onwards",
+    "image": 24,
+    "artwork": "book",
+    "showInHero": true,
+    "shortDescription": "The appearance of Bhagavad-gita, celebrated with a full recitation and book distribution.",
+    "significance": null,
+    "schedule": [],
+    "seva": 3,
+    "gallery": [],
+    "updatedAt": "2026-10-11T12:01:59.408Z",
+    "createdAt": "2026-10-09T19:35:38.582Z"
+   }
+  ],
+  "services": [
+   {
+    "id": 1,
+    "title": "Annadaan Distribution Seva",
+    "description": "Join or sponsor the daily distribution of prasadam.",
+    "image": null,
+    "action": "donate",
+    "seva": 1,
+    "url": null,
+    "buttonLabel": null,
+    "featured": true,
+    "order": 1,
+    "updatedAt": "2026-10-09T19:35:38.592Z",
+    "createdAt": "2026-10-09T19:35:38.591Z"
+   },
+   {
+    "id": 2,
+    "title": "Speak to a Priest",
+    "description": "Guidance for samskaras, home pujas and spiritual questions.",
+    "image": null,
+    "action": "whatsapp",
+    "seva": null,
+    "url": null,
+    "buttonLabel": null,
+    "featured": true,
+    "order": 2,
+    "updatedAt": "2026-10-09T19:35:38.599Z",
+    "createdAt": "2026-10-09T19:35:38.599Z"
+   },
+   {
+    "id": 3,
+    "title": "Receive Krishna Prasadam",
+    "description": "Sanctified food offered to the Lord, available every day.",
+    "image": null,
+    "action": "enquiry",
+    "seva": null,
+    "url": null,
+    "buttonLabel": null,
+    "featured": true,
+    "order": 3,
+    "updatedAt": "2026-10-09T19:35:38.611Z",
+    "createdAt": "2026-10-09T19:35:38.610Z"
+   }
+  ],
+  "courses": [
+   {
+    "id": 1,
+    "title": "Learn to Chant",
+    "description": "A gentle introduction to japa meditation on the Hare Krishna maha-mantra.",
+    "image": null,
+    "schedule": "Every Saturday, 6:00 PM",
+    "mode": "online",
+    "zoomLink": null,
+    "featured": true,
+    "order": 1,
+    "updatedAt": "2026-10-09T19:35:38.624Z",
+    "createdAt": "2026-10-09T19:35:38.622Z"
+   },
+   {
+    "id": 2,
+    "title": "Srimad Bhagavatam Class",
+    "description": "Daily morning class on the Bhagavata Purana.",
+    "image": null,
+    "schedule": "Daily, 8:00 AM",
+    "mode": "both",
+    "zoomLink": null,
+    "featured": true,
+    "order": 2,
+    "updatedAt": "2026-10-09T19:35:38.640Z",
+    "createdAt": "2026-10-09T19:35:38.640Z"
+   },
+   {
+    "id": 3,
+    "title": "Bhagavad Gita Class",
+    "description": "A chapter-by-chapter study for beginners.",
+    "image": null,
+    "schedule": "Every Sunday, 5:00 PM",
+    "mode": "temple",
+    "zoomLink": null,
+    "featured": true,
+    "order": 3,
+    "updatedAt": "2026-10-09T19:35:38.648Z",
+    "createdAt": "2026-10-09T19:35:38.648Z"
+   }
+  ],
+  "posts": [],
+  "darshan-days": [
+   {
+    "id": 1,
+    "date": "2026-10-10T18:30:00.000Z",
+    "photos": [
+     6,
+     1,
+     3,
+     5
+    ],
+    "updatedAt": "2026-10-10T18:36:53.036Z",
+    "createdAt": "2026-10-10T18:36:53.036Z"
+   }
+  ]
+ },
+ "globals": {
+  "home-page": {
+   "id": 1,
+   "heroSlides": [
+    {
+     "id": "6aca85c5c0820517801b748d",
+     "layout": "cinematic",
+     "tone": "purple",
+     "eyebrow": "Hare Krishna · Welcome home",
+     "heading": "Abode of Sri Sri Jagannath, Baladeva & Subhadra",
+     "text": "Come for darshan, stay for kirtan and prasadam. Everyone is welcome at Sri Jagannath Mandir, Coimbatore.",
+     "verse": null,
+     "image": 6,
+     "video": null,
+     "videoWebm": null,
+     "artwork": "temple",
+     "buttonLabel": "Today's Darshan",
+     "link": "/daily-darshan"
+    },
+    {
+     "id": "6aca85c5c0820517801b748e",
+     "layout": "cinematic",
+     "tone": "purple",
+     "eyebrow": "Hare Krishna Road · Civil Aerodrome",
+     "heading": "Visit the temple",
+     "text": "Morning and evening darshan every day. Mangala Arati at 4:15 AM, evening darshan from 4:00 PM.",
+     "verse": null,
+     "image": 10,
+     "video": 9,
+     "videoWebm": null,
+     "artwork": "temple",
+     "buttonLabel": "Timings & directions",
+     "link": "/contact#timings"
+    },
+    {
+     "id": "6aca88906d80b11bc88e579e",
+     "layout": "cinematic",
+     "tone": "purple",
+     "eyebrow": "Kartik · The month of Damodar",
+     "heading": "Offer a lamp to Lord Damodara",
+     "text": "Every evening this holy month we sing Damodarastakam and offer ghee lamps to baby Krishna. Light one for your family.",
+     "verse": "namāmīśvaraṁ sac-cid-ānanda-rūpaṁ",
+     "image": 7,
+     "video": null,
+     "videoWebm": null,
+     "artwork": "lamps",
+     "buttonLabel": "Offer a lamp",
+     "link": "/donate/kartik-deepa-daan"
+    }
+   ],
+   "highlightSevas": [
+    1,
+    6,
+    5
+   ],
+   "donationSevas": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "about": {
+    "image": 23,
+    "smallImage": 22,
+    "cardImage": 3,
+    "cardTitle": "Sri Jagannath",
+    "cardSubtitle": "Lord of the Universe",
+    "text": null
+   },
+   "visitImage": 8,
+   "founder": {
+    "image": 21
+   },
+   "livePuja": {
+    "image": 3,
+    "title": "Live online puja",
+    "text": null,
+    "time": "Every day · 7:00 PM IST",
+    "platform": "YouTube Live · Free to join",
+    "schedule": "Daily 4:15 AM Mangala Arati · 7:00 PM Sandhya Arati",
+    "link": "https://www.youtube.com/"
+   },
+   "youtubeVideos": [],
+   "updatedAt": "2026-10-11T11:56:51.433Z",
+   "createdAt": "2026-10-09T19:35:38.666Z",
+   "globalType": "home-page"
+  },
+  "temple-timings": {
+   "id": 1,
+   "openSessions": [
+    {
+     "id": "6ac9420a592d448db7080b36",
+     "opens": "04:15",
+     "closes": "13:00"
+    },
+    {
+     "id": "6ac9420a592d448db7080b37",
+     "opens": "16:00",
+     "closes": "20:15"
+    }
+   ],
+   "schedule": [
+    {
+     "id": "6ac9420a592d448db7080b38",
+     "time": "4:15 AM",
+     "activity": "Mangala Arati",
+     "showInFooter": true
+    },
+    {
+     "id": "6ac9420a592d448db7080b39",
+     "time": "7:15 AM",
+     "activity": "Darshan",
+     "showInFooter": true
+    },
+    {
+     "id": "6ac9420a592d448db7080b3a",
+     "time": "8:00 AM",
+     "activity": "Srimad Bhagavatam class",
+     "showInFooter": null
+    },
+    {
+     "id": "6ac9420a592d448db7080b3b",
+     "time": "12:30 PM",
+     "activity": "Raj Bhoga Arati",
+     "showInFooter": null
+    },
+    {
+     "id": "6ac9420a592d448db7080b3c",
+     "time": "4:00–8:15 PM",
+     "activity": "Evening Darshan",
+     "showInFooter": true
+    },
+    {
+     "id": "6ac9420a592d448db7080b3d",
+     "time": "7:00 PM",
+     "activity": "Sandhya Arati",
+     "showInFooter": null
+    }
+   ],
+   "updatedAt": "2026-10-09T19:35:38.267Z",
+   "createdAt": "2026-10-09T19:35:38.267Z",
+   "globalType": "temple-timings"
+  },
+  "site-settings": {
+   "id": 1,
+   "address": "Sri Jagannath Mandir, Hare Krishna Road,\nCivil Aerodrome (PO), Coimbatore – 641014",
+   "phone": "+91 90422 16108",
+   "whatsapp": "919042216108",
+   "email": "iskcon.coimbatore@gmail.com",
+   "mapUrl": null,
+   "facebook": "https://www.facebook.com/",
+   "instagram": "https://www.instagram.com/",
+   "youtube": "https://www.youtube.com/",
+   "reg80G": null,
+   "reg80GValidity": null,
+   "upiId": null,
+   "upiQr": null,
+   "bankDetails": null,
+   "updatedAt": "2026-10-09T19:35:38.197Z",
+   "createdAt": "2026-10-09T19:35:38.197Z",
+   "globalType": "site-settings"
+  }
+ }
+}
