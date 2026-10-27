@@ -215,5 +215,98 @@ export const HomePage: GlobalConfig = {
         { name: 'date', type: 'date' },
       ],
     },
+    {
+      name: 'exploreTiles',
+      type: 'array',
+      label: 'Explore the temple tiles',
+      maxRows: 6,
+      admin: {
+        description: 'Photo tiles in "Explore the temple". Leave empty to use the default six.',
+      },
+      fields: [
+        { name: 'title', type: 'text', required: true },
+        { name: 'text', type: 'text' },
+        { name: 'image', type: 'upload', relationTo: 'media' },
+        { name: 'link', type: 'text' },
+      ],
+    },
+    {
+      name: 'gallery',
+      type: 'upload',
+      relationTo: 'media',
+      hasMany: true,
+      label: 'Temple gallery photos',
+      admin: {
+        description:
+          'Photos in the home page gallery (up to 12 shown). Leave empty to show the latest photos.',
+      },
+    },
+    {
+      name: 'liveDarshan',
+      type: 'group',
+      label: 'Live darshan',
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: 'Krishna background behind the curtains' },
+        },
+        { name: 'link', type: 'text', label: 'Live darshan link (YouTube / Zoom)' },
+      ],
+    },
+    {
+      name: 'gitaCourse',
+      type: 'group',
+      label: '18-day Bhagavad-gita class',
+      fields: [
+        { name: 'title', type: 'text' },
+        { name: 'text', type: 'textarea' },
+        { name: 'schedule', type: 'text' },
+        { name: 'image', type: 'upload', relationTo: 'media' },
+        {
+          name: 'link',
+          type: 'text',
+          admin: { description: 'Registration link (empty = WhatsApp)' },
+        },
+      ],
+    },
+    {
+      name: 'youth',
+      type: 'group',
+      label: 'Youth preaching',
+      fields: [
+        { name: 'title', type: 'text' },
+        { name: 'text', type: 'textarea' },
+        { name: 'schedule', type: 'text' },
+        { name: 'image', type: 'upload', relationTo: 'media' },
+        {
+          name: 'link',
+          type: 'text',
+          admin: { description: 'Registration link (empty = WhatsApp)' },
+        },
+      ],
+    },
+    {
+      name: 'instagramReels',
+      type: 'array',
+      label: 'Instagram recent videos',
+      maxRows: 4,
+      fields: [
+        {
+          name: 'video',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: 'Short video (MP4)' },
+        },
+        {
+          name: 'poster',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: 'Cover photo' },
+        },
+        { name: 'link', type: 'text', admin: { description: 'Link to the reel on Instagram' } },
+      ],
+    },
   ],
 }

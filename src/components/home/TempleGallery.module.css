@@ -1,0 +1,126 @@
+/* Grid: first photo is large, others fill around it */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 10rem;
+  gap: 0.625rem;
+}
+.item:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1rem;
+  cursor: zoom-in;
+}
+.img {
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.thumb:hover .img {
+  transform: scale(1.06);
+}
+.caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 2rem 0.875rem 0.75rem;
+  background: linear-gradient(to top, rgb(0 0 0 / 0.65), transparent);
+  text-align: left;
+  font-size: 0.8125rem;
+  color: var(--white);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+.thumb:hover .caption,
+.thumb:focus-visible .caption {
+  opacity: 1;
+  transform: none;
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--purple-950) 94%, transparent);
+  padding: 4rem 1rem;
+}
+.frame {
+  position: relative;
+  width: min(92vw, 70rem);
+  height: min(78vh, 52rem);
+}
+.full {
+  object-fit: contain;
+}
+.lbCaption {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--purple-100);
+}
+.nav,
+.close {
+  position: absolute;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.08);
+  color: var(--white);
+  font-size: 1.1rem;
+}
+.nav:hover,
+.close:hover {
+  border-color: var(--saffron-500);
+  color: var(--saffron-300);
+}
+.prev {
+  left: 1rem;
+  top: 50%;
+  translate: 0 -50%;
+}
+.next {
+  right: 1rem;
+  top: 50%;
+  translate: 0 -50%;
+}
+.close {
+  right: 1rem;
+  top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 12rem;
+    gap: 0.875rem;
+  }
+  .item:nth-child(6) {
+    grid-column: span 2;
+  }
+}
+@media (min-width: 1024px) {
+  .grid {
+    grid-auto-rows: 13.5rem;
+  }
+}
+/* Phones: one large + eight small photos (even rows); the rest open in the lightbox */
+@media (max-width: 767px) {
+  .item:nth-child(n + 10) {
+    display: none;
+  }
+}

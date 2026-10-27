@@ -4,11 +4,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { NAV } from '@/lib/nav'
-import Image from 'next/image'
 import { ChevronDown, SearchIcon } from './Icons'
+import { Logo } from './Logo'
 import styles from './Header.module.css'
 
-export function Header({ socials }) {
+export function Header({ socials, headerSocials }) {
   const pathname = usePathname()
   // Remember which page the menu was opened on, so navigating closes it.
   const [openOn, setOpenOn] = useState(null)
@@ -25,15 +25,7 @@ export function Header({ socials }) {
     <header className={styles.header}>
       <div className={`container-x ${styles.inner}`}>
         <Link href="/" className={styles.brand} aria-label="ISKCON Coimbatore home">
-          {/* Official logo, recoloured gold (public/brand/logo-gold.png) */}
-          <Image
-            src="/brand/logo-gold.png"
-            alt="ISKCON Coimbatore"
-            width={1031}
-            height={334}
-            priority
-            className={styles.logoImage}
-          />
+          <Logo className={styles.logoImage} />
         </Link>
 
         <nav className={styles.nav} aria-label="Main">
@@ -64,6 +56,7 @@ export function Header({ socials }) {
         </nav>
 
         <div className={styles.actions}>
+          {headerSocials && <div className={styles.socials}>{headerSocials}</div>}
           <Link href="/search" aria-label="Search" className={styles.search}>
             <SearchIcon />
           </Link>

@@ -1,28 +1,31 @@
 /* =========================================================================
    ISKCON Coimbatore — global styles
-   Colours, fonts, the page reset, shared buttons and animations live here.
+   Fonts, the page reset and animations live here.
+   Brand colours: src/styles/theme.css · Buttons: src/styles/buttons.css
    Each component has its own *.module.css file next to it for everything else.
    ========================================================================= */
 
-/* ---------- Colours & fonts (change a colour here and it updates site-wide) ---------- */
+/* ---------- Colour shades ----------
+   These are worked out from the brand colours in src/styles/theme.css —
+   change --color-primary / --color-accent there, not here. */
 :root {
-  --purple-950: #1c0a33; /* deepest purple — hero, footer */
-  --purple-900: #2e1150; /* top bar */
-  --purple-800: #3b1765; /* headings */
-  --purple-700: #4b1d7a; /* royal purple — primary buttons */
-  --purple-600: #5e2a94;
-  --purple-200: #e9d5ff;
-  --purple-100: #efe7f8;
-  --purple-50: #f7f2fc;
-  --saffron-600: #e0a100;
-  --saffron-500: #f5b700; /* donate yellow */
-  --saffron-300: #ffd75e;
-  --saffron-200: #fde68a;
-  --saffron-100: #fff3cc;
-  --cream: #fbf8f2;
-  --ink: #24182f; /* body text */
-  --muted: #6b5f75; /* secondary text */
-  --white: #ffffff;
+  --purple-950: color-mix(in srgb, var(--color-primary) 38%, black); /* deepest: hero, footer */
+  --purple-900: color-mix(in srgb, var(--color-primary) 62%, black); /* top bar */
+  --purple-800: color-mix(in srgb, var(--color-primary) 80%, black); /* headings */
+  --purple-700: var(--color-primary); /* primary */
+  --purple-600: color-mix(in srgb, var(--color-primary) 85%, white);
+  --purple-200: color-mix(in srgb, var(--color-primary) 18%, white);
+  --purple-100: color-mix(in srgb, var(--color-primary) 10%, white);
+  --purple-50: color-mix(in srgb, var(--color-primary) 5%, white);
+  --saffron-600: color-mix(in srgb, var(--color-accent) 90%, black);
+  --saffron-500: var(--color-accent);
+  --saffron-300: color-mix(in srgb, var(--color-accent) 70%, white);
+  --saffron-200: color-mix(in srgb, var(--color-accent) 45%, white);
+  --saffron-100: color-mix(in srgb, var(--color-accent) 20%, white);
+  --cream: var(--color-cream);
+  --ink: var(--color-text);
+  --muted: var(--color-text-muted);
+  --white: var(--color-secondary);
   --whatsapp: #25d366;
 
   --font-serif: var(--font-marcellus), Georgia, serif;
@@ -133,48 +136,7 @@ summary {
   }
 }
 
-/* ---------- Buttons ---------- */
-.btn,
-.btn-donate,
-.btn-primary,
-.btn-outline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border-radius: 9999px;
-  padding: 0.625rem 1.25rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 600;
-  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
-}
-.btn-donate {
-  background: var(--saffron-500);
-  color: var(--purple-950);
-}
-.btn-donate:hover {
-  background: var(--saffron-600);
-}
-.btn-primary {
-  background: var(--purple-700);
-  color: var(--white);
-}
-.btn-primary:hover {
-  background: var(--purple-800);
-}
-.btn-outline {
-  border: 1px solid currentColor;
-}
-.btn-outline:hover {
-  background: rgb(255 255 255 / 0.1);
-}
-/* Larger button size, used in the hero and big call-to-actions */
-.btn-lg {
-  padding: 0.75rem 1.75rem;
-  font-size: 1rem;
-  line-height: 1.5rem;
-}
+/* Buttons: see src/styles/buttons.css */
 
 /* ---------- Art + motion ---------- */
 @keyframes flame { 0%, 100% { transform: scaleY(1) skewX(0deg); } 33% { transform: scaleY(1.08) skewX(2deg); } 66% { transform: scaleY(0.94) skewX(-2deg); } }
@@ -201,7 +163,7 @@ summary {
 .marquee { animation: marquee 40s linear infinite; }
 
 .text-gold-gradient {
-  background: linear-gradient(100deg, #ffd75e 0%, #f5b700 40%, #fff3cc 55%, #f5b700 70%, #e0a100 100%);
+  background: linear-gradient(100deg, var(--saffron-300) 0%, var(--saffron-500) 40%, #fff3cc 55%, var(--saffron-500) 70%, var(--saffron-600) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

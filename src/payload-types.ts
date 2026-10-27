@@ -998,6 +998,66 @@ export interface HomePage {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Photo tiles in "Explore the temple". Leave empty to use the default six.
+   */
+  exploreTiles?:
+    | {
+        title: string;
+        text?: string | null;
+        image?: (number | null) | Media;
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Photos in the home page gallery (up to 12 shown). Leave empty to show the latest photos.
+   */
+  gallery?: (number | Media)[] | null;
+  liveDarshan?: {
+    /**
+     * Krishna background behind the curtains
+     */
+    image?: (number | null) | Media;
+    link?: string | null;
+  };
+  gitaCourse?: {
+    title?: string | null;
+    text?: string | null;
+    schedule?: string | null;
+    image?: (number | null) | Media;
+    /**
+     * Registration link (empty = WhatsApp)
+     */
+    link?: string | null;
+  };
+  youth?: {
+    title?: string | null;
+    text?: string | null;
+    schedule?: string | null;
+    image?: (number | null) | Media;
+    /**
+     * Registration link (empty = WhatsApp)
+     */
+    link?: string | null;
+  };
+  instagramReels?:
+    | {
+        /**
+         * Short video (MP4)
+         */
+        video?: (number | null) | Media;
+        /**
+         * Cover photo
+         */
+        poster?: (number | null) | Media;
+        /**
+         * Link to the reel on Instagram
+         */
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1046,6 +1106,7 @@ export interface SiteSetting {
   facebook?: string | null;
   instagram?: string | null;
   youtube?: string | null;
+  whatsappChannel?: string | null;
   reg80G?: string | null;
   reg80GValidity?: string | null;
   upiId?: string | null;
@@ -1113,6 +1174,48 @@ export interface HomePageSelect<T extends boolean = true> {
         date?: T;
         id?: T;
       };
+  exploreTiles?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        image?: T;
+        link?: T;
+        id?: T;
+      };
+  gallery?: T;
+  liveDarshan?:
+    | T
+    | {
+        image?: T;
+        link?: T;
+      };
+  gitaCourse?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        schedule?: T;
+        image?: T;
+        link?: T;
+      };
+  youth?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        schedule?: T;
+        image?: T;
+        link?: T;
+      };
+  instagramReels?:
+    | T
+    | {
+        video?: T;
+        poster?: T;
+        link?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -1154,6 +1257,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   facebook?: T;
   instagram?: T;
   youtube?: T;
+  whatsappChannel?: T;
   reg80G?: T;
   reg80GValidity?: T;
   upiId?: T;

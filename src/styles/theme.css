@@ -1,0 +1,19 @@
+/* =========================================================================
+   THEME — the site's brand colours. Change a value here and it updates everywhere.
+   (Button colours live in buttons.css, next to this file.)
+   ========================================================================= */
+:root {
+  /* ---- Primary colours ---- */
+  --color-primary: #4b1d7a; /* royal purple: headings, dark sections, menus */
+  --color-secondary: #ffffff; /* white: page background, text on dark sections */
+  --color-accent: #f5b700; /* saffron yellow: highlights, Donate buttons */
+
+  /* ---- Logo ---- */
+  --logo-color: #d89600; /* logo on the white header */
+  --logo-color-on-dark: #f5b700; /* logo on the dark footer */
+
+  /* ---- Text ---- */
+  --color-text: #24182f; /* body text */
+  --color-text-muted: #6b5f75; /* secondary text */
+  --color-cream: #fbf8f2; /* soft background for alternating sections */
+}

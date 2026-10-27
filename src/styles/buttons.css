@@ -1,0 +1,62 @@
+/* =========================================================================
+   BUTTONS — every button colour on the site. Change these to restyle all buttons.
+   ========================================================================= */
+:root {
+  /* Donate / main call-to-action (yellow) */
+  --btn-donate-bg: var(--color-accent);
+  --btn-donate-text: #1c0a33;
+  --btn-donate-hover-bg: #e0a100;
+
+  /* Primary (purple) */
+  --btn-primary-bg: var(--color-primary);
+  --btn-primary-text: var(--color-secondary);
+  --btn-primary-hover-bg: color-mix(in srgb, var(--color-primary) 80%, black);
+
+  /* Outline (transparent with a border in the text colour) */
+  --btn-outline-hover-bg: rgb(255 255 255 / 0.1);
+
+  /* Shape */
+  --btn-radius: 9999px; /* 9999px = pill; try 0.5rem for rounded corners */
+}
+
+.btn,
+.btn-donate,
+.btn-primary,
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--btn-radius);
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn-donate {
+  background: var(--btn-donate-bg);
+  color: var(--btn-donate-text);
+}
+.btn-donate:hover {
+  background: var(--btn-donate-hover-bg);
+}
+.btn-primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+}
+.btn-primary:hover {
+  background: var(--btn-primary-hover-bg);
+}
+.btn-outline {
+  border: 1px solid currentColor;
+}
+.btn-outline:hover {
+  background: var(--btn-outline-hover-bg);
+}
+/* Larger button size, used in the hero and big call-to-actions */
+.btn-lg {
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}

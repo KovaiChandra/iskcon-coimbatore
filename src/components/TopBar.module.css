@@ -33,3 +33,9 @@
 .link:hover {
   color: var(--white);
 }
+/* Same width as the header on desktop, so both line up */
+@media (min-width: 1280px) {
+  .bar .inner {
+    max-width: 86rem;
+  }
+}

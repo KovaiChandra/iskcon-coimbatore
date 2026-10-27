@@ -13,7 +13,12 @@ export const SiteSettings: GlobalConfig = {
           fields: [
             { name: 'address', type: 'textarea', required: true },
             { name: 'phone', type: 'text', required: true },
-            { name: 'whatsapp', type: 'text', required: true, admin: { description: 'Digits with country code, e.g. 919042216108' } },
+            {
+              name: 'whatsapp',
+              type: 'text',
+              required: true,
+              admin: { description: 'Digits with country code, e.g. 919042216108' },
+            },
             { name: 'email', type: 'email', required: true },
             { name: 'mapUrl', type: 'text', label: 'Google Maps link' },
           ],
@@ -24,6 +29,7 @@ export const SiteSettings: GlobalConfig = {
             { name: 'facebook', type: 'text' },
             { name: 'instagram', type: 'text' },
             { name: 'youtube', type: 'text' },
+            { name: 'whatsappChannel', type: 'text', label: 'WhatsApp channel link' },
           ],
         },
         {
