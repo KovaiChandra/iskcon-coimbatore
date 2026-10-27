@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { TempleStatus } from './TempleStatus'
 import styles from './TopBar.module.css'
 
-export function TopBar({ sessions }) {
+export function TopBar({ sessions, socials }) {
   return (
     <div className={styles.bar}>
       <div className={`container-x ${styles.inner}`}>
@@ -17,6 +17,7 @@ export function TopBar({ sessions }) {
           <Link href="/admin" className={styles.link}>
             Login
           </Link>
+          {socials}
         </div>
       </div>
     </div>

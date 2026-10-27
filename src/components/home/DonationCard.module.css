@@ -8,12 +8,12 @@
   border-radius: 1.5rem;
   background: var(--purple-950);
   color: var(--white);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 0 0 1px color-mix(in srgb, var(--saffron-500) 20%, transparent);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 0 0 1px rgb(245 183 0 / 0.2);
   transition: transform 0.5s, box-shadow 0.5s;
 }
 .card:hover {
   transform: translateY(-0.25rem);
-  box-shadow: 0 25px 50px -12px color-mix(in srgb, var(--purple-900) 30%, transparent), 0 0 0 1px color-mix(in srgb, var(--saffron-500) 20%, transparent);
+  box-shadow: 0 25px 50px -12px rgb(46 17 80 / 0.3), 0 0 0 1px rgb(245 183 0 / 0.2);
 }
 .featured {
   min-height: 520px;
@@ -31,7 +31,7 @@
   position: absolute;
   inset: 0;
   z-index: -10;
-  background: linear-gradient(to top, var(--purple-950), color-mix(in srgb, var(--purple-950) 50%, transparent), transparent);
+  background: linear-gradient(to top, var(--purple-950), rgb(28 10 51 / 0.5), transparent);
 }
 .badge {
   position: absolute;

@@ -101,7 +101,7 @@
   padding-bottom: 1.5rem;
   font-size: 0.75rem;
   line-height: 1rem;
-  color: color-mix(in srgb, var(--purple-100) 80%, transparent);
+  color: rgb(239 231 248 / 0.8);
 }
 .notes > * + * {
   margin-top: 0.5rem;

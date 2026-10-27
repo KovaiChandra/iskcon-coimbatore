@@ -1,8 +1,8 @@
 /* Scrolling "Today at the temple" strip under the hero */
 .ticker {
   overflow: hidden;
-  border-top: 1px solid color-mix(in srgb, var(--saffron-500) 30%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--saffron-500) 30%, transparent);
+  border-top: 1px solid rgb(245 183 0 / 0.3);
+  border-bottom: 1px solid rgb(245 183 0 / 0.3);
   background: var(--purple-900);
   padding: 0.75rem 0;
   font-size: 0.875rem;
@@ -14,7 +14,7 @@
 }
 .label {
   flex-shrink: 0;
-  border-right: 1px solid color-mix(in srgb, var(--saffron-500) 30%, transparent);
+  border-right: 1px solid rgb(245 183 0 / 0.3);
   padding: 0 1rem;
   font-family: var(--font-serif);
   color: var(--saffron-300);

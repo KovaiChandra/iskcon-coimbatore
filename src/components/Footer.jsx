@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Logo } from './Logo'
+import Image from 'next/image'
 import { SocialLinks } from './SocialLinks'
 import styles from './Footer.module.css'
 
@@ -63,7 +63,13 @@ export function Footer({ settings, timings }) {
       <div className={styles.main}>
         <div className={`container-x ${styles.grid}`}>
           <div className={styles.about}>
-            <Logo onDark className={styles.logoImage} />
+            <Image
+              src="/brand/logo-saffron.png"
+              alt="ISKCON Coimbatore"
+              width={1031}
+              height={334}
+              className={styles.logoImage}
+            />
             <p className={styles.address}>{settings.address}</p>
             <p>
               Phone:{' '}

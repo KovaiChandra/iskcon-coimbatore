@@ -6,9 +6,7 @@ import { SocialLinks } from '@/components/SocialLinks'
 import { TopBar } from '@/components/TopBar'
 import { WhatsAppFloat } from '@/components/WhatsAppFloat'
 import { getPayloadClient } from '@/lib/payload'
-import '@/styles/theme.css'
 import './globals.css'
-import '@/styles/buttons.css'
 
 const marcellus = Marcellus({ subsets: ['latin'], weight: '400', variable: '--font-marcellus' })
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -33,11 +31,8 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" className={`${marcellus.variable} ${inter.variable}`}>
       <body>
-        <TopBar sessions={sessions} />
-        <Header
-          socials={<SocialLinks settings={settings} gap={1.25} />}
-          headerSocials={<SocialLinks settings={settings} gap={0.5} />}
-        />
+        <TopBar sessions={sessions} socials={<SocialLinks settings={settings} />} />
+        <Header socials={<SocialLinks settings={settings} gap={1.25} />} />
         <main>{children}</main>
         <Footer settings={settings} timings={timings} />
         {settings.whatsapp && <WhatsAppFloat number={settings.whatsapp} />}

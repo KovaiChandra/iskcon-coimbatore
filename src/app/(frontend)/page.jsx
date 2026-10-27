@@ -1,17 +1,15 @@
 import Link from 'next/link'
 import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
-import { InstagramIcon, WhatsAppIcon } from '@/components/Icons'
+import { InstagramIcon, WhatsAppIcon, YoutubeIcon } from '@/components/Icons'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
+import { DonationCard } from '@/components/home/DonationCard'
 import { HeroSlider } from '@/components/home/HeroSlider'
-import { LiveDarshan } from '@/components/home/LiveDarshan'
 import { NityaSevaForm } from '@/components/home/NityaSevaForm'
 import { ScheduleTicker } from '@/components/home/ScheduleTicker'
-import { SevaOfferCard } from '@/components/home/SevaOfferCard'
 import { SubscribeForm } from '@/components/home/SubscribeForm'
-import { TempleGallery } from '@/components/home/TempleGallery'
 import { VisitSection } from '@/components/home/VisitSection'
 import { blurDataURL } from '@/lib/blur'
-import { formatDate, mediaUrl, waLink } from '@/lib/format'
+import { formatDate, inr, mediaUrl, waLink } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
 import { isSevaActive, populated } from '@/lib/sevas'
 import styles from './home.module.css'
@@ -20,75 +18,16 @@ export const revalidate = 60
 
 const DAY = 86_400_000
 
-/** Default tiles and photos, matched by each photo's description (alt text) in Media */
-const DEFAULT_EXPLORE = [
-  {
-    title: 'The Deities',
-    text: 'Sri Sri Jagannath, Baladeva & Subhadra',
-    alt: 'Sri Sri Jagannath, Baladeva and Subhadra',
-    link: '/daily-darshan',
-  },
-  {
-    title: 'Arati & Kirtan',
-    text: 'Six aratis every day',
-    alt: 'Sri Sri Jagannath, Baladeva and Subhadra in the glow of Kartik lamps',
-    link: '#timings',
-  },
-  {
-    title: 'Prasadam',
-    text: 'Sanctified food for everyone',
-    alt: 'Devotees serving Annadaan prasadam',
-    link: '/donate/annadaan',
-  },
-  {
-    title: 'Kovai Chandra',
-    text: 'Our new temple, rising',
-    alt: 'Kovai Chandra new temple under construction (banner)',
-    link: '/donate/new-temple',
-  },
-  {
-    title: 'Goshala',
-    text: 'Caring for the cows',
-    alt: 'A devotee feeding the cows at the goshala',
-    link: '/donate/gau-seva',
-  },
-]
-const DEFAULT_GALLERY = [
-  'Sri Sri Jagannath, Baladeva and Subhadra with fruit garlands',
-  'Devotees singing kirtan at Sri Jagannath Mandir',
-  'Lord Jagannath in full shringar',
-  'Sri Sri Jagannath, Baladeva and Subhadra in the glow of Kartik lamps',
-  'Sri Jagannath Mandir at golden hour',
-  'The main altar with Srila Prabhupada and the parampara',
-  'Devotees serving prasadam at the temple mandapam',
-  'A family honouring prasadam on the temple lawn',
-  'Sri Jagannath with Sri Sri Gaura-Nitai, ISKCON Coimbatore',
-  'Temple shikhara and flag at dusk',
-  'A devotee feeding the cows at the goshala',
-  'A family choosing Bhagavad-gita books at the temple',
-]
-const DEFAULT_REELS = [
-  {
-    video: 'A family visiting Sri Jagannath Mandir (video)',
-    poster: 'A family arriving at Sri Jagannath Mandir',
-  },
-  { poster: 'Devotees singing kirtan at Sri Jagannath Mandir' },
-  { poster: 'Lord Jagannath in full shringar' },
-  { poster: 'Devotees serving prasadam at the temple mandapam' },
-]
-const NAMED_ALTS = [
-  ...DEFAULT_EXPLORE.map((t) => t.alt),
-  ...DEFAULT_GALLERY,
-  ...DEFAULT_REELS.flatMap((r) => [r.video, r.poster]).filter(Boolean),
-  'Krishna lifting Govardhan Hill',
-  'His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada',
-  'Lord Krishna speaking the Bhagavad-gita to Arjuna',
-]
-
 function daysUntil(date) {
   const startOfToday = new Date(new Date().setHours(0, 0, 0, 0)).getTime()
   const d = Math.round((new Date(date).setHours(0, 0, 0, 0) - startOfToday) / DAY)
   return d <= 0 ? 'Today' : d === 1 ? 'Tomorrow' : `In ${d} days`
+}
+
+/** Video id from a YouTube link (watch?v=, youtu.be/, /live/, /shorts/) */
+function youtubeId(url = '') {
+  const m = url.match(/(?:v=|youtu\.be\/|\/live\/|\/shorts\/|\/embed\/)([\w-]{11})/)
+  return m ? m[1] : null
 }
 
 function Eyebrow({ children, light }) {
@@ -109,11 +48,11 @@ export default async function HomePage() {
     settings,
     timings,
     festivals,
+    services,
     courses,
     posts,
     monthlySevas,
     festivalSevas,
-    namedMedia,
   ] = await Promise.all([
     payload.findGlobal({ slug: 'home-page', depth: 2 }),
     payload.findGlobal({ slug: 'site-settings' }),
@@ -124,6 +63,7 @@ export default async function HomePage() {
       sort: 'date',
       limit: 4,
     }),
+    payload.find({ collection: 'services', where: { featured: { equals: true } }, limit: 3 }),
     payload.find({ collection: 'courses', where: { featured: { equals: true } }, limit: 3 }),
     payload.find({
       collection: 'posts',
@@ -133,7 +73,6 @@ export default async function HomePage() {
     }),
     payload.find({ collection: 'sevas', where: { allowMonthly: { equals: true } }, limit: 20 }),
     payload.find({ collection: 'sevas', where: { category: { equals: 'festival' } }, limit: 10 }),
-    payload.find({ collection: 'media', where: { alt: { in: NAMED_ALTS } }, limit: 100, depth: 0 }),
   ])
 
   // ---- Slideshow: the slides staff curate in admin; if there are none, an automatic set
@@ -221,146 +160,277 @@ export default async function HomePage() {
     }),
   )
 
-  // ---- Sevas for the single donation section (highlights first, then the rest)
-  const sevas = []
-  for (const sv of [...populated(home.highlightSevas), ...populated(home.donationSevas)]) {
-    if (isSevaActive(sv) && !sevas.some((x) => x.id === sv.id)) sevas.push(sv)
-  }
-
-  // ---- Photos chosen by name, used when staff haven't picked their own in admin
-  const byAlt = new Map(namedMedia.docs.map((m) => [m.alt, m]))
-  const pick = (m, fallbackAlt) => (m && typeof m === 'object' ? m : byAlt.get(fallbackAlt))
-  const photo = (m, size = 'card') => {
-    const url = mediaUrl(m, size)
-    return url && m
-      ? { url, alt: m.alt, focalX: m.focalX, focalY: m.focalY, full: mediaUrl(m, 'hero') }
-      : null
-  }
-
-  const exploreTiles = (home.exploreTiles?.length ? home.exploreTiles : DEFAULT_EXPLORE).map(
-    (t) => ({
-      title: t.title,
-      text: t.text,
-      link: t.link || '#',
-      image: pick(t.image, t.alt),
-    }),
-  )
-
-  const galleryMedia = populated(home.gallery).length
-    ? populated(home.gallery)
-    : DEFAULT_GALLERY.map((alt) => byAlt.get(alt)).filter(Boolean)
-  const galleryPhotos = galleryMedia
-    .slice(0, 12)
-    .map((m) => photo(m))
-    .filter(Boolean)
-
-  const krishna = photo(pick(home.liveDarshan?.image, 'Krishna lifting Govardhan Hill'), 'hero')
-  const founderImage = pick(
-    home.founder?.image,
-    'His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada',
-  )
-  const gitaImage = pick(
-    home.gitaCourse?.image,
-    'Lord Krishna speaking the Bhagavad-gita to Arjuna',
-  )
-  const youthImage = pick(home.youth?.image, 'Devotees singing kirtan at Sri Jagannath Mandir')
-  const priestImage = pick(null, 'Sri Sri Jagannath, Baladeva and Subhadra with fruit garlands')
-
-  const reels = home.instagramReels?.length
-    ? home.instagramReels.map((r) => ({
-        video: r.video && typeof r.video === 'object' ? r.video.url : null,
-        poster: mediaUrl(r.poster, 'card'),
-        link: r.link || settings.instagram,
-      }))
-    : DEFAULT_REELS.map((r) => ({
-        video: byAlt.get(r.video)?.url ?? null,
-        poster: mediaUrl(byAlt.get(r.poster), 'card'),
-        link: settings.instagram,
-      }))
-
-  const whatsappChat = (text) => (settings.whatsapp ? waLink(settings.whatsapp, text) : '/contact')
+  const highlights = populated(home.highlightSevas).filter((s) => isSevaActive(s))
+  const donationSevas = populated(home.donationSevas).filter((s) => isSevaActive(s))
 
   return (
     <>
-      {/* 1. Hero */}
       <HeroSlider slides={slides} />
       <ScheduleTicker
         items={(timings.schedule ?? []).map(({ time, activity }) => ({ time, activity }))}
       />
 
-      {/* 3. Explore the temple */}
-      <section className={styles.explore}>
-        <div className="container-x">
-          <div className={styles.sectionHead}>
-            <div>
-              <Eyebrow>Explore the temple</Eyebrow>
-              <h2 className={styles.h2}>Step inside Sri Jagannath Mandir</h2>
+      {/* About */}
+      <section className={styles.about2}>
+        <div className={`container-x ${styles.about2Grid}`}>
+          {/* Collage: large deity photo, small photo top-left, Prabhupada card bottom-left */}
+          <div className={styles.collage}>
+            <div className={styles.collageMain}>
+              <ImageOrPlaceholder
+                media={home.about?.image}
+                art="temple"
+                alt="Sri Sri Jagannath, Baladeva and Subhadra"
+                sizes="(min-width: 1024px) 35vw, 75vw"
+              />
             </div>
-            <Link href="/about" className={styles.moreLink}>
-              About the temple →
-            </Link>
+            <div className={styles.collageSmall}>
+              <ImageOrPlaceholder
+                media={home.about?.smallImage}
+                art="lotus"
+                sizes="(min-width: 1024px) 14vw, 35vw"
+              />
+            </div>
+            <div className={styles.collageFounder}>
+              <div className={styles.collageFounderPhoto}>
+                <ImageOrPlaceholder
+                  media={home.about?.cardImage || home.founder?.image}
+                  art="book"
+                  alt={home.about?.cardTitle || 'Srila Prabhupada'}
+                  sizes="(min-width: 1024px) 18vw, 45vw"
+                />
+              </div>
+              <p className={styles.collageFounderName}>
+                {home.about?.cardTitle || 'Srila Prabhupada'}
+                <span>{home.about?.cardSubtitle || 'Founder-Acharya of ISKCON'}</span>
+              </p>
+            </div>
           </div>
-          <div className={`${styles.exploreGrid} ${styles.swipe}`}>
-            {exploreTiles.map((t, i) => (
-              <Link key={t.title} href={t.link} className={styles.exploreTile}>
-                <div className={styles.media}>
-                  <ImageOrPlaceholder
-                    media={t.image}
-                    art={['temple', 'lamps', 'lotus', 'temple', 'hill', 'book'][i % 6]}
-                    sizes={
-                      i === 0 ? '(min-width: 1024px) 50vw, 85vw' : '(min-width: 1024px) 25vw, 85vw'
-                    }
-                  />
-                </div>
-                <div className={styles.exploreShade} />
-                <div className={styles.exploreBody}>
-                  <h3 className={styles.exploreTitle}>{t.title}</h3>
-                  {t.text && <p className={styles.exploreText}>{t.text}</p>}
-                  <span className={styles.exploreArrow} aria-hidden>
-                    →
+
+          <div>
+            <Eyebrow>About ISKCON Coimbatore</Eyebrow>
+            <h2 className={`${styles.h2} ${styles.aboutTitle}`}>
+              A spiritual home for <span className={styles.accent}>everyone</span> seeking Krishna
+            </h2>
+            <p className={styles.aboutText}>
+              {home.about?.text ||
+                'ISKCON Coimbatore shares the timeless teachings of Bhagavad-gita and the joy of chanting the holy names, as taught by His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada.\n\nAt Sri Jagannath Mandir, families, students and seekers gather for daily worship, festivals, classes and prasadam.'}
+            </p>
+            <ul className={`${styles.about2Cards} ${styles.swipe}`}>
+              {[
+                {
+                  title: 'Spiritual guidance',
+                  text: 'Classes, counselling and japa for every age',
+                  icon: <path d="M4 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4zM20 5h-4a3 3 0 0 0-3 3" />,
+                },
+                {
+                  title: 'Festivals & seva',
+                  text: 'Kirtan, abhishek and a community to serve with',
+                  icon: (
+                    <path d="M12 3c2 3 2 6 0 9-2-3-2-6 0-9ZM5 14c3 0 6 2 7 6 1-4 4-6 7-6M4 20h16" />
+                  ),
+                },
+                {
+                  title: 'Prasadam for all',
+                  text: 'Sanctified food offered with love, every day',
+                  icon: <path d="M4 12h16a8 8 0 0 1-16 0ZM12 4v4M8 6v2M16 6v2" />,
+                },
+              ].map((c) => (
+                <li key={c.title} className={styles.about2Card}>
+                  <span className={styles.about2Icon}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="22"
+                      height="22"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      {c.icon}
+                    </svg>
                   </span>
-                </div>
-              </Link>
-            ))}
+                  <p className={styles.about2CardTitle}>{c.title}</p>
+                  <p className={styles.about2CardText}>{c.text}</p>
+                </li>
+              ))}
+            </ul>
+            <Link href="/about" className={`btn-primary ${styles.btnBig} ${styles.aboutButton}`}>
+              Our story →
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* 4. Donations: one section for every seva */}
-      {sevas.length > 0 && (
-        <section className={styles.offer}>
-          <Mandala className={styles.offerMandala} />
+      {/* Founder-acharya and how ISKCON began */}
+      <section className={styles.founder}>
+        <Mandala className={`spin-slow ${styles.founderMandala}`} rings={5} />
+        <div className={`container-x ${styles.founderGrid}`}>
+          <div className={styles.founderPortraitWrap}>
+            <div className={styles.founderPortrait}>
+              <ImageOrPlaceholder
+                media={home.founder?.image}
+                art="book"
+                alt="His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada"
+                sizes="(min-width: 1024px) 30vw, 80vw"
+              />
+            </div>
+            <p className={styles.founderCaption}>
+              His Divine Grace
+              <span>A.C. Bhaktivedanta Swami Srila Prabhupada</span>
+              Founder-Acharya of ISKCON
+            </p>
+          </div>
+          <div>
+            <Eyebrow light>How ISKCON began</Eyebrow>
+            <h2 className={`${styles.h2} ${styles.h2White}`}>
+              One sage, a trunk of books, and a promise to his teacher
+            </h2>
+            <p className={styles.founderText}>
+              In 1965, at the age of sixty-nine, Srila Prabhupada sailed from Kolkata to New York on
+              a cargo ship, carrying little more than his translations of Srimad Bhagavatam. He had
+              been asked by his spiritual master to share Lord Krishna&apos;s teachings in the
+              English language. A year later he founded the International Society for Krishna
+              Consciousness.
+            </p>
+            <ol className={styles.timeline2}>
+              {[
+                ['1896', 'Born in Kolkata as Abhay Charan De'],
+                ['1922', 'Meets his guru, who asks him to preach in English'],
+                ['1965', 'Sails to America aboard the Jaladuta'],
+                ['1966', 'Founds ISKCON in New York City'],
+                ['1977', 'Leaves a worldwide family of temples and devotees'],
+              ].map(([year, text]) => (
+                <li key={year}>
+                  <span className={styles.tlYear}>{year}</span>
+                  <span className={styles.tlText}>{text}</span>
+                </li>
+              ))}
+            </ol>
+            <Link
+              href="/about#founder"
+              className={`btn-donate ${styles.btnBig} ${styles.founderButton}`}
+            >
+              Read his story →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Three ways to serve — seva cards */}
+      {highlights.length > 0 && (
+        <section className={styles.serve}>
+          <Mandala className={styles.serveMandala} />
           <div className={`container-x ${styles.relative}`}>
             <div className={styles.sectionHead}>
               <div>
-                <Eyebrow>Offer a seva</Eyebrow>
-                <h2 className={styles.h2}>Turn your offering into prasad</h2>
-                <p className={styles.sectionIntro}>
-                  Every offering serves the Lord and His devotees. All donations are eligible for
-                  80G tax exemption.
-                </p>
+                <Eyebrow>Begin with one offering</Eyebrow>
+                <h2 className={styles.h2}>Three ways to serve today</h2>
               </div>
               <Link href="/donate" className={styles.moreLink}>
                 All sevas →
               </Link>
             </div>
-            <div className={`${styles.offerGrid} ${styles.swipe}`}>
-              {sevas.map((sv, i) => (
-                <SevaOfferCard
-                  key={sv.id}
-                  slug={sv.slug}
-                  title={sv.title}
-                  description={sv.shortDescription}
-                  amounts={(sv.presetAmounts ?? []).map((p) => p.amount)}
+            <div className={`${styles.serveGrid} ${styles.swipe}`}>
+              {highlights.map((s, i) => {
+                const from = Math.min(...(s.presetAmounts ?? []).map((p) => p.amount))
+                return (
+                  <Link key={s.id} href={`/donate/${s.slug}`} className={styles.sevaCard}>
+                    <div className={styles.sevaImage}>
+                      <div className={styles.media}>
+                        <ImageOrPlaceholder
+                          media={s.image}
+                          art={s.artwork ?? ['lotus', 'lamps', 'book'][i % 3]}
+                          sizes="(min-width: 768px) 33vw, 100vw"
+                        />
+                      </div>
+                      <span className={styles.sevaTag}>
+                        {s.allowMonthly ? 'Monthly or one-time' : 'One-time seva'}
+                      </span>
+                    </div>
+                    <div className={styles.sevaBody}>
+                      <h3 className={styles.sevaTitle}>{s.title}</h3>
+                      <p className={styles.sevaText}>{s.shortDescription}</p>
+                      <div className={styles.sevaFoot}>
+                        {Number.isFinite(from) && (
+                          <p className={styles.sevaFrom}>
+                            <span>From</span> {inr(from)}
+                          </p>
+                        )}
+                        <span className={styles.sevaButton}>
+                          Offer seva
+                          <svg
+                            viewBox="0 0 24 24"
+                            width="16"
+                            height="16"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.2"
+                            aria-hidden
+                          >
+                            <path d="M5 12h14M13 6l6 6-6 6" />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Plan your visit: darshan timings card */}
+      <VisitSection
+        image={home.visitImage}
+        address={settings.address}
+        mapUrl={settings.mapUrl}
+        schedule={(timings.schedule ?? []).map(({ time, activity }) => ({ time, activity }))}
+        sessions={(timings.openSessions ?? []).map(({ opens, closes }) => ({ opens, closes }))}
+      />
+
+      {/* Quote */}
+      <section className={styles.quote}>
+        <Mandala className={`spin-slow ${styles.quoteMandala}`} rings={5} />
+        <div className={styles.quoteVignette} />
+        <div className={`container-x ${styles.quoteInner}`}>
+          <p className={styles.quoteMark}>“</p>
+          <p className={`text-gold-gradient ${styles.quoteText}`}>
+            Whatever you do, whatever you eat, whatever you offer or give away, and whatever
+            austerities you perform — do that as an offering unto Me.
+          </p>
+          <p className={styles.quoteSource}>Bhagavad-gītā 9.27</p>
+        </div>
+      </section>
+
+      {/* Donation bento */}
+      {donationSevas.length > 0 && (
+        <section className={styles.donate}>
+          <div className="container-x">
+            <div className={styles.sectionHeadCenter}>
+              <Eyebrow>Offer a seva</Eyebrow>
+              <h2 className={styles.h2}>Turn your offering into prasad</h2>
+            </div>
+            <div className={`${styles.donateGrid} ${styles.swipe}`}>
+              {donationSevas.map((s, i) => (
+                <DonationCard
+                  key={s.id}
+                  featured={i === 0}
+                  wide={donationSevas.length === 4 && i === 3}
                   badge={
-                    sv.category === 'festival' ? 'Festival' : i === 0 ? 'Most loved' : undefined
+                    s.category === 'festival' ? 'Festival' : i === 0 ? 'Most loved' : undefined
                   }
-                  tag={sv.allowMonthly ? 'Monthly or one-time' : undefined}
+                  slug={s.slug}
+                  title={s.title}
+                  description={s.shortDescription}
+                  amounts={(s.presetAmounts ?? []).map((p) => p.amount)}
                   image={
                     <ImageOrPlaceholder
-                      media={sv.cardImage || sv.image}
-                      art={sv.artwork ?? 'lotus'}
-                      sizes="(min-width: 1024px) 33vw, 85vw"
+                      media={s.cardImage || s.image}
+                      art={s.artwork ?? 'lotus'}
+                      sizes="(min-width: 1024px) 33vw, 100vw"
                     />
                   }
                 />
@@ -370,117 +440,128 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* 5. Nitya Seva: a short strip */}
-      {monthlySevas.docs.length > 0 && (
-        <section className={styles.nityaStrip}>
-          <div className={`container-x ${styles.nityaInner}`}>
-            <div className={styles.nityaCopy}>
-              <span className={styles.nityaIcon} aria-hidden>
-                <svg
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 3c2 3 2 6 0 9-2-3-2-6 0-9ZM5 14c3 0 6 2 7 6 1-4 4-6 7-6M4 20h16" />
-                </svg>
-              </span>
-              <div>
-                <h2 className={styles.nityaHeading}>Become a Nitya Sevak</h2>
-                <p className={styles.nityaLine}>
-                  Offer a little every month and serve the Lord all year. Cancel anytime.
-                </p>
-              </div>
-            </div>
-            <div className={styles.nityaForm}>
-              <NityaSevaForm
-                sevas={monthlySevas.docs.map((m) => ({ slug: m.slug, title: m.title }))}
-              />
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 6. Darshan timings */}
-      <VisitSection
-        image={home.visitImage}
-        address={settings.address}
-        mapUrl={settings.mapUrl}
-        schedule={(timings.schedule ?? []).map(({ time, activity }) => ({ time, activity }))}
-        sessions={(timings.openSessions ?? []).map(({ opens, closes }) => ({ opens, closes }))}
-      />
-
-      {/* 7. Quote with Srila Prabhupada */}
-      <section className={styles.quote2}>
-        <Mandala className={`spin-slow ${styles.quote2Mandala}`} rings={5} />
-        <div className={`container-x ${styles.quote2Grid}`}>
-          <figure className={styles.quote2Portrait}>
-            <div className={styles.quote2Photo}>
-              <ImageOrPlaceholder
-                media={founderImage}
-                art="book"
-                alt="Srila Prabhupada"
-                sizes="(min-width: 1024px) 26vw, 60vw"
-              />
-            </div>
-            <figcaption className={styles.quote2Name}>
-              His Divine Grace
-              <span>A.C. Bhaktivedanta Swami Srila Prabhupada</span>
-              Founder-Acharya of ISKCON
-            </figcaption>
-          </figure>
-          <blockquote className={styles.quote2Body}>
-            <span className={styles.quote2Mark} aria-hidden>
-              “
-            </span>
-            <p className={styles.quote2Text}>
-              Whatever you do, whatever you eat, whatever you offer or give away, and whatever
-              austerities you perform — do that as an offering unto Me.
+      {/* Nitya Seva + WhatsApp, side by side */}
+      <section className={`container-x ${styles.trio}`}>
+        {monthlySevas.docs.length > 0 && (
+          <div className={styles.nitya}>
+            <Mandala className={styles.nityaMandala} />
+            <Eyebrow light>Nitya Seva · monthly</Eyebrow>
+            <h2 className={styles.nityaTitle}>Offer a little, every month</h2>
+            <p className={styles.nityaText}>
+              Set it once, serve all year. Cancel anytime on WhatsApp or email.
             </p>
-            <footer className={styles.quote2Source}>
-              Bhagavad-gītā As It Is 9.27
-              <span>Translated by Srila Prabhupada</span>
-            </footer>
-          </blockquote>
+            <NityaSevaForm
+              sevas={monthlySevas.docs.map((s) => ({ slug: s.slug, title: s.title }))}
+            />
+            <p className={styles.nityaNote}>Eligible for 80G · Instant receipt</p>
+          </div>
+        )}
+        <div className={styles.sideCards}>
+          {settings.whatsapp && (
+            <a
+              href={waLink(settings.whatsapp, 'Hare Krishna!')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${styles.sideCard} ${styles.whatsappCard}`}
+            >
+              <WhatsAppIcon size={40} className={styles.whatsappIcon} />
+              <div className={styles.sideBody}>
+                <h3 className={styles.sideTitle}>Your seva assistant</h3>
+                <p className={styles.sideText}>
+                  Receipts, questions and temple information on WhatsApp.
+                </p>
+                <span className={`${styles.sideLink} ${styles.whatsappLink}`}>Start a chat →</span>
+              </div>
+            </a>
+          )}
         </div>
       </section>
 
-      {/* 8. Temple gallery */}
-      {galleryPhotos.length > 0 && (
-        <section className={styles.gallery}>
-          <div className="container-x">
-            <div className={styles.sectionHead}>
-              <div>
-                <Eyebrow>Temple gallery</Eyebrow>
-                <h2 className={styles.h2}>Moments at the temple</h2>
+      {/* Live puja */}
+      {home.livePuja?.link && (
+        <section className={styles.live}>
+          <div className={`container-x ${styles.liveGrid}`}>
+            <div className={styles.liveFrame}>
+              <div className={styles.livePhoto}>
+                <ImageOrPlaceholder
+                  media={home.livePuja.image}
+                  art="temple"
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                />
               </div>
-              {settings.instagram && (
-                <a
-                  href={settings.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.moreLink}
-                >
-                  More on Instagram →
-                </a>
-              )}
+              <span className={styles.liveOnAir}>
+                <span className={styles.liveDot}>
+                  <span className={styles.liveDotPing} />
+                  <span className={styles.liveDotCore} />
+                </span>
+                Live
+              </span>
             </div>
-            <TempleGallery photos={galleryPhotos} />
+            <div>
+              <Eyebrow>Blessings from Sri Sri Jagannath</Eyebrow>
+              <h2 className={styles.h2}>{home.livePuja.title || 'Live online puja'}</h2>
+              <p className={styles.liveText}>
+                {home.livePuja.text ||
+                  'Join the daily arati at Sri Jagannath Mandir from wherever you are. Offer your prayers at the lotus feet of the Lord for your family, health and spiritual growth.'}
+              </p>
+              <div className={styles.liveFacts}>
+                <div className={styles.liveFact}>
+                  <span className={styles.liveIcon}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="22"
+                      height="22"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      aria-hidden
+                    >
+                      <circle cx="12" cy="12" r="9" />
+                      <path d="M12 7v5l3 2" />
+                    </svg>
+                  </span>
+                  <div>
+                    <p className={styles.liveFactLabel}>Schedule</p>
+                    <p className={styles.liveFactValue}>
+                      {home.livePuja.time || home.livePuja.schedule}
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.liveFact}>
+                  <span className={styles.liveIcon}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="22"
+                      height="22"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      aria-hidden
+                    >
+                      <rect x="3" y="6" width="13" height="12" rx="2" />
+                      <path d="m16 10 5-3v10l-5-3" />
+                    </svg>
+                  </span>
+                  <div>
+                    <p className={styles.liveFactLabel}>Platform</p>
+                    <p className={styles.liveFactValue}>
+                      {home.livePuja.platform || 'Free to join'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <a
+                href={home.livePuja.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`btn-donate ${styles.btnBig} ${styles.liveButton}`}
+              >
+                Join the live puja
+              </a>
+            </div>
           </div>
         </section>
       )}
-
-      {/* 9. Live darshan */}
-      <LiveDarshan
-        sessions={(timings.openSessions ?? []).map(({ opens, closes }) => ({ opens, closes }))}
-        image={krishna}
-        link={home.liveDarshan?.link || home.livePuja?.link}
-        demo={process.env.NODE_ENV === 'development'}
-      />
 
       {/* Upcoming festivals */}
       {festivals.docs.length > 0 && (
@@ -557,74 +638,35 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 12. 18-day Bhagavad-gita class and youth preaching */}
-      <section className={styles.classes}>
-        <div className="container-x">
+      {/* Services */}
+      {services.docs.length > 0 && (
+        <section className={`container-x ${styles.services}`}>
           <div className={styles.sectionHeadCenter}>
-            <Eyebrow>Learn and grow</Eyebrow>
-            <h2 className={styles.h2}>Classes for every stage of life</h2>
+            <Eyebrow>Serve and be served</Eyebrow>
+            <h2 className={styles.h2}>Devotional services</h2>
           </div>
-          <div className={styles.classGrid}>
-            {[
-              {
-                key: 'gita',
-                image: gitaImage,
-                badge: '18 days',
-                title: home.gitaCourse?.title || '18-Day Bhagavad-gita Course',
-                text:
-                  home.gitaCourse?.text ||
-                  'One chapter a day, explained simply. Understand who you are, why we suffer and how to live peacefully, in 18 short sessions.',
-                schedule:
-                  home.gitaCourse?.schedule || 'New batch every month · Online & at the temple',
-                link:
-                  home.gitaCourse?.link ||
-                  whatsappChat(
-                    'Hare Krishna! I would like to join the 18-day Bhagavad-gita course.',
-                  ),
-                cta: 'Register for the course',
-              },
-              {
-                key: 'youth',
-                image: youthImage,
-                badge: 'Ages 16–30',
-                title: home.youth?.title || 'Youth Preaching',
-                text:
-                  home.youth?.text ||
-                  'Kirtan, wisdom talks, outings and service for college students and young professionals. Make friends, find focus and grow spiritually.',
-                schedule: home.youth?.schedule || 'Every Sunday, 5:00 PM · At the temple',
-                link:
-                  home.youth?.link ||
-                  whatsappChat('Hare Krishna! I would like to join the youth programme.'),
-                cta: 'Join the youth programme',
-              },
-            ].map((c) => (
-              <article key={c.key} className={styles.classCard}>
-                <div className={styles.classPhoto}>
-                  <ImageOrPlaceholder
-                    media={c.image}
-                    art="book"
-                    sizes="(min-width: 1024px) 45vw, 100vw"
-                  />
-                  <span className={styles.classBadge}>{c.badge}</span>
+          <div className={`${styles.threeGrid} ${styles.swipe}`}>
+            {services.docs.map((s, i) => (
+              <article key={s.id} className={styles.service}>
+                <div className={styles.cardImage}>
+                  <div className={styles.media}>
+                    <ImageOrPlaceholder media={s.image} art={['lotus', 'temple', 'lamps'][i % 3]} />
+                  </div>
                 </div>
-                <div className={styles.classBody}>
-                  <h3 className={styles.classTitle}>{c.title}</h3>
-                  <p className={styles.classText}>{c.text}</p>
-                  <p className={styles.classSchedule}>{c.schedule}</p>
-                  <a
-                    href={c.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`btn-primary ${styles.btnBig}`}
-                  >
-                    {c.cta}
-                  </a>
+                <div className={styles.cardBodyLarge}>
+                  <h3 className={styles.cardTitle}>{s.title}</h3>
+                  <p className={styles.serviceText}>{s.description}</p>
                 </div>
               </article>
             ))}
           </div>
-        </div>
-      </section>
+          <div className={styles.buttonRow}>
+            <Link href="/services" className={`btn-primary ${styles.btnBig}`}>
+              All services
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* Courses — numbered list */}
       {courses.docs.length > 0 && (
@@ -677,6 +719,70 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* YouTube */}
+      {(home.youtubeVideos?.length > 0 || settings.youtube) && (
+        <section className={styles.youtube}>
+          <div className="container-x">
+            <div className={styles.sectionHeadCenter}>
+              <Eyebrow>Watch and hear</Eyebrow>
+              <h2 className={styles.h2}>ISKCON Coimbatore on YouTube</h2>
+              <p className={styles.youtubeIntro}>
+                Darshan, kirtan and classes from Sri Jagannath Mandir: watch, reflect and deepen
+                your connection with the Lord.
+              </p>
+            </div>
+            {home.youtubeVideos?.length > 0 && (
+              <div className={`${styles.threeGrid} ${styles.swipe}`}>
+                {home.youtubeVideos.slice(0, 3).map((v) => {
+                  const id = youtubeId(v.url)
+                  return (
+                    <a
+                      key={v.id ?? v.url}
+                      href={v.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.ytCard}
+                    >
+                      <div className={styles.ytThumb}>
+                        {id && (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+                            alt=""
+                            loading="lazy"
+                          />
+                        )}
+                        <span className={styles.ytPlay} aria-hidden>
+                          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </span>
+                      </div>
+                      <div className={styles.ytBody}>
+                        <h3 className={styles.ytTitle}>{v.title}</h3>
+                        {v.date && <p className={styles.small}>{formatDate(v.date)}</p>}
+                      </div>
+                    </a>
+                  )
+                })}
+              </div>
+            )}
+            {settings.youtube && (
+              <div className={styles.buttonRow}>
+                <a
+                  href={settings.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`btn-primary ${styles.btnBig}`}
+                >
+                  <YoutubeIcon size={18} /> Visit our channel
+                </a>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
       {/* Blog */}
       {posts.docs.length > 0 && (
         <section className={`container-x ${styles.blog}`}>
@@ -705,142 +811,24 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* 14. Speak to a priest */}
-      <section className={styles.priest}>
-        <div className={`container-x ${styles.priestGrid}`}>
-          <div className={styles.priestPhoto}>
-            <ImageOrPlaceholder
-              media={priestImage}
-              art="temple"
-              sizes="(min-width: 1024px) 40vw, 100vw"
-            />
-          </div>
-          <div>
-            <Eyebrow>Guidance</Eyebrow>
-            <h2 className={styles.h2}>Speak to a priest</h2>
-            <p className={styles.sectionIntro}>
-              Our temple priests can guide you on samskaras, home pujas and spiritual questions.
+      {/* Instagram */}
+      {settings.instagram && (
+        <section className={styles.instagram}>
+          <div className={`container-x ${styles.instagramInner}`}>
+            <p className={styles.instagramText}>
+              Darshan, every day, on <span className={styles.accent}>Instagram</span>
             </p>
-            <ul className={styles.priestList}>
-              {[
-                'Naming ceremony and annaprasana',
-                'Griha pravesh and home blessing',
-                'Marriage and family samskaras',
-                'Personal spiritual counselling',
-              ].map((t) => (
-                <li key={t}>
-                  <span aria-hidden>✓</span>
-                  {t}
-                </li>
-              ))}
-            </ul>
-            <div className={styles.priestButtons}>
-              <a
-                href={whatsappChat('Hare Krishna! I would like to speak to a priest.')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`btn-primary ${styles.btnBig}`}
-              >
-                <WhatsAppIcon size={18} /> Chat on WhatsApp
-              </a>
-              {settings.phone && (
-                <a
-                  href={`tel:${settings.phone.replace(/\s/g, '')}`}
-                  className={`btn-outline ${styles.btnBig} ${styles.priestCall}`}
-                >
-                  Call {settings.phone}
-                </a>
-              )}
-            </div>
+            <a
+              href={settings.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`btn-primary ${styles.btnBig}`}
+            >
+              <InstagramIcon /> Follow us
+            </a>
           </div>
-        </div>
-      </section>
-
-      {/* 15. Instagram: follow + recent videos */}
-      <section className={styles.insta}>
-        <div className="container-x">
-          <div className={styles.sectionHead}>
-            <div>
-              <Eyebrow>Follow us</Eyebrow>
-              <h2 className={styles.h2}>ISKCON Coimbatore on Instagram</h2>
-            </div>
-            {settings.instagram && (
-              <a
-                href={settings.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`btn-primary ${styles.btnBig}`}
-              >
-                <InstagramIcon size={18} /> Follow
-              </a>
-            )}
-          </div>
-          <div className={`${styles.reels} ${styles.swipe}`}>
-            {reels.map((r, i) => (
-              <a
-                key={i}
-                href={r.link || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.reel}
-              >
-                {r.video ? (
-                  <video
-                    className={styles.reelMedia}
-                    src={r.video}
-                    poster={r.poster || undefined}
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                    preload="metadata"
-                  />
-                ) : r.poster ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img className={styles.reelMedia} src={r.poster} alt="" loading="lazy" />
-                ) : null}
-                <span className={styles.reelShade} />
-                <span className={styles.reelIcon} aria-hidden>
-                  <InstagramIcon size={16} />
-                </span>
-                {!r.video && (
-                  <span className={styles.reelPlay} aria-hidden>
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </span>
-                )}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 16. WhatsApp channel */}
-      <section className={styles.channel}>
-        <div className={`container-x ${styles.channelInner}`}>
-          <span className={styles.channelIcon} aria-hidden>
-            <WhatsAppIcon size={34} />
-          </span>
-          <div className={styles.channelCopy}>
-            <h2 className={styles.channelTitle}>Join the ISKCON Coimbatore WhatsApp Channel</h2>
-            <p className={styles.channelText}>
-              Daily darshan photos, festival dates and temple announcements, straight to your phone.
-            </p>
-          </div>
-          <a
-            href={
-              settings.whatsappChannel ||
-              whatsappChat('Hare Krishna! Please add me to the temple updates.')
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`btn ${styles.channelButton}`}
-          >
-            Join the channel
-          </a>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   )
 }
