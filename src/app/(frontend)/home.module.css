@@ -1307,6 +1307,10 @@
   align-items: center;
   gap: 4rem;
 }
+/* Let the columns shrink, so the swipeable card row scrolls inside the screen instead of widening the page */
+.about2Grid > * {
+  min-width: 0;
+}
 .about2Media {
   position: relative;
   margin: 0 auto;
