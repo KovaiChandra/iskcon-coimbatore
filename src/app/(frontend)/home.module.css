@@ -1399,6 +1399,10 @@
   .about2Grid {
     grid-template-columns: 1fr 1.1fr;
   }
+  /* Two wide cards per row beside the collage */
+  .about2Cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* ---------- About collage ----------
