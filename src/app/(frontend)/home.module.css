@@ -1401,7 +1401,8 @@
   }
 }
 
-/* ---------- About collage ---------- */
+/* ---------- About collage ----------
+   Main photo in the middle; small photo over its top-left, Sri Jagannath card over its bottom-right. */
 .collage {
   position: relative;
   margin: 0 auto;
@@ -1411,9 +1412,9 @@
 }
 .collageMain {
   position: absolute;
-  right: 0;
+  left: 14%;
   top: 0;
-  bottom: 0;
+  bottom: 6%;
   width: 72%;
   overflow: hidden;
   border-radius: 1.5rem;
@@ -1432,7 +1433,7 @@
 }
 .collageFounder {
   position: absolute;
-  left: 0;
+  right: 0;
   bottom: 0;
   width: 44%;
   overflow: hidden;
