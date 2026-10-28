@@ -181,58 +181,8 @@ function Title({ slide, className }) {
   )
 }
 
-function CollagePhoto({ image, sizes }) {
-  return (
-    <Image
-      src={image.url}
-      alt={image.alt}
-      fill
-      loading="eager"
-      quality={90}
-      sizes={sizes}
-      placeholder={image.blur ? 'blur' : 'empty'}
-      blurDataURL={image.blur}
-      style={{ objectPosition: `${image.focalX ?? 50}% ${image.focalY ?? 50}%` }}
-      className={styles.photo}
-    />
-  )
-}
-
-/** Collage layout (desktop): a main photo or video, with smaller photos over its top-left and bottom-right corners. */
-function Collage({ slide, onDuration }) {
-  return (
-    <div key={slide.id} className={styles.collage}>
-      <div className={styles.archGlow} aria-hidden />
-      <div className={`rise ${styles.collageMain}`}>
-        {slide.video ? (
-          <SlideVideo slide={slide} active onDuration={onDuration} />
-        ) : (
-          slide.image && <CollagePhoto image={slide.image} sizes="(min-width: 1024px) 34vw, 1px" />
-        )}
-      </div>
-      {slide.imageTopLeft && (
-        <div
-          className={`rise ${styles.collageSmall} ${styles.collageTopLeft}`}
-          style={{ animationDelay: '250ms' }}
-        >
-          <CollagePhoto image={slide.imageTopLeft} sizes="(min-width: 1024px) 16vw, 1px" />
-        </div>
-      )}
-      {slide.imageBottomRight && (
-        <div
-          className={`rise ${styles.collageSmall} ${styles.collageBottomRight}`}
-          style={{ animationDelay: '400ms' }}
-        >
-          <CollagePhoto image={slide.imageBottomRight} sizes="(min-width: 1024px) 16vw, 1px" />
-        </div>
-      )}
-    </div>
-  )
-}
-
-/** Arch layout: text on the left, photo in a tall temple arch on the right (desktop).
-    Collage slides share the text column and show the collage on the right instead. */
-function ArchSlide({ slide, slides, index, paused, onDuration }) {
+/** Arch layout: text on the left, photo in a tall temple arch on the right (desktop). */
+function ArchSlide({ slide, slides, index, paused }) {
   return (
     <div className={`container-x ${styles.archGrid}`}>
       <div key={slide.id} className={styles.archText} aria-live={paused ? 'polite' : 'off'}>
@@ -260,27 +210,23 @@ function ArchSlide({ slide, slides, index, paused, onDuration }) {
         </div>
       </div>
 
-      {slide.layout === 'collage' ? (
-        <Collage slide={slide} onDuration={onDuration} />
-      ) : (
-        <div className={styles.archWindow} aria-hidden>
-          <div className={styles.archGlow} />
-          <Mandala className={`spin-slow ${styles.archMandala}`} rings={5} />
-          <div className={`arch ${styles.archLine1}`} />
-          <div className={`arch ${styles.archLine2}`} />
-          <div className={`arch ${styles.archFrame}`}>
-            {slides.map((s, i) => (
-              <div
-                key={s.id}
-                className={`${styles.archSlide} ${i === index ? '' : styles.archSlideOff}`}
-              >
-                <SlideVisual slide={s} active={i === index} variant="arch" />
-              </div>
-            ))}
-            <div className={styles.archFrameShade} />
-          </div>
+      <div className={styles.archWindow} aria-hidden>
+        <div className={styles.archGlow} />
+        <Mandala className={`spin-slow ${styles.archMandala}`} rings={5} />
+        <div className={`arch ${styles.archLine1}`} />
+        <div className={`arch ${styles.archLine2}`} />
+        <div className={`arch ${styles.archFrame}`}>
+          {slides.map((s, i) => (
+            <div
+              key={s.id}
+              className={`${styles.archSlide} ${i === index ? '' : styles.archSlideOff}`}
+            >
+              <SlideVisual slide={s} active={i === index} variant="arch" />
+            </div>
+          ))}
+          <div className={styles.archFrameShade} />
         </div>
-      )}
+      </div>
     </div>
   )
 }
@@ -376,8 +322,7 @@ export function HeroSlider({ slides }) {
                 : styles.backdropOffZoom
           }`}
         >
-          {/* Collage slides play their video inside the collage; the backdrop is the soft photo */}
-          {s.video && s.layout !== 'collage' ? (
+          {s.video ? (
             <SlideVideo slide={s} active={i === index} onDuration={onDuration} />
           ) : (
             <SlideVisual slide={s} active={i === index} priority={i === 0} variant="backdrop" />
@@ -407,13 +352,7 @@ export function HeroSlider({ slides }) {
       {cinematic ? (
         <CinematicSlide slide={slide} paused={paused} />
       ) : (
-        <ArchSlide
-          slide={slide}
-          slides={slides}
-          index={index}
-          paused={paused}
-          onDuration={onDuration}
-        />
+        <ArchSlide slide={slide} slides={slides} index={index} paused={paused} />
       )}
 
       {/* Slide navigation: thin progress segments, counter, arrows */}

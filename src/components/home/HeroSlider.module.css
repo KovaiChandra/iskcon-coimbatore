@@ -1,8 +1,7 @@
 /* =========================================================================
    Home page hero slider
-   Three layouts:
+   Two layouts:
    - "arch":      text on the left, photo inside a temple arch on the right (desktop)
-   - "collage":   text on the left, three overlapping photos on the right (desktop)
    - "cinematic": photo fills the banner, text in the lower-left
    Layers inside .hero, back to front: backdrop photos (-3) → shading (-2) → decorations (-1) → text
    ========================================================================= */
@@ -38,9 +37,7 @@
   position: absolute;
   inset: 0;
   z-index: -3;
-  transition:
-    opacity 1.4s ease-out,
-    transform 1.4s ease-out;
+  transition: opacity 1.4s ease-out, transform 1.4s ease-out;
 }
 .backdropOff {
   opacity: 0;
@@ -110,12 +107,7 @@
 .splitTint {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to right,
-    rgb(var(--tone-deep) / 0.8) 0%,
-    rgb(var(--tone-mid) / 0.35) 16%,
-    rgb(var(--tone-mid) / 0) 30%
-  );
+  background: linear-gradient(to right, rgb(var(--tone-deep) / 0.8) 0%, rgb(var(--tone-mid) / 0.35) 16%, rgb(var(--tone-mid) / 0) 30%);
 }
 @media (min-width: 1024px) {
   .splitPhone {
@@ -165,12 +157,7 @@
 }
 @media (min-width: 1024px) {
   .archShadeSide {
-    background: linear-gradient(
-      to right,
-      var(--purple-950),
-      rgb(28 10 51 / 0.7),
-      rgb(28 10 51 / 0.3)
-    );
+    background: linear-gradient(to right, var(--purple-950), rgb(28 10 51 / 0.7), rgb(28 10 51 / 0.3));
   }
 }
 
@@ -190,12 +177,7 @@
 /* Split photo: purple shading so the text stays readable (phones: over the photo;
    desktop: just a soft fade at the bottom, since the text already sits on solid purple) */
 .splitShadeBottom {
-  background: linear-gradient(
-    to top,
-    rgb(var(--tone-deep) / 0.9),
-    rgb(var(--tone-deep) / 0.3) 35%,
-    transparent 70%
-  );
+  background: linear-gradient(to top, rgb(var(--tone-deep) / 0.9), rgb(var(--tone-deep) / 0.3) 35%, transparent 70%);
 }
 .splitShadeSide {
   position: absolute;
@@ -203,12 +185,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background: linear-gradient(
-    to right,
-    rgb(var(--tone-deep) / 0.75),
-    rgb(var(--tone-deep) / 0.45),
-    transparent
-  );
+  background: linear-gradient(to right, rgb(var(--tone-deep) / 0.75), rgb(var(--tone-deep) / 0.45), transparent);
 }
 @media (min-width: 640px) {
   .cineShadeSide,
@@ -349,12 +326,7 @@
   height: 150%;
   transform: translate(-50%, -50%);
   border-radius: 9999px;
-  background: radial-gradient(
-    circle,
-    rgb(245 183 0 / 0.35) 0%,
-    rgb(245 183 0 / 0.08) 40%,
-    transparent 70%
-  );
+  background: radial-gradient(circle, rgb(245 183 0 / 0.35) 0%, rgb(245 183 0 / 0.08) 40%, transparent 70%);
 }
 .archMandala {
   position: absolute;
@@ -382,17 +354,12 @@
   aspect-ratio: 4 / 5;
   overflow: hidden;
   background: var(--purple-900);
-  box-shadow:
-    0 30px 80px -20px rgb(0 0 0 / 0.8),
-    0 0 0 2px var(--saffron-500);
+  box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.8), 0 0 0 2px var(--saffron-500);
 }
 .archSlide {
   position: absolute;
   inset: 0;
-  transition:
-    opacity 1.2s,
-    transform 1.2s,
-    filter 1.2s;
+  transition: opacity 1.2s, transform 1.2s, filter 1.2s;
   transition-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .archSlideOff {
@@ -407,55 +374,6 @@
   bottom: 0;
   height: 25%;
   background: linear-gradient(to top, rgb(28 10 51 / 0.4), transparent);
-}
-
-/* ---------- Collage layout (desktop only) ----------
-   Main photo in the middle; two smaller photos overlap its top-left and bottom-right corners.
-   To adjust: photo sizes → .collageMain insets / .collageSmall width. */
-.collage {
-  position: relative;
-  display: none;
-  width: 100%;
-  max-width: 560px;
-  aspect-ratio: 1 / 0.92;
-  margin-left: auto;
-  margin-right: auto;
-}
-.collage .archGlow {
-  width: 120%;
-  height: 120%;
-}
-.collageMain,
-.collageSmall {
-  position: absolute;
-  overflow: hidden;
-  background: var(--purple-900);
-  border-radius: 1.25rem;
-}
-.collageMain {
-  left: 12%;
-  right: 12%;
-  top: 16%;
-  bottom: 16%;
-  box-shadow:
-    0 30px 70px -25px rgb(0 0 0 / 0.85),
-    0 0 0 2px var(--saffron-500);
-}
-.collageSmall {
-  width: 36%;
-  aspect-ratio: 3 / 4;
-  border: 4px solid var(--saffron-300);
-  box-shadow: 0 24px 50px -18px rgb(0 0 0 / 0.85);
-}
-.collageTopLeft {
-  left: 0;
-  top: 0;
-  rotate: -4deg;
-}
-.collageBottomRight {
-  right: 0;
-  bottom: 0;
-  rotate: 4deg;
 }
 
 /* ---------- Cinematic layout ---------- */
@@ -550,9 +468,7 @@
   overflow: hidden;
   border-radius: 9999px;
   background: rgb(255 255 255 / 0.25);
-  transition:
-    width 0.5s,
-    background-color 0.5s;
+  transition: width 0.5s, background-color 0.5s;
 }
 .dotButton:hover .dot {
   background: rgb(255 255 255 / 0.5);
@@ -592,9 +508,7 @@
   place-items: center;
   border: 1px solid rgb(255 255 255 / 0.25);
   border-radius: 9999px;
-  transition:
-    border-color 0.15s,
-    color 0.15s;
+  transition: border-color 0.15s, color 0.15s;
 }
 .arrow:hover {
   border-color: var(--saffron-500);
@@ -641,8 +555,7 @@
   .archText {
     text-shadow: none;
   }
-  .archWindow,
-  .collage {
+  .archWindow {
     display: block;
   }
   .cine {
