@@ -24,6 +24,11 @@ export const HomePage: GlobalConfig = {
               label: 'Full photo: the photo fills the banner, text bottom-left',
               value: 'cinematic',
             },
+            {
+              label:
+                'Collage: text left, main photo with two smaller photos (top-left, bottom-right)',
+              value: 'collage',
+            },
           ],
           admin: { description: 'Use Full photo for landscape photos, Arch for portrait photos' },
         },
@@ -62,6 +67,27 @@ export const HomePage: GlobalConfig = {
           type: 'upload',
           relationTo: 'media',
           admin: { description: 'Photo. For a video slide, this is shown while the video loads' },
+        },
+        {
+          name: 'imageTopLeft',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Top-left photo',
+          admin: {
+            condition: (_, s) => s?.layout === 'collage',
+            description: 'Collage layout: small photo overlapping the top-left of the main photo',
+          },
+        },
+        {
+          name: 'imageBottomRight',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Bottom-right photo',
+          admin: {
+            condition: (_, s) => s?.layout === 'collage',
+            description:
+              'Collage layout: small photo overlapping the bottom-right of the main photo',
+          },
         },
         {
           name: 'video',

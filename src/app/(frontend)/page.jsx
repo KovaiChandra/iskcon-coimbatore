@@ -100,6 +100,8 @@ export default async function HomePage() {
     layout: s.layout ?? 'arch',
     tone: s.tone ?? 'purple',
     image: imageOf(s.image),
+    imageTopLeft: s.layout === 'collage' ? imageOf(s.imageTopLeft) : null,
+    imageBottomRight: s.layout === 'collage' ? imageOf(s.imageBottomRight) : null,
     video: videoOf(s.video),
     videoWebm: videoOf(s.videoWebm),
     art: s.artwork ?? 'temple',

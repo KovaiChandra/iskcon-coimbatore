@@ -889,7 +889,7 @@ export interface HomePage {
         /**
          * Use Full photo for landscape photos, Arch for portrait photos
          */
-        layout?: ('arch' | 'cinematic') | null;
+        layout?: ('arch' | 'cinematic' | 'collage') | null;
         /**
          * Colour the photo fades into behind the text (Full photo layout)
          */
@@ -908,6 +908,14 @@ export interface HomePage {
          * Photo. For a video slide, this is shown while the video loads
          */
         image?: (number | null) | Media;
+        /**
+         * Collage layout: small photo overlapping the top-left of the main photo
+         */
+        imageTopLeft?: (number | null) | Media;
+        /**
+         * Collage layout: small photo overlapping the bottom-right of the main photo
+         */
+        imageBottomRight?: (number | null) | Media;
         /**
          * Optional background video (MP4 or MOV) for "Full photo" slides. Plays silently; the slide lasts as long as the video
          */
@@ -1069,6 +1077,8 @@ export interface HomePageSelect<T extends boolean = true> {
         text?: T;
         verse?: T;
         image?: T;
+        imageTopLeft?: T;
+        imageBottomRight?: T;
         video?: T;
         videoWebm?: T;
         artwork?: T;
