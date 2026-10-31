@@ -1,46 +1,47 @@
 /* =========================================================================
-   Speak to a priest: photo in a soft arch on the left, invitation on the right.
+   Speak to a priest: one rounded card. Photo fills the left half (top on
+   phones); the invitation sits on deep purple on the right.
    ========================================================================= */
 .section {
   padding: 6rem 0;
-  background:
-    radial-gradient(ellipse 45% 60% at 20% 50%, rgb(245 183 0 / 0.09), transparent 70%),
-    var(--cream);
+  background: var(--cream);
 }
 .grid {
   display: grid;
-  gap: 3rem;
-  align-items: center;
+  overflow: hidden;
+  border-radius: 2rem;
+  background:
+    radial-gradient(ellipse 60% 70% at 100% 0%, rgb(245 183 0 / 0.12), transparent 65%),
+    linear-gradient(160deg, var(--purple-800), var(--purple-950));
+  color: var(--white);
+  box-shadow: 0 40px 80px -45px rgb(28 10 51 / 0.7);
 }
 
 /* ---------- Photo ---------- */
 .photoWrap {
   position: relative;
-  max-width: 26rem;
-  width: 100%;
-  margin: 0 auto;
-}
-/* A thin gold arch outline, offset behind the photo */
-.photoWrap::before {
-  content: '';
-  position: absolute;
-  inset: -0.9rem;
-  border: 1px solid rgb(201 154 59 / 0.55);
-  border-radius: 999px 999px 1.75rem 1.75rem;
+  min-height: 15rem;
 }
 .photo {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border-radius: 999px 999px 1.5rem 1.5rem;
-  background: var(--purple-50);
-  box-shadow: 0 34px 60px -34px rgb(28 10 51 / 0.55);
+  position: absolute;
+  inset: 0;
 }
 .photo img {
   object-fit: cover;
+  object-position: 60% 40%;
+}
+/* Soft fade from the photo into the purple */
+.photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 55%, rgb(28 10 51 / 0.55));
 }
 
 /* ---------- Text ---------- */
+.body {
+  padding: 2.25rem 1.5rem 2.5rem;
+}
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -49,41 +50,38 @@
   font-weight: 600;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #a86b00;
+  color: var(--saffron-300);
 }
 .title {
   margin-top: 0.9rem;
-  max-width: 34rem;
   font-family: var(--font-serif);
-  font-size: 2.1rem;
+  font-size: 2rem;
   line-height: 1.15;
-  color: var(--purple-950);
+  color: var(--white);
 }
 .accent {
-  color: var(--purple-700);
+  color: var(--saffron-300);
 }
 .text {
-  margin-top: 1.25rem;
-  max-width: 32rem;
-  font-size: 1.0625rem;
-  line-height: 1.75;
-  color: var(--muted);
+  margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgb(239 231 248 / 0.8);
 }
 .topics {
-  margin-top: 2rem;
-  max-width: 32rem;
-  border-top: 1px solid rgb(59 23 101 / 0.1);
+  margin-top: 1.75rem;
+  border-top: 1px solid rgb(255 255 255 / 0.12);
 }
 .topic {
   display: flex;
-  gap: 1rem;
-  border-bottom: 1px solid rgb(59 23 101 / 0.1);
-  padding: 1rem 0;
+  gap: 0.9rem;
+  border-bottom: 1px solid rgb(255 255 255 / 0.12);
+  padding: 0.9rem 0;
 }
 .topicMark {
   flex-shrink: 0;
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.45rem;
+  height: 0.45rem;
   margin-top: 0.5rem;
   rotate: 45deg;
   background: var(--saffron-500);
@@ -91,18 +89,18 @@
 .topicTitle {
   display: block;
   font-weight: 600;
-  color: var(--purple-950);
+  color: var(--white);
 }
 .topicText {
   display: block;
   margin-top: 0.15rem;
   font-size: 0.875rem;
-  color: var(--muted);
+  color: rgb(239 231 248 / 0.7);
 }
 
 /* ---------- Actions ---------- */
 .actions {
-  margin-top: 2.25rem;
+  margin-top: 2rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -113,50 +111,61 @@
   align-items: center;
   gap: 0.6rem;
   border-radius: 9999px;
-  background: var(--purple-950);
+  background: var(--saffron-500);
   padding: 0.95rem 1.9rem;
   font-weight: 600;
-  color: var(--white);
-  box-shadow: 0 14px 30px -14px rgb(28 10 51 / 0.7);
+  color: var(--purple-950);
+  box-shadow: 0 14px 30px -14px rgb(245 183 0 / 0.8);
   transition:
     transform 0.2s,
     background-color 0.2s;
 }
-.primary svg {
-  color: var(--whatsapp);
-}
 .primary:hover {
   transform: translateY(-2px);
-  background: var(--purple-800);
+  background: var(--saffron-300);
 }
 .secondary {
-  border-bottom: 1px solid rgb(59 23 101 / 0.3);
+  border-bottom: 1px solid rgb(255 255 255 / 0.35);
   padding-bottom: 0.15rem;
   font-weight: 600;
-  color: var(--purple-900);
+  color: var(--white);
   transition: border-color 0.2s;
 }
 .secondary:hover {
-  border-color: var(--saffron-500);
+  border-color: var(--saffron-300);
 }
 
 @media (min-width: 640px) {
+  .photoWrap {
+    min-height: 20rem;
+  }
+  .body {
+    padding: 3rem;
+  }
   .title {
-    font-size: 2.75rem;
+    font-size: 2.5rem;
   }
 }
 @media (min-width: 1024px) {
   .grid {
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: 5.5rem;
+    grid-template-columns: 1fr 1fr;
+  }
+  .photoWrap {
+    min-height: 100%;
+  }
+  .photo::after {
+    background: linear-gradient(to right, transparent 60%, rgb(28 10 51 / 0.6));
+  }
+  .body {
+    padding: 4rem 4rem 4rem 3.5rem;
   }
 }
 @media (max-width: 639px) {
   .section {
     padding: 4rem 0;
   }
-  .photoWrap {
-    max-width: 17rem;
+  .grid {
+    border-radius: 1.5rem;
   }
   .primary {
     width: 100%;
