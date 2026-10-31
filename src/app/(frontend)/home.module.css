@@ -383,6 +383,8 @@
     var(--purple-950)
   );
   padding: 2rem;
+  /* Centred, like the WhatsApp card beside it */
+  text-align: center;
   color: var(--white);
 }
 .nityaMandala {
@@ -396,6 +398,8 @@
 }
 .nityaTitle {
   max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 1.875rem;
   line-height: 2.25rem;
   color: var(--white);
@@ -404,6 +408,8 @@
   margin-top: 0.75rem;
   margin-bottom: 2rem;
   max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
   color: var(--purple-100);
 }
 .nityaNote {
