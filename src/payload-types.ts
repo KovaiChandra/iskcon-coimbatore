@@ -1046,6 +1046,10 @@ export interface SiteSetting {
   facebook?: string | null;
   instagram?: string | null;
   youtube?: string | null;
+  /**
+   * e.g. https://whatsapp.com/channel/…
+   */
+  whatsappChannel?: string | null;
   reg80G?: string | null;
   reg80GValidity?: string | null;
   upiId?: string | null;
@@ -1154,6 +1158,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   facebook?: T;
   instagram?: T;
   youtube?: T;
+  whatsappChannel?: T;
   reg80G?: T;
   reg80GValidity?: T;
   upiId?: T;

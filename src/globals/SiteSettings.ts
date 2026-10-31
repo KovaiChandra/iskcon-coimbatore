@@ -24,6 +24,12 @@ export const SiteSettings: GlobalConfig = {
             { name: 'facebook', type: 'text' },
             { name: 'instagram', type: 'text' },
             { name: 'youtube', type: 'text' },
+            {
+              name: 'whatsappChannel',
+              type: 'text',
+              label: 'WhatsApp channel link',
+              admin: { description: 'e.g. https://whatsapp.com/channel/…' },
+            },
           ],
         },
         {

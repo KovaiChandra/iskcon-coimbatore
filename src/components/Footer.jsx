@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { waLink } from '@/lib/format'
+import { WhatsAppIcon } from './Icons'
 import { SocialLinks } from './SocialLinks'
 import styles from './Footer.module.css'
 
@@ -42,22 +44,34 @@ export function Footer({ settings, timings }) {
 
   return (
     <footer>
+      {/* Join the WhatsApp channel */}
       <section className={styles.cta}>
         <div className={`container-x ${styles.ctaInner}`}>
-          <div>
-            <h2 className={styles.ctaTitle}>Begin Your Journey With Krishna Today</h2>
-            <p className={styles.ctaText}>
-              Sponsor a meal, offer a seva, join a course or visit the temple.
-            </p>
+          <div className={styles.ctaLead}>
+            <span className={styles.ctaIcon} aria-hidden>
+              <WhatsAppIcon size={30} />
+            </span>
+            <div>
+              <h2 className={styles.ctaTitle}>Join the ISKCON Coimbatore WhatsApp Channel</h2>
+              <p className={styles.ctaText}>
+                Daily darshan, festival dates and temple news, straight to your phone.
+              </p>
+            </div>
           </div>
-          <div className={styles.ctaButtons}>
-            <Link href="/donate/annadaan" className="btn-donate">
-              Sponsor a Meal
-            </Link>
-            <Link href="/contact#timings" className={`btn-outline ${styles.ctaOutline}`}>
-              Visit the Temple
-            </Link>
-          </div>
+          <a
+            href={
+              settings.whatsappChannel ||
+              waLink(
+                settings.whatsapp,
+                'Hare Krishna! Please add me to the ISKCON Coimbatore updates.',
+              )
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.ctaButton}
+          >
+            <WhatsAppIcon size={20} /> Join the channel
+          </a>
         </div>
       </section>
 

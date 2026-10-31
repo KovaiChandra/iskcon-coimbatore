@@ -1,32 +1,77 @@
 /* ---------- Call-to-action band ---------- */
 .cta {
-  background: linear-gradient(to right, var(--purple-700), var(--purple-900));
+  background:
+    radial-gradient(ellipse 50% 120% at 0% 50%, rgb(37 211 102 / 0.18), transparent 70%),
+    linear-gradient(to right, var(--purple-800), var(--purple-900));
   color: var(--white);
 }
 .ctaInner {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.5rem;
+  gap: 1.75rem;
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
+.ctaLead {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.ctaIcon {
+  display: grid;
+  flex-shrink: 0;
+  width: 3.75rem;
+  height: 3.75rem;
+  place-items: center;
+  border-radius: 9999px;
+  background: var(--whatsapp);
+  color: var(--white);
+  box-shadow: 0 0 0 8px rgb(37 211 102 / 0.15);
+}
 .ctaTitle {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
+  font-size: 1.75rem;
+  line-height: 1.2;
   color: var(--white);
 }
 .ctaText {
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
   color: var(--purple-100);
 }
-.ctaButtons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+.ctaButton {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  background: var(--whatsapp);
+  padding: 0.95rem 1.9rem;
+  font-weight: 600;
+  color: #04361a;
+  box-shadow: 0 14px 30px -14px rgb(37 211 102 / 0.8);
+  transition:
+    transform 0.2s,
+    filter 0.2s;
 }
-.ctaOutline {
-  color: var(--white);
+.ctaButton:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+@media (max-width: 639px) {
+  .ctaLead {
+    align-items: flex-start;
+  }
+  .ctaIcon {
+    width: 3rem;
+    height: 3rem;
+  }
+  .ctaTitle {
+    font-size: 1.4rem;
+  }
+  .ctaButton {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ---------- Dark footer ---------- */
