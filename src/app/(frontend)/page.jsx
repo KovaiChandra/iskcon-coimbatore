@@ -541,9 +541,13 @@ export default async function HomePage() {
       {home.livePuja?.link && (
         <section className={styles.live}>
           <div className={`container-x ${styles.liveGrid}`}>
-            {/* Screen opens at each darshan time for 45 min; countdown 10 min before */}
+            {/* Screen opens at each darshan time for 45 min; countdown 10 min before.
+                On the development server it loops once a minute instead. */}
             <div className={styles.liveFrame}>
-              <LiveScreen slots={darshanSlots(timings.schedule ?? [])}>
+              <LiveScreen
+                slots={darshanSlots(timings.schedule ?? [])}
+                demo={process.env.NODE_ENV === 'development'}
+              >
                 <ImageOrPlaceholder
                   media={home.livePuja.image}
                   art="temple"

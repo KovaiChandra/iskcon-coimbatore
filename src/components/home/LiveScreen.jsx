@@ -42,13 +42,17 @@ function statusAt(now, slots) {
   return { state: next.left <= COUNTDOWN ? 'countdown' : 'closed', ...next }
 }
 
-/** ?darshanDemo on the URL plays a quick cycle: closed 3s → countdown 10s → open 12s. */
+/** Development loop (dev server, or ?darshanDemo on the URL), one full cycle per minute:
+    closed 10s → countdown 15s → open 35s. */
+const DEMO = { closed: 10, countdown: 15, open: 35 }
 function demoStatus(startedAt) {
-  const t = Math.floor((Date.now() - startedAt) / 1000) % 25
+  const cycle = DEMO.closed + DEMO.countdown + DEMO.open
+  const t = Math.floor((Date.now() - startedAt) / 1000) % cycle
+  const opensAt = DEMO.closed + DEMO.countdown
   const slot = { label: 'Sandhya Arati', time: '7:00 PM' }
-  if (t < 3) return { state: 'closed', slot, left: 13 - t }
-  if (t < 13) return { state: 'countdown', slot, left: 13 - t, demoTotal: 10 }
-  return { state: 'open', slot, left: 25 - t }
+  if (t < DEMO.closed) return { state: 'closed', slot, left: opensAt - t }
+  if (t < opensAt) return { state: 'countdown', slot, left: opensAt - t, demoTotal: DEMO.countdown }
+  return { state: 'open', slot, left: cycle - t }
 }
 
 const pad = (n) => String(n).padStart(2, '0')
@@ -60,18 +64,20 @@ const hhmm = (secs) =>
  * The live darshan "screen": the deity photo (children) behind two minimal doors that slide
  * open at darshan time and close again after 45 minutes. A countdown appears 10 minutes before.
  * slots: [{ label, time, start }] from lib/darshan-slots.
+ * demo:  loop every minute instead of following the real timings (the home page sets this
+ *        on the development server only).
  */
-export function LiveScreen({ slots = [], children }) {
+export function LiveScreen({ slots = [], demo = false, children }) {
   const [status, setStatus] = useState(null)
 
   useEffect(() => {
-    const demo = new URLSearchParams(window.location.search).has('darshanDemo')
+    const loop = demo || new URLSearchParams(window.location.search).has('darshanDemo')
     const startedAt = Date.now()
-    const tick = () => setStatus(demo ? demoStatus(startedAt) : statusAt(nowInIndia(), slots))
+    const tick = () => setStatus(loop ? demoStatus(startedAt) : statusAt(nowInIndia(), slots))
     tick()
     const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [slots])
+  }, [slots, demo])
 
   const open = status?.state === 'open'
   const countdown = status?.state === 'countdown'

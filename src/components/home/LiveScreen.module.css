@@ -5,7 +5,7 @@
    ========================================================================= */
 .screen {
   position: relative;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 21 / 9;
   overflow: hidden;
   border-radius: 1.5rem;
   background: #12061f;
@@ -219,6 +219,11 @@
   .view,
   .liveBar {
     transition: none;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .screen {
+    aspect-ratio: 16 / 9;
   }
 }
 @media (max-width: 767px) {
