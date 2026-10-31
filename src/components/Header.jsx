@@ -25,9 +25,9 @@ export function Header({ socials }) {
     <header className={styles.header}>
       <div className={`container-x ${styles.inner}`}>
         <Link href="/" className={styles.brand} aria-label="ISKCON Coimbatore home">
-          {/* Official logo, recoloured gold (public/brand/logo-gold.png) */}
+          {/* Official logo in black (public/brand/logo-black.png; gold copy: logo-gold.png) */}
           <Image
-            src="/brand/logo-gold.png"
+            src="/brand/logo-black.png"
             alt="ISKCON Coimbatore"
             width={1031}
             height={334}
