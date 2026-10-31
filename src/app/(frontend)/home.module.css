@@ -895,8 +895,9 @@
   .donateGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+  /* Desktop: Nitya Seva card takes about 70% of the row, WhatsApp card the rest */
   .trio {
-    grid-template-columns: 1.6fr 1fr;
+    grid-template-columns: 2.4fr 1fr;
   }
   .timeline {
     grid-template-columns: repeat(4, minmax(0, 1fr));
