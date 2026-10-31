@@ -390,14 +390,33 @@ export default async function HomePage() {
             />
           </div>
         )}
-        <div className={`container-x ${styles.quoteInner}`}>
-          <p className={styles.quoteMark}>“</p>
-          <p className={`text-gold-gradient ${styles.quoteText}`}>
+        {/* Thin gold frame with ornaments in the corners, and a warm glow behind the words */}
+        <div className={styles.quoteFrame} aria-hidden>
+          <Sparkle size={14} className={`${styles.quoteCorner} ${styles.quoteCornerTL}`} />
+          <Sparkle size={14} className={`${styles.quoteCorner} ${styles.quoteCornerTR}`} />
+          <Sparkle size={14} className={`${styles.quoteCorner} ${styles.quoteCornerBL}`} />
+          <Sparkle size={14} className={`${styles.quoteCorner} ${styles.quoteCornerBR}`} />
+        </div>
+        <div className={styles.quoteGlow} aria-hidden />
+        <figure className={`container-x ${styles.quoteInner}`}>
+          <Eyebrow light>Words of Srila Prabhupada</Eyebrow>
+          <p className={`text-gold-gradient ${styles.quoteMark}`} aria-hidden>
+            “
+          </p>
+          <blockquote className={`text-gold-gradient ${styles.quoteText}`}>
             Books are the basis, purity is the force, preaching is the essence, utility is the
             principle.
-          </p>
-          <p className={styles.quoteSource}>Srila Prabhupada</p>
-        </div>
+          </blockquote>
+          <div className={styles.quoteDivider} aria-hidden>
+            <span />
+            <Sparkle size={12} />
+            <span />
+          </div>
+          <figcaption className={styles.quoteSource}>
+            His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada
+            <span>Founder-Ācārya of ISKCON</span>
+          </figcaption>
+        </figure>
       </section>
 
       {/* Three ways to serve — seva cards */}

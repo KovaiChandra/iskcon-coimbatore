@@ -273,27 +273,96 @@
     opacity: 0.16;
   }
 }
+/* Thin gold frame inset from the edges, with a small sparkle in each corner */
+.quoteFrame {
+  position: absolute;
+  inset: 1.75rem;
+  z-index: -1;
+  border: 1px solid rgb(245 183 0 / 0.28);
+  border-radius: 1.75rem;
+  pointer-events: none;
+}
+.quoteCorner {
+  position: absolute;
+  color: var(--saffron-300);
+}
+.quoteCornerTL {
+  left: 1rem;
+  top: 1rem;
+}
+.quoteCornerTR {
+  right: 1rem;
+  top: 1rem;
+}
+.quoteCornerBL {
+  left: 1rem;
+  bottom: 1rem;
+}
+.quoteCornerBR {
+  right: 1rem;
+  bottom: 1rem;
+}
+/* Warm lamp-like glow behind the words */
+.quoteGlow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  width: min(60rem, 90vw);
+  height: 70%;
+  translate: -50% -50%;
+  background: radial-gradient(ellipse at center, rgb(245 183 0 / 0.16), transparent 65%);
+  pointer-events: none;
+}
 .quoteInner {
-  max-width: 48rem;
+  max-width: 52rem;
+  margin: 0 auto;
 }
 .quoteMark {
+  margin-top: 1.25rem;
   font-family: var(--font-serif);
-  font-size: 3.75rem;
-  line-height: 1;
-  color: var(--saffron-500);
+  font-size: 5.5rem;
+  line-height: 0.6;
+  height: 2.25rem;
 }
 .quoteText {
+  margin: 0;
   font-family: var(--font-serif);
   font-size: 1.875rem;
-  line-height: 1.375;
+  line-height: 1.35;
+  text-shadow: 0 0 40px rgb(245 183 0 / 0.25);
+}
+.quoteDivider {
+  margin: 2rem auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  color: var(--saffron-500);
+}
+.quoteDivider span {
+  width: 4.5rem;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--saffron-500));
+}
+.quoteDivider span:last-child {
+  background: linear-gradient(to left, transparent, var(--saffron-500));
 }
 .quoteSource {
-  margin-top: 2rem;
-  font-size: 0.875rem;
+  margin-top: 1.25rem;
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  color: var(--white);
+}
+.quoteSource span {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--purple-100);
+  color: var(--saffron-300);
 }
 
 /* ---------- Donation cards ---------- */
@@ -801,8 +870,8 @@
     right: -2.5rem;
   }
   .quoteText {
-    font-size: 2.25rem;
-    line-height: 1.375;
+    font-size: 2.6rem;
+    line-height: 1.3;
   }
   .donateGrid,
   .timeline {
@@ -1644,11 +1713,19 @@
     font-size: 1.5rem;
   }
   .quoteMark {
-    font-size: 3rem;
+    font-size: 4.5rem;
+    height: 1.75rem;
+  }
+  .quoteFrame {
+    inset: 0.875rem;
+    border-radius: 1.25rem;
   }
   .quoteSource {
-    margin-top: 1.25rem;
-    font-size: 0.75rem;
+    font-size: 1rem;
+  }
+  .quoteSource span {
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
   }
 
   /* Festivals: card stacks image above text inside the swipe row */
