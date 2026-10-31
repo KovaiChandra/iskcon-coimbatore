@@ -34,36 +34,42 @@ function youtubeId(url = '') {
 const EXPLORE = [
   {
     title: 'The Deities',
+    text: 'Darshan of Sri Sri Jagannath, Baladeva & Subhadra',
     alt: 'Sri Sri Jagannath, Baladeva and Subhadra',
     href: '/daily-darshan',
     art: 'temple',
   },
   {
     title: 'Arati & Kirtan',
+    text: 'Join the daily aratis and congregational chanting',
     alt: 'Devotees singing kirtan at Sri Jagannath Mandir',
     href: '/services',
     art: 'lotus',
   },
   {
     title: 'Prasadam',
+    text: 'Sanctified food for every visitor',
     alt: 'A family honouring prasadam on the temple lawn',
     href: '/services',
     art: 'lotus',
   },
   {
     title: 'Goshala',
+    text: 'Meet and serve the temple cows',
     alt: 'A devotee feeding the cows at the goshala',
     href: '/donate/gau-seva',
     art: 'lotus',
   },
   {
     title: 'Kovai Chandra',
+    text: 'Our new temple, rising in Coimbatore',
     alt: 'Kovai Chandra new temple under construction (banner)',
     href: '/about#new-temple',
     art: 'temple',
   },
   {
     title: 'Plan your visit',
+    text: 'Timings, directions and what to expect',
     alt: 'Sri Jagannath Mandir, Coimbatore, at sunset',
     href: '/contact#timings',
     art: 'temple',
@@ -362,6 +368,7 @@ export default async function HomePage() {
                     {t.title}
                     <span aria-hidden>→</span>
                   </span>
+                  <span className={styles.exploreText}>{t.text}</span>
                 </Link>
               </li>
             ))}
