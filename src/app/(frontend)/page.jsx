@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
-import { InstagramIcon, WhatsAppIcon, YoutubeIcon } from '@/components/Icons'
+import { WhatsAppIcon, YoutubeIcon } from '@/components/Icons'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
 import { ArtGallery } from '@/components/home/ArtGallery'
 import { GitaCourse } from '@/components/home/GitaCourse'
 import { HeroSlider } from '@/components/home/HeroSlider'
+import { InstagramReels } from '@/components/home/InstagramReels'
 import { LiveScreen } from '@/components/home/LiveScreen'
 import { NityaSevaForm } from '@/components/home/NityaSevaForm'
 import { ScheduleTicker } from '@/components/home/ScheduleTicker'
@@ -15,6 +16,7 @@ import { getArtworks } from '@/lib/art-gallery'
 import { blurDataURL } from '@/lib/blur'
 import { darshanSlots } from '@/lib/darshan-slots'
 import { formatDate, inr, mediaUrl, waLink } from '@/lib/format'
+import { getReels } from '@/lib/instagram-reels'
 import { getPayloadClient } from '@/lib/payload'
 import { isSevaActive, populated } from '@/lib/sevas'
 import styles from './home.module.css'
@@ -74,6 +76,12 @@ const EXPLORE = [
     art: 'temple',
   },
 ]
+
+/** "@iskconcoimbatore" from an Instagram profile link, or null */
+function instagramHandle(url = '') {
+  const name = url.match(/instagram\.com\/([\w.]+)/i)?.[1]
+  return name ? `@${name}` : null
+}
 
 function Eyebrow({ children, light }) {
   return (
@@ -208,6 +216,7 @@ export default async function HomePage() {
 
   const highlights = populated(home.highlightSevas).filter((s) => isSevaActive(s))
   const artworks = await getArtworks(payload, 8)
+  const reels = await getReels(payload)
 
   return (
     <>
@@ -777,23 +786,13 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Instagram */}
-      {settings.instagram && (
-        <section className={styles.instagram}>
-          <div className={`container-x ${styles.instagramInner}`}>
-            <p className={styles.instagramText}>
-              Darshan, every day, on <span className={styles.accent}>Instagram</span>
-            </p>
-            <a
-              href={settings.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`btn-primary ${styles.btnBig}`}
-            >
-              <InstagramIcon /> Follow us
-            </a>
-          </div>
-        </section>
+      {/* Instagram: recent reels and a Follow button */}
+      {settings.instagram && reels.length > 0 && (
+        <InstagramReels
+          reels={reels}
+          href={settings.instagram}
+          handle={instagramHandle(settings.instagram)}
+        />
       )}
     </>
   )

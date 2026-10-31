@@ -763,25 +763,6 @@
 }
 
 /* ---------- Instagram ---------- */
-.instagram {
-  border-top: 1px solid var(--purple-100);
-  background: var(--cream);
-}
-.instagramInner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-.instagramText {
-  font-family: var(--font-serif);
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-  color: var(--purple-800);
-}
 
 /* ---------- Bigger screens ---------- */
 @media (min-width: 640px) {
@@ -830,9 +811,6 @@
   .nityaTitle {
     font-size: 2.25rem;
     line-height: 2.5rem;
-  }
-  .instagramInner {
-    flex-direction: row;
   }
 }
 @media (min-width: 1024px) {
@@ -1685,10 +1663,6 @@
   }
 
   /* Instagram strip */
-  .instagramText {
-    font-size: 1.5rem;
-    text-align: center;
-  }
 }
 @media (max-width: 767px) {
   .nitya {
