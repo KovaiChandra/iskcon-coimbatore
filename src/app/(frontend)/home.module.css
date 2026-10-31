@@ -250,6 +250,29 @@
   z-index: -1;
   background: radial-gradient(circle at center, transparent 0%, var(--purple-950) 70%);
 }
+/* Srila Prabhupada in the bottom-right corner: low opacity, edges faded into the purple.
+   Strength → opacity, size → width */
+.quotePortrait {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  width: min(30vw, 24rem);
+  aspect-ratio: 491 / 624;
+  opacity: 0.28;
+  -webkit-mask-image: radial-gradient(ellipse 80% 75% at 60% 45%, black 40%, transparent 78%);
+  mask-image: radial-gradient(ellipse 80% 75% at 60% 45%, black 40%, transparent 78%);
+}
+.quotePortrait img {
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+@media (max-width: 767px) {
+  .quotePortrait {
+    width: 38vw;
+    opacity: 0.16;
+  }
+}
 .quoteInner {
   max-width: 48rem;
 }

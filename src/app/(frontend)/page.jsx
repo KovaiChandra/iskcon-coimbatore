@@ -380,6 +380,16 @@ export default async function HomePage() {
       <section className={styles.quote}>
         <Mandala className={`spin-slow ${styles.quoteMandala}`} rings={5} />
         <div className={styles.quoteVignette} />
+        {/* Faded portrait of Srila Prabhupada in the corner (Home Page → Founder section → image) */}
+        {home.founder?.image && (
+          <div className={styles.quotePortrait} aria-hidden>
+            <ImageOrPlaceholder
+              media={home.founder.image}
+              alt=""
+              sizes="(min-width: 1024px) 26vw, 45vw"
+            />
+          </div>
+        )}
         <div className={`container-x ${styles.quoteInner}`}>
           <p className={styles.quoteMark}>“</p>
           <p className={`text-gold-gradient ${styles.quoteText}`}>
