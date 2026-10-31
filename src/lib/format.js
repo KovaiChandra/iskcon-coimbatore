@@ -9,5 +9,6 @@ export function mediaUrl(m, size) {
   return (size && m.sizes?.[size]?.url) || m.url || null
 }
 
+/** WhatsApp chat link. Without a number (Site settings not filled in yet) it opens WhatsApp's own picker. */
 export const waLink = (number, text) =>
-  `https://wa.me/${number.replace(/\D/g, '')}${text ? `?text=${encodeURIComponent(text)}` : ''}`
+  `https://wa.me/${(number ?? '').replace(/\D/g, '')}${text ? `?text=${encodeURIComponent(text)}` : ''}`
