@@ -156,3 +156,74 @@
     width: 100%;
   }
 }
+
+/* ---------- Gentle motion ----------
+   1. Heading, cards and buttons fade up as they scroll into view (cards one after another).
+   2. Each icon has a soft ring that slowly ripples outwards, in turn.
+   3. On hover the card lifts and its icon rises a little. */
+.iconRing {
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.iconRing::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgb(201 154 59 / 0.55);
+  animation: ripple 3.6s ease-out infinite;
+}
+.card:nth-child(2) .iconRing::after {
+  animation-delay: 1.2s;
+}
+.card:nth-child(3) .iconRing::after {
+  animation-delay: 2.4s;
+}
+.card:hover .iconRing {
+  transform: translateY(-3px);
+}
+@keyframes ripple {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+@supports (animation-timeline: view()) {
+  .eyebrow,
+  .title,
+  .text,
+  .card,
+  .actions {
+    animation: fadeUp linear both;
+    animation-timeline: view();
+    /* finishes as soon as each element is fully on screen */
+    animation-range: entry 0% entry 100%;
+  }
+  .card:nth-child(2) {
+    animation-range: entry 15% entry 100%;
+  }
+  .card:nth-child(3) {
+    animation-range: entry 30% entry 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .iconRing::after,
+  .eyebrow,
+  .title,
+  .text,
+  .card,
+  .actions {
+    animation: none;
+  }
+}
