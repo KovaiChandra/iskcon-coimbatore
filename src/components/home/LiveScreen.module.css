@@ -20,6 +20,10 @@
     transform 2.4s cubic-bezier(0.22, 0.8, 0.2, 1),
     filter 2.4s;
 }
+/* Show the whole artwork (no cropping); its dark background blends into the screen */
+.view img {
+  object-fit: contain;
+}
 .isOpen .view {
   transform: none;
   filter: none;
