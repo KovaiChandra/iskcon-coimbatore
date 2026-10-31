@@ -1,0 +1,238 @@
+/* =========================================================================
+   Live darshan screen: two deep purple doors with a thin gold seam slide apart
+   at darshan time and close after 45 minutes; a ring countdown 10 minutes before.
+   Door colour → .door background. Animation speed → .door transition.
+   ========================================================================= */
+.screen {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background: #12061f;
+  isolation: isolate;
+}
+.view {
+  position: absolute;
+  inset: 0;
+  transform: scale(1.06);
+  filter: brightness(0.7);
+  transition:
+    transform 2.4s cubic-bezier(0.22, 0.8, 0.2, 1),
+    filter 2.4s;
+}
+.isOpen .view {
+  transform: none;
+  filter: none;
+}
+
+/* ---------- Doors ---------- */
+.door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 50.5%;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 45%, rgb(255 255 255 / 0.05), transparent 70%),
+    linear-gradient(160deg, #2d1250, #1a0833 55%, #12061f);
+  transition: transform 1.9s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.left {
+  left: 0;
+  box-shadow: inset -1px 0 0 rgb(245 183 0 / 0.55);
+}
+.right {
+  right: 0;
+  box-shadow: inset 1px 0 0 rgb(245 183 0 / 0.55);
+}
+/* A faint gold hairline frame inside each door */
+.door::after {
+  content: '';
+  position: absolute;
+  inset: 1.1rem;
+  border: 1px solid rgb(245 183 0 / 0.14);
+}
+.left::after {
+  border-radius: 0.75rem 0 0 0.75rem;
+  right: 0.6rem;
+}
+.right::after {
+  border-radius: 0 0.75rem 0.75rem 0;
+  left: 0.6rem;
+}
+.isOpen .left {
+  transform: translateX(-101%);
+}
+.isOpen .right {
+  transform: translateX(101%);
+}
+
+/* ---------- Closed-screen message ---------- */
+.panel {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 2rem;
+  text-align: center;
+  color: var(--white);
+  transition: opacity 0.6s;
+}
+.isOpen .panel {
+  opacity: 0;
+  pointer-events: none;
+}
+.emblem {
+  color: var(--saffron-300);
+  opacity: 0.9;
+}
+.caption {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgb(239 231 248 / 0.65);
+}
+.captionStrong {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--white);
+}
+.captionSoft {
+  font-size: 0.6875rem;
+  color: var(--saffron-300);
+}
+
+/* ---------- Countdown ring ---------- */
+.timer {
+  position: relative;
+  width: 11rem;
+  height: 11rem;
+  display: grid;
+  place-items: center;
+}
+.ring {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.ringTrack,
+.ringFill {
+  fill: none;
+  stroke-width: 2;
+}
+.ringTrack {
+  stroke: rgb(255 255 255 / 0.12);
+}
+.ringFill {
+  stroke: var(--saffron-500);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+.timerText {
+  display: grid;
+  gap: 0.3rem;
+}
+.timerLabel {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgb(239 231 248 / 0.65);
+}
+.digits {
+  font-family: var(--font-serif);
+  font-size: 2.6rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--saffron-300);
+}
+
+/* ---------- Live bar (open screen) ---------- */
+.liveBar {
+  position: absolute;
+  left: 1.25rem;
+  right: 1.25rem;
+  top: 1.25rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.6s 1.4s,
+    transform 0.6s 1.4s;
+}
+.isOpen .liveBar {
+  opacity: 1;
+  transform: none;
+}
+.onAir {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 9999px;
+  background: #dc2626;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: var(--white);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+.closes {
+  border-radius: 9999px;
+  background: rgb(18 6 33 / 0.55);
+  padding: 0.3rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--white);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .door,
+  .view,
+  .liveBar {
+    transition: none;
+  }
+}
+@media (max-width: 767px) {
+  .screen {
+    aspect-ratio: 4 / 3;
+    border-radius: 1.15rem;
+  }
+}
+@media (max-width: 639px) {
+  .timer {
+    width: 9rem;
+    height: 9rem;
+  }
+  .digits {
+    font-size: 2.1rem;
+  }
+}

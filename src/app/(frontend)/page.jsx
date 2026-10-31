@@ -4,12 +4,14 @@ import { InstagramIcon, WhatsAppIcon, YoutubeIcon } from '@/components/Icons'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
 import { ArtGallery } from '@/components/home/ArtGallery'
 import { HeroSlider } from '@/components/home/HeroSlider'
+import { LiveScreen } from '@/components/home/LiveScreen'
 import { NityaSevaForm } from '@/components/home/NityaSevaForm'
 import { ScheduleTicker } from '@/components/home/ScheduleTicker'
 import { SubscribeForm } from '@/components/home/SubscribeForm'
 import { VisitSection } from '@/components/home/VisitSection'
 import { getArtworks } from '@/lib/art-gallery'
 import { blurDataURL } from '@/lib/blur'
+import { darshanSlots } from '@/lib/darshan-slots'
 import { formatDate, inr, mediaUrl, waLink } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
 import { isSevaActive, populated } from '@/lib/sevas'
@@ -539,21 +541,15 @@ export default async function HomePage() {
       {home.livePuja?.link && (
         <section className={styles.live}>
           <div className={`container-x ${styles.liveGrid}`}>
+            {/* Screen opens at each darshan time for 45 min; countdown 10 min before */}
             <div className={styles.liveFrame}>
-              <div className={styles.livePhoto}>
+              <LiveScreen slots={darshanSlots(timings.schedule ?? [])}>
                 <ImageOrPlaceholder
                   media={home.livePuja.image}
                   art="temple"
                   sizes="(min-width: 1024px) 40vw, 100vw"
                 />
-              </div>
-              <span className={styles.liveOnAir}>
-                <span className={styles.liveDot}>
-                  <span className={styles.liveDotPing} />
-                  <span className={styles.liveDotCore} />
-                </span>
-                Live
-              </span>
+              </LiveScreen>
             </div>
             <div>
               <Eyebrow>Blessings from Sri Sri Jagannath</Eyebrow>

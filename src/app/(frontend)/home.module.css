@@ -495,36 +495,6 @@
   text-transform: uppercase;
   color: var(--white);
 }
-.liveDot {
-  position: relative;
-  display: flex;
-  width: 0.5rem;
-  height: 0.5rem;
-}
-.liveDotPing,
-.liveDotCore {
-  border-radius: 9999px;
-  background: var(--white);
-}
-.liveDotPing {
-  position: absolute;
-  inset: 0;
-  opacity: 0.75;
-  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-.liveDotCore {
-  position: relative;
-  width: 0.5rem;
-  height: 0.5rem;
-}
-@keyframes ping {
-  75%,
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-
 /* ---------- Festival timeline ---------- */
 .festivals {
   position: relative;
@@ -1088,29 +1058,6 @@
   padding: 0.625rem;
   background: linear-gradient(145deg, #f7d27a, #c98a16 55%, #f5c14b);
   box-shadow: 0 30px 60px -28px rgb(120 70 0 / 0.55);
-}
-.livePhoto {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border-radius: 1.5rem;
-}
-.liveOnAir {
-  position: absolute;
-  left: 1.5rem;
-  top: 1.5rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: 9999px;
-  background: #dc2626;
-  padding: 0.3rem 0.8rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--white);
-  box-shadow: 0 6px 16px -6px rgb(220 38 38 / 0.7);
 }
 .liveText {
   margin-top: 1rem;
@@ -1693,10 +1640,6 @@
     max-width: none;
     padding: 0.4rem;
     border-radius: 1.5rem;
-  }
-  .livePhoto {
-    aspect-ratio: 4 / 3;
-    border-radius: 1.15rem;
   }
   .liveText {
     font-size: 1rem;
