@@ -30,6 +30,46 @@ function youtubeId(url = '') {
   return m ? m[1] : null
 }
 
+/** "Explore the temple" tiles. Photos are found by their alt text in the Media library. */
+const EXPLORE = [
+  {
+    title: 'The Deities',
+    alt: 'Sri Sri Jagannath, Baladeva and Subhadra',
+    href: '/daily-darshan',
+    art: 'temple',
+  },
+  {
+    title: 'Arati & Kirtan',
+    alt: 'Devotees singing kirtan at Sri Jagannath Mandir',
+    href: '/services',
+    art: 'lotus',
+  },
+  {
+    title: 'Prasadam',
+    alt: 'A family honouring prasadam on the temple lawn',
+    href: '/services',
+    art: 'lotus',
+  },
+  {
+    title: 'Goshala',
+    alt: 'A devotee feeding the cows at the goshala',
+    href: '/donate/gau-seva',
+    art: 'lotus',
+  },
+  {
+    title: 'Kovai Chandra',
+    alt: 'Kovai Chandra new temple under construction (banner)',
+    href: '/about#new-temple',
+    art: 'temple',
+  },
+  {
+    title: 'Plan your visit',
+    alt: 'Sri Jagannath Mandir, Coimbatore, at sunset',
+    href: '/contact#timings',
+    art: 'temple',
+  },
+]
+
 function Eyebrow({ children, light }) {
   return (
     <p className={`${styles.eyebrow} ${light ? styles.eyebrowLight : ''}`}>
@@ -74,6 +114,17 @@ export default async function HomePage() {
     payload.find({ collection: 'sevas', where: { allowMonthly: { equals: true } }, limit: 20 }),
     payload.find({ collection: 'sevas', where: { category: { equals: 'festival' } }, limit: 10 }),
   ])
+
+  const exploreMedia = new Map(
+    (
+      await payload.find({
+        collection: 'media',
+        where: { alt: { in: EXPLORE.map((t) => t.alt) } },
+        limit: EXPLORE.length,
+        depth: 0,
+      })
+    ).docs.map((m) => [m.alt, m]),
+  )
 
   // ---- Slideshow: the slides staff curate in admin; if there are none, an automatic set
   const heroMedia = new Map()
@@ -288,58 +339,33 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Founder-acharya and how ISKCON began */}
-      <section className={styles.founder}>
-        <Mandala className={`spin-slow ${styles.founderMandala}`} rings={5} />
-        <div className={`container-x ${styles.founderGrid}`}>
-          <div className={styles.founderPortraitWrap}>
-            <div className={styles.founderPortrait}>
-              <ImageOrPlaceholder
-                media={home.founder?.image}
-                art="book"
-                alt="His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada"
-                sizes="(min-width: 1024px) 30vw, 80vw"
-              />
-            </div>
-            <p className={styles.founderCaption}>
-              His Divine Grace
-              <span>A.C. Bhaktivedanta Swami Srila Prabhupada</span>
-              Founder-Acharya of ISKCON
-            </p>
+      {/* Explore the temple: simple photo tiles */}
+      <section className={styles.explore}>
+        <div className="container-x">
+          <div className={styles.sectionHeadCenter}>
+            <Eyebrow>Explore the temple</Eyebrow>
+            <h2 className={styles.h2}>Discover Sri Jagannath Mandir</h2>
           </div>
-          <div>
-            <Eyebrow light>How ISKCON began</Eyebrow>
-            <h2 className={`${styles.h2} ${styles.h2White}`}>
-              One sage, a trunk of books, and a promise to his teacher
-            </h2>
-            <p className={styles.founderText}>
-              In 1965, at the age of sixty-nine, Srila Prabhupada sailed from Kolkata to New York on
-              a cargo ship, carrying little more than his translations of Srimad Bhagavatam. He had
-              been asked by his spiritual master to share Lord Krishna&apos;s teachings in the
-              English language. A year later he founded the International Society for Krishna
-              Consciousness.
-            </p>
-            <ol className={styles.timeline2}>
-              {[
-                ['1896', 'Born in Kolkata as Abhay Charan De'],
-                ['1922', 'Meets his guru, who asks him to preach in English'],
-                ['1965', 'Sails to America aboard the Jaladuta'],
-                ['1966', 'Founds ISKCON in New York City'],
-                ['1977', 'Leaves a worldwide family of temples and devotees'],
-              ].map(([year, text]) => (
-                <li key={year}>
-                  <span className={styles.tlYear}>{year}</span>
-                  <span className={styles.tlText}>{text}</span>
-                </li>
-              ))}
-            </ol>
-            <Link
-              href="/about#founder"
-              className={`btn-donate ${styles.btnBig} ${styles.founderButton}`}
-            >
-              Read his story →
-            </Link>
-          </div>
+          <ul className={`${styles.exploreGrid} ${styles.swipe}`}>
+            {EXPLORE.map((t) => (
+              <li key={t.title}>
+                <Link href={t.href} className={styles.exploreTile}>
+                  <span className={styles.explorePhoto}>
+                    <ImageOrPlaceholder
+                      media={exploreMedia.get(t.alt)}
+                      art={t.art}
+                      alt={t.alt}
+                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 75vw"
+                    />
+                  </span>
+                  <span className={styles.exploreTitle}>
+                    {t.title}
+                    <span aria-hidden>→</span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
