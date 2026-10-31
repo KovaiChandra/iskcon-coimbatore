@@ -376,17 +376,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Quote */}
+      {/* Quote from Srila Prabhupada */}
       <section className={styles.quote}>
         <Mandala className={`spin-slow ${styles.quoteMandala}`} rings={5} />
         <div className={styles.quoteVignette} />
         <div className={`container-x ${styles.quoteInner}`}>
           <p className={styles.quoteMark}>“</p>
           <p className={`text-gold-gradient ${styles.quoteText}`}>
-            Whatever you do, whatever you eat, whatever you offer or give away, and whatever
-            austerities you perform — do that as an offering unto Me.
+            Books are the basis, purity is the force, preaching is the essence, utility is the
+            principle.
           </p>
-          <p className={styles.quoteSource}>Bhagavad-gītā 9.27</p>
+          <p className={styles.quoteSource}>Srila Prabhupada</p>
         </div>
       </section>
 
