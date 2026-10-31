@@ -49,7 +49,7 @@ export function Footer({ settings, timings }) {
         <div className={`container-x ${styles.ctaInner}`}>
           <div className={styles.ctaLead}>
             <span className={styles.ctaIcon} aria-hidden>
-              <WhatsAppIcon size={30} />
+              <WhatsAppIcon size={20} />
             </span>
             <div>
               <h2 className={styles.ctaTitle}>Join the ISKCON Coimbatore WhatsApp Channel</h2>
@@ -70,7 +70,7 @@ export function Footer({ settings, timings }) {
             rel="noopener noreferrer"
             className={styles.ctaButton}
           >
-            <WhatsAppIcon size={20} /> Join the channel
+            <WhatsAppIcon size={16} /> Join the channel
           </a>
         </div>
       </section>
