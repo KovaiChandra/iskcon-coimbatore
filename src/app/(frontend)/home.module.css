@@ -1243,7 +1243,7 @@
   display: grid;
   gap: 1.5rem 1.25rem;
 }
-/* Tiles use the same card look as the About cards (.about2Card) */
+/* Explore tiles: white card with a photo on top */
 .exploreTile {
   display: block;
   height: 100%;
@@ -1386,19 +1386,22 @@
   flex: 0 0 17rem;
   scroll-snap-align: start;
 }
+/* About cards: warm tint, gold border and a solid gold icon so they stand out on the white page */
 .about2Card {
-  border: 1px solid rgb(59 23 101 / 0.08);
+  border: 1px solid rgb(245 183 0 / 0.45);
   border-radius: 1.25rem;
-  background: var(--white);
-  padding: 1.125rem 1.125rem 1.25rem;
-  box-shadow: 0 10px 26px -18px rgb(28 10 51 / 0.3);
+  background: linear-gradient(180deg, var(--white) 0%, var(--saffron-100) 140%);
+  padding: 1.25rem 1.25rem 1.375rem;
+  box-shadow: 0 14px 30px -18px rgb(28 10 51 / 0.35);
   transition:
     transform 0.25s,
-    border-color 0.25s;
+    border-color 0.25s,
+    box-shadow 0.25s;
 }
 .about2Card:hover {
   transform: translateY(-3px);
-  border-color: rgb(245 183 0 / 0.55);
+  border-color: var(--saffron-500);
+  box-shadow: 0 20px 36px -18px rgb(28 10 51 / 0.45);
 }
 .about2Icon {
   display: grid;
@@ -1406,20 +1409,23 @@
   height: 2.75rem;
   place-items: center;
   border-radius: 0.875rem;
-  background: var(--saffron-100);
-  color: #a86b00;
+  background: var(--saffron-500);
+  color: var(--purple-950);
 }
 .about2CardTitle {
   margin-top: 0.875rem;
-  font-family: var(--font-serif);
-  font-size: 1.125rem;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  font-weight: 700;
   color: var(--purple-900);
 }
 .about2CardText {
-  margin-top: 0.25rem;
-  font-size: 0.8125rem;
+  margin-top: 0.3rem;
+  font-size: 0.875rem;
+  font-weight: 500;
   line-height: 1.5;
-  color: var(--muted);
+  color: var(--ink);
+  opacity: 0.8;
 }
 @media (min-width: 1024px) {
   .about2Grid {
