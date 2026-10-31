@@ -93,12 +93,19 @@
   width: 100%;
   max-width: 240px;
   overflow: hidden;
-  box-shadow: 0 0 0 4px var(--white), 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  transition: transform 0.5s, box-shadow 0.5s;
+  box-shadow:
+    0 0 0 4px var(--white),
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  transition:
+    transform 0.5s,
+    box-shadow 0.5s;
 }
 .serveCard:hover .serveArch {
   transform: translateY(-0.5rem);
-  box-shadow: 0 0 0 4px var(--white), 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  box-shadow:
+    0 0 0 4px var(--white),
+    0 25px 50px -12px rgb(0 0 0 / 0.25);
 }
 .serveCard:hover .media {
   transform: scale(1.1);
@@ -149,7 +156,9 @@
   position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  box-shadow: 0 0 0 8px var(--white), 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  box-shadow:
+    0 0 0 8px var(--white),
+    0 25px 50px -12px rgb(0 0 0 / 0.25);
 }
 .yearBadge {
   position: absolute;
@@ -159,7 +168,9 @@
   background: var(--saffron-500);
   padding: 1rem 1.25rem;
   color: var(--purple-950);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 .yearNumber {
   font-family: var(--font-serif);
@@ -282,7 +293,12 @@
   isolation: isolate;
   overflow: hidden;
   border-radius: 1.5rem;
-  background: linear-gradient(to bottom right, var(--purple-700), var(--purple-800), var(--purple-950));
+  background: linear-gradient(
+    to bottom right,
+    var(--purple-700),
+    var(--purple-800),
+    var(--purple-950)
+  );
   padding: 2rem;
   color: var(--white);
 }
@@ -455,8 +471,12 @@
   background: var(--purple-800);
   text-align: center;
   color: var(--white);
-  box-shadow: 0 0 0 4px var(--cream), 0 10px 15px -3px rgb(0 0 0 / 0.1);
-  transition: background-color 0.15s, color 0.15s;
+  box-shadow:
+    0 0 0 4px var(--cream),
+    0 10px 15px -3px rgb(0 0 0 / 0.1);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 }
 .festival:hover .dateBox {
   background: var(--saffron-500);
@@ -487,11 +507,15 @@
   border-radius: 1rem;
   background: var(--white);
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
 }
 .festival:hover .festivalCard {
   transform: translateY(-0.25rem);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 .cardImage {
   position: relative;
@@ -578,12 +602,17 @@
   border: 1px solid var(--purple-100);
   border-radius: 1.5rem;
   background: var(--white);
-  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  transition:
+    transform 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 .service:hover {
   transform: translateY(-0.25rem);
   border-color: var(--saffron-300);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 .service:hover .media {
   transform: scale(1.05);
@@ -797,13 +826,20 @@
   border: 1px solid rgb(59 23 101 / 0.08);
   border-radius: 1.5rem;
   background: var(--white);
-  box-shadow: 0 1px 2px rgb(28 10 51 / 0.04), 0 12px 32px -18px rgb(28 10 51 / 0.25);
-  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  box-shadow:
+    0 1px 2px rgb(28 10 51 / 0.04),
+    0 12px 32px -18px rgb(28 10 51 / 0.25);
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 .sevaCard:hover {
   transform: translateY(-6px);
   border-color: rgb(245 183 0 / 0.5);
-  box-shadow: 0 2px 4px rgb(28 10 51 / 0.05), 0 28px 50px -22px rgb(28 10 51 / 0.4);
+  box-shadow:
+    0 2px 4px rgb(28 10 51 / 0.05),
+    0 28px 50px -22px rgb(28 10 51 / 0.4);
 }
 .sevaCard:hover .media {
   transform: scale(1.06);
@@ -1043,7 +1079,9 @@
   border-radius: 1.25rem;
   background: #fffaf2;
   padding: 0.75rem;
-  transition: box-shadow 0.25s, transform 0.25s;
+  transition:
+    box-shadow 0.25s,
+    transform 0.25s;
 }
 .fest:hover {
   transform: translateY(-3px);
@@ -1130,7 +1168,9 @@
   border: 1px solid rgb(245 183 0 / 0.4);
   border-radius: 1.25rem;
   background: #fffaf2;
-  transition: transform 0.25s, box-shadow 0.25s;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s;
 }
 .ytCard:hover {
   transform: translateY(-4px);
@@ -1230,7 +1270,10 @@
   aspect-ratio: 4 / 5;
   overflow: hidden;
   border-radius: 1.75rem;
-  box-shadow: 0 0 0 1px rgb(255 215 94 / 0.5), 0 0 0 10px rgb(255 215 94 / 0.08), 0 40px 70px -30px rgb(0 0 0 / 0.7);
+  box-shadow:
+    0 0 0 1px rgb(255 215 94 / 0.5),
+    0 0 0 10px rgb(255 215 94 / 0.08),
+    0 40px 70px -30px rgb(0 0 0 / 0.7);
 }
 .founderCaption {
   margin-top: 1.5rem;
@@ -1356,10 +1399,21 @@
   border-radius: 9999px;
   background: var(--saffron-500);
 }
+/* One row of cards that scrolls sideways (all screen sizes). Card width → .about2Cards > * flex-basis */
 .about2Cards {
-  margin-top: 2rem;
-  display: grid;
+  margin-top: 3rem;
+  display: flex;
   gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* Room for the hover lift and shadow, which would otherwise be clipped */
+  padding: 0.25rem 0.25rem 1.25rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(59 23 101 / 0.25) transparent;
+}
+.about2Cards > * {
+  flex: 0 0 17rem;
+  scroll-snap-align: start;
 }
 .about2Card {
   border: 1px solid rgb(59 23 101 / 0.08);
@@ -1367,7 +1421,9 @@
   background: var(--white);
   padding: 1.125rem 1.125rem 1.25rem;
   box-shadow: 0 10px 26px -18px rgb(28 10 51 / 0.3);
-  transition: transform 0.25s, border-color 0.25s;
+  transition:
+    transform 0.25s,
+    border-color 0.25s;
 }
 .about2Card:hover {
   transform: translateY(-3px);
@@ -1394,18 +1450,9 @@
   line-height: 1.5;
   color: var(--muted);
 }
-@media (min-width: 640px) {
-  .about2Cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
 @media (min-width: 1024px) {
   .about2Grid {
     grid-template-columns: 1fr 1.1fr;
-  }
-  /* Two wide cards per row beside the collage */
-  .about2Cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1670,18 +1717,5 @@
     align-self: flex-start;
     padding: 0.55rem 1.25rem;
     font-size: 0.875rem;
-  }
-}
-
-/* About cards: a grid under the text on narrow desktop windows and tablets; the swipe row is for phones only */
-@media (min-width: 560px) and (max-width: 767px) {
-  .about2Cards.swipe {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem !important;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 0;
-    overflow: visible;
   }
 }
