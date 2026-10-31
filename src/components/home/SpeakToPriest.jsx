@@ -1,5 +1,5 @@
 import { WhatsAppIcon } from '@/components/Icons'
-import { Mandala, Sparkle } from '@/components/art/Mandala'
+import { Sparkle } from '@/components/art/Mandala'
 import { waLink } from '@/lib/format'
 import styles from './SpeakToPriest.module.css'
 
@@ -55,18 +55,13 @@ const TOPICS = [
 export function SpeakToPriest({ whatsapp, phone }) {
   return (
     <section className={styles.section} aria-labelledby="priest-title">
-      <Mandala className={`spin-slow ${styles.mandala}`} rings={6} />
-      <div className={styles.glow} aria-hidden />
-
       <div className={`container-x ${styles.inner}`}>
         <p className={styles.eyebrow}>
           <Sparkle size={10} />
           Speak to a priest
-          <Sparkle size={10} />
         </p>
         <h2 id="priest-title" className={styles.title}>
-          Guidance, blessings and{' '}
-          <span className={`text-gold-gradient ${styles.accent}`}>a listening ear</span>
+          Guidance, blessings and <span className={styles.accent}>a listening ear</span>
         </h2>
         <p className={styles.text}>
           Have a question on the Bhagavad-gita, chanting or your spiritual life? Talk one-to-one
