@@ -376,6 +376,20 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Quote */}
+      <section className={styles.quote}>
+        <Mandala className={`spin-slow ${styles.quoteMandala}`} rings={5} />
+        <div className={styles.quoteVignette} />
+        <div className={`container-x ${styles.quoteInner}`}>
+          <p className={styles.quoteMark}>“</p>
+          <p className={`text-gold-gradient ${styles.quoteText}`}>
+            Whatever you do, whatever you eat, whatever you offer or give away, and whatever
+            austerities you perform — do that as an offering unto Me.
+          </p>
+          <p className={styles.quoteSource}>Bhagavad-gītā 9.27</p>
+        </div>
+      </section>
+
       {/* Three ways to serve — seva cards */}
       {highlights.length > 0 && (
         <section className={styles.serve}>
@@ -448,20 +462,6 @@ export default async function HomePage() {
         schedule={(timings.schedule ?? []).map(({ time, activity }) => ({ time, activity }))}
         sessions={(timings.openSessions ?? []).map(({ opens, closes }) => ({ opens, closes }))}
       />
-
-      {/* Quote */}
-      <section className={styles.quote}>
-        <Mandala className={`spin-slow ${styles.quoteMandala}`} rings={5} />
-        <div className={styles.quoteVignette} />
-        <div className={`container-x ${styles.quoteInner}`}>
-          <p className={styles.quoteMark}>“</p>
-          <p className={`text-gold-gradient ${styles.quoteText}`}>
-            Whatever you do, whatever you eat, whatever you offer or give away, and whatever
-            austerities you perform — do that as an offering unto Me.
-          </p>
-          <p className={styles.quoteSource}>Bhagavad-gītā 9.27</p>
-        </div>
-      </section>
 
       {/* Donation bento */}
       {donationSevas.length > 0 && (
