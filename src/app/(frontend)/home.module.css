@@ -369,6 +369,8 @@
 .trio {
   display: grid;
   gap: 1.25rem;
+  /* Equal space above and below, so the cards sit centred in their band */
+  padding-top: 6rem;
   padding-bottom: 6rem;
 }
 .nitya {
@@ -1650,6 +1652,7 @@
     padding: 3.5rem 0;
   }
   .trio {
+    padding-top: 3.5rem;
     padding-bottom: 3.5rem;
   }
   .h2 {
