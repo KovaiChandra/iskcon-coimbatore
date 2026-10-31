@@ -6,7 +6,7 @@
    set from each artwork's proportions in ArtGallery.jsx).
    ========================================================================= */
 .section {
-  --art-gap: 6px; /* space between the artworks (10px on desktop) */
+  --art-gap: 6px; /* space between the artworks (20px on desktop) */
   padding: 6rem 0 6.5rem;
   background:
     radial-gradient(ellipse 60% 40% at 50% 0%, rgb(245 183 0 / 0.07), transparent 70%), #f8f4ec;
@@ -296,7 +296,7 @@
 }
 @media (min-width: 1024px) {
   .section {
-    --art-gap: 10px;
+    --art-gap: 20px;
     padding: 7.5rem 0 8rem;
   }
   .mosaic {
