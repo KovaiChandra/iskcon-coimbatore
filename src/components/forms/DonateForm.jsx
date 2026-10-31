@@ -1,0 +1,238 @@
+'use client'
+
+import Image from 'next/image'
+import { useActionState, useState } from 'react'
+import { createDonation } from '@/app/(frontend)/actions/forms'
+import { inr, waLink } from '@/lib/format'
+import styles from './Form.module.css'
+
+/**
+ * Seva donation form. Saves a donation request (Admin → Donations), then shows how to pay:
+ * UPI (ID, QR, "Pay by UPI app" link) and bank details from Site settings → Donations,
+ * plus a WhatsApp button to send the reference to the temple.
+ */
+export function DonateForm({ seva, initialAmount, initialFrequency, pay }) {
+  const amounts = seva.amounts.length > 0 ? seva.amounts : [501, 1001, 2501]
+  const [amount, setAmount] = useState(initialAmount || amounts[0])
+  const [frequency, setFrequency] = useState(
+    initialFrequency === 'monthly' && seva.allowMonthly ? 'monthly' : 'one-time',
+  )
+  const [state, action, pending] = useActionState(createDonation, null)
+
+  if (state?.ok && state.reference) {
+    const note = `${seva.title} ${state.reference}`
+    const upiLink = pay.upiId
+      ? `upi://pay?pa=${encodeURIComponent(pay.upiId)}&pn=${encodeURIComponent('ISKCON Coimbatore')}&am=${state.amount}&cu=INR&tn=${encodeURIComponent(note)}`
+      : null
+    const waText = `Hare Krishna! I have offered ${inr(state.amount)}${state.frequency === 'monthly' ? ' per month' : ''} for ${seva.title}. Reference: ${state.reference}. Name: ${state.name}.`
+    return (
+      <div className={styles.success} role="status">
+        <p className={styles.successTitle}>Thank you, {state.name}!</p>
+        <p>
+          Your seva of <strong>{inr(state.amount)}</strong>
+          {state.frequency === 'monthly' ? ' per month' : ''} for {seva.title} is noted. Reference:{' '}
+          <strong>{state.reference}</strong>.
+        </p>
+        <div className={styles.pay}>
+          {pay.upiId && (
+            <div className={styles.payBox}>
+              <p className={styles.payLabel}>Pay by UPI</p>
+              <p className={styles.payValue}>{pay.upiId}</p>
+              {pay.upiQr && (
+                <div className={styles.qr}>
+                  <Image src={pay.upiQr} alt="UPI QR code" fill sizes="176px" />
+                </div>
+              )}
+            </div>
+          )}
+          {pay.bankDetails && (
+            <div className={styles.payBox}>
+              <p className={styles.payLabel}>Bank transfer</p>
+              <p className={styles.payValue}>{pay.bankDetails}</p>
+            </div>
+          )}
+          {!pay.upiId && !pay.bankDetails && (
+            <p>Our seva team will call you shortly with the payment details.</p>
+          )}
+          <div className={styles.payButtons}>
+            {upiLink && (
+              <a href={upiLink} className="btn-donate">
+                Pay {inr(state.amount)} by UPI app
+              </a>
+            )}
+            {pay.whatsapp && (
+              <a
+                href={waLink(pay.whatsapp, waText)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+              >
+                Confirm on WhatsApp
+              </a>
+            )}
+          </div>
+          <p style={{ fontSize: '0.875rem' }}>
+            Please mention the reference with your payment. Your 80G receipt is sent once the
+            payment is received.
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <form action={action} className={styles.form}>
+      <input type="hidden" name="seva" value={seva.slug} />
+      <input type="hidden" name="frequency" value={frequency} />
+
+      {seva.allowMonthly && (
+        <div className={styles.field}>
+          <span className={styles.label}>How often?</span>
+          <div className={styles.toggle}>
+            {[
+              ['one-time', 'One time'],
+              ['monthly', 'Every month'],
+            ].map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={frequency === value}
+                onClick={() => setFrequency(value)}
+                className={frequency === value ? styles.toggleOn : ''}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {seva.items.length > 0 && (
+        <div className={styles.field}>
+          <span className={styles.label}>Sponsor an offering</span>
+          <div className={styles.amounts}>
+            {seva.items.map((item) => (
+              <button
+                key={item.label}
+                type="button"
+                aria-pressed={amount === item.price}
+                onClick={() => setAmount(item.price)}
+                className={`${styles.amount} ${amount === item.price ? styles.amountOn : ''}`}
+              >
+                {item.label} · {inr(item.price)}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className={styles.field}>
+        <span className={styles.label}>Amount{frequency === 'monthly' ? ' per month' : ''}</span>
+        <div className={styles.amounts}>
+          {amounts.map((a) => (
+            <button
+              key={a}
+              type="button"
+              aria-pressed={amount === a}
+              onClick={() => setAmount(a)}
+              className={`${styles.amount} ${amount === a ? styles.amountOn : ''}`}
+            >
+              {inr(a)}
+            </button>
+          ))}
+        </div>
+        <label className="sr-only" htmlFor="donate-amount">
+          Other amount
+        </label>
+        <input
+          id="donate-amount"
+          name="amount"
+          type="number"
+          min="1"
+          step="1"
+          inputMode="numeric"
+          required
+          value={amount || ''}
+          onChange={(e) => setAmount(Number(e.target.value))}
+          className={styles.input}
+          placeholder="Other amount (₹)"
+        />
+      </div>
+
+      <div className={styles.row}>
+        <label className={styles.field}>
+          <span className={styles.label}>Full name</span>
+          <input name="fullName" required autoComplete="name" className={styles.input} />
+        </label>
+        <label className={styles.field}>
+          <span className={styles.label}>Mobile</span>
+          <input name="mobile" type="tel" required autoComplete="tel" className={styles.input} />
+        </label>
+      </div>
+      <div className={styles.row}>
+        <label className={styles.field}>
+          <span className={styles.label}>Email</span>
+          <input name="email" type="email" required autoComplete="email" className={styles.input} />
+        </label>
+        <label className={styles.field}>
+          <span className={styles.label}>
+            Occasion <span className={styles.optional}>(optional)</span>
+          </span>
+          <input
+            name="occasion"
+            placeholder="e.g. Birthday, anniversary"
+            className={styles.input}
+          />
+        </label>
+      </div>
+
+      <details>
+        <summary className={styles.label} style={{ cursor: 'pointer' }}>
+          Need an 80G tax receipt? Add PAN and address
+        </summary>
+        <div className={styles.form} style={{ marginTop: '1rem' }}>
+          <label className={styles.field}>
+            <span className={styles.label}>PAN</span>
+            <input
+              name="pan"
+              autoComplete="off"
+              className={styles.input}
+              placeholder="ABCDE1234F"
+            />
+          </label>
+          <div className={styles.row}>
+            <label className={styles.field}>
+              <span className={styles.label}>Address</span>
+              <input name="address" autoComplete="street-address" className={styles.input} />
+            </label>
+            <label className={styles.field}>
+              <span className={styles.label}>PIN code</span>
+              <input
+                name="pin"
+                inputMode="numeric"
+                autoComplete="postal-code"
+                className={styles.input}
+              />
+            </label>
+          </div>
+        </div>
+      </details>
+
+      <label className={styles.check}>
+        <input type="checkbox" name="consent" />
+        Send me receipts and festival updates on WhatsApp and email.
+      </label>
+      <input name="website" tabIndex={-1} autoComplete="off" className={styles.hp} aria-hidden />
+      {state?.ok === false && (
+        <p className={styles.error} role="alert">
+          {state.message}
+        </p>
+      )}
+      <button type="submit" disabled={pending} className={`btn-donate ${styles.submit}`}>
+        {pending
+          ? 'Saving…'
+          : `Offer ${amount ? inr(amount) : 'seva'}${frequency === 'monthly' ? ' / month' : ''} →`}
+      </button>
+    </form>
+  )
+}

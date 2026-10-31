@@ -1,7 +1,7 @@
 export const NAV = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'Kovai Chandra', href: '/about#new-temple' },
+  { label: 'Kovai Chandra', href: '/kovai-chandra' },
   {
     label: 'Services',
     href: '/services',

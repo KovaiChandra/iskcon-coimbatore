@@ -1,0 +1,527 @@
+/* =========================================================================
+   Shared styles for the inner pages (About, Services, Courses, Festivals,
+   Blog, Donate, Volunteer, Contact, Kovai Chandra, Daily Darshan, Search).
+   ========================================================================= */
+
+/* ---------- Sections ---------- */
+.section {
+  padding: 4.5rem 0;
+}
+.sectionAlt {
+  padding: 4.5rem 0;
+  background: var(--cream);
+}
+.sectionDark {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 4.5rem 0;
+  background: var(--purple-950);
+  color: var(--white);
+}
+.darkMandala {
+  position: absolute;
+  left: -12rem;
+  top: 50%;
+  z-index: -1;
+  width: 36rem;
+  height: 36rem;
+  translate: 0 -50%;
+  color: rgb(245 183 0 / 0.12);
+}
+.head {
+  margin-bottom: 2.25rem;
+  max-width: 44rem;
+}
+.headCenter {
+  margin: 0 auto 2.5rem;
+  max-width: 44rem;
+  text-align: center;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--saffron-600);
+}
+.sectionDark .eyebrow {
+  color: var(--saffron-300);
+}
+.h2 {
+  margin-top: 0.75rem;
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  line-height: 1.15;
+  color: var(--purple-900);
+}
+.sectionDark .h2 {
+  color: var(--white);
+}
+.lead {
+  margin-top: 1rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
+.sectionDark .lead {
+  color: rgb(239 231 248 / 0.8);
+}
+.text {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--ink);
+  white-space: pre-line;
+}
+.text + .text {
+  margin-top: 1rem;
+}
+
+/* ---------- Two-column layout (text + photo / main + aside) ---------- */
+.split {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+.splitTop {
+  display: grid;
+  gap: 2.5rem;
+  align-items: start;
+}
+.photo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: 1.5rem;
+  background: var(--cream);
+  box-shadow: 0 30px 60px -30px rgb(28 10 51 / 0.45);
+}
+.photo img {
+  object-fit: cover;
+}
+.photoTall {
+  aspect-ratio: 4 / 5;
+}
+
+/* ---------- Card grids ---------- */
+.grid2,
+.grid3,
+.grid4 {
+  display: grid;
+  gap: 1.5rem;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(59 23 101 / 0.08);
+  border-radius: 1.25rem;
+  background: var(--white);
+  box-shadow: 0 12px 30px -20px rgb(28 10 51 / 0.35);
+  transition:
+    transform 0.25s,
+    border-color 0.25s;
+}
+a.card:hover,
+.cardLink:hover {
+  transform: translateY(-3px);
+  border-color: rgb(245 183 0 / 0.55);
+}
+.cardImage {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--cream);
+}
+.cardImage img {
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+a.card:hover .cardImage img {
+  transform: scale(1.04);
+}
+.cardBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1.25rem 1.375rem 1.5rem;
+}
+.cardTitle {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  line-height: 1.25;
+  color: var(--purple-900);
+}
+.cardText {
+  margin-top: 0.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.cardFoot {
+  margin-top: auto;
+  padding-top: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+.more {
+  font-weight: 600;
+  color: var(--purple-700);
+}
+.more:hover {
+  color: var(--saffron-600);
+}
+
+/* Small labels: date, mode, category */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 9999px;
+  background: var(--purple-50);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--purple-800);
+}
+.tagGold {
+  background: var(--saffron-100);
+  color: #8a5a00;
+}
+
+/* Feature cards with an icon (values, ways to help) */
+.feature {
+  border: 1px solid rgb(245 183 0 / 0.45);
+  border-radius: 1.25rem;
+  background: linear-gradient(180deg, var(--white) 0%, var(--saffron-100) 140%);
+  padding: 1.5rem;
+  box-shadow: 0 14px 30px -18px rgb(28 10 51 / 0.35);
+}
+.featureIcon {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border-radius: 0.875rem;
+  background: var(--saffron-500);
+  color: var(--purple-950);
+}
+.featureTitle {
+  margin-top: 1rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--purple-900);
+}
+.featureText {
+  margin-top: 0.375rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ink);
+  opacity: 0.8;
+}
+
+/* ---------- Lists: schedule rows, timeline ---------- */
+.rows {
+  border-top: 1px solid rgb(59 23 101 / 0.1);
+}
+.rows li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgb(59 23 101 / 0.1);
+  padding: 0.875rem 0;
+  font-size: 1rem;
+}
+.rowTime {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--purple-800);
+  font-variant-numeric: tabular-nums;
+}
+.timeline {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+.timeline li {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 1rem;
+  align-items: baseline;
+}
+.timelineYear {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: var(--saffron-300);
+}
+.timelineText {
+  color: rgb(239 231 248 / 0.88);
+}
+
+/* ---------- Photo gallery ---------- */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.galleryItem {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: var(--cream);
+}
+.galleryItem img {
+  object-fit: cover;
+}
+
+/* ---------- Day picker (Daily darshan) and filters (Blog) ---------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+.chip {
+  border: 1px solid rgb(59 23 101 / 0.15);
+  border-radius: 9999px;
+  padding: 0.45rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--purple-800);
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+.chip:hover {
+  border-color: var(--saffron-500);
+}
+.chipOn {
+  border-color: var(--purple-700);
+  background: var(--purple-700);
+  color: var(--white);
+}
+
+/* ---------- Empty states ---------- */
+.empty {
+  border: 1px dashed rgb(59 23 101 / 0.2);
+  border-radius: 1.25rem;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: var(--muted);
+}
+.emptyTitle {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: var(--purple-900);
+}
+.emptyText {
+  margin-top: 0.5rem;
+}
+
+/* ---------- Contact details list ---------- */
+.contactList {
+  display: grid;
+  gap: 1.25rem;
+}
+.contactItem {
+  display: flex;
+  gap: 1rem;
+}
+.contactIcon {
+  display: grid;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border-radius: 0.875rem;
+  background: var(--saffron-100);
+  color: #a86b00;
+}
+.contactLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.contactValue {
+  margin-top: 0.2rem;
+  font-size: 1.0625rem;
+  color: var(--purple-900);
+  white-space: pre-line;
+}
+a.contactValue:hover {
+  color: var(--purple-600);
+}
+
+/* ---------- Article (blog post, festival detail) ---------- */
+.article {
+  max-width: 46rem;
+  margin: 0 auto;
+}
+.articleImage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  margin-bottom: 2.5rem;
+  background: var(--cream);
+}
+.articleImage img {
+  object-fit: cover;
+}
+.aside {
+  border: 1px solid rgb(59 23 101 / 0.08);
+  border-radius: 1.5rem;
+  background: var(--white);
+  padding: 1.75rem;
+  box-shadow: 0 20px 44px -28px rgb(28 10 51 / 0.45);
+}
+.asideTitle {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: var(--purple-900);
+}
+
+/* ---------- Call to action band ---------- */
+.cta {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-radius: 1.75rem;
+  background: linear-gradient(to bottom right, var(--purple-700), var(--purple-950));
+  padding: 2.25rem;
+  color: var(--white);
+}
+.ctaTitle {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+.ctaText {
+  margin-top: 0.5rem;
+  color: rgb(239 231 248 / 0.8);
+}
+.ctaButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.ctaButtons :global(.btn-outline) {
+  color: var(--white);
+}
+
+/* ---------- Search ---------- */
+.searchForm {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 36rem;
+}
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid rgb(59 23 101 / 0.18);
+  border-radius: 9999px;
+  background: var(--white);
+  padding: 0.8rem 1.25rem;
+  font-size: 1rem;
+  color: var(--ink);
+}
+.searchInput:focus {
+  outline: 2px solid var(--saffron-500);
+  outline-offset: 1px;
+}
+.results {
+  display: grid;
+  gap: 0.75rem;
+}
+.result {
+  display: block;
+  border: 1px solid rgb(59 23 101 / 0.08);
+  border-radius: 1rem;
+  background: var(--white);
+  padding: 1rem 1.25rem;
+  transition: border-color 0.2s;
+}
+.result:hover {
+  border-color: var(--saffron-500);
+}
+.resultType {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--saffron-600);
+}
+.resultTitle {
+  margin-top: 0.25rem;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--purple-900);
+}
+
+/* ---------- Bigger screens ---------- */
+@media (min-width: 640px) {
+  .grid2,
+  .grid3,
+  .grid4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 768px) {
+  .section,
+  .sectionAlt,
+  .sectionDark {
+    padding: 6rem 0;
+  }
+  .h2 {
+    font-size: 2.6rem;
+  }
+  .cta {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2.75rem 3rem;
+  }
+}
+@media (min-width: 1024px) {
+  .grid3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .grid4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .split {
+    grid-template-columns: 1fr 1fr;
+    gap: 4.5rem;
+  }
+  .splitTop {
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3.5rem;
+  }
+  .splitReverse > :first-child {
+    order: 2;
+  }
+  .gallery {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .sticky {
+    position: sticky;
+    top: 7rem;
+  }
+}

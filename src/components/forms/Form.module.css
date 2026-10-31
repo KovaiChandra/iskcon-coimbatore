@@ -1,0 +1,214 @@
+/* Shared form styles: Contact, Volunteer and Donate forms */
+.form {
+  display: grid;
+  gap: 1.125rem;
+}
+.row {
+  display: grid;
+  gap: 1.125rem;
+}
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--purple-900);
+}
+.optional {
+  font-weight: 400;
+  color: var(--muted);
+}
+.input {
+  width: 100%;
+  border: 1px solid rgb(59 23 101 / 0.18);
+  border-radius: 0.875rem;
+  background: var(--white);
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  color: var(--ink);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.input:focus {
+  outline: none;
+  border-color: var(--saffron-500);
+  box-shadow: 0 0 0 3px rgb(245 183 0 / 0.25);
+}
+textarea.input {
+  min-height: 8rem;
+  resize: vertical;
+}
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.check input {
+  margin-top: 0.2rem;
+  accent-color: var(--purple-700);
+}
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.checkChip {
+  position: relative;
+}
+.checkChip input {
+  position: absolute;
+  opacity: 0;
+}
+.checkChip span {
+  display: inline-block;
+  border: 1px solid rgb(59 23 101 / 0.18);
+  border-radius: 9999px;
+  padding: 0.45rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--purple-800);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+.checkChip input:checked + span {
+  border-color: var(--purple-700);
+  background: var(--purple-700);
+  color: var(--white);
+}
+.checkChip input:focus-visible + span {
+  outline: 2px solid var(--saffron-500);
+  outline-offset: 2px;
+}
+.submit {
+  justify-self: start;
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+}
+.submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.error {
+  border-radius: 0.875rem;
+  background: #fdecec;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  color: #9b1c1c;
+}
+.success {
+  border: 1px solid rgb(34 160 90 / 0.3);
+  border-radius: 1.25rem;
+  background: #ecf9f1;
+  padding: 1.5rem;
+  color: #14532d;
+}
+.successTitle {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: #14532d;
+}
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Amount chips (Donate) */
+.amounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.amount {
+  border: 1px solid rgb(59 23 101 / 0.18);
+  border-radius: 9999px;
+  padding: 0.55rem 1.1rem;
+  font-weight: 600;
+  color: var(--purple-800);
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+.amount:hover {
+  border-color: var(--saffron-500);
+}
+.amountOn {
+  border-color: var(--purple-700);
+  background: var(--purple-700);
+  color: var(--white);
+}
+.toggle {
+  display: inline-flex;
+  border: 1px solid rgb(59 23 101 / 0.18);
+  border-radius: 9999px;
+  padding: 0.25rem;
+}
+.toggle button {
+  border-radius: 9999px;
+  padding: 0.45rem 1.1rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--purple-800);
+}
+.toggle .toggleOn {
+  background: var(--purple-700);
+  color: var(--white);
+}
+
+/* After a donation request: how to pay */
+.pay {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+.payBox {
+  border-radius: 1rem;
+  background: var(--white);
+  padding: 1rem 1.25rem;
+  color: var(--ink);
+}
+.payLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.payValue {
+  margin-top: 0.25rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--purple-900);
+  white-space: pre-line;
+  word-break: break-word;
+}
+.qr {
+  position: relative;
+  width: 11rem;
+  aspect-ratio: 1;
+  margin-top: 0.75rem;
+}
+.qr img {
+  object-fit: contain;
+}
+.payButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .row {
+    grid-template-columns: 1fr 1fr;
+  }
+}

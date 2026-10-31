@@ -64,7 +64,7 @@ const EXPLORE = [
     title: 'Kovai Chandra',
     text: 'Our new temple, rising in Coimbatore',
     alt: 'Kovai Chandra new temple under construction (banner)',
-    href: '/about#new-temple',
+    href: '/kovai-chandra',
     art: 'temple',
   },
   {
@@ -712,7 +712,7 @@ export default async function HomePage() {
       )}
 
       {/* Subscribe */}
-      <section className={styles.subscribe}>
+      <section id="festival-alerts" className={styles.subscribe}>
         <Mandala className={styles.subMandalaTop} />
         <Mandala className={styles.subMandalaBottom} />
         <div className={`container-x ${styles.subscribeInner}`}>

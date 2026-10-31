@@ -10,7 +10,7 @@ const COLUMNS = [
       { label: 'About ISKCON', href: '/about' },
       { label: 'Founder – Srila Prabhupada', href: '/about#founder' },
       { label: 'Sri Jagannath Mandir', href: '/about#temple' },
-      { label: 'Kovai Chandra (New Temple)', href: '/about#new-temple' },
+      { label: 'Kovai Chandra (New Temple)', href: '/kovai-chandra' },
     ],
   },
   {
