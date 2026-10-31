@@ -420,7 +420,8 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: space-between;
+  /* Icon, title, text and link sit together in the middle of the card */
+  justify-content: center;
   border-radius: 1.5rem;
   padding: 2rem;
   transition: background-color 0.15s;
@@ -432,7 +433,12 @@
   background: #d8f5e3;
 }
 .whatsappIcon {
+  box-sizing: content-box;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  background: var(--white);
   color: var(--whatsapp);
+  box-shadow: 0 10px 24px -14px rgb(18 140 74 / 0.6);
 }
 .liveCard {
   background: var(--saffron-100);
@@ -441,7 +447,7 @@
   background: rgb(255 215 94 / 0.5);
 }
 .sideBody {
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
 }
 .sideTitle {
   font-size: 1.5rem;
