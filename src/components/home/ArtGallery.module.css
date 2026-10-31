@@ -77,6 +77,52 @@
 .wide {
   grid-column: span 2;
 }
+/* Wide-screen only tiles (left edge, right edge) */
+.extra {
+  display: none;
+}
+/* Wide screens: the mosaic spans almost the full window, 6 columns, 8 artworks */
+@media (min-width: 1280px) {
+  .mosaic.mosaicFull {
+    position: relative;
+    left: 50%;
+    width: min(calc(100vw - 12rem), 96rem); /* side padding: 6rem each side */
+    translate: -50% 0;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-areas:
+      'a b b c d f'
+      'a b b c e f'
+      'g g g h h h';
+    grid-auto-rows: clamp(11rem, 13vw, 16.5rem);
+  }
+  .mosaicFull .extra {
+    display: block;
+  }
+  .mosaicFull .t0 {
+    grid-area: b;
+  }
+  .mosaicFull .t1 {
+    grid-area: c;
+  }
+  .mosaicFull .t2 {
+    grid-area: d;
+  }
+  .mosaicFull .t3 {
+    grid-area: e;
+  }
+  .mosaicFull .t4 {
+    grid-area: g;
+  }
+  .mosaicFull .t5 {
+    grid-area: h;
+  }
+  .mosaicFull .t6 {
+    grid-area: a;
+  }
+  .mosaicFull .t7 {
+    grid-area: f;
+  }
+}
 /* Gallery page: justified rows, each artwork at its natural proportions */
 .rows {
   display: flex;

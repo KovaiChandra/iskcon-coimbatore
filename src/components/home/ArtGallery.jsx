@@ -8,8 +8,10 @@ import styles from './ArtGallery.module.css'
 
 const pad = (n) => String(n).padStart(2, '0')
 
-/** Tile shapes of the home page mosaic, in order (they fit together with no gaps) */
-const MOSAIC = ['big', 'tall', 'square', 'square', 'wide', 'wide']
+/** Tile shapes of the home page mosaic, in order (they fit together with no gaps).
+    The last two are shown only on wide screens, where the mosaic spans the full width. */
+const MOSAIC = ['big', 'tall', 'square', 'square', 'wide', 'wide', 'tall', 'tall']
+const WIDE_ONLY = 6
 
 /**
  * The Art gallery: artworks fitted edge to edge, no space between them, with a full-screen
@@ -22,8 +24,9 @@ const MOSAIC = ['big', 'tall', 'square', 'square', 'wide', 'wide']
  * heading:  false hides the section heading (the gallery page has its own page header)
  */
 export function ArtGallery({ works, layout = 'rows', moreHref, heading = true }) {
-  const mosaic = layout === 'mosaic' && works.length >= MOSAIC.length
+  const mosaic = layout === 'mosaic' && works.length >= WIDE_ONLY
   const shown = mosaic ? works.slice(0, MOSAIC.length) : works
+  const full = mosaic && shown.length === MOSAIC.length
   const [open, setOpen] = useState(null)
   const touchX = useRef(null)
   const count = shown.length
@@ -77,11 +80,15 @@ export function ArtGallery({ works, layout = 'rows', moreHref, heading = true })
           </header>
         )}
 
-        <ul className={mosaic ? styles.mosaic : styles.rows}>
+        <ul className={mosaic ? `${styles.mosaic} ${full ? styles.mosaicFull : ''}` : styles.rows}>
           {shown.map((w, i) => (
             <li
               key={w.id}
-              className={`${styles.tile} ${mosaic ? styles[MOSAIC[i]] : ''}`}
+              className={`${styles.tile} ${
+                mosaic
+                  ? `${styles[MOSAIC[i]]} ${styles[`t${i}`]} ${i >= WIDE_ONLY ? styles.extra : ''}`
+                  : ''
+              }`}
               style={
                 mosaic
                   ? undefined

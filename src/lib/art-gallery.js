@@ -5,8 +5,9 @@ import { mediaUrl } from './format'
  * Each is a photo in the Media library, found by its alt text. Add, remove or reorder here.
  */
 export const ARTWORKS = [
-  // The first six fill the home page mosaic, in this order:
-  // large square, tall, square, square, wide, wide
+  // The first eight fill the home page mosaic, in this order:
+  // large square, tall, square, square, wide, wide, then on wide screens only:
+  // tall (left edge), tall (right edge). The rest appear on the /art-gallery page.
   {
     alt: 'Sri Jagannath with Sri Sri Gaura-Nitai, ISKCON Coimbatore',
     title: 'Sri Jagannath with Sri Sri Gaura-Nitai',
@@ -40,12 +41,12 @@ export const ARTWORKS = [
     title: 'Srila Prabhupada',
     kind: 'Founder-Ācārya of ISKCON',
   },
-  { alt: 'Temple shikhara and flag at dusk', title: 'Shikhara at dusk', kind: 'Temple' },
   {
     alt: 'The main altar with Srila Prabhupada and the parampara',
     title: 'The main altar',
     kind: 'Temple',
   },
+  { alt: 'Temple shikhara and flag at dusk', title: 'Shikhara at dusk', kind: 'Temple' },
 ]
 
 /** Load the artworks' photos from the Media library, in the order above (missing photos are skipped). */

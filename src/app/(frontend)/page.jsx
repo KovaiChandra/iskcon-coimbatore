@@ -219,7 +219,7 @@ export default async function HomePage() {
   )
 
   const highlights = populated(home.highlightSevas).filter((s) => isSevaActive(s))
-  const artworks = await getArtworks(payload, 6)
+  const artworks = await getArtworks(payload, 8)
 
   return (
     <>
