@@ -8,6 +8,7 @@ import { HeroSlider } from '@/components/home/HeroSlider'
 import { LiveScreen } from '@/components/home/LiveScreen'
 import { NityaSevaForm } from '@/components/home/NityaSevaForm'
 import { ScheduleTicker } from '@/components/home/ScheduleTicker'
+import { SpeakToPriest } from '@/components/home/SpeakToPriest'
 import { SubscribeForm } from '@/components/home/SubscribeForm'
 import { VisitSection } from '@/components/home/VisitSection'
 import { getArtworks } from '@/lib/art-gallery'
@@ -26,12 +27,6 @@ function daysUntil(date) {
   const startOfToday = new Date(new Date().setHours(0, 0, 0, 0)).getTime()
   const d = Math.round((new Date(date).setHours(0, 0, 0, 0) - startOfToday) / DAY)
   return d <= 0 ? 'Today' : d === 1 ? 'Tomorrow' : `In ${d} days`
-}
-
-/** Video id from a YouTube link (watch?v=, youtu.be/, /live/, /shorts/) */
-function youtubeId(url = '') {
-  const m = url.match(/(?:v=|youtu\.be\/|\/live\/|\/shorts\/|\/embed\/)([\w-]{11})/)
-  return m ? m[1] : null
 }
 
 /** "Explore the temple" tiles. Photos are found by their alt text in the Media library. */
@@ -213,6 +208,14 @@ export default async function HomePage() {
 
   const highlights = populated(home.highlightSevas).filter((s) => isSevaActive(s))
   const artworks = await getArtworks(payload, 8)
+  const [priestPhoto] = (
+    await payload.find({
+      collection: 'media',
+      where: { alt: { equals: 'A family with a devotee at the temple' } },
+      limit: 1,
+      depth: 0,
+    })
+  ).docs
 
   return (
     <>
@@ -751,69 +754,8 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* YouTube */}
-      {(home.youtubeVideos?.length > 0 || settings.youtube) && (
-        <section className={styles.youtube}>
-          <div className="container-x">
-            <div className={styles.sectionHeadCenter}>
-              <Eyebrow>Watch and hear</Eyebrow>
-              <h2 className={styles.h2}>ISKCON Coimbatore on YouTube</h2>
-              <p className={styles.youtubeIntro}>
-                Darshan, kirtan and classes from Sri Jagannath Mandir: watch, reflect and deepen
-                your connection with the Lord.
-              </p>
-            </div>
-            {home.youtubeVideos?.length > 0 && (
-              <div className={`${styles.threeGrid} ${styles.swipe}`}>
-                {home.youtubeVideos.slice(0, 3).map((v) => {
-                  const id = youtubeId(v.url)
-                  return (
-                    <a
-                      key={v.id ?? v.url}
-                      href={v.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.ytCard}
-                    >
-                      <div className={styles.ytThumb}>
-                        {id && (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
-                            alt=""
-                            loading="lazy"
-                          />
-                        )}
-                        <span className={styles.ytPlay} aria-hidden>
-                          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </span>
-                      </div>
-                      <div className={styles.ytBody}>
-                        <h3 className={styles.ytTitle}>{v.title}</h3>
-                        {v.date && <p className={styles.small}>{formatDate(v.date)}</p>}
-                      </div>
-                    </a>
-                  )
-                })}
-              </div>
-            )}
-            {settings.youtube && (
-              <div className={styles.buttonRow}>
-                <a
-                  href={settings.youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`btn-primary ${styles.btnBig}`}
-                >
-                  <YoutubeIcon size={18} /> Visit our channel
-                </a>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
+      {/* Speak to a priest */}
+      <SpeakToPriest image={priestPhoto} whatsapp={settings.whatsapp} phone={settings.phone} />
 
       {/* Blog */}
       {posts.docs.length > 0 && (

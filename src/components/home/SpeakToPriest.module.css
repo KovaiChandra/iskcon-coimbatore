@@ -1,0 +1,165 @@
+/* =========================================================================
+   Speak to a priest: photo in a soft arch on the left, invitation on the right.
+   ========================================================================= */
+.section {
+  padding: 6rem 0;
+  background:
+    radial-gradient(ellipse 45% 60% at 20% 50%, rgb(245 183 0 / 0.09), transparent 70%),
+    var(--cream);
+}
+.grid {
+  display: grid;
+  gap: 3rem;
+  align-items: center;
+}
+
+/* ---------- Photo ---------- */
+.photoWrap {
+  position: relative;
+  max-width: 26rem;
+  width: 100%;
+  margin: 0 auto;
+}
+/* A thin gold arch outline, offset behind the photo */
+.photoWrap::before {
+  content: '';
+  position: absolute;
+  inset: -0.9rem;
+  border: 1px solid rgb(201 154 59 / 0.55);
+  border-radius: 999px 999px 1.75rem 1.75rem;
+}
+.photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 999px 999px 1.5rem 1.5rem;
+  background: var(--purple-50);
+  box-shadow: 0 34px 60px -34px rgb(28 10 51 / 0.55);
+}
+.photo img {
+  object-fit: cover;
+}
+
+/* ---------- Text ---------- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #a86b00;
+}
+.title {
+  margin-top: 0.9rem;
+  max-width: 34rem;
+  font-family: var(--font-serif);
+  font-size: 2.1rem;
+  line-height: 1.15;
+  color: var(--purple-950);
+}
+.accent {
+  color: var(--purple-700);
+}
+.text {
+  margin-top: 1.25rem;
+  max-width: 32rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
+.topics {
+  margin-top: 2rem;
+  max-width: 32rem;
+  border-top: 1px solid rgb(59 23 101 / 0.1);
+}
+.topic {
+  display: flex;
+  gap: 1rem;
+  border-bottom: 1px solid rgb(59 23 101 / 0.1);
+  padding: 1rem 0;
+}
+.topicMark {
+  flex-shrink: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: 0.5rem;
+  rotate: 45deg;
+  background: var(--saffron-500);
+}
+.topicTitle {
+  display: block;
+  font-weight: 600;
+  color: var(--purple-950);
+}
+.topicText {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+/* ---------- Actions ---------- */
+.actions {
+  margin-top: 2.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+}
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  background: var(--purple-950);
+  padding: 0.95rem 1.9rem;
+  font-weight: 600;
+  color: var(--white);
+  box-shadow: 0 14px 30px -14px rgb(28 10 51 / 0.7);
+  transition:
+    transform 0.2s,
+    background-color 0.2s;
+}
+.primary svg {
+  color: var(--whatsapp);
+}
+.primary:hover {
+  transform: translateY(-2px);
+  background: var(--purple-800);
+}
+.secondary {
+  border-bottom: 1px solid rgb(59 23 101 / 0.3);
+  padding-bottom: 0.15rem;
+  font-weight: 600;
+  color: var(--purple-900);
+  transition: border-color 0.2s;
+}
+.secondary:hover {
+  border-color: var(--saffron-500);
+}
+
+@media (min-width: 640px) {
+  .title {
+    font-size: 2.75rem;
+  }
+}
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 5.5rem;
+  }
+}
+@media (max-width: 639px) {
+  .section {
+    padding: 4rem 0;
+  }
+  .photoWrap {
+    max-width: 17rem;
+  }
+  .primary {
+    width: 100%;
+    justify-content: center;
+  }
+}
