@@ -1,15 +1,24 @@
 'use client'
 
 import Image from 'next/image'
-import { useActionState, useState } from 'react'
+import Script from 'next/script'
+import { useActionState, useEffect, useState } from 'react'
 import { createDonation } from '@/app/(frontend)/actions/forms'
 import { inr, waLink } from '@/lib/format'
 import styles from './Form.module.css'
 
+/** Opens Razorpay checkout with the gateway's checkout object, unchanged. */
+export function openCheckout(checkout, onDismiss) {
+  const { key_id, ...rest } = checkout
+  const rzp = new window.Razorpay({ ...rest, key: key_id, modal: { ondismiss: onDismiss } })
+  rzp.open()
+}
+
 /**
- * Seva donation form. Saves a donation request (Admin → Donations), then shows how to pay:
- * UPI (ID, QR, "Pay by UPI app" link) and bank details from Site settings → Donations,
- * plus a WhatsApp button to send the reference to the temple.
+ * Seva donation form. Saves the donation (Admin → Donations). When the seva is set up on the
+ * KCM payment gateway, Razorpay opens to pay online and the donor returns to /donate/thank-you.
+ * Otherwise it shows how to pay: UPI (ID, QR, "Pay by UPI app" link) and bank details from
+ * Site settings → Donations, plus a WhatsApp button to send the reference to the temple.
  */
 export function DonateForm({ seva, initialAmount, initialFrequency, pay }) {
   const amounts = seva.amounts.length > 0 ? seva.amounts : [501, 1001, 2501]
@@ -17,7 +26,51 @@ export function DonateForm({ seva, initialAmount, initialFrequency, pay }) {
   const [frequency, setFrequency] = useState(
     initialFrequency === 'monthly' && seva.allowMonthly ? 'monthly' : 'one-time',
   )
+  const [selectedItem, setSelectedItem] = useState(null)
   const [state, action, pending] = useActionState(createDonation, null)
+  const [razorpayReady, setRazorpayReady] = useState(false)
+  const [dismissed, setDismissed] = useState(false)
+  const checkout = state?.ok ? state.checkout : null
+
+  useEffect(() => {
+    if (!checkout || !razorpayReady) return
+    try {
+      localStorage.setItem('lastSevaRef', state.reference)
+    } catch {}
+    openCheckout(checkout, () => setDismissed(true))
+  }, [checkout, razorpayReady, state?.reference])
+
+  if (checkout) {
+    return (
+      <div className={styles.success} role="status">
+        <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          onReady={() => setRazorpayReady(true)}
+        />
+        <p className={styles.successTitle}>
+          {dismissed ? 'Payment not completed' : 'Opening secure payment…'}
+        </p>
+        <p>
+          Your seva of <strong>{inr(state.amount)}</strong> for {seva.title}. Reference:{' '}
+          <strong>{state.reference}</strong>.
+        </p>
+        {dismissed && (
+          <div className={styles.payButtons}>
+            <button
+              type="button"
+              className="btn-donate"
+              onClick={() => {
+                setDismissed(false)
+                openCheckout(checkout, () => setDismissed(true))
+              }}
+            >
+              Pay {inr(state.amount)} now
+            </button>
+          </div>
+        )}
+      </div>
+    )
+  }
 
   if (state?.ok && state.reference) {
     const note = `${seva.title} ${state.reference}`
@@ -84,6 +137,7 @@ export function DonateForm({ seva, initialAmount, initialFrequency, pay }) {
     <form action={action} className={styles.form}>
       <input type="hidden" name="seva" value={seva.slug} />
       <input type="hidden" name="frequency" value={frequency} />
+      {selectedItem && <input type="hidden" name="item" value={selectedItem} />}
 
       {seva.allowMonthly && (
         <div className={styles.field}>
@@ -115,9 +169,12 @@ export function DonateForm({ seva, initialAmount, initialFrequency, pay }) {
               <button
                 key={item.label}
                 type="button"
-                aria-pressed={amount === item.price}
-                onClick={() => setAmount(item.price)}
-                className={`${styles.amount} ${amount === item.price ? styles.amountOn : ''}`}
+                aria-pressed={selectedItem === item.label}
+                onClick={() => {
+                  setAmount(item.price)
+                  setSelectedItem(item.label)
+                }}
+                className={`${styles.amount} ${selectedItem === item.label ? styles.amountOn : ''}`}
               >
                 {item.label} · {inr(item.price)}
               </button>
@@ -133,9 +190,12 @@ export function DonateForm({ seva, initialAmount, initialFrequency, pay }) {
             <button
               key={a}
               type="button"
-              aria-pressed={amount === a}
-              onClick={() => setAmount(a)}
-              className={`${styles.amount} ${amount === a ? styles.amountOn : ''}`}
+              aria-pressed={amount === a && !selectedItem}
+              onClick={() => {
+                setAmount(a)
+                setSelectedItem(null)
+              }}
+              className={`${styles.amount} ${amount === a && !selectedItem ? styles.amountOn : ''}`}
             >
               {inr(a)}
             </button>
@@ -153,7 +213,10 @@ export function DonateForm({ seva, initialAmount, initialFrequency, pay }) {
           inputMode="numeric"
           required
           value={amount || ''}
-          onChange={(e) => setAmount(Number(e.target.value))}
+          onChange={(e) => {
+            setAmount(Number(e.target.value))
+            setSelectedItem(null)
+          }}
           className={styles.input}
           placeholder="Other amount (₹)"
         />

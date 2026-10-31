@@ -73,7 +73,26 @@ export const Sevas: CollectionConfig = {
       fields: [
         { name: 'label', type: 'text', required: true },
         { name: 'price', type: 'number', required: true, min: 1 },
+        {
+          name: 'schemeId',
+          type: 'text',
+          label: 'Gateway scheme ID',
+          admin: {
+            description:
+              'Optional fixed-price scheme for this item from ISKCON IT (the gateway charges its own catalog price)',
+          },
+        },
       ],
+    },
+    {
+      name: 'schemeId',
+      type: 'text',
+      label: 'Gateway scheme ID',
+      admin: {
+        position: 'sidebar',
+        description:
+          'Open-amount scheme ID from ISKCON IT\'s payment gateway catalog, e.g. "1-51". Without it, donors are shown UPI / bank details instead of online payment.',
+      },
     },
     {
       name: 'allowMonthly',

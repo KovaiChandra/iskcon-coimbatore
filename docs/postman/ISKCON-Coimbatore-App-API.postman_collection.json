@@ -1,0 +1,954 @@
+{
+  "info": {
+    "name": "ISKCON Coimbatore — App API v1",
+    "description": "Mobile app API. Full guide: docs/MOBILE_API.md. Set baseUrl for your environment; apiKey only if the server sets APP_API_KEY.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://iskcon-coimbatore-yztu.vercel.app/api/app/v1"
+    },
+    {
+      "key": "apiKey",
+      "value": ""
+    },
+    {
+      "key": "sevaSlug",
+      "value": "annadaan"
+    },
+    {
+      "key": "festivalSlug",
+      "value": "govardhan-puja"
+    },
+    {
+      "key": "postSlug",
+      "value": ""
+    },
+    {
+      "key": "reference",
+      "value": ""
+    },
+    {
+      "key": "paymentUrl",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Content (GET)",
+      "item": [
+        {
+          "name": "Home (all sections)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/home",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "home"
+              ]
+            },
+            "description": "Everything for the home screen in one call."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/settings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "settings"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Temple timings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/timings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "timings"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Photos (explore, banners, Kovai Chandra)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/photos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "photos"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sevas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sevas?category=regular&monthly=false&includeClosed=false",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sevas"
+              ],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "regular",
+                  "description": "regular | festival (optional)",
+                  "disabled": false
+                },
+                {
+                  "key": "monthly",
+                  "value": "false",
+                  "description": "true = monthly Nitya Seva only",
+                  "disabled": false
+                },
+                {
+                  "key": "includeClosed",
+                  "value": "false",
+                  "description": "true = include closed festival sevas",
+                  "disabled": false
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Seva by slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sevas/{{sevaSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sevas",
+                "{{sevaSlug}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Festivals",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/festivals?when=upcoming&limit=50",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "festivals"
+              ],
+              "query": [
+                {
+                  "key": "when",
+                  "value": "upcoming",
+                  "description": "upcoming | past | all",
+                  "disabled": false
+                },
+                {
+                  "key": "limit",
+                  "value": "50",
+                  "description": "1-100",
+                  "disabled": false
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Festival by slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/festivals/{{festivalSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "festivals",
+                "{{festivalSlug}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Services",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/services",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Blog posts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/posts?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "posts"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "1-50",
+                  "disabled": false
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Blog post by slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/posts/{{postSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "posts",
+                "{{postSlug}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Daily darshan",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/daily-darshan?page=1&limit=7",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "daily-darshan"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "limit",
+                  "value": "7",
+                  "description": "days per page, 1-31",
+                  "disabled": false
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Art gallery",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/art-gallery",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "art-gallery"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Forms (POST)",
+      "item": [
+        {
+          "name": "Contact message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/contact",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "contact"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Radha\",\n  \"lastName\": \"Devi\",\n  \"email\": \"radha@example.com\",\n  \"phone\": \"9876543210\",\n  \"category\": \"Seva\",\n  \"message\": \"How can I sponsor Annadaan on my birthday?\",\n  \"consent\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Volunteer sign-up",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/volunteers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "volunteers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Govinda Das\",\n  \"mobile\": \"9876543210\",\n  \"email\": \"govinda@example.com\",\n  \"area\": \"RS Puram\",\n  \"interest\": [\n    \"Festivals\",\n    \"Goshala\"\n  ],\n  \"availability\": \"Weekends\",\n  \"skills\": \"Cooking, photography\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Subscribe to updates",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/subscribe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscribe"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Radha Devi\",\n  \"email\": \"radha@example.com\",\n  \"phone\": \"9876543210\",\n  \"consent\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Contact message — validation error example",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/contact",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "contact"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Radha\",\n  \"lastName\": \"Devi\",\n  \"email\": \"not-an-email\",\n  \"phone\": \"9876543210\",\n  \"message\": \"Hi\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "pm.test('422 names the field', () => pm.expect(pm.response.json().error.field).to.eql('email'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3. Donations",
+      "item": [
+        {
+          "name": "Start donation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/donations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "donations"
+              ]
+            },
+            "description": "Creates the donation and a payment session. Saves {{reference}} and {{paymentUrl}}. PRODUCTION TAKES REAL MONEY when you open paymentUrl and pay.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"seva\": \"{{sevaSlug}}\",\n  \"amount\": 1,\n  \"fullName\": \"Prabhupada Dasa\",\n  \"mobile\": \"9876543210\",\n  \"email\": \"prabhupada.dasa@example.com\",\n  \"frequency\": \"one-time\",\n  \"occasion\": \"Birthday\",\n  \"pan\": \"\",\n  \"address\": \"\",\n  \"pin\": \"\",\n  \"consent\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "const d = pm.response.json();",
+                  "if (d.reference) pm.collectionVariables.set('reference', d.reference);",
+                  "if (d.paymentUrl) pm.collectionVariables.set('paymentUrl', d.paymentUrl);",
+                  "console.log('Open this to pay:', d.paymentUrl || '(online payment not available: ' + d.offlineReason + ')');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Start donation — sponsor an item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/donations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "donations"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"seva\": \"annadaan\",\n  \"amount\": 1000,\n  \"item\": \"Annadaan – 25 plates\",\n  \"fullName\": \"Prabhupada Dasa\",\n  \"mobile\": \"9876543210\",\n  \"email\": \"prabhupada.dasa@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "const d = pm.response.json();",
+                  "if (d.reference) pm.collectionVariables.set('reference', d.reference);",
+                  "if (d.paymentUrl) pm.collectionVariables.set('paymentUrl', d.paymentUrl);",
+                  "console.log('Open this to pay:', d.paymentUrl || '(online payment not available: ' + d.offlineReason + ')');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Start monthly Nitya Seva (first month)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/donations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "donations"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"seva\": \"annadaan\",\n  \"amount\": 501,\n  \"frequency\": \"monthly\",\n  \"fullName\": \"Prabhupada Dasa\",\n  \"mobile\": \"9876543210\",\n  \"email\": \"prabhupada.dasa@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "const d = pm.response.json();",
+                  "if (d.reference) pm.collectionVariables.set('reference', d.reference);",
+                  "if (d.paymentUrl) pm.collectionVariables.set('paymentUrl', d.paymentUrl);",
+                  "console.log('Open this to pay:', d.paymentUrl || '(online payment not available: ' + d.offlineReason + ')');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Donation status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{apiKey}}",
+                "description": "Only needed when the server sets APP_API_KEY"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/donations/{{reference}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "donations",
+                "{{reference}}"
+              ]
+            },
+            "description": "Poll after the donor returns from payment. Paid = status 'paid' AND receiptNo not null."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is ' + pm.response.code, () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "pm.test('has a status', () => pm.expect(pm.response.json().status).to.be.oneOf(['created','paid','failed','expired','refunded']));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

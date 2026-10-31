@@ -292,9 +292,17 @@ export interface Seva {
     | {
         label: string;
         price: number;
+        /**
+         * Optional fixed-price scheme for this item from ISKCON IT (the gateway charges its own catalog price)
+         */
+        schemeId?: string | null;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Open-amount scheme ID from ISKCON IT's payment gateway catalog, e.g. "1-51". Without it, donors are shown UPI / bank details instead of online payment.
+   */
+  schemeId?: string | null;
   allowMonthly?: boolean | null;
   order?: number | null;
   updatedAt: string;
@@ -386,10 +394,28 @@ export interface Donation {
   amount: number;
   occasion?: string | null;
   frequency?: ('one-time' | 'monthly') | null;
-  status: 'created' | 'paid' | 'failed' | 'refunded';
+  status: 'created' | 'paid' | 'failed' | 'expired' | 'refunded';
+  /**
+   * Shown to the donor, e.g. SEVA-3F9A1C07B2
+   */
+  reference?: string | null;
+  gatewaySessionId?: string | null;
+  gatewayCheckout?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  kcmContactId?: string | null;
   razorpayOrderId?: string | null;
   razorpayPaymentId?: string | null;
   receiptNo?: string | null;
+  paidAt?: string | null;
+  failureReason?: string | null;
+  source?: ('website' | 'app') | null;
   consent?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -640,8 +666,10 @@ export interface SevasSelect<T extends boolean = true> {
     | {
         label?: T;
         price?: T;
+        schemeId?: T;
         id?: T;
       };
+  schemeId?: T;
   allowMonthly?: T;
   order?: T;
   updatedAt?: T;
@@ -765,9 +793,16 @@ export interface DonationsSelect<T extends boolean = true> {
   occasion?: T;
   frequency?: T;
   status?: T;
+  reference?: T;
+  gatewaySessionId?: T;
+  gatewayCheckout?: T;
+  kcmContactId?: T;
   razorpayOrderId?: T;
   razorpayPaymentId?: T;
   receiptNo?: T;
+  paidAt?: T;
+  failureReason?: T;
+  source?: T;
   consent?: T;
   updatedAt?: T;
   createdAt?: T;

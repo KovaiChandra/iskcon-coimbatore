@@ -1,5 +1,6 @@
 'use server'
 
+import { startDonation, validateDonation } from '@/lib/donations'
 import { getPayloadClient } from '@/lib/payload'
 
 const str = (formData, key) => String(formData.get(key) ?? '').trim()
@@ -60,55 +61,15 @@ export async function registerVolunteer(_prev, formData) {
 }
 
 /**
- * Seva page form → Admin → Donations (status "created").
- * There is no online payment gateway yet: the donor then pays by UPI / bank transfer
- * and the temple team marks the donation as paid.
+ * Seva page form → Admin → Donations. When the seva has a gateway scheme ID, the result
+ * carries a Razorpay `checkout` for the browser to open; otherwise the donor is shown
+ * UPI / bank details and the temple team marks the donation as paid.
  */
 export async function createDonation(_prev, formData) {
   if (isBot(formData)) return { ok: true }
-  const slug = str(formData, 'seva')
-  const amount = Math.round(Number(str(formData, 'amount')))
-  const data = {
-    fullName: str(formData, 'fullName'),
-    mobile: str(formData, 'mobile'),
-    email: str(formData, 'email').toLowerCase(),
-    pan: str(formData, 'pan').toUpperCase() || undefined,
-    address: str(formData, 'address') || undefined,
-    pin: str(formData, 'pin') || undefined,
-    occasion: str(formData, 'occasion') || undefined,
-    frequency: str(formData, 'frequency') === 'monthly' ? 'monthly' : 'one-time',
-    consent: formData.get('consent') === 'on',
-    amount,
-    status: 'created',
-  }
-  if (!Number.isFinite(amount) || amount < 1) {
-    return { ok: false, message: 'Please choose or enter an amount.' }
-  }
-  if (!data.fullName) return { ok: false, message: 'Please enter your full name.' }
-  if (!isMobile(data.mobile)) return { ok: false, message: 'Please enter a valid mobile number.' }
-  if (!isEmail(data.email)) return { ok: false, message: 'Please enter a valid email.' }
-  if (data.pan && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(data.pan)) {
-    return { ok: false, message: 'Please check your PAN (e.g. ABCDE1234F), or leave it empty.' }
-  }
-
-  const payload = await getPayloadClient()
-  const seva = await payload.find({
-    collection: 'sevas',
-    where: { slug: { equals: slug } },
-    limit: 1,
-    depth: 0,
-  })
-  if (!seva.docs[0]) return { ok: false, message: 'This seva is no longer available.' }
-
-  const donation = await payload.create({
-    collection: 'donations',
-    data: { ...data, seva: seva.docs[0].id },
-  })
-  return {
-    ok: true,
-    reference: `SEVA-${donation.id}`,
-    amount,
-    frequency: data.frequency,
-    name: data.fullName,
-  }
+  const checked = validateDonation(Object.fromEntries(formData))
+  if (!checked.ok) return { ok: false, message: checked.message }
+  const result = await startDonation(await getPayloadClient(), checked.input, 'website')
+  if (!result.ok) return { ok: false, message: result.message }
+  return { ok: true, ...result.donation }
 }

@@ -18,6 +18,7 @@ import { DarshanDays } from './collections/DarshanDays'
 import { ContactMessages, Donations, Subscribers, Volunteers } from './collections/Submissions'
 import { SiteSettings } from './globals/SiteSettings'
 import { TempleTimings } from './globals/TempleTimings'
+import { appEndpoints } from './endpoints/app'
 import { HomePage } from './globals/HomePage'
 import { SitePhotos } from './globals/SitePhotos'
 
@@ -48,6 +49,8 @@ export default buildConfig({
     Users,
   ],
   globals: [HomePage, SitePhotos, TempleTimings, SiteSettings],
+  // Mobile app API: /api/app/v1/... (docs/MOBILE_API.md)
+  endpoints: appEndpoints,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
