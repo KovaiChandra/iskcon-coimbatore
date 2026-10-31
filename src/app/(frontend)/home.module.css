@@ -657,39 +657,10 @@
   color: var(--purple-100);
 }
 
-/* ---------- Services ---------- */
-.services {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
-}
+/* ---------- Card grids ---------- */
 .threeGrid {
   display: grid;
   gap: 1.5rem;
-}
-.service {
-  overflow: hidden;
-  border: 1px solid var(--purple-100);
-  border-radius: 1.5rem;
-  background: var(--white);
-  transition:
-    transform 0.15s,
-    border-color 0.15s,
-    box-shadow 0.15s;
-}
-.service:hover {
-  transform: translateY(-0.25rem);
-  border-color: var(--saffron-300);
-  box-shadow:
-    0 20px 25px -5px rgb(0 0 0 / 0.1),
-    0 8px 10px -6px rgb(0 0 0 / 0.1);
-}
-.service:hover .media {
-  transform: scale(1.05);
-}
-.serviceText {
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--muted);
 }
 .buttonRow {
   margin-top: 2.5rem;
@@ -1656,7 +1627,6 @@
 
   /* Section spacing and headings */
   .about2,
-  .services,
   .blog,
   .festivals,
   .courses,

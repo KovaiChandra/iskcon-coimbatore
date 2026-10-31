@@ -3,6 +3,7 @@ import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
 import { InstagramIcon, WhatsAppIcon, YoutubeIcon } from '@/components/Icons'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
 import { ArtGallery } from '@/components/home/ArtGallery'
+import { GitaCourse } from '@/components/home/GitaCourse'
 import { HeroSlider } from '@/components/home/HeroSlider'
 import { LiveScreen } from '@/components/home/LiveScreen'
 import { NityaSevaForm } from '@/components/home/NityaSevaForm'
@@ -92,37 +93,27 @@ export default async function HomePage() {
   const payload = await getPayloadClient()
   const todayStart = new Date(new Date().setHours(0, 0, 0, 0)).toISOString()
 
-  const [
-    home,
-    settings,
-    timings,
-    festivals,
-    services,
-    courses,
-    posts,
-    monthlySevas,
-    festivalSevas,
-  ] = await Promise.all([
-    payload.findGlobal({ slug: 'home-page', depth: 2 }),
-    payload.findGlobal({ slug: 'site-settings' }),
-    payload.findGlobal({ slug: 'temple-timings' }),
-    payload.find({
-      collection: 'festivals',
-      where: { date: { greater_than_equal: todayStart } },
-      sort: 'date',
-      limit: 4,
-    }),
-    payload.find({ collection: 'services', where: { featured: { equals: true } }, limit: 3 }),
-    payload.find({ collection: 'courses', where: { featured: { equals: true } }, limit: 3 }),
-    payload.find({
-      collection: 'posts',
-      where: { _status: { equals: 'published' } },
-      sort: '-publishedAt',
-      limit: 3,
-    }),
-    payload.find({ collection: 'sevas', where: { allowMonthly: { equals: true } }, limit: 20 }),
-    payload.find({ collection: 'sevas', where: { category: { equals: 'festival' } }, limit: 10 }),
-  ])
+  const [home, settings, timings, festivals, courses, posts, monthlySevas, festivalSevas] =
+    await Promise.all([
+      payload.findGlobal({ slug: 'home-page', depth: 2 }),
+      payload.findGlobal({ slug: 'site-settings' }),
+      payload.findGlobal({ slug: 'temple-timings' }),
+      payload.find({
+        collection: 'festivals',
+        where: { date: { greater_than_equal: todayStart } },
+        sort: 'date',
+        limit: 4,
+      }),
+      payload.find({ collection: 'courses', where: { featured: { equals: true } }, limit: 3 }),
+      payload.find({
+        collection: 'posts',
+        where: { _status: { equals: 'published' } },
+        sort: '-publishedAt',
+        limit: 3,
+      }),
+      payload.find({ collection: 'sevas', where: { allowMonthly: { equals: true } }, limit: 20 }),
+      payload.find({ collection: 'sevas', where: { category: { equals: 'festival' } }, limit: 10 }),
+    ])
 
   const exploreMedia = new Map(
     (
@@ -706,35 +697,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Services */}
-      {services.docs.length > 0 && (
-        <section className={`container-x ${styles.services}`}>
-          <div className={styles.sectionHeadCenter}>
-            <Eyebrow>Serve and be served</Eyebrow>
-            <h2 className={styles.h2}>Devotional services</h2>
-          </div>
-          <div className={`${styles.threeGrid} ${styles.swipe}`}>
-            {services.docs.map((s, i) => (
-              <article key={s.id} className={styles.service}>
-                <div className={styles.cardImage}>
-                  <div className={styles.media}>
-                    <ImageOrPlaceholder media={s.image} art={['lotus', 'temple', 'lamps'][i % 3]} />
-                  </div>
-                </div>
-                <div className={styles.cardBodyLarge}>
-                  <h3 className={styles.cardTitle}>{s.title}</h3>
-                  <p className={styles.serviceText}>{s.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-          <div className={styles.buttonRow}>
-            <Link href="/services" className={`btn-primary ${styles.btnBig}`}>
-              All services
-            </Link>
-          </div>
-        </section>
-      )}
+      {/* 18-chapter Bhagavad-gita course */}
+      <GitaCourse whatsapp={settings.whatsapp} />
 
       {/* Courses — numbered list */}
       {courses.docs.length > 0 && (
