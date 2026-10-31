@@ -37,7 +37,9 @@
   position: absolute;
   inset: 0;
   z-index: -3;
-  transition: opacity 1.4s ease-out, transform 1.4s ease-out;
+  transition:
+    opacity 1.4s ease-out,
+    transform 1.4s ease-out;
 }
 .backdropOff {
   opacity: 0;
@@ -83,9 +85,9 @@
   position: absolute;
   inset: 0;
   display: none;
-  /* Deep royal purple with a soft glow behind the title */
+  /* Deep royal purple with a faint warm glow behind the text */
   background:
-    radial-gradient(ellipse 50% 90% at 22% 62%, rgba(238, 237, 240, 0.55), transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 50%, rgb(245 183 0 / 0.07), transparent 70%),
     rgb(var(--tone-deep));
 }
 .splitPhoto {
@@ -93,11 +95,11 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 85%;
+  width: 60%;
   overflow: hidden;
-  /* Left 22% of the photo fades into the purple */
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 22%);
-  mask-image: linear-gradient(to right, transparent 0%, black 22%);
+  /* Left 30% of the photo fades softly into the purple */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
+  mask-image: linear-gradient(to right, transparent 0%, black 30%);
 }
 .splitImg {
   object-fit: cover;
@@ -107,7 +109,12 @@
 .splitTint {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, rgb(var(--tone-deep) / 0.8) 0%, rgb(var(--tone-mid) / 0.35) 16%, rgb(var(--tone-mid) / 0) 30%);
+  background: linear-gradient(
+    to right,
+    rgb(var(--tone-deep) / 0.8) 0%,
+    rgb(var(--tone-mid) / 0.35) 16%,
+    rgb(var(--tone-mid) / 0) 30%
+  );
 }
 @media (min-width: 1024px) {
   .splitPhone {
@@ -157,7 +164,12 @@
 }
 @media (min-width: 1024px) {
   .archShadeSide {
-    background: linear-gradient(to right, var(--purple-950), rgb(28 10 51 / 0.7), rgb(28 10 51 / 0.3));
+    background: linear-gradient(
+      to right,
+      var(--purple-950),
+      rgb(28 10 51 / 0.7),
+      rgb(28 10 51 / 0.3)
+    );
   }
 }
 
@@ -177,7 +189,12 @@
 /* Split photo: purple shading so the text stays readable (phones: over the photo;
    desktop: just a soft fade at the bottom, since the text already sits on solid purple) */
 .splitShadeBottom {
-  background: linear-gradient(to top, rgb(var(--tone-deep) / 0.9), rgb(var(--tone-deep) / 0.3) 35%, transparent 70%);
+  background: linear-gradient(
+    to top,
+    rgb(var(--tone-deep) / 0.9),
+    rgb(var(--tone-deep) / 0.3) 35%,
+    transparent 70%
+  );
 }
 .splitShadeSide {
   position: absolute;
@@ -185,7 +202,12 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background: linear-gradient(to right, rgb(var(--tone-deep) / 0.75), rgb(var(--tone-deep) / 0.45), transparent);
+  background: linear-gradient(
+    to right,
+    rgb(var(--tone-deep) / 0.75),
+    rgb(var(--tone-deep) / 0.45),
+    transparent
+  );
 }
 @media (min-width: 640px) {
   .cineShadeSide,
@@ -326,7 +348,12 @@
   height: 150%;
   transform: translate(-50%, -50%);
   border-radius: 9999px;
-  background: radial-gradient(circle, rgb(245 183 0 / 0.35) 0%, rgb(245 183 0 / 0.08) 40%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgb(245 183 0 / 0.35) 0%,
+    rgb(245 183 0 / 0.08) 40%,
+    transparent 70%
+  );
 }
 .archMandala {
   position: absolute;
@@ -354,12 +381,17 @@
   aspect-ratio: 4 / 5;
   overflow: hidden;
   background: var(--purple-900);
-  box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.8), 0 0 0 2px var(--saffron-500);
+  box-shadow:
+    0 30px 80px -20px rgb(0 0 0 / 0.8),
+    0 0 0 2px var(--saffron-500);
 }
 .archSlide {
   position: absolute;
   inset: 0;
-  transition: opacity 1.2s, transform 1.2s, filter 1.2s;
+  transition:
+    opacity 1.2s,
+    transform 1.2s,
+    filter 1.2s;
   transition-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .archSlideOff {
@@ -439,6 +471,68 @@
   color: rgb(255 255 255 / 0.75);
 }
 
+/* Split photo slides on phones and tablets: the deities show at the top, the lower part fades
+   into deep purple so the text sits on a calm background */
+@media (max-width: 1023px) {
+  .splitShadeBottom {
+    background: linear-gradient(
+      to top,
+      rgb(var(--tone-deep)) 0%,
+      rgb(var(--tone-deep) / 0.94) 38%,
+      rgb(var(--tone-deep) / 0.55) 62%,
+      transparent 88%
+    );
+  }
+  .splitShadeSide {
+    background: linear-gradient(to right, rgb(var(--tone-deep) / 0.5), transparent);
+  }
+  .cineSplit .cineText {
+    text-shadow: none;
+  }
+  .cineSplit .cineActions {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .cineSplit .cineLead {
+    color: rgb(255 255 255 / 0.75);
+  }
+}
+
+/* Split photo slides (desktop): minimal, premium text panel on clean purple.
+   Text is centred vertically; a thin gold rule under the heading; description above the button. */
+@media (min-width: 1024px) {
+  .cineSplit {
+    justify-content: center;
+    padding-bottom: 8rem;
+  }
+  .cineSplit .cineText {
+    max-width: 34rem;
+    text-shadow: none;
+  }
+  .cineSplit .cineTitle,
+  .cineSplit .cineTitleLong {
+    max-width: 34rem;
+    padding-bottom: 1.75rem;
+    font-size: 3.5rem;
+    line-height: 1.08;
+    background: linear-gradient(var(--saffron-500), var(--saffron-500)) left bottom / 3.5rem 1px
+      no-repeat;
+  }
+  .cineSplit .cineActions {
+    margin-top: 1.5rem;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+  .cineSplit .cineLead {
+    max-width: 28rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgb(255 255 255 / 0.72);
+  }
+}
+
 /* ---------- Slide navigation ---------- */
 .nav {
   position: absolute;
@@ -468,7 +562,9 @@
   overflow: hidden;
   border-radius: 9999px;
   background: rgb(255 255 255 / 0.25);
-  transition: width 0.5s, background-color 0.5s;
+  transition:
+    width 0.5s,
+    background-color 0.5s;
 }
 .dotButton:hover .dot {
   background: rgb(255 255 255 / 0.5);
@@ -508,7 +604,9 @@
   place-items: center;
   border: 1px solid rgb(255 255 255 / 0.25);
   border-radius: 9999px;
-  transition: border-color 0.15s, color 0.15s;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
 }
 .arrow:hover {
   border-color: var(--saffron-500);

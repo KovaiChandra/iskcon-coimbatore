@@ -234,7 +234,7 @@ function ArchSlide({ slide, slides, index, paused }) {
 /** Cinematic layout: the photo fills the banner; quiet text in the lower-left. */
 function CinematicSlide({ slide, paused }) {
   return (
-    <div className={`container-x ${styles.cine}`}>
+    <div className={`container-x ${styles.cine} ${isSplit(slide) ? styles.cineSplit : ''}`}>
       <div key={slide.id} className={styles.cineText} aria-live={paused ? 'polite' : 'off'}>
         <p className={`rise ${styles.eyebrow}`}>
           <span className={styles.eyebrowLine} />
