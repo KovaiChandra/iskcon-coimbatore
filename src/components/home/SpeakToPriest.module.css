@@ -101,6 +101,13 @@
   border-color: rgb(245 183 0 / 0.6);
   box-shadow: 0 30px 60px -30px rgb(245 183 0 / 0.35);
 }
+.step {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgb(255 215 94 / 0.75);
+}
 .iconRing {
   display: grid;
   width: 4rem;
