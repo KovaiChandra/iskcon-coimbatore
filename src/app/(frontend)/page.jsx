@@ -555,56 +555,61 @@ export default async function HomePage() {
                 />
               </LiveScreen>
             </div>
-            <div>
-              <Eyebrow>Blessings from Sri Sri Jagannath</Eyebrow>
-              <h2 className={styles.h2}>{home.livePuja.title || 'Live online puja'}</h2>
-              <p className={styles.liveText}>
-                {home.livePuja.text ||
-                  'Join the daily arati at Sri Jagannath Mandir from wherever you are. Offer your prayers at the lotus feet of the Lord for your family, health and spiritual growth.'}
-              </p>
-              <div className={styles.liveFacts}>
-                <div className={styles.liveFact}>
-                  <span className={styles.liveIcon}>
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="22"
-                      height="22"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      aria-hidden
-                    >
-                      <circle cx="12" cy="12" r="9" />
-                      <path d="M12 7v5l3 2" />
-                    </svg>
-                  </span>
-                  <div>
-                    <p className={styles.liveFactLabel}>Schedule</p>
-                    <p className={styles.liveFactValue}>
-                      {home.livePuja.time || home.livePuja.schedule}
-                    </p>
+            {/* Text and facts on the left, the YouTube button on the right (desktop) */}
+            <div className={styles.liveBody}>
+              <div>
+                <Eyebrow>Live on YouTube</Eyebrow>
+                <h2 className={styles.h2}>
+                  {home.livePuja.title || 'Darshan live from Sri Jagannath Mandir'}
+                </h2>
+                <p className={styles.liveText}>
+                  {home.livePuja.text ||
+                    'Watch the arati and darshan of Sri Sri Jagannath, Baladeva and Subhadra, streamed live on our YouTube channel. Chant along and offer your prayers from wherever you are.'}
+                </p>
+                <div className={styles.liveFacts}>
+                  <div className={styles.liveFact}>
+                    <span className={styles.liveIcon}>
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="22"
+                        height="22"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        aria-hidden
+                      >
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M12 7v5l3 2" />
+                      </svg>
+                    </span>
+                    <div>
+                      <p className={styles.liveFactLabel}>Schedule</p>
+                      <p className={styles.liveFactValue}>
+                        {home.livePuja.time || home.livePuja.schedule}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className={styles.liveFact}>
-                  <span className={styles.liveIcon}>
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="22"
-                      height="22"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      aria-hidden
-                    >
-                      <rect x="3" y="6" width="13" height="12" rx="2" />
-                      <path d="m16 10 5-3v10l-5-3" />
-                    </svg>
-                  </span>
-                  <div>
-                    <p className={styles.liveFactLabel}>Platform</p>
-                    <p className={styles.liveFactValue}>
-                      {home.livePuja.platform || 'Free to join'}
-                    </p>
+                  <div className={styles.liveFact}>
+                    <span className={styles.liveIcon}>
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="22"
+                        height="22"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        aria-hidden
+                      >
+                        <rect x="3" y="6" width="13" height="12" rx="2" />
+                        <path d="m16 10 5-3v10l-5-3" />
+                      </svg>
+                    </span>
+                    <div>
+                      <p className={styles.liveFactLabel}>Platform</p>
+                      <p className={styles.liveFactValue}>
+                        {home.livePuja.platform || 'Free to join'}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -614,7 +619,7 @@ export default async function HomePage() {
                 rel="noopener noreferrer"
                 className={`btn-donate ${styles.btnBig} ${styles.liveButton}`}
               >
-                Join the live puja
+                <YoutubeIcon size={18} /> Watch live on YouTube
               </a>
             </div>
           </div>

@@ -1100,7 +1100,23 @@
 }
 .liveButton {
   margin-top: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  white-space: nowrap;
   box-shadow: 0 10px 30px -10px rgb(245 183 0 / 0.8);
+}
+/* Desktop: text on the left, button on the right */
+@media (min-width: 1024px) {
+  .liveBody {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 3rem;
+  }
+  .liveButton {
+    margin-top: 0;
+  }
 }
 
 /* ---------- Upcoming festivals (horizontal cards) ---------- */
