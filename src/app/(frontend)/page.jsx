@@ -365,10 +365,8 @@ export default async function HomePage() {
                     />
                   </span>
                   <span className={styles.exploreTitle}>
-                    <span className={styles.exploreName}>{t.title}</span>
-                    <span aria-hidden className={styles.exploreArrow}>
-                      →
-                    </span>
+                    {t.title}
+                    <span aria-hidden>→</span>
                   </span>
                   <span className={styles.exploreText}>{t.text}</span>
                 </Link>
