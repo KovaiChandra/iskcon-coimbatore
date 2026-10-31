@@ -613,14 +613,19 @@ export default async function HomePage() {
                   </div>
                 </div>
               </div>
-              <a
-                href={home.livePuja.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`btn-donate ${styles.btnBig} ${styles.liveButton}`}
-              >
-                <YoutubeIcon size={18} /> Watch live on YouTube
-              </a>
+              {/* Call to action: a short heading above a large YouTube button */}
+              <div className={styles.liveCta}>
+                <p className={styles.liveCtaTitle}>Join the livestream</p>
+                <p className={styles.liveCtaText}>Free on our YouTube channel, every day</p>
+                <a
+                  href={home.livePuja.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.liveButton}
+                >
+                  <YoutubeIcon size={24} /> Watch live on YouTube
+                </a>
+              </div>
             </div>
           </div>
         </section>

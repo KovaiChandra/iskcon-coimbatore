@@ -1098,24 +1098,81 @@
   font-weight: 600;
   color: var(--ink);
 }
+/* Live call to action: heading, line of text and a large YouTube-red button */
+.liveCta {
+  margin-top: 2.5rem;
+}
+.liveCtaTitle {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--purple-900);
+}
+.liveCtaText {
+  margin-top: 0.3rem;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
 .liveButton {
-  margin-top: 2.25rem;
+  position: relative;
+  margin-top: 1.25rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  justify-content: center;
+  gap: 0.75rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #ff2d2d, #d90000);
+  padding: 1.1rem 2.25rem;
+  font-size: 1.0625rem;
+  font-weight: 700;
   white-space: nowrap;
-  box-shadow: 0 10px 30px -10px rgb(245 183 0 / 0.8);
+  color: var(--white);
+  box-shadow:
+    0 14px 32px -12px rgb(217 0 0 / 0.75),
+    0 0 0 0 rgb(255 45 45 / 0.45);
+  animation: liveGlow 2.4s ease-out infinite;
+  transition:
+    transform 0.2s,
+    filter 0.2s;
 }
-/* Desktop: text on the left, button on the right */
+.liveButton:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+@keyframes liveGlow {
+  70%,
+  100% {
+    box-shadow:
+      0 14px 32px -12px rgb(217 0 0 / 0.75),
+      0 0 0 14px rgb(255 45 45 / 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .liveButton {
+    animation: none;
+  }
+}
+@media (max-width: 639px) {
+  .liveButton {
+    width: 100%;
+  }
+}
+/* Desktop: text on the left, call to action on the right */
 @media (min-width: 1024px) {
   .liveBody {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 3rem;
+    gap: 4rem;
   }
-  .liveButton {
+  .liveCta {
     margin-top: 0;
+    border: 1px solid rgb(217 0 0 / 0.15);
+    border-radius: 1.5rem;
+    background: rgb(255 255 255 / 0.7);
+    padding: 2rem 2.25rem;
+    text-align: center;
+    box-shadow: 0 24px 50px -30px rgb(28 10 51 / 0.35);
   }
 }
 
@@ -1663,8 +1720,8 @@
     margin-top: 1.5rem;
     gap: 1rem;
   }
-  .liveButton {
-    margin-top: 1.75rem;
+  .liveCta {
+    margin-top: 2rem;
   }
 
   /* Quote */
