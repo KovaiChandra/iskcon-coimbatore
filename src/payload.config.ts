@@ -19,6 +19,7 @@ import { ContactMessages, Donations, Subscribers, Volunteers } from './collectio
 import { SiteSettings } from './globals/SiteSettings'
 import { TempleTimings } from './globals/TempleTimings'
 import { HomePage } from './globals/HomePage'
+import { SitePhotos } from './globals/SitePhotos'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -46,7 +47,7 @@ export default buildConfig({
     ContactMessages,
     Users,
   ],
-  globals: [HomePage, TempleTimings, SiteSettings],
+  globals: [HomePage, SitePhotos, TempleTimings, SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

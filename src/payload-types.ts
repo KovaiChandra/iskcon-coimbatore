@@ -109,11 +109,13 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     'home-page': HomePage;
+    'site-photos': SitePhoto;
     'temple-timings': TempleTiming;
     'site-settings': SiteSetting;
   };
   globalsSelect: {
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    'site-photos': SitePhotosSelect<false> | SitePhotosSelect<true>;
     'temple-timings': TempleTimingsSelect<false> | TempleTimingsSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
@@ -1003,6 +1005,76 @@ export interface HomePage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-photos".
+ */
+export interface SitePhoto {
+  id: number;
+  explore?: {
+    deities?: (number | null) | Media;
+    kirtan?: (number | null) | Media;
+    prasadam?: (number | null) | Media;
+    goshala?: (number | null) | Media;
+    kovaiChandra?: (number | null) | Media;
+    visit?: (number | null) | Media;
+  };
+  /**
+   * Home page mosaic order: large square, tall, square, square, wide, wide, tall, tall
+   */
+  artGallery?:
+    | {
+        image: number | Media;
+        title: string;
+        /**
+         * e.g. Darshan, Painting, Festival, Temple
+         */
+        kind?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  reels?:
+    | {
+        /**
+         * Shown before the video plays, or alone if there is no video
+         */
+        poster: number | Media;
+        /**
+         * Optional MP4 of the reel. Plays silently on the page
+         */
+        video?: (number | null) | Media;
+        caption: string;
+        /**
+         * The reel on Instagram. If empty, opens the Instagram profile from Site settings
+         */
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  kovai?: {
+    /**
+     * Top of the Kovai Chandra page and on the About page
+     */
+    banner?: (number | null) | Media;
+    /**
+     * Construction photos shown on the Kovai Chandra page
+     */
+    photos?: (number | Media)[] | null;
+  };
+  banners?: {
+    services?: (number | null) | Media;
+    courses?: (number | null) | Media;
+    festivals?: (number | null) | Media;
+    donate?: (number | null) | Media;
+    volunteer?: (number | null) | Media;
+    dailyDarshan?: (number | null) | Media;
+    artGallery?: (number | null) | Media;
+    blog?: (number | null) | Media;
+    contact?: (number | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "temple-timings".
  */
 export interface TempleTiming {
@@ -1116,6 +1188,61 @@ export interface HomePageSelect<T extends boolean = true> {
         url?: T;
         date?: T;
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-photos_select".
+ */
+export interface SitePhotosSelect<T extends boolean = true> {
+  explore?:
+    | T
+    | {
+        deities?: T;
+        kirtan?: T;
+        prasadam?: T;
+        goshala?: T;
+        kovaiChandra?: T;
+        visit?: T;
+      };
+  artGallery?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        kind?: T;
+        id?: T;
+      };
+  reels?:
+    | T
+    | {
+        poster?: T;
+        video?: T;
+        caption?: T;
+        link?: T;
+        id?: T;
+      };
+  kovai?:
+    | T
+    | {
+        banner?: T;
+        photos?: T;
+      };
+  banners?:
+    | T
+    | {
+        services?: T;
+        courses?: T;
+        festivals?: T;
+        donate?: T;
+        volunteer?: T;
+        dailyDarshan?: T;
+        artGallery?: T;
+        blog?: T;
+        contact?: T;
       };
   updatedAt?: T;
   createdAt?: T;

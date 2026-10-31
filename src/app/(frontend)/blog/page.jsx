@@ -3,6 +3,7 @@ import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
 import { PageHero } from '@/components/PageHero'
 import { formatDate } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
+import { bannerFor, getSitePhotos } from '@/lib/site-photos'
 import styles from '../pages.module.css'
 
 export const revalidate = 60
@@ -17,6 +18,7 @@ export default async function BlogPage({ searchParams }) {
   const { category } = await searchParams
   const active = CATEGORIES.includes(category) ? category : null
   const payload = await getPayloadClient()
+  const photos = await getSitePhotos(payload)
   const posts = await payload.find({
     collection: 'posts',
     where: {
@@ -30,6 +32,7 @@ export default async function BlogPage({ searchParams }) {
   return (
     <>
       <PageHero
+        image={bannerFor(photos, 'blog')}
         eyebrow="Blog"
         title="Wisdom for everyday life"
         intro="Festival stories, Bhagavad-gita insights and news from Sri Jagannath Mandir."

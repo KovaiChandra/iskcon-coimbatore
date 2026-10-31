@@ -4,6 +4,7 @@ import { VisitSection } from '@/components/home/VisitSection'
 import { ContactForm } from '@/components/forms/ContactForm'
 import { waLink } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
+import { bannerFor, getSitePhotos } from '@/lib/site-photos'
 import styles from '../pages.module.css'
 
 export const revalidate = 60
@@ -32,6 +33,7 @@ const icon = (d) => (
 export default async function ContactPage({ searchParams }) {
   const { topic } = await searchParams
   const payload = await getPayloadClient()
+  const photos = await getSitePhotos(payload)
   const [settings, timings, home] = await Promise.all([
     payload.findGlobal({ slug: 'site-settings' }),
     payload.findGlobal({ slug: 'temple-timings' }),
@@ -74,6 +76,7 @@ export default async function ContactPage({ searchParams }) {
   return (
     <>
       <PageHero
+        image={bannerFor(photos, 'contact')}
         eyebrow="Contact"
         title="We'd love to hear from you"
         intro="Questions about darshan, seva, receipts or events? Write to us, call, or simply visit the temple."

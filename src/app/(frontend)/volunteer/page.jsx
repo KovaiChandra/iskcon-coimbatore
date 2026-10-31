@@ -1,7 +1,11 @@
 import { PageHero } from '@/components/PageHero'
 import { Sparkle } from '@/components/art/Mandala'
 import { VolunteerForm } from '@/components/forms/VolunteerForm'
+import { getPayloadClient } from '@/lib/payload'
+import { bannerFor, getSitePhotos } from '@/lib/site-photos'
 import styles from '../pages.module.css'
+
+export const revalidate = 60
 
 export const metadata = {
   title: 'Volunteer',
@@ -21,10 +25,12 @@ const REASONS = [
   ['Find good company', 'Make friends with families, students and devotees who share your values.'],
 ]
 
-export default function VolunteerPage() {
+export default async function VolunteerPage() {
+  const photos = await getSitePhotos(await getPayloadClient())
   return (
     <>
       <PageHero
+        image={bannerFor(photos, 'volunteer')}
         eyebrow="Support us"
         title="Volunteer at Sri Jagannath Mandir"
         intro="Give your time and talents to the Lord. Festivals, prasadam, Annadaan, the goshala and more; there is a seva for everyone."

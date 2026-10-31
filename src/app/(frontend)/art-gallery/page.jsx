@@ -2,6 +2,7 @@ import { PageHero } from '@/components/PageHero'
 import { ArtGallery } from '@/components/home/ArtGallery'
 import { getArtworks } from '@/lib/art-gallery'
 import { getPayloadClient } from '@/lib/payload'
+import { bannerFor, getSitePhotos } from '@/lib/site-photos'
 import styles from '../pages.module.css'
 
 export const revalidate = 60
@@ -13,11 +14,13 @@ export const metadata = {
 
 export default async function ArtGalleryPage() {
   const payload = await getPayloadClient()
-  const works = await getArtworks(payload)
+  const photos = await getSitePhotos(payload)
+  const works = await getArtworks(payload, undefined, photos)
 
   return (
     <>
       <PageHero
+        image={bannerFor(photos, 'artGallery')}
         eyebrow="Art gallery"
         title="Sacred art of Sri Jagannath Mandir"
         intro="Paintings of the Lord's pastimes and darshan of the deities, offered for your contemplation. Tap any artwork to view it full screen."

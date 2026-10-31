@@ -28,8 +28,23 @@ export const REELS = [
   },
 ]
 
-/** Load the reels' files from the Media library (reels without a poster are skipped). */
-export async function getReels(payload) {
+/**
+ * The reels to show: those added in admin under Photos & Videos → Instagram reels, or, when
+ * none are, the list above loaded from the Media library (reels without a poster are skipped).
+ */
+export async function getReels(payload, photos) {
+  const uploaded = (photos?.reels ?? []).filter((r) => mediaUrl(r.poster))
+  if (uploaded.length > 0) {
+    return uploaded.map((r, i) => ({
+      id: r.id ?? `reel-${i}`,
+      poster: mediaUrl(r.poster, 'card') || mediaUrl(r.poster),
+      video: r.video?.url ? { url: r.video.url, type: r.video.mimeType || 'video/mp4' } : null,
+      caption: r.caption,
+      alt: r.poster.alt || r.caption,
+      link: r.link || null,
+    }))
+  }
+
   const alts = REELS.flatMap((r) => [r.video, r.poster]).filter(Boolean)
   const { docs } = await payload.find({
     collection: 'media',

@@ -3,6 +3,7 @@ import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
 import { PageHero } from '@/components/PageHero'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
 import { getPayloadClient } from '@/lib/payload'
+import { getSitePhotos } from '@/lib/site-photos'
 import styles from '../pages.module.css'
 
 export const revalidate = 60
@@ -52,13 +53,15 @@ export default async function AboutPage() {
   const payload = await getPayloadClient()
   const home = await payload.findGlobal({ slug: 'home-page', depth: 1 })
   const about = home.about ?? {}
-  const [kovai] = (
+  const photos = await getSitePhotos(payload)
+  const [kovaiByAlt] = (
     await payload.find({
       collection: 'media',
       where: { alt: { equals: 'Kovai Chandra new temple under construction (banner)' } },
       limit: 1,
     })
   ).docs
+  const kovai = photos.kovai?.banner || kovaiByAlt
 
   return (
     <>

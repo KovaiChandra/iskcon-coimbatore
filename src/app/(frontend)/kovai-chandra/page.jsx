@@ -4,6 +4,7 @@ import { PageHero } from '@/components/PageHero'
 import { Sparkle } from '@/components/art/Mandala'
 import { inr } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
+import { getSitePhotos } from '@/lib/site-photos'
 import styles from '../pages.module.css'
 
 export const revalidate = 60
@@ -13,7 +14,7 @@ export const metadata = {
     'Kovai Chandra, the new temple and Educational & Cultural Center of ISKCON Coimbatore. See the progress and support construction.',
 }
 
-/** Construction photos, found by their alt text in the Media library */
+/** Construction photos found by their alt text, used until photos are uploaded in admin (Photos & Videos → Kovai Chandra) */
 const PHOTOS = [
   'Kovai Chandra new temple under construction (banner)',
   'Kovai Chandra, the new temple, under construction',
@@ -43,12 +44,17 @@ const WAYS = [
 
 export default async function KovaiChandraPage() {
   const payload = await getPayloadClient()
-  const [media, sevas] = await Promise.all([
+  const [media, sevas, sitePhotos] = await Promise.all([
     payload.find({ collection: 'media', where: { alt: { in: PHOTOS } }, limit: PHOTOS.length }),
     payload.find({ collection: 'sevas', where: { slug: { equals: 'new-temple' } }, limit: 1 }),
+    getSitePhotos(payload),
   ])
   const byAlt = new Map(media.docs.map((m) => [m.alt, m]))
-  const photos = PHOTOS.map((alt) => byAlt.get(alt)).filter(Boolean)
+  const { banner, photos: uploaded = [] } = sitePhotos.kovai ?? {}
+  const photos =
+    banner || uploaded.length > 0
+      ? [banner, ...uploaded].filter((p) => p && typeof p === 'object')
+      : PHOTOS.map((alt) => byAlt.get(alt)).filter(Boolean)
   const seva = sevas.docs[0]
   const amounts = (seva?.presetAmounts ?? []).map((p) => p.amount)
 

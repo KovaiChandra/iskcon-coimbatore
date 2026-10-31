@@ -5,6 +5,7 @@ import { Sparkle } from '@/components/art/Mandala'
 import { DonationCard } from '@/components/home/DonationCard'
 import { NityaSevaForm } from '@/components/home/NityaSevaForm'
 import { getPayloadClient } from '@/lib/payload'
+import { bannerFor, getSitePhotos } from '@/lib/site-photos'
 import { isSevaActive } from '@/lib/sevas'
 import styles from '../pages.module.css'
 
@@ -17,6 +18,7 @@ export const metadata = {
 
 export default async function DonatePage() {
   const payload = await getPayloadClient()
+  const photos = await getSitePhotos(payload)
   const [sevas, settings] = await Promise.all([
     payload.find({ collection: 'sevas', sort: 'order', limit: 50, depth: 1 }),
     payload.findGlobal({ slug: 'site-settings' }),
@@ -27,6 +29,7 @@ export default async function DonatePage() {
   return (
     <>
       <PageHero
+        image={bannerFor(photos, 'donate')}
         eyebrow="Support us"
         title="Offer your seva"
         intro="Every offering, large or small, serves the Lord and His devotees. Choose a seva below; donations are eligible for 80G tax exemption."

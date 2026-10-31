@@ -18,6 +18,7 @@ import { darshanSlots } from '@/lib/darshan-slots'
 import { formatDate, inr, mediaUrl, waLink } from '@/lib/format'
 import { getReels } from '@/lib/instagram-reels'
 import { getPayloadClient } from '@/lib/payload'
+import { getSitePhotos } from '@/lib/site-photos'
 import { isSevaActive, populated } from '@/lib/sevas'
 import styles from './home.module.css'
 
@@ -31,9 +32,13 @@ function daysUntil(date) {
   return d <= 0 ? 'Today' : d === 1 ? 'Tomorrow' : `In ${d} days`
 }
 
-/** "Explore the temple" tiles. Photos are found by their alt text in the Media library. */
+/**
+ * "Explore the temple" tiles. Photos come from admin (Photos & Videos → Explore the temple),
+ * else are found by their alt text in the Media library.
+ */
 const EXPLORE = [
   {
+    key: 'deities',
     title: 'The Deities',
     text: 'Darshan of Sri Sri Jagannath, Baladeva & Subhadra',
     alt: 'Sri Sri Jagannath, Baladeva and Subhadra',
@@ -41,6 +46,7 @@ const EXPLORE = [
     art: 'temple',
   },
   {
+    key: 'kirtan',
     title: 'Arati & Kirtan',
     text: 'Join the daily aratis and congregational chanting',
     alt: 'Devotees singing kirtan at Sri Jagannath Mandir',
@@ -48,6 +54,7 @@ const EXPLORE = [
     art: 'lotus',
   },
   {
+    key: 'prasadam',
     title: 'Prasadam',
     text: 'Sanctified food for every visitor',
     alt: 'A family honouring prasadam on the temple lawn',
@@ -55,6 +62,7 @@ const EXPLORE = [
     art: 'lotus',
   },
   {
+    key: 'goshala',
     title: 'Goshala',
     text: 'Meet and serve the temple cows',
     alt: 'A devotee feeding the cows at the goshala',
@@ -62,6 +70,7 @@ const EXPLORE = [
     art: 'lotus',
   },
   {
+    key: 'kovaiChandra',
     title: 'Kovai Chandra',
     text: 'Our new temple, rising in Coimbatore',
     alt: 'Kovai Chandra new temple under construction (banner)',
@@ -69,6 +78,7 @@ const EXPLORE = [
     art: 'temple',
   },
   {
+    key: 'visit',
     title: 'Plan your visit',
     text: 'Timings, directions and what to expect',
     alt: 'Sri Jagannath Mandir, Coimbatore, at sunset',
@@ -96,7 +106,7 @@ export default async function HomePage() {
   const payload = await getPayloadClient()
   const todayStart = new Date(new Date().setHours(0, 0, 0, 0)).toISOString()
 
-  const [home, settings, timings, festivals, courses, posts, monthlySevas, festivalSevas] =
+  const [home, settings, timings, festivals, courses, posts, monthlySevas, festivalSevas, photos] =
     await Promise.all([
       payload.findGlobal({ slug: 'home-page', depth: 2 }),
       payload.findGlobal({ slug: 'site-settings' }),
@@ -116,6 +126,7 @@ export default async function HomePage() {
       }),
       payload.find({ collection: 'sevas', where: { allowMonthly: { equals: true } }, limit: 20 }),
       payload.find({ collection: 'sevas', where: { category: { equals: 'festival' } }, limit: 10 }),
+      getSitePhotos(payload),
     ])
 
   const exploreMedia = new Map(
@@ -215,8 +226,8 @@ export default async function HomePage() {
   )
 
   const highlights = populated(home.highlightSevas).filter((s) => isSevaActive(s))
-  const artworks = await getArtworks(payload, 8)
-  const reels = await getReels(payload)
+  const artworks = await getArtworks(payload, 8, photos)
+  const reels = await getReels(payload, photos)
 
   return (
     <>
@@ -356,7 +367,7 @@ export default async function HomePage() {
                 <Link href={t.href} className={styles.exploreTile}>
                   <span className={styles.explorePhoto}>
                     <ImageOrPlaceholder
-                      media={exploreMedia.get(t.alt)}
+                      media={photos.explore?.[t.key] || exploreMedia.get(t.alt)}
                       art={t.art}
                       alt={t.alt}
                       sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 75vw"

@@ -3,6 +3,7 @@ import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
 import { PageHero } from '@/components/PageHero'
 import { formatDate } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
+import { bannerFor, getSitePhotos } from '@/lib/site-photos'
 import styles from '../pages.module.css'
 
 export const revalidate = 60
@@ -44,6 +45,7 @@ function FestivalCard({ f, past }) {
 
 export default async function FestivalsPage() {
   const payload = await getPayloadClient()
+  const photos = await getSitePhotos(payload)
   const todayStart = new Date(new Date().setHours(0, 0, 0, 0)).toISOString()
   const [upcoming, past] = await Promise.all([
     payload.find({
@@ -63,6 +65,7 @@ export default async function FestivalsPage() {
   return (
     <>
       <PageHero
+        image={bannerFor(photos, 'festivals')}
         eyebrow="Festivals"
         title="Festival calendar"
         intro="Celebrate with kirtan, abhishek, drama and a grand prasadam feast. Every festival is open to all."

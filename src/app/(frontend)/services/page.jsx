@@ -3,6 +3,7 @@ import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
 import { PageHero } from '@/components/PageHero'
 import { waLink } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
+import { bannerFor, getSitePhotos } from '@/lib/site-photos'
 import styles from '../pages.module.css'
 
 export const revalidate = 60
@@ -36,6 +37,7 @@ function serviceLink(service, whatsapp) {
 
 export default async function ServicesPage() {
   const payload = await getPayloadClient()
+  const photos = await getSitePhotos(payload)
   const [services, settings] = await Promise.all([
     payload.find({ collection: 'services', sort: 'order', limit: 50, depth: 1 }),
     payload.findGlobal({ slug: 'site-settings' }),
@@ -44,6 +46,7 @@ export default async function ServicesPage() {
   return (
     <>
       <PageHero
+        image={bannerFor(photos, 'services')}
         eyebrow="Devotional services"
         title="Serve, receive and grow in devotion"
         intro="From sponsoring prasadam to speaking with a priest, here is how the temple can serve you and your family."

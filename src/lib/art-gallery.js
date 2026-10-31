@@ -49,8 +49,27 @@ export const ARTWORKS = [
   { alt: 'Temple shikhara and flag at dusk', title: 'Shikhara at dusk', kind: 'Temple' },
 ]
 
-/** Load the artworks' photos from the Media library, in the order above (missing photos are skipped). */
-export async function getArtworks(payload, limit = ARTWORKS.length) {
+/**
+ * The artworks to show: those uploaded in admin under Photos & Videos → Art gallery, or, when
+ * none are, the list above loaded from the Media library (missing photos are skipped).
+ */
+export async function getArtworks(payload, limit = ARTWORKS.length, photos) {
+  const uploaded = (photos?.artGallery ?? []).filter((a) => mediaUrl(a.image))
+  if (uploaded.length > 0) {
+    return uploaded
+      .slice(0, limit)
+      .filter((a) => a.image.width && a.image.height)
+      .map((a) => ({
+        id: a.image.id,
+        url: mediaUrl(a.image),
+        width: a.image.width,
+        height: a.image.height,
+        alt: a.image.alt || a.title,
+        title: a.title,
+        kind: a.kind,
+      }))
+  }
+
   const list = ARTWORKS.slice(0, limit)
   const { docs } = await payload.find({
     collection: 'media',

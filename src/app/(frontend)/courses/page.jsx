@@ -2,6 +2,7 @@ import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
 import { PageHero } from '@/components/PageHero'
 import { waLink } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
+import { bannerFor, getSitePhotos } from '@/lib/site-photos'
 import styles from '../pages.module.css'
 
 export const revalidate = 60
@@ -15,6 +16,7 @@ const MODE = { online: 'Online (Zoom)', temple: 'At the temple', both: 'Online &
 
 export default async function CoursesPage() {
   const payload = await getPayloadClient()
+  const photos = await getSitePhotos(payload)
   const [courses, settings] = await Promise.all([
     payload.find({ collection: 'courses', sort: 'order', limit: 50 }),
     payload.findGlobal({ slug: 'site-settings' }),
@@ -23,6 +25,7 @@ export default async function CoursesPage() {
   return (
     <>
       <PageHero
+        image={bannerFor(photos, 'courses')}
         eyebrow="Learn and grow"
         title="Courses and classes"
         intro="Timeless wisdom explained simply. Join online or at Sri Jagannath Mandir; everyone is welcome."

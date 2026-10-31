@@ -5,6 +5,7 @@ import { VisitSection } from '@/components/home/VisitSection'
 import { formatDate } from '@/lib/format'
 import { populated } from '@/lib/sevas'
 import { getPayloadClient } from '@/lib/payload'
+import { bannerFor, getSitePhotos } from '@/lib/site-photos'
 import styles from '../pages.module.css'
 
 export const revalidate = 60
@@ -19,6 +20,7 @@ const dayKey = (d) => new Date(d).toLocaleDateString('en-CA', { timeZone: 'Asia/
 export default async function DailyDarshanPage({ searchParams }) {
   const { date } = await searchParams
   const payload = await getPayloadClient()
+  const sitePhotos = await getSitePhotos(payload)
   const [days, settings, timings, home] = await Promise.all([
     payload.find({ collection: 'darshan-days', sort: '-date', limit: 7, depth: 1 }),
     payload.findGlobal({ slug: 'site-settings' }),
@@ -31,6 +33,7 @@ export default async function DailyDarshanPage({ searchParams }) {
   return (
     <>
       <PageHero
+        image={bannerFor(sitePhotos, 'dailyDarshan')}
         eyebrow="Daily darshan"
         title="Darshan of Sri Sri Jagannath, Baladeva & Subhadra"
         intro="The Lord's beautiful dress and decorations, photographed at the temple every day."
