@@ -208,14 +208,6 @@ export default async function HomePage() {
 
   const highlights = populated(home.highlightSevas).filter((s) => isSevaActive(s))
   const artworks = await getArtworks(payload, 8)
-  const [priestPhoto] = (
-    await payload.find({
-      collection: 'media',
-      where: { alt: { equals: 'A family with a devotee at the temple' } },
-      limit: 1,
-      depth: 0,
-    })
-  ).docs
 
   return (
     <>
@@ -755,7 +747,7 @@ export default async function HomePage() {
       )}
 
       {/* Speak to a priest */}
-      <SpeakToPriest image={priestPhoto} whatsapp={settings.whatsapp} phone={settings.phone} />
+      <SpeakToPriest whatsapp={settings.whatsapp} phone={settings.phone} />
 
       {/* Blog */}
       {posts.docs.length > 0 && (

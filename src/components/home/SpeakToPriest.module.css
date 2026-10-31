@@ -1,171 +1,181 @@
 /* =========================================================================
-   Speak to a priest: one rounded card. Photo fills the left half (top on
-   phones); the invitation sits on deep purple on the right.
+   Speak to a priest: a centred, typographic invitation on soft ivory.
+   Title → .title, the three topics → .topics, buttons → .actions.
    ========================================================================= */
 .section {
-  padding: 6rem 0;
-  background: var(--cream);
-}
-.grid {
-  display: grid;
-  overflow: hidden;
-  border-radius: 2rem;
-  background:
-    radial-gradient(ellipse 60% 70% at 100% 0%, rgb(245 183 0 / 0.12), transparent 65%),
-    linear-gradient(160deg, var(--purple-800), var(--purple-950));
-  color: var(--white);
-  box-shadow: 0 40px 80px -45px rgb(28 10 51 / 0.7);
-}
-
-/* ---------- Photo ---------- */
-.photoWrap {
   position: relative;
-  min-height: 15rem;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 7rem 0;
+  background:
+    radial-gradient(ellipse 55% 60% at 50% 40%, rgb(245 183 0 / 0.09), transparent 70%), #faf6ee;
+  text-align: center;
 }
-.photo {
+.mandala {
   position: absolute;
-  inset: 0;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  width: 52rem;
+  height: 52rem;
+  translate: -50% -50%;
+  color: rgb(201 154 59 / 0.1);
 }
-.photo img {
-  object-fit: cover;
-  object-position: 60% 40%;
-}
-/* Soft fade from the photo into the purple */
-.photo::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 55%, rgb(28 10 51 / 0.55));
+.inner {
+  max-width: 62rem;
 }
 
-/* ---------- Text ---------- */
-.body {
-  padding: 2.25rem 1.5rem 2.5rem;
-}
+/* ---------- Heading ---------- */
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.9rem;
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--saffron-300);
+  color: #a86b00;
+}
+.line {
+  width: 2.25rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
 }
 .title {
-  margin-top: 0.9rem;
+  margin: 1.1rem auto 0;
+  max-width: 46rem;
   font-family: var(--font-serif);
-  font-size: 2rem;
-  line-height: 1.15;
-  color: var(--white);
+  font-size: 2.3rem;
+  line-height: 1.12;
+  color: var(--purple-950);
 }
 .accent {
-  color: var(--saffron-300);
+  font-style: normal;
+  color: var(--purple-700);
 }
 .text {
-  margin-top: 1rem;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: rgb(239 231 248 / 0.8);
+  margin: 1.4rem auto 0;
+  max-width: 36rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--muted);
 }
+.ornament {
+  margin: 2.5rem auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  color: var(--saffron-600);
+}
+.ornament span {
+  width: 5rem;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--saffron-600));
+}
+.ornament span:last-child {
+  background: linear-gradient(to left, transparent, var(--saffron-600));
+}
+
+/* ---------- Topics ---------- */
 .topics {
-  margin-top: 1.75rem;
-  border-top: 1px solid rgb(255 255 255 / 0.12);
+  margin-top: 2.75rem;
+  display: grid;
+  gap: 2rem;
 }
 .topic {
-  display: flex;
-  gap: 0.9rem;
-  border-bottom: 1px solid rgb(255 255 255 / 0.12);
-  padding: 0.9rem 0;
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  padding: 0 1.5rem;
 }
-.topicMark {
-  flex-shrink: 0;
-  width: 0.45rem;
-  height: 0.45rem;
-  margin-top: 0.5rem;
-  rotate: 45deg;
-  background: var(--saffron-500);
+.no {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: #a86b00;
 }
 .topicTitle {
-  display: block;
-  font-weight: 600;
-  color: var(--white);
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  line-height: 1.25;
+  color: var(--purple-950);
 }
 .topicText {
-  display: block;
-  margin-top: 0.15rem;
-  font-size: 0.875rem;
-  color: rgb(239 231 248 / 0.7);
+  max-width: 17rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--muted);
 }
 
 /* ---------- Actions ---------- */
 .actions {
-  margin-top: 2rem;
+  margin-top: 3.25rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem 1.5rem;
+  justify-content: center;
+  gap: 1rem 2rem;
 }
 .primary {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.65rem;
   border-radius: 9999px;
-  background: var(--saffron-500);
-  padding: 0.95rem 1.9rem;
+  background: var(--purple-950);
+  padding: 1rem 2.25rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--purple-950);
-  box-shadow: 0 14px 30px -14px rgb(245 183 0 / 0.8);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--white);
+  box-shadow: 0 18px 36px -18px rgb(28 10 51 / 0.75);
   transition:
-    transform 0.2s,
-    background-color 0.2s;
+    transform 0.25s,
+    background-color 0.25s;
+}
+.primary svg {
+  color: var(--whatsapp);
 }
 .primary:hover {
   transform: translateY(-2px);
-  background: var(--saffron-300);
+  background: var(--purple-800);
 }
 .secondary {
-  border-bottom: 1px solid rgb(255 255 255 / 0.35);
-  padding-bottom: 0.15rem;
+  border-bottom: 1px solid #c99a3b;
+  padding-bottom: 0.2rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--white);
-  transition: border-color 0.2s;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--purple-950);
+  transition: color 0.2s;
 }
 .secondary:hover {
-  border-color: var(--saffron-300);
+  color: #a86b00;
 }
 
-@media (min-width: 640px) {
-  .photoWrap {
-    min-height: 20rem;
-  }
-  .body {
-    padding: 3rem;
-  }
+@media (min-width: 768px) {
   .title {
-    font-size: 2.5rem;
+    font-size: 3.25rem;
+  }
+  .topics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+  }
+  /* Thin gold hairlines between the three topics */
+  .topic + .topic {
+    border-left: 1px solid rgb(201 154 59 / 0.35);
   }
 }
-@media (min-width: 1024px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
-  .photoWrap {
-    min-height: 100%;
-  }
-  .photo::after {
-    background: linear-gradient(to right, transparent 60%, rgb(28 10 51 / 0.6));
-  }
-  .body {
-    padding: 4rem 4rem 4rem 3.5rem;
-  }
-}
-@media (max-width: 639px) {
+@media (max-width: 767px) {
   .section {
-    padding: 4rem 0;
+    padding: 4.5rem 0;
   }
-  .grid {
-    border-radius: 1.5rem;
+  .topic + .topic {
+    border-top: 1px solid rgb(201 154 59 / 0.3);
+    padding-top: 2rem;
   }
   .primary {
     width: 100%;
