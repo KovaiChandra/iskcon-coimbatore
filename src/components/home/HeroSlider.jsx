@@ -259,10 +259,12 @@ function CinematicSlide({ slide, paused }) {
 }
 
 export function HeroSlider({ slides }) {
-  const [index, setIndex] = useState(0)
+  const [shownIndex, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
   const touchX = useRef(null)
   const count = slides.length
+  // If slides are removed while the page is open, fall back to the first one instead of crashing
+  const index = shownIndex < count ? shownIndex : 0
 
   const go = useCallback((i) => setIndex(((i % count) + count) % count), [count])
 
