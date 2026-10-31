@@ -3,12 +3,42 @@
    three simple step cards with thin borders, and two calm buttons.
    ========================================================================= */
 .section {
+  position: relative;
+  isolation: isolate;
+  /* clip, not hidden: hidden would turn the section into a scroller and stop the scroll reveal */
+  overflow: clip;
   padding: 6.5rem 0;
   background: #faf7f1;
   text-align: center;
 }
 .inner {
+  position: relative;
   max-width: 64rem;
+}
+
+/* ---------- ISKCON lotus mark ---------- */
+.mark {
+  display: block;
+  width: 4.25rem;
+  height: auto;
+  margin: 0 auto 1.5rem;
+  filter: drop-shadow(0 8px 18px rgb(201 154 59 / 0.35));
+  animation: float 5s ease-in-out infinite;
+}
+.watermark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(40rem, 90vw);
+  height: auto;
+  translate: -50% -50%;
+  opacity: 0.12; /* watermark strength */
+  pointer-events: none;
+}
+@keyframes float {
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 /* ---------- Heading ---------- */
@@ -218,6 +248,7 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .mark,
   .iconRing::after,
   .eyebrow,
   .title,

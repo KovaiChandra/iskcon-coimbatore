@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { WhatsAppIcon } from '@/components/Icons'
 import { Sparkle } from '@/components/art/Mandala'
 import { waLink } from '@/lib/format'
@@ -55,7 +56,24 @@ const TOPICS = [
 export function SpeakToPriest({ whatsapp, phone }) {
   return (
     <section className={styles.section} aria-labelledby="priest-title">
+      {/* Faint ISKCON lotus watermark behind the section */}
+      <Image
+        src="/brand/mark-gold.png"
+        alt=""
+        width={370}
+        height={334}
+        className={styles.watermark}
+        aria-hidden
+      />
       <div className={`container-x ${styles.inner}`}>
+        {/* ISKCON lotus mark above the heading */}
+        <Image
+          src="/brand/mark-gold.png"
+          alt="ISKCON"
+          width={370}
+          height={334}
+          className={styles.mark}
+        />
         <p className={styles.eyebrow}>
           <Sparkle size={10} />
           Speak to a priest
