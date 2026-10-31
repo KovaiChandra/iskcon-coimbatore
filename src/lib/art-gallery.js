@@ -5,25 +5,28 @@ import { mediaUrl } from './format'
  * Each is a photo in the Media library, found by its alt text. Add, remove or reorder here.
  */
 export const ARTWORKS = [
+  // The first six fill the home page mosaic, in this order:
+  // large square, tall, square, square, wide, wide
+  {
+    alt: 'Sri Jagannath with Sri Sri Gaura-Nitai, ISKCON Coimbatore',
+    title: 'Sri Jagannath with Sri Sri Gaura-Nitai',
+    kind: 'Darshan',
+    position: '50% 35%',
+  },
+  {
+    alt: 'Lord Jagannath in full shringar',
+    title: 'Lord Jagannath in full shringar',
+    kind: 'Darshan',
+  },
+  { alt: 'Krishna lifting Govardhan Hill', title: 'Govardhan-dhari', kind: 'Painting' },
   {
     alt: 'Lord Krishna speaking the Bhagavad-gita to Arjuna',
     title: 'Gita Upadesh',
     kind: 'Painting',
   },
   {
-    alt: 'Sri Jagannath with Sri Sri Gaura-Nitai, ISKCON Coimbatore',
-    title: 'Sri Jagannath with Sri Sri Gaura-Nitai',
-    kind: 'Darshan',
-  },
-  { alt: 'Krishna lifting Govardhan Hill', title: 'Govardhan-dhari', kind: 'Painting' },
-  {
     alt: 'Sri Sri Jagannath, Baladeva and Subhadra in the glow of Kartik lamps',
     title: 'In the glow of Kartik lamps',
-    kind: 'Darshan',
-  },
-  {
-    alt: 'Lord Jagannath in full shringar',
-    title: 'Lord Jagannath in full shringar',
     kind: 'Darshan',
   },
   { alt: 'Lamps on the river under the Kartik full moon', title: 'Rasa Purnima', kind: 'Festival' },
@@ -68,6 +71,7 @@ export async function getArtworks(payload, limit = ARTWORKS.length) {
             alt: a.alt,
             title: a.title,
             kind: a.kind,
+            position: a.position,
           }
         : null
     })

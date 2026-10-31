@@ -1,7 +1,9 @@
 /* =========================================================================
-   Art gallery: framed artworks on a quiet ivory wall, and a full-screen viewer.
-   Wall colour → .section background. Frame → .frame (gold hairline) and .mat (white).
-   Columns → .wall column-count.
+   Art gallery: artworks fitted edge to edge (no space between them),
+   and a full-screen viewer.
+   Background → .section. Home mosaic tile shapes → .big .tall .square .wide,
+   row height → .mosaic grid-auto-rows. Gallery page rows → .rows (tile widths are
+   set from each artwork's proportions in ArtGallery.jsx).
    ========================================================================= */
 .section {
   padding: 6rem 0 6.5rem;
@@ -55,91 +57,109 @@
   color: var(--muted);
 }
 
-/* ---------- The wall: masonry columns, artworks keep their proportions ---------- */
-.wall {
-  column-count: 2;
-  column-gap: 1.25rem;
+/* ---------- Artworks fitted edge to edge ---------- */
+/* Home page mosaic: 2 columns on phones, 4 on desktop */
+.mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 44vw;
+  grid-auto-flow: dense;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  box-shadow: 0 40px 80px -40px rgb(28 10 51 / 0.55);
 }
-.item {
-  break-inside: avoid;
-  margin-bottom: 1.75rem;
+.big {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.tall {
+  grid-row: span 2;
+}
+.wide {
+  grid-column: span 2;
+}
+/* Gallery page: justified rows, each artwork at its natural proportions */
+.rows {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  box-shadow: 0 40px 80px -40px rgb(28 10 51 / 0.55);
+}
+.tile {
+  position: relative;
+  min-width: 0;
 }
 .piece {
+  position: relative;
   display: block;
   width: 100%;
-  text-align: left;
+  height: 100%;
+  overflow: hidden;
+  background: var(--purple-950);
   cursor: zoom-in;
 }
-/* Thin gold frame, white mat, soft gallery shadow */
-.frame {
-  display: block;
-  padding: 1px;
-  background: linear-gradient(135deg, #d9b25a, #f3dfa4 45%, #b8892e);
-  box-shadow:
-    0 1px 2px rgb(28 10 51 / 0.08),
-    0 18px 40px -22px rgb(28 10 51 / 0.45);
-  transition:
-    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 0.5s;
-}
-.mat {
-  display: block;
-  overflow: hidden;
-  background: #fffdf8;
-  padding: 0.6rem;
-}
 .img {
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  object-fit: cover;
+  transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.piece:hover .frame,
-.piece:focus-visible .frame {
-  transform: translateY(-4px);
-  box-shadow:
-    0 1px 2px rgb(28 10 51 / 0.08),
-    0 28px 50px -24px rgb(28 10 51 / 0.55);
-}
-.piece:hover .img {
-  transform: scale(1.03);
+.piece:hover .img,
+.piece:focus-visible .img {
+  transform: scale(1.06);
 }
 .piece:focus-visible {
-  outline: none;
-}
-.piece:focus-visible .frame {
-  outline: 2px solid var(--saffron-500);
-  outline-offset: 4px;
+  outline: 3px solid var(--saffron-500);
+  outline-offset: -3px;
 }
 
-/* Museum-style caption */
+/* Caption over the artwork: shown on hover (always shown on touch screens) */
 .caption {
+  position: absolute;
+  inset: auto 0 0 0;
   display: grid;
   gap: 0.15rem;
-  margin-top: 0.9rem;
-  padding: 0 0.15rem;
+  padding: 3.5rem 1.25rem 1.1rem;
+  text-align: left;
+  background: linear-gradient(to top, rgb(18 6 33 / 0.85), rgb(18 6 33 / 0.35) 60%, transparent);
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.45s,
+    transform 0.45s;
+}
+.piece:hover .caption,
+.piece:focus-visible .caption {
+  opacity: 1;
+  transform: none;
+}
+@media (hover: none) {
+  .caption {
+    opacity: 1;
+    transform: none;
+    padding: 2.5rem 0.875rem 0.75rem;
+  }
 }
 .no {
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #a86b00;
+  color: var(--saffron-300);
 }
 .name {
   font-family: var(--font-serif);
-  font-size: 1.05rem;
-  line-height: 1.3;
-  color: var(--purple-950);
+  font-size: 1.1rem;
+  line-height: 1.25;
+  color: var(--white);
 }
 .kind {
   font-size: 0.8125rem;
-  color: var(--muted);
+  color: rgb(239 231 248 / 0.75);
 }
 
 /* "View the full gallery": quiet outline button with a gold hairline */
 .more {
-  margin-top: 1.5rem;
+  margin-top: 3rem;
   text-align: center;
 }
 .moreButton {
@@ -271,26 +291,17 @@
   .title {
     font-size: 2.75rem;
   }
-  .wall {
-    column-gap: 1.75rem;
-  }
-  .item {
-    margin-bottom: 2.25rem;
-  }
-  .mat {
-    padding: 0.75rem;
+  .mosaic {
+    grid-auto-rows: 15rem;
   }
 }
 @media (min-width: 1024px) {
   .section {
     padding: 7.5rem 0 8rem;
   }
-  .wall {
-    column-count: 3;
-    column-gap: 2.25rem;
-  }
-  .item {
-    margin-bottom: 2.75rem;
+  .mosaic {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: clamp(12rem, 19vw, 17.5rem);
   }
   .viewer {
     padding: 4.5rem 6rem 2.5rem;
@@ -309,11 +320,19 @@
   .head {
     margin-bottom: 2.5rem;
   }
+  .mosaic,
+  .rows {
+    border-radius: 1rem;
+  }
   .name {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
   .kind {
     display: none;
+  }
+  /* Gallery page on phones: two artworks per row */
+  .rows > .tile {
+    flex-basis: 34% !important;
   }
   .nav {
     top: auto;
@@ -322,8 +341,8 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .frame,
   .img,
+  .caption,
   .viewer,
   .stage {
     transition: none;

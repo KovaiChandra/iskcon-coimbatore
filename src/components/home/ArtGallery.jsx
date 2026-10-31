@@ -8,17 +8,25 @@ import styles from './ArtGallery.module.css'
 
 const pad = (n) => String(n).padStart(2, '0')
 
+/** Tile shapes of the home page mosaic, in order (they fit together with no gaps) */
+const MOSAIC = ['big', 'tall', 'square', 'square', 'wide', 'wide']
+
 /**
- * Home page art gallery: framed artworks on a quiet ivory wall (masonry, natural proportions),
- * with a full-screen viewer (arrows, swipe, Esc).
- * works: [{ id, url, width, height, alt, title, kind }]
- * moreHref: shows a "View the full gallery" button under the wall (home page).
- * heading: false hides the section heading (the /art-gallery page has its own page header).
+ * The Art gallery: artworks fitted edge to edge, no space between them, with a full-screen
+ * viewer (arrows, swipe, Esc).
+ *
+ * works:    [{ id, url, width, height, alt, title, kind, position }]
+ * layout:   'mosaic' (home page): six tiles of set shapes in one panel
+ *           'rows'   (gallery page): every work at its natural proportions, in full-width rows
+ * moreHref: shows the "View the full gallery" button under the artworks
+ * heading:  false hides the section heading (the gallery page has its own page header)
  */
-export function ArtGallery({ works, moreHref, heading = true }) {
+export function ArtGallery({ works, layout = 'rows', moreHref, heading = true }) {
+  const mosaic = layout === 'mosaic' && works.length >= MOSAIC.length
+  const shown = mosaic ? works.slice(0, MOSAIC.length) : works
   const [open, setOpen] = useState(null)
   const touchX = useRef(null)
-  const count = works.length
+  const count = shown.length
 
   const go = useCallback(
     (step) => setOpen((i) => (i === null ? i : (i + step + count) % count)),
@@ -40,7 +48,7 @@ export function ArtGallery({ works, moreHref, heading = true }) {
     }
   }, [open, go])
 
-  const work = open === null ? null : works[open]
+  const work = open === null ? null : shown[open]
 
   return (
     <section
@@ -69,27 +77,37 @@ export function ArtGallery({ works, moreHref, heading = true }) {
           </header>
         )}
 
-        <ul className={styles.wall}>
-          {works.map((w, i) => (
-            <li key={w.id} className={styles.item}>
+        <ul className={mosaic ? styles.mosaic : styles.rows}>
+          {shown.map((w, i) => (
+            <li
+              key={w.id}
+              className={`${styles.tile} ${mosaic ? styles[MOSAIC[i]] : ''}`}
+              style={
+                mosaic
+                  ? undefined
+                  : { flexGrow: w.width / w.height, flexBasis: `${(w.width / w.height) * 15}rem` }
+              }
+            >
               <button
                 type="button"
                 className={styles.piece}
                 onClick={() => setOpen(i)}
                 aria-label={`View ${w.title}`}
+                style={mosaic ? undefined : { aspectRatio: `${w.width} / ${w.height}` }}
               >
-                <span className={styles.frame}>
-                  <span className={styles.mat}>
-                    <Image
-                      src={w.url}
-                      alt={w.alt}
-                      width={w.width}
-                      height={w.height}
-                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 50vw"
-                      className={styles.img}
-                    />
-                  </span>
-                </span>
+                <Image
+                  src={w.url}
+                  alt={w.alt}
+                  fill
+                  quality={90}
+                  sizes={
+                    mosaic && MOSAIC[i] === 'big'
+                      ? '(min-width: 1024px) 50vw, 100vw'
+                      : '(min-width: 1024px) 30vw, 60vw'
+                  }
+                  style={{ objectPosition: w.position ?? '50% 40%' }}
+                  className={styles.img}
+                />
                 <span className={styles.caption}>
                   <span className={styles.no}>No. {pad(i + 1)}</span>
                   <span className={styles.name}>{w.title}</span>

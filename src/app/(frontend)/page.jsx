@@ -494,7 +494,9 @@ export default async function HomePage() {
       />
 
       {/* Art gallery (first 6 artworks; the full set is on /art-gallery) */}
-      {artworks.length > 0 && <ArtGallery works={artworks} moreHref="/art-gallery" />}
+      {artworks.length > 0 && (
+        <ArtGallery works={artworks} layout="mosaic" moreHref="/art-gallery" />
+      )}
 
       {/* Nitya Seva + WhatsApp, side by side */}
       <section className={`container-x ${styles.trio}`}>
