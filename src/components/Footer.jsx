@@ -27,6 +27,7 @@ const COLUMNS = [
     title: 'Quick Links',
     links: [
       { label: 'Daily Darshan', href: '/daily-darshan' },
+      { label: 'Art Gallery', href: '/art-gallery' },
       { label: 'Festivals Calendar', href: '/festivals' },
       { label: 'Blog', href: '/blog' },
       { label: 'Donate / Offer Seva', href: '/donate' },

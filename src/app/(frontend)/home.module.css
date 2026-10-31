@@ -365,15 +365,6 @@
   color: var(--saffron-300);
 }
 
-/* ---------- Donation cards ---------- */
-.donate {
-  padding: 6rem 0;
-}
-.donateGrid {
-  display: grid;
-  gap: 1.25rem;
-}
-
 /* ---------- Nitya Seva + WhatsApp + Live ---------- */
 .trio {
   display: grid;
@@ -873,7 +864,6 @@
     font-size: 2.6rem;
     line-height: 1.3;
   }
-  .donateGrid,
   .timeline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -891,9 +881,6 @@
 @media (min-width: 1024px) {
   .about {
     grid-template-columns: 1fr 1.1fr;
-  }
-  .donateGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   /* Desktop: Nitya Seva card takes about 70% of the row, WhatsApp card the rest */
   .trio {
@@ -1634,7 +1621,6 @@
 
   /* Section spacing and headings */
   .about2,
-  .donate,
   .services,
   .blog,
   .festivals,

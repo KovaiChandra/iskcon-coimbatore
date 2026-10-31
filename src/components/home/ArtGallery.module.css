@@ -1,0 +1,332 @@
+/* =========================================================================
+   Art gallery: framed artworks on a quiet ivory wall, and a full-screen viewer.
+   Wall colour → .section background. Frame → .frame (gold hairline) and .mat (white).
+   Columns → .wall column-count.
+   ========================================================================= */
+.section {
+  padding: 6rem 0 6.5rem;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgb(245 183 0 / 0.07), transparent 70%), #f8f4ec;
+}
+
+/* ---------- Heading ---------- */
+.head {
+  max-width: 40rem;
+  margin: 0 auto 3.5rem;
+  text-align: center;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #a86b00;
+}
+.title {
+  margin-top: 0.9rem;
+  font-family: var(--font-serif);
+  font-size: 2.1rem;
+  line-height: 1.15;
+  color: var(--purple-950);
+}
+.rule {
+  margin: 1.25rem auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--saffron-600);
+}
+.rule span {
+  width: 3.5rem;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--saffron-600));
+}
+.rule span:last-child {
+  background: linear-gradient(to left, transparent, var(--saffron-600));
+}
+.intro {
+  margin-top: 1.25rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* ---------- The wall: masonry columns, artworks keep their proportions ---------- */
+.wall {
+  column-count: 2;
+  column-gap: 1.25rem;
+}
+.item {
+  break-inside: avoid;
+  margin-bottom: 1.75rem;
+}
+.piece {
+  display: block;
+  width: 100%;
+  text-align: left;
+  cursor: zoom-in;
+}
+/* Thin gold frame, white mat, soft gallery shadow */
+.frame {
+  display: block;
+  padding: 1px;
+  background: linear-gradient(135deg, #d9b25a, #f3dfa4 45%, #b8892e);
+  box-shadow:
+    0 1px 2px rgb(28 10 51 / 0.08),
+    0 18px 40px -22px rgb(28 10 51 / 0.45);
+  transition:
+    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.5s;
+}
+.mat {
+  display: block;
+  overflow: hidden;
+  background: #fffdf8;
+  padding: 0.6rem;
+}
+.img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.piece:hover .frame,
+.piece:focus-visible .frame {
+  transform: translateY(-4px);
+  box-shadow:
+    0 1px 2px rgb(28 10 51 / 0.08),
+    0 28px 50px -24px rgb(28 10 51 / 0.55);
+}
+.piece:hover .img {
+  transform: scale(1.03);
+}
+.piece:focus-visible {
+  outline: none;
+}
+.piece:focus-visible .frame {
+  outline: 2px solid var(--saffron-500);
+  outline-offset: 4px;
+}
+
+/* Museum-style caption */
+.caption {
+  display: grid;
+  gap: 0.15rem;
+  margin-top: 0.9rem;
+  padding: 0 0.15rem;
+}
+.no {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a86b00;
+}
+.name {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.3;
+  color: var(--purple-950);
+}
+.kind {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* "View the full gallery": quiet outline button with a gold hairline */
+.more {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+.moreButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid #c99a3b;
+  border-radius: 9999px;
+  padding: 0.95rem 2.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--purple-950);
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+.moreButton span {
+  transition: transform 0.3s;
+}
+.moreButton:hover {
+  border-color: var(--purple-950);
+  background: var(--purple-950);
+  color: var(--white);
+}
+.moreButton:hover span {
+  transform: translateX(4px);
+}
+
+/* ---------- Full-screen viewer ---------- */
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: rgb(18 6 33 / 0.96);
+  padding: 4.5rem 1rem 2rem;
+  animation: fade 0.3s ease both;
+}
+.stage {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  max-width: 72rem;
+  flex-direction: column;
+  align-items: center;
+  animation: rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.stageImg {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+.stagePhoto {
+  object-fit: contain;
+}
+.stageCaption {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 1.25rem;
+  text-align: center;
+  color: var(--white);
+}
+.stageNo {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: var(--saffron-300);
+}
+.stageName {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+}
+.stageKind {
+  font-size: 0.875rem;
+  color: rgb(239 231 248 / 0.7);
+}
+.close,
+.nav {
+  position: absolute;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 0.25);
+  border-radius: 9999px;
+  color: var(--white);
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+.close:hover,
+.nav:hover {
+  border-color: var(--saffron-500);
+  color: var(--saffron-300);
+}
+.close {
+  top: 1rem;
+  right: 1rem;
+}
+.nav {
+  top: 50%;
+  translate: 0 -50%;
+}
+.prev {
+  left: 1rem;
+}
+.next {
+  right: 1rem;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+@media (min-width: 640px) {
+  .title {
+    font-size: 2.75rem;
+  }
+  .wall {
+    column-gap: 1.75rem;
+  }
+  .item {
+    margin-bottom: 2.25rem;
+  }
+  .mat {
+    padding: 0.75rem;
+  }
+}
+@media (min-width: 1024px) {
+  .section {
+    padding: 7.5rem 0 8rem;
+  }
+  .wall {
+    column-count: 3;
+    column-gap: 2.25rem;
+  }
+  .item {
+    margin-bottom: 2.75rem;
+  }
+  .viewer {
+    padding: 4.5rem 6rem 2.5rem;
+  }
+  .prev {
+    left: 1.5rem;
+  }
+  .next {
+    right: 1.5rem;
+  }
+}
+@media (max-width: 639px) {
+  .section {
+    padding: 4rem 0 4.5rem;
+  }
+  .head {
+    margin-bottom: 2.5rem;
+  }
+  .name {
+    font-size: 0.95rem;
+  }
+  .kind {
+    display: none;
+  }
+  .nav {
+    top: auto;
+    bottom: 1.25rem;
+    translate: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .frame,
+  .img,
+  .viewer,
+  .stage {
+    transition: none;
+    animation: none;
+  }
+}

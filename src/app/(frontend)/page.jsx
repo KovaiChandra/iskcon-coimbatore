@@ -2,12 +2,13 @@ import Link from 'next/link'
 import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
 import { InstagramIcon, WhatsAppIcon, YoutubeIcon } from '@/components/Icons'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
-import { DonationCard } from '@/components/home/DonationCard'
+import { ArtGallery } from '@/components/home/ArtGallery'
 import { HeroSlider } from '@/components/home/HeroSlider'
 import { NityaSevaForm } from '@/components/home/NityaSevaForm'
 import { ScheduleTicker } from '@/components/home/ScheduleTicker'
 import { SubscribeForm } from '@/components/home/SubscribeForm'
 import { VisitSection } from '@/components/home/VisitSection'
+import { getArtworks } from '@/lib/art-gallery'
 import { blurDataURL } from '@/lib/blur'
 import { formatDate, inr, mediaUrl, waLink } from '@/lib/format'
 import { getPayloadClient } from '@/lib/payload'
@@ -218,7 +219,7 @@ export default async function HomePage() {
   )
 
   const highlights = populated(home.highlightSevas).filter((s) => isSevaActive(s))
-  const donationSevas = populated(home.donationSevas).filter((s) => isSevaActive(s))
+  const artworks = await getArtworks(payload, 6)
 
   return (
     <>
@@ -492,40 +493,8 @@ export default async function HomePage() {
         sessions={(timings.openSessions ?? []).map(({ opens, closes }) => ({ opens, closes }))}
       />
 
-      {/* Donation bento */}
-      {donationSevas.length > 0 && (
-        <section className={styles.donate}>
-          <div className="container-x">
-            <div className={styles.sectionHeadCenter}>
-              <Eyebrow>Offer a seva</Eyebrow>
-              <h2 className={styles.h2}>Turn your offering into prasad</h2>
-            </div>
-            <div className={`${styles.donateGrid} ${styles.swipe}`}>
-              {donationSevas.map((s, i) => (
-                <DonationCard
-                  key={s.id}
-                  featured={i === 0}
-                  wide={donationSevas.length === 4 && i === 3}
-                  badge={
-                    s.category === 'festival' ? 'Festival' : i === 0 ? 'Most loved' : undefined
-                  }
-                  slug={s.slug}
-                  title={s.title}
-                  description={s.shortDescription}
-                  amounts={(s.presetAmounts ?? []).map((p) => p.amount)}
-                  image={
-                    <ImageOrPlaceholder
-                      media={s.cardImage || s.image}
-                      art={s.artwork ?? 'lotus'}
-                      sizes="(min-width: 1024px) 33vw, 100vw"
-                    />
-                  }
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Art gallery (first 6 artworks; the full set is on /art-gallery) */}
+      {artworks.length > 0 && <ArtGallery works={artworks} moreHref="/art-gallery" />}
 
       {/* Nitya Seva + WhatsApp, side by side */}
       <section className={`container-x ${styles.trio}`}>
