@@ -1,26 +1,23 @@
 /* =========================================================================
-   Header, in two tones: a royal-purple block with the white ISKCON lotus and the temple's name,
-   then a dark bar with the menu in white. Phones and tablets: the whole bar is purple.
-   Colours → --brand-bg (purple block), --bar-bg (dark menu bar). Height → --header-h.
-   Logo per the ISKCON identity manual: knocked out to white on a colour field, lettering in
+   White header: the ISKCON lotus and the temple's name in black, the menu in dark ink.
+   Logo per the ISKCON identity manual: black (one of its two allowed colours), lettering in
    (Adobe) Garamond, descriptor in Helvetica Medium capitals with wide tracking.
+   Colours → --logo-ink (logo and name). Height → --header-h.
    ========================================================================= */
 .header {
   --header-h: 4.5rem;
-  --brand-bg: var(--purple-700);
-  --bar-bg: #150a24;
+  --logo-ink: #000;
   position: sticky;
   top: 0;
   z-index: 40;
-  /* clip sideways only, so the purple block can reach the screen edge but dropdowns still show */
-  overflow-x: clip;
-  background: var(--brand-bg);
-  color: var(--white);
+  border-bottom: 1px solid var(--purple-100);
+  background: var(--white);
+  color: var(--ink);
   transition: box-shadow 0.3s;
 }
 /* Once the page is scrolled (components/Motion.jsx): a soft shadow under the bar */
 :global(html[data-scrolled]) .header {
-  box-shadow: 0 10px 30px -14px rgb(21 10 36 / 0.6);
+  box-shadow: 0 10px 30px -18px rgb(28 10 51 / 0.35);
 }
 .inner {
   display: flex;
@@ -51,25 +48,26 @@
 .wordName {
   font-family: var(--font-garamond), 'Adobe Garamond Pro', Garamond, Georgia, serif;
   font-weight: 600;
-  font-size: 0.95rem;
-  letter-spacing: 0.01em;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: nowrap;
+  color: var(--logo-ink);
 }
 .wordRule {
   display: block;
-  height: 1.5px;
-  margin: 0.38rem 0 0.32rem;
-  background: linear-gradient(90deg, var(--saffron-300), rgb(255 215 94 / 0.25));
+  height: 1px;
+  margin: 0.32rem 0 0.28rem;
+  background: linear-gradient(90deg, var(--saffron-500), rgb(245 183 0 / 0.2));
 }
 .wordSub {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 0.5rem;
+  font-size: 0.46rem;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   white-space: nowrap;
-  color: rgb(255 255 255 / 0.85);
+  color: var(--logo-ink);
 }
 
 /* ---------- Desktop menu (white on the dark bar) ---------- */
@@ -95,12 +93,12 @@
   padding: 0.5rem 0.65rem;
   font-size: 0.9rem;
   font-weight: 500;
-  color: rgb(255 255 255 / 0.92);
+  color: var(--ink);
   transition: color 0.2s;
 }
 .navLink:hover,
 .active {
-  color: var(--saffron-300);
+  color: var(--purple-700);
 }
 /* Gold underline on hover and on the current page */
 .navLink::after {
@@ -127,11 +125,11 @@
   left: 0;
   top: 100%;
   min-width: 12rem;
-  border: 1px solid rgb(255 255 255 / 0.08);
+  border: 1px solid var(--purple-100);
   border-radius: 0.75rem;
-  background: #21123a;
+  background: var(--white);
   padding: 0.5rem;
-  box-shadow: 0 18px 30px -12px rgb(0 0 0 / 0.45);
+  box-shadow: 0 18px 30px -12px rgb(28 10 51 / 0.25);
   transition:
     opacity 0.15s,
     visibility 0.15s;
@@ -146,14 +144,14 @@
   border-radius: 0.5rem;
   padding: 0.55rem 0.75rem;
   font-size: 0.875rem;
-  color: rgb(255 255 255 / 0.88);
+  color: var(--ink);
   transition:
     background-color 0.15s,
     color 0.15s;
 }
 .dropdownLink:hover {
-  background: var(--purple-700);
-  color: var(--white);
+  background: var(--purple-50);
+  color: var(--purple-700);
 }
 
 /* ---------- Right side: search, donate, menu button ---------- */
@@ -168,13 +166,13 @@
   display: none;
   border-radius: 9999px;
   padding: 0.5rem;
-  color: var(--white);
+  color: var(--purple-800);
 }
 /* Only on devices with a mouse, so a tapped button doesn't stay highlighted on phones */
 @media (hover: hover) {
   .search:hover,
   .menuButton:hover {
-    background: rgb(255 255 255 / 0.1);
+    background: var(--purple-50);
   }
 }
 .donate {
@@ -184,7 +182,7 @@
 .menuButton {
   border-radius: 9999px;
   padding: 0.4rem;
-  color: var(--white);
+  color: var(--purple-800);
 }
 .menuIcon {
   width: 1.5rem;
@@ -268,11 +266,11 @@
     gap: 0.75rem;
   }
   .wordName {
-    font-size: 1.3rem;
-    letter-spacing: 0.02em;
+    font-size: 1.08rem;
+    letter-spacing: 0.03em;
   }
   .wordSub {
-    font-size: 0.62rem;
+    font-size: 0.56rem;
     letter-spacing: 0.2em;
   }
   .actions {
@@ -284,41 +282,28 @@
   }
 }
 
-/* ---------- Desktop: two tones, full menu, no hamburger ---------- */
+/* ---------- Desktop: full menu, no hamburger ---------- */
 @media (min-width: 1280px) {
   .header {
     --header-h: 5.75rem;
-    background: var(--bar-bg);
   }
-  /* Wider than the page content, so the logo block and the full menu fit side by side */
+  /* Wider than the page content, so the logo and the full menu fit side by side */
   .header .inner {
     max-width: 96rem;
     padding-left: 2rem;
     padding-right: 2rem;
   }
-  /* The purple block runs from the screen's left edge to just past the name */
   .brand {
-    padding-right: 2.25rem;
     gap: 0.9rem;
-  }
-  .brand::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: -100vw;
-    z-index: -1;
-    background: var(--brand-bg);
   }
   .lotus {
     height: 3.9rem;
   }
   .wordName {
-    font-size: 1.55rem;
+    font-size: 1.28rem;
   }
   .wordSub {
-    font-size: 0.68rem;
+    font-size: 0.6rem;
   }
   .nav,
   .search {
@@ -345,11 +330,5 @@
   .navLink::after {
     left: 0.5rem;
     right: 0.5rem;
-  }
-  .brand {
-    padding-right: 1.75rem;
-  }
-  .wordName {
-    font-size: 1.4rem;
   }
 }

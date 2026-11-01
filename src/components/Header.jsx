@@ -25,9 +25,9 @@ export function Header({ socials }) {
     <header className={`${styles.header} ${menuOpen ? styles.menuOpen : ''}`}>
       <div className={`container-x ${styles.inner}`}>
         <Link href="/" className={styles.brand} aria-label="ISKCON Coimbatore home">
-          {/* ISKCON lotus in white (public/brand/iskcon-lotus-white.svg) beside the temple's name */}
+          {/* ISKCON lotus in black (public/brand/iskcon-lotus-black.svg) beside the temple's name */}
           <Image
-            src="/brand/iskcon-lotus-white.svg"
+            src="/brand/iskcon-lotus-black.svg"
             alt=""
             width={516}
             height={480}
