@@ -78,6 +78,7 @@ GET responses may be cached for up to 60 seconds. Content changed in the admin a
 | `GET /home` | Home screen: every home section in one call |
 | `GET /settings` | Contact details, social links, 80G / UPI / bank details |
 | `GET /timings` | Open / closed status and the daily schedule |
+| `GET /live` | Is the temple's YouTube channel streaming right now? |
 | `GET /photos` | Explore tiles, page banner photos, Kovai Chandra photos |
 | `GET /sevas` | Seva (donation) list |
 | `GET /sevas/{slug}` | One seva |
@@ -166,6 +167,23 @@ One call for the whole home screen. Sections that have no content are empty arra
   "schedule": [ { "time": "4:15 AM", "activity": "Mangala Arati" } ]
 }
 ```
+
+### `GET /live`
+
+Checks the temple's YouTube channel ([@ISKCON_Coimbatore](https://www.youtube.com/@ISKCON_Coimbatore/streams)) at most once a minute. Never needs `x-api-key`.
+
+```json
+{
+  "live": true,                         // true only while actually streaming
+  "videoId": "wwRU-m8hAvI",             // current stream, or the next scheduled one when not live
+  "upcoming": false,                    // true when a stream is scheduled but has not started
+  "title": "ISKCON Coimbatore is live",
+  "embedUrl": "https://www.youtube-nocookie.com/embed/wwRU-m8hAvI?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1",
+  "watchUrl": "https://www.youtube.com/watch?v=wwRU-m8hAvI",
+  "checkedAt": "2026-11-01T12:35:49.592Z"
+}
+```
+When `live` is `false`, `embedUrl` is `null` and `watchUrl` points to the channel's streams page. Show the stream with `embedUrl` in a WebView, or open `watchUrl` in the YouTube app.
 
 ### `GET /photos`
 

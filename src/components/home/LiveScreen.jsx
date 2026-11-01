@@ -61,6 +61,39 @@ const hhmm = (secs) =>
   secs >= 3600 ? `${Math.floor(secs / 3600)}h ${pad(Math.floor((secs % 3600) / 60))}m` : clock(secs)
 
 /**
+ * While the screen is open, ask the server (every minute) whether the temple's YouTube channel is
+ * streaming, and return the stream to embed. ?liveTest=<videoId> on the URL forces a video, for
+ * trying the screen out when the temple is not live.
+ */
+function useLiveStream(open) {
+  const [stream, setStream] = useState(null)
+  useEffect(() => {
+    if (!open) return
+    const test = new URLSearchParams(window.location.search).get('liveTest')
+    const forced = test && /^[\w-]{11}$/.test(test)
+    let stop = false
+    const check = () =>
+      (forced
+        ? Promise.resolve({
+            live: true,
+            embedUrl: `https://www.youtube-nocookie.com/embed/${test}?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1`,
+            watchUrl: `https://www.youtube.com/watch?v=${test}`,
+          })
+        : fetch('/api/app/v1/live').then((r) => (r.ok ? r.json() : null))
+      )
+        .then((s) => !stop && setStream(s?.live ? s : null))
+        .catch(() => {})
+    check()
+    const id = setInterval(check, 60_000)
+    return () => {
+      stop = true
+      clearInterval(id)
+    }
+  }, [open])
+  return open ? stream : null
+}
+
+/**
  * The live darshan "screen": the deity photo (children) behind two sandal-coloured curtains that
  * draw back at darshan time and close again after 45 minutes. A countdown appears 10 minutes before.
  * slots: [{ label, time, start }] from lib/darshan-slots.
@@ -81,6 +114,7 @@ export function LiveScreen({ slots = [], demo = false, children }) {
 
   const open = status?.state === 'open'
   const countdown = status?.state === 'countdown'
+  const stream = useLiveStream(open)
   const total = status?.demoTotal ?? COUNTDOWN
   const progress = countdown ? 1 - status.left / total : 0
   const R = 52
@@ -90,12 +124,28 @@ export function LiveScreen({ slots = [], demo = false, children }) {
     <div className={`${styles.screen} ${open ? styles.isOpen : ''}`} aria-live="polite">
       <div className={styles.view}>{children}</div>
 
-      {/* Live badge and closing time while the screen is open */}
+      {/* The temple's YouTube live stream plays in the screen when the channel is live
+          (muted to start, as browsers require; the player's own button unmutes it) */}
+      {stream?.embedUrl && (
+        <iframe
+          className={styles.stream}
+          src={stream.embedUrl}
+          title="Live darshan from Sri Jagannath Mandir"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+        />
+      )}
+
+      {/* Live badge (only when actually streaming) and closing time while the screen is open */}
       <div className={styles.liveBar} aria-hidden={!open}>
-        <span className={styles.onAir}>
-          <span className={styles.dot} />
-          Live
-        </span>
+        {stream ? (
+          <a href={stream.watchUrl} target="_blank" rel="noopener noreferrer" className={styles.onAir}>
+            <span className={styles.dot} />
+            Live
+          </a>
+        ) : (
+          <span className={`${styles.onAir} ${styles.darshanOpen}`}>Darshan open</span>
+        )}
         {open && (
           <span className={styles.closes}>
             {status.slot.label} · closes in {clock(status.left)}

@@ -3,6 +3,7 @@ import type { Endpoint, PayloadRequest, Where } from 'payload'
 import { getArtworks } from '../lib/art-gallery'
 import { getDonationStatus, startDonation, validateDonation } from '../lib/donations'
 import { getReels } from '../lib/instagram-reels'
+import { getLiveStatus } from '../lib/youtube-live'
 import { isSevaActive } from '../lib/sevas'
 import { templeStatus } from '../lib/temple-status'
 
@@ -40,11 +41,17 @@ function unauthorised(req: PayloadRequest) {
     : null
 }
 
-const route = (method: Endpoint['method'], path: string, handler: (req: PayloadRequest) => Promise<Response>): Endpoint => ({
+const route = (
+  method: Endpoint['method'],
+  path: string,
+  handler: (req: PayloadRequest) => Promise<Response>,
+  { open = false } = {},
+): Endpoint => ({
   method,
   path: `${BASE}${path}`,
   handler: async (req) => {
-    const denied = unauthorised(req)
+    // `open` routes are also used by the website itself, so they never need the app key
+    const denied = open ? null : unauthorised(req)
     if (denied) return denied
     try {
       return await handler(req)
@@ -269,6 +276,9 @@ export const appEndpoints: Endpoint[] = [
       settings: settingsOut(settings, base),
     })
   }),
+
+  // Is the temple's YouTube channel live right now? (also polled by the home page darshan screen)
+  route('get', '/live', async () => json(await getLiveStatus()), { open: true }),
 
   route('get', '/settings', async (req) =>
     json(settingsOut(await req.payload.findGlobal({ slug: 'site-settings', depth: 1 }), origin(req))),

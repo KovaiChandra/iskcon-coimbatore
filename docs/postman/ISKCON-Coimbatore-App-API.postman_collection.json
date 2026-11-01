@@ -139,6 +139,35 @@
           ]
         },
         {
+          "name": "YouTube live status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/live",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "live"
+              ]
+            },
+            "description": "Is the temple's YouTube channel live right now? embedUrl is set only while live."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('has live flag', () => pm.expect(pm.response.json()).to.have.property('live'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "Photos (explore, banners, Kovai Chandra)",
           "request": {
             "method": "GET",

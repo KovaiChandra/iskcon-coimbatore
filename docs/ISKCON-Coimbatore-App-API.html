@@ -279,6 +279,10 @@
 <td>Open / closed status and the daily schedule</td>
 </tr>
 <tr>
+<td><code>GET /live</code></td>
+<td>Is the temple&#39;s YouTube channel streaming right now?</td>
+</tr>
+<tr>
 <td><code>GET /photos</code></td>
 <td>Explore tiles, page banner photos, Kovai Chandra photos</td>
 </tr>
@@ -390,6 +394,19 @@
   &quot;schedule&quot;: [ { &quot;time&quot;: &quot;4:15 AM&quot;, &quot;activity&quot;: &quot;Mangala Arati&quot; } ]
 }
 </code></pre>
+<h3><code>GET /live</code></h3>
+<p>Checks the temple&#39;s YouTube channel (<a href="https://www.youtube.com/@ISKCON_Coimbatore/streams">@ISKCON_Coimbatore</a>) at most once a minute. Never needs <code>x-api-key</code>.</p>
+<pre><code class="language-json">{
+  &quot;live&quot;: true,                         // true only while actually streaming
+  &quot;videoId&quot;: &quot;wwRU-m8hAvI&quot;,             // current stream, or the next scheduled one when not live
+  &quot;upcoming&quot;: false,                    // true when a stream is scheduled but has not started
+  &quot;title&quot;: &quot;ISKCON Coimbatore is live&quot;,
+  &quot;embedUrl&quot;: &quot;https://www.youtube-nocookie.com/embed/wwRU-m8hAvI?autoplay=1&amp;mute=1&amp;playsinline=1&amp;rel=0&amp;modestbranding=1&quot;,
+  &quot;watchUrl&quot;: &quot;https://www.youtube.com/watch?v=wwRU-m8hAvI&quot;,
+  &quot;checkedAt&quot;: &quot;2026-11-01T12:35:49.592Z&quot;
+}
+</code></pre>
+<p>When <code>live</code> is <code>false</code>, <code>embedUrl</code> is <code>null</code> and <code>watchUrl</code> points to the channel&#39;s streams page. Show the stream with <code>embedUrl</code> in a WebView, or open <code>watchUrl</code> in the YouTube app.</p>
 <h3><code>GET /photos</code></h3>
 <pre><code class="language-json">{
   &quot;explore&quot;:     { &quot;deities&quot;: Photo, &quot;kirtan&quot;: Photo, &quot;prasadam&quot;: Photo, &quot;goshala&quot;: Photo, &quot;kovaiChandra&quot;: Photo, &quot;visit&quot;: Photo },

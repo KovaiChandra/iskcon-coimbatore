@@ -143,6 +143,28 @@
   filter: drop-shadow(0 6px 8px rgb(60 20 10 / 0.35));
 }
 
+/* ---------- YouTube live stream inside the open screen ---------- */
+.stream {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+  /* Fades in once the curtains have mostly drawn back */
+  animation: stream-in 1s 1.4s both;
+}
+@keyframes stream-in {
+  from {
+    opacity: 0;
+  }
+}
+/* When nothing is streaming, the badge just says the darshan is open */
+.onAir.darshanOpen {
+  background: rgb(74 29 15 / 0.85);
+}
+
 /* ---------- Closed-screen message ---------- */
 .panel {
   position: absolute;
