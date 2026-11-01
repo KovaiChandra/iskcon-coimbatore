@@ -378,6 +378,21 @@ export function HeroSlider({ slides }) {
         <ArchSlide slide={slide} slides={slides} index={index} paused={paused} ready={ready} />
       )}
 
+      {/* "Scroll" cue on the left (desktop), as on iskconattapur.com; takes you past the banner */}
+      <button
+        type="button"
+        className={styles.scrollCue}
+        onClick={(e) => {
+          const hero = e.currentTarget.closest('section')
+          window.scrollTo({ top: hero.offsetTop + hero.offsetHeight - 92, behavior: 'smooth' })
+        }}
+      >
+        <span className={styles.mouse} aria-hidden>
+          <span className={styles.wheel} />
+        </span>
+        Scroll
+      </button>
+
       {/* Slide navigation: thin progress segments, counter, arrows */}
       {count > 1 && (
         <div className={styles.nav}>

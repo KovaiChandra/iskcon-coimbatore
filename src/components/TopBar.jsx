@@ -11,13 +11,13 @@ export function TopBar({ sessions, socials }) {
         </Link>
         <TempleStatus sessions={sessions} />
         <div className={styles.right}>
-          <Link href="/donate/general-donation" className={styles.link}>
+          <Link href="/donate/general-donation" className={styles.pill}>
             Quick Donate
           </Link>
-          <Link href="/admin" className={styles.link}>
+          <Link href="/admin" className={`${styles.pill} ${styles.pillSmall}`}>
             Login
           </Link>
-          {socials}
+          <div className={styles.socials}>{socials}</div>
         </div>
       </div>
     </div>

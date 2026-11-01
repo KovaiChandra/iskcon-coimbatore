@@ -1,18 +1,21 @@
 /* =========================================================================
-   White header: the ISKCON lotus and the temple's name in black, the menu in dark ink.
-   Logo per the ISKCON identity manual: black (one of its two allowed colours), lettering in
-   (Adobe) Garamond, descriptor in Helvetica Medium capitals with wide tracking.
-   Colours → --logo-ink (logo and name). Height → --header-h.
+   Header, sized and set like iskconattapur.com (menu bar 92px, 68px on phones), in our colours.
+   Logo: the ISKCON lotus in black with the temple's name in (Adobe) Garamond capitals, a gold
+   rule and the descriptor in Montserrat semibold, measured from Attapur's 280×70 logo.
+   The whole logo scales with --s (1 on desktop). Colours → --logo-ink, --logo-sub, --nav-ink.
    ========================================================================= */
 .header {
-  --header-h: 4.5rem;
+  --header-h: 68px;
   --logo-ink: #000;
+  --logo-sub: #2b2b2b;
+  --nav-ink: #2a2230;
   position: sticky;
   top: 0;
   z-index: 40;
   border-bottom: 1px solid var(--purple-100);
   background: var(--white);
   color: var(--ink);
+  font-family: var(--font-montserrat), var(--font-sans);
   transition: box-shadow 0.3s;
 }
 /* Once the page is scrolled (components/Motion.jsx): a soft shadow under the bar */
@@ -26,18 +29,17 @@
   gap: 0.5rem;
 }
 
-/* ---------- Logo: white lotus + "ISKCON Coimbatore / Sri Jagannath Mandir" ---------- */
+/* ---------- Logo ---------- */
 .brand {
-  position: relative;
+  --s: 0.643; /* phones: Attapur's logo is 180×46 there */
   display: flex;
   flex-shrink: 0;
-  align-self: stretch;
   align-items: center;
-  gap: 0.7rem;
+  gap: calc(16px * var(--s));
 }
 .lotus {
   width: auto;
-  height: 2.9rem;
+  height: calc(70px * var(--s));
   flex-shrink: 0;
 }
 .wordmark {
@@ -47,30 +49,29 @@
 }
 .wordName {
   font-family: var(--font-garamond), 'Adobe Garamond Pro', Garamond, Georgia, serif;
+  font-size: calc(22.5px * var(--s));
   font-weight: 600;
-  font-size: 0.85rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--logo-ink);
 }
 .wordRule {
   display: block;
-  height: 1.5px;
-  margin: 0.35rem 0 0.38rem;
-  background: var(--saffron-500);
+  height: 1px;
+  margin: calc(7px * var(--s)) 0 calc(9px * var(--s));
+  background: #ffa600;
 }
 .wordSub {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 0.5rem;
+  font-family: var(--font-montserrat), Helvetica, Arial, sans-serif;
+  font-size: calc(11px * var(--s));
   font-weight: 600;
-  letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
-  color: #333;
+  color: var(--logo-sub);
 }
 
-/* ---------- Desktop menu (white on the dark bar) ---------- */
+/* ---------- Desktop menu ---------- */
 .nav {
   display: none;
   margin-left: auto;
@@ -79,7 +80,7 @@
 .navList {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 4px;
 }
 .navItem {
   position: relative;
@@ -90,10 +91,10 @@
   align-items: center;
   gap: 0.25rem;
   white-space: nowrap;
-  padding: 0.5rem 0.65rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--ink);
+  padding: 8px 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--nav-ink);
   transition: color 0.2s;
 }
 .navLink:hover,
@@ -104,9 +105,9 @@
 .navLink::after {
   content: '';
   position: absolute;
-  left: 0.65rem;
-  right: 0.65rem;
-  bottom: 0.15rem;
+  left: 10px;
+  right: 10px;
+  bottom: 2px;
   height: 2px;
   background: var(--saffron-500);
   transform: scaleX(0);
@@ -124,7 +125,7 @@
   position: absolute;
   left: 0;
   top: 100%;
-  min-width: 12rem;
+  min-width: 15.5rem;
   border: 1px solid var(--purple-100);
   border-radius: 0.75rem;
   background: var(--white);
@@ -142,9 +143,10 @@
 .dropdownLink {
   display: block;
   border-radius: 0.5rem;
-  padding: 0.55rem 0.75rem;
-  font-size: 0.875rem;
-  color: var(--ink);
+  padding: 8px 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--nav-ink);
   transition:
     background-color 0.15s,
     color 0.15s;
@@ -160,33 +162,51 @@
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  gap: 0.25rem;
+  gap: 8px;
+}
+/* Round gold-ringed buttons (search on desktop, menu on phones), as on Attapur */
+.search,
+.menuButton {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 2px solid #d68a00;
+  border-radius: 50%;
+  background: rgb(214 138 0 / 0.1);
+  color: #000;
+  transition: background-color 0.15s;
 }
 .search {
   display: none;
-  border-radius: 9999px;
-  padding: 0.5rem;
-  color: var(--purple-800);
 }
-/* Only on devices with a mouse, so a tapped button doesn't stay highlighted on phones */
 @media (hover: hover) {
   .search:hover,
   .menuButton:hover {
-    background: var(--purple-50);
+    background: rgb(214 138 0 / 0.22);
   }
 }
-.donate {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-.menuButton {
-  border-radius: 9999px;
-  padding: 0.4rem;
-  color: var(--purple-800);
+.search svg {
+  width: 18px;
+  height: 18px;
 }
 .menuIcon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 18px;
+  height: 18px;
+}
+/* Donate: gold gradient pill */
+.donate {
+  border-radius: 30px;
+  background: linear-gradient(90deg, #ffd700 0%, #feb600 100%);
+  padding: 7px 12px;
+  font-family: var(--font-montserrat), var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 17px;
+  color: var(--purple-950);
+}
+.donate:hover {
+  background: linear-gradient(90deg, #ffcc00 0%, #f5a900 100%);
 }
 
 /* ---------- Mobile full-screen menu ---------- */
@@ -218,7 +238,8 @@
   justify-content: space-between;
   padding: 0.875rem 0;
   text-align: left;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
 }
 .chevron {
   transition: transform 0.15s;
@@ -233,12 +254,14 @@
 .mobileSubLink {
   display: block;
   padding: 0.5rem 0;
+  font-weight: 500;
   color: var(--muted);
 }
 .mobileLink {
   display: block;
   padding: 0.875rem 0;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
 }
 .mobileSocials {
   background: var(--purple-800);
@@ -246,96 +269,79 @@
   color: var(--white);
 }
 
-/* ---------- Small phones: compact Donate so logo, Donate and menu fit on one line ---------- */
-@media (max-width: 639px) {
-  .donate {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.75rem;
-  }
-}
-
-/* ---------- Large phones and tablets ---------- */
+/* ---------- Tablets ---------- */
 @media (min-width: 640px) {
   .header {
-    --header-h: 5rem;
-  }
-  .lotus {
-    height: 3.6rem;
+    --header-h: 80px;
   }
   .brand {
-    gap: 1.25rem;
-  }
-  .wordName {
-    font-size: 1.15rem;
-    letter-spacing: 0.03em;
-  }
-  .wordRule {
-    height: 2px;
-    margin: 0.45rem 0 0.5rem;
-  }
-  .wordSub {
-    font-size: 0.58rem;
-    letter-spacing: 0.05em;
+    --s: 0.82;
   }
   .actions {
-    gap: 0.5rem;
+    gap: 12px;
   }
   .donate {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding: 10px 22px;
+    font-size: 13px;
+  }
+  .search,
+  .menuButton {
+    width: 36px;
+    height: 36px;
   }
 }
 
-/* ---------- Desktop: full menu, no hamburger ---------- */
+/* ---------- Desktop: full menu, no hamburger (Attapur: 92px bar, 280×70 logo) ---------- */
 @media (min-width: 1280px) {
   .header {
-    --header-h: 6.5rem;
+    --header-h: 92px;
   }
-  /* Wider than the page content, so the logo and the full menu fit side by side */
+  /* Wider than the page content (as on Attapur), so the logo and the full menu fit */
   .header .inner {
-    max-width: 96rem;
+    max-width: 92rem;
     padding-left: 2rem;
     padding-right: 2rem;
   }
   .brand {
-    gap: 1.75rem;
+    --s: 1;
   }
-  .lotus {
-    height: 4.9rem;
-  }
-  .wordName {
-    font-size: 1.4rem;
-  }
-  .wordRule {
-    margin: 0.55rem 0 0.6rem;
-  }
-  .wordSub {
-    font-size: 0.66rem;
-  }
-  .nav,
-  .search {
+  .nav {
     display: block;
+  }
+  .search {
+    display: grid;
+    width: 40px;
+    height: 40px;
   }
   .actions {
     margin-left: 0;
+    gap: 16px;
+  }
+  .donate {
+    padding: 13px 31px;
+    font-size: 14px;
+    line-height: 24px;
   }
   .menuButton,
   .mobileMenu {
     display: none;
   }
 }
-/* Laptops (1280–1439px): a slightly tighter menu so it fits beside the logo block */
+/* Laptops (1280–1439px): slightly tighter menu so it fits beside the logo */
 @media (min-width: 1280px) and (max-width: 1439px) {
   .navList {
     gap: 0;
   }
   .navLink {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    font-size: 0.85rem;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 14px;
   }
   .navLink::after {
-    left: 0.5rem;
-    right: 0.5rem;
+    left: 8px;
+    right: 8px;
+  }
+  .donate {
+    padding: 13px 24px;
   }
 }

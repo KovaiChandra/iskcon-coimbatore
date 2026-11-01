@@ -799,3 +799,62 @@
     font-size: 0.875rem;
   }
 }
+
+/* ---------- "Scroll" cue, bottom-left of the banner (desktop), sized like iskconattapur.com ---------- */
+.scrollCue {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .scrollCue {
+    position: absolute;
+    left: 60px;
+    bottom: 80px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-family: var(--font-montserrat), var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--white);
+    opacity: 0.9;
+    transition: opacity 0.2s;
+  }
+  .scrollCue:hover {
+    opacity: 1;
+  }
+  .mouse {
+    position: relative;
+    width: 26px;
+    height: 42px;
+    border: 2px solid var(--white);
+    border-radius: 15px;
+  }
+  /* The wheel drifts down and fades, inviting a scroll */
+  .wheel {
+    position: absolute;
+    left: 50%;
+    top: 8px;
+    width: 3px;
+    height: 8px;
+    margin-left: -1.5px;
+    border-radius: 2px;
+    background: var(--white);
+    animation: wheel 1.8s ease-in-out infinite;
+  }
+}
+@keyframes wheel {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}

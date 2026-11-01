@@ -1,35 +1,87 @@
-/* Thin purple strip above the header (desktop only) */
+/* =========================================================================
+   Top strip above the header, sized like iskconattapur.com: 51px (35px on phones), a soft
+   purple-to-gold tint, outlined pill buttons and round social icons. Phones show only the
+   darshan link and temple status. Colours → .bar background, --strip-ink.
+   ========================================================================= */
 .bar {
-  display: none;
-  background: var(--purple-900);
-  font-size: 0.75rem;
-  line-height: 1rem;
-  color: var(--purple-100);
-}
-@media (min-width: 1024px) {
-  .bar {
-    display: block;
-  }
+  --strip-ink: var(--purple-900);
+  background: linear-gradient(90deg, rgb(75 29 122 / 0.14) 0%, rgb(245 183 0 / 0.16) 100%);
+  font-family: var(--font-montserrat), var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #5b4f63;
 }
 .inner {
   display: flex;
-  height: 2.25rem;
+  height: 35px;
   align-items: center;
   gap: 1.25rem;
 }
 .darshan {
-  font-weight: 500;
-  color: var(--saffron-300);
+  font-weight: 600;
+  color: var(--strip-ink);
 }
 .darshan:hover {
   text-decoration: underline;
 }
 .right {
+  display: none;
   margin-left: auto;
-  display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
 }
-.link:hover {
+/* Outlined pills: Quick Donate and Login */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgb(46 17 80 / 0.4);
+  border-radius: 25px;
+  background: var(--white);
+  padding: 5px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--strip-ink);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+.pillSmall {
+  border-color: rgb(75 29 122 / 0.6);
+  padding: 5px 15px;
+  font-size: 12px;
+}
+.pill:hover {
+  background: var(--strip-ink);
   color: var(--white);
+}
+/* Round social icons */
+.socials {
+  padding-left: 1rem;
+  border-left: 1px solid rgb(46 17 80 / 0.2);
+}
+.socials > div {
+  gap: 8px !important;
+}
+.socials a {
+  display: grid;
+  width: 35px;
+  height: 35px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--strip-ink);
+  color: var(--white);
+  transition: background-color 0.15s;
+}
+.socials a:hover {
+  background: var(--purple-700);
+  color: var(--white);
+}
+@media (min-width: 1024px) {
+  .inner {
+    height: 51px;
+  }
+  .right {
+    display: flex;
+  }
 }
