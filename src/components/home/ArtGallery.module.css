@@ -7,9 +7,14 @@
    ========================================================================= */
 .section {
   --art-gap: 6px; /* space between the artworks (20px on desktop) */
+  position: relative;
   padding: 6rem 0 6.5rem;
+  /* Gallery-black, so the paintings and deity photos glow; a faint gold spotlight from above */
   background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgb(245 183 0 / 0.07), transparent 70%), #f8f4ec;
+    radial-gradient(ellipse 55% 35% at 50% 0%, rgb(245 183 0 / 0.14), transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 110%, rgb(94 42 148 / 0.18), transparent 70%),
+    #07050a;
+  color: rgb(255 255 255 / 0.85);
 }
 
 /* ---------- Heading ---------- */
@@ -26,14 +31,17 @@
   font-weight: 600;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: #a86b00;
+  color: var(--saffron-300);
 }
 .title {
   margin-top: 0.9rem;
   font-family: var(--font-serif);
   font-size: 2.1rem;
   line-height: 1.15;
-  color: var(--purple-950);
+  background: linear-gradient(100deg, #fff8e1 0%, #ffd75e 45%, #fff3cc 60%, #f5b700 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .rule {
   margin: 1.25rem auto 0;
@@ -55,7 +63,7 @@
   margin-top: 1.25rem;
   font-size: 1rem;
   line-height: 1.7;
-  color: var(--muted);
+  color: rgb(255 255 255 / 0.65);
 }
 
 /* ---------- Artworks fitted edge to edge ---------- */
@@ -140,8 +148,11 @@
   height: 100%;
   overflow: hidden;
   border-radius: 0.75rem;
-  background: var(--purple-950);
-  box-shadow: 0 14px 30px -18px rgb(28 10 51 / 0.5);
+  background: #000;
+  box-shadow:
+    0 0 0 1px rgb(255 215 94 / 0.08),
+    0 14px 30px -18px rgb(0 0 0 / 0.8);
+  transition: box-shadow 0.5s;
   cursor: zoom-in;
 }
 .img {
@@ -151,6 +162,11 @@
 .piece:hover .img,
 .piece:focus-visible .img {
   transform: scale(1.06);
+}
+.piece:hover {
+  box-shadow:
+    0 0 0 1px rgb(255 215 94 / 0.35),
+    0 18px 50px -12px rgb(245 183 0 / 0.35);
 }
 .piece:focus-visible {
   outline: 3px solid var(--saffron-500);
@@ -211,14 +227,14 @@
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  border: 1px solid #c99a3b;
+  border: 1px solid rgb(255 215 94 / 0.6);
   border-radius: 9999px;
   padding: 0.95rem 2.25rem;
   font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--purple-950);
+  color: var(--saffron-300);
   transition:
     background-color 0.3s,
     color 0.3s,
@@ -228,9 +244,9 @@
   transition: transform 0.3s;
 }
 .moreButton:hover {
-  border-color: var(--purple-950);
-  background: var(--purple-950);
-  color: var(--white);
+  border-color: var(--saffron-500);
+  background: var(--saffron-500);
+  color: #07050a;
 }
 .moreButton:hover span {
   transform: translateX(4px);

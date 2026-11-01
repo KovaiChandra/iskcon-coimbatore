@@ -290,6 +290,7 @@ export function HeroSlider({ slides }) {
 
   return (
     <section
+      data-no-reveal
       className={`${styles.hero} ${styles[`tone-${slide.tone}`] ?? ''} ${LIGHT_TONES.includes(slide.tone) ? styles.light : ''}`}
       aria-roledescription="carousel"
       aria-label="Temple highlights"

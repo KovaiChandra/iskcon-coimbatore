@@ -1,14 +1,34 @@
 /* ---------- Sticky white header ---------- */
 .header {
+  --header-h: 4.5rem;
   position: sticky;
   top: 0;
   z-index: 40;
   border-bottom: 1px solid var(--purple-100);
   background: var(--white);
+  transition:
+    background-color 0.3s,
+    box-shadow 0.3s,
+    border-color 0.3s;
+}
+/* Once the page is scrolled (components/Motion.jsx): frosted glass and a soft shadow */
+:global(html[data-scrolled]) .header {
+  border-color: transparent;
+  background: rgb(255 255 255 / 0.82);
+  -webkit-backdrop-filter: saturate(1.6) blur(14px);
+  backdrop-filter: saturate(1.6) blur(14px);
+  box-shadow: 0 10px 30px -18px rgb(28 10 51 / 0.45);
+}
+/* The blur would trap the full-screen phone menu inside the header bar, so it is off while open */
+:global(html[data-scrolled]) .header.menuOpen {
+  background: var(--white);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 .inner {
   display: flex;
-  height: 4rem;
+  height: var(--header-h);
+  transition: height 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
   align-items: center;
   gap: 0.5rem;
 }
@@ -55,6 +75,7 @@
   position: relative;
 }
 .navLink {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -68,6 +89,23 @@
 .navLink:hover,
 .active {
   color: var(--purple-700);
+}
+/* Gold underline that grows from the centre on hover, and stays on the current page */
+.navLink::after {
+  content: '';
+  position: absolute;
+  left: 0.625rem;
+  right: 0.625rem;
+  bottom: 0.2rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--saffron-500);
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.navLink:hover::after,
+.active::after {
+  transform: scaleX(1);
 }
 
 /* Dropdown under a menu item: shown on hover or keyboard focus */
@@ -83,12 +121,17 @@
   background: var(--white);
   padding: 0.5rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  transition: opacity 0.15s, visibility 0.15s;
+  transform: translateY(8px);
+  transition:
+    opacity 0.2s,
+    visibility 0.2s,
+    transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .navItem:hover .dropdown,
 .navItem:focus-within .dropdown {
   visibility: visible;
   opacity: 1;
+  transform: none;
 }
 .dropdownLink {
   display: block;
@@ -96,9 +139,16 @@
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
 }
+.dropdownLink {
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    padding-left 0.2s;
+}
 .dropdownLink:hover {
   background: var(--purple-50);
   color: var(--purple-700);
+  padding-left: 1rem;
 }
 
 /* ---------- Right side: search, donate, menu button ---------- */
@@ -125,6 +175,16 @@
 .donate {
   padding-left: 1rem;
   padding-right: 1rem;
+  animation: donate-glow 3.2s ease-in-out infinite;
+}
+@keyframes donate-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(245 183 0 / 0);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgb(245 183 0 / 0.18), 0 8px 22px -8px rgb(245 183 0 / 0.8);
+  }
 }
 .menuButton {
   border-radius: 9999px;
@@ -137,12 +197,19 @@
 }
 
 /* ---------- Mobile full-screen menu ---------- */
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
 .mobileMenu {
+  animation: menu-in 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  top: 4rem;
+  top: var(--header-h);
   z-index: 40;
   display: flex;
   flex-direction: column;
@@ -217,9 +284,6 @@
 }
 /* Desktop: full menu shows, hamburger hides */
 @media (min-width: 1280px) {
-  .inner {
-    height: 5rem;
-  }
   .logo {
     width: 3rem;
     height: 3rem;
@@ -240,13 +304,149 @@
   }
 }
 
-/* Official logo image */
-.logoImage {
-  width: auto;
-  height: 2.6rem;
+/* ---------- Logo: ISKCON lotus + "ISKCON Coimbatore / Sri Jagannath Mandir" ----------
+   Sizes: lotus → .lotus height, name → .wordName font-size (phones here, desktop below).
+   Follows the ISKCON identity manual: lettering in (Adobe) Garamond, descriptor in Helvetica
+   Medium, all capitals, wide tracking; ISKCON red (PMS 187 process equivalent, as in the logo file).
+   Colours: name → --brand-red, line → --saffron-500. */
+.brand {
+  --brand-red: #b74233;
+  gap: 0.4rem;
+  flex-shrink: 0;
 }
+.lotus {
+  width: auto;
+  height: 2.4rem;
+  flex-shrink: 0;
+  transition:
+    height 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.brand:hover .lotus {
+  transform: scale(1.06) rotate(-2deg);
+}
+.wordmark {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  line-height: 1;
+}
+.wordName {
+  font-family: var(--font-garamond), 'Adobe Garamond Pro', Garamond, Georgia, serif;
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--brand-red);
+  transition: font-size 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.wordRule {
+  display: block;
+  height: 2px;
+  margin: 0.4rem 0 0.35rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--saffron-500), var(--saffron-300) 70%, transparent);
+  transform-origin: 0 50%;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.brand:hover .wordRule {
+  transform: scaleX(1.04);
+}
+.wordSub {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.46rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--brand-red);
+  transition: font-size 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Small phones: a compact Donate button so the logo, Donate and menu fit on one line */
+@media (max-width: 639px) {
+  .donate {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+  .menuButton {
+    padding: 0.4rem;
+  }
+}
+@media (min-width: 640px) {
+  .header {
+    --header-h: 5rem;
+  }
+  .lotus {
+    height: 3.6rem;
+  }
+  .wordName {
+    font-size: 1.45rem;
+    letter-spacing: 0.02em;
+  }
+  .wordSub {
+    letter-spacing: 0.2em;
+  }
+  .wordSub {
+    font-size: 0.66rem;
+  }
+}
+/* Desktop: the logo is large at the top of the page and settles smaller once you scroll */
 @media (min-width: 1280px) {
-  .logoImage {
-    height: 3.25rem;
+  .header {
+    --header-h: 6.75rem;
+  }
+  /* The header spans wider than the page content so the big logo and full menu fit */
+  .header .inner {
+    max-width: 96rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  .lotus {
+    height: 5rem;
+  }
+  .brand {
+    gap: 0.9rem;
+  }
+  .wordName {
+    font-size: 1.8rem;
+  }
+  .wordSub {
+    font-size: 0.74rem;
+  }
+  :global(html[data-scrolled]) .header {
+    --header-h: 5rem;
+  }
+  :global(html[data-scrolled]) .lotus {
+    height: 3.6rem;
+  }
+  :global(html[data-scrolled]) .wordName {
+    font-size: 1.45rem;
+  }
+  :global(html[data-scrolled]) .wordSub {
+    font-size: 0.66rem;
+  }
+}
+
+/* Laptops (1280–1439px): slightly tighter menu so it fits beside the big logo */
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .navList {
+    gap: 0;
+  }
+  .navLink {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 0.85rem;
+  }
+  .navLink::after {
+    left: 0.5rem;
+    right: 0.5rem;
+  }
+  .wordName {
+    font-size: 1.5rem;
+  }
+  .lotus {
+    height: 4.6rem;
   }
 }

@@ -17,11 +17,9 @@
 .button:hover {
   transform: scale(1.05);
 }
-@media (max-width: 639px) {
+/* Phones use the bottom quick-action bar (MobileDock) instead */
+@media (max-width: 767px) {
   .button {
-    bottom: 1rem;
-    right: 1rem;
-    width: 3.1rem;
-    height: 3.1rem;
+    display: none;
   }
 }

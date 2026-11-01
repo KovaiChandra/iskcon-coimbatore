@@ -258,3 +258,61 @@
     animation: none;
   }
 }
+
+/* ---------- Phones: the three steps as a compact timeline (icon left, text right) ---------- */
+@media (max-width: 767px) {
+  .topics {
+    position: relative;
+    margin-top: 2rem;
+    gap: 0;
+  }
+  /* The gold thread that joins the three steps */
+  .topics::before {
+    content: '';
+    position: absolute;
+    left: calc(1.25rem + 1.5rem - 1px);
+    top: 2.5rem;
+    bottom: 2.5rem;
+    width: 2px;
+    background: linear-gradient(var(--saffron-300), rgb(245 183 0 / 0.15));
+  }
+  .card {
+    position: relative;
+    grid-template-columns: 3rem 1fr;
+    grid-template-areas:
+      'icon step'
+      'icon title'
+      'icon text';
+    justify-items: start;
+    column-gap: 1rem;
+    row-gap: 0.2rem;
+    border: 0;
+    background: transparent;
+    padding: 0.9rem 1.25rem;
+    text-align: left;
+  }
+  .card:hover {
+    transform: none;
+  }
+  .step {
+    grid-area: step;
+  }
+  .iconRing {
+    grid-area: icon;
+    align-self: start;
+    margin: 0;
+    background: var(--white);
+    box-shadow: 0 0 0 4px var(--cream), 0 8px 18px -10px rgb(168 107 0 / 0.6);
+  }
+  .cardTitle {
+    grid-area: title;
+    font-size: 1.125rem;
+  }
+  .cardText {
+    grid-area: text;
+    max-width: none;
+  }
+  .actions {
+    margin-top: 1.75rem;
+  }
+}

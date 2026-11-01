@@ -22,18 +22,24 @@ export function Header({ socials }) {
   const isActive = (href) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${menuOpen ? styles.menuOpen : ''}`}>
       <div className={`container-x ${styles.inner}`}>
         <Link href="/" className={styles.brand} aria-label="ISKCON Coimbatore home">
-          {/* Official logo in black (public/brand/logo-black.png; gold copy: logo-gold.png) */}
+          {/* ISKCON lotus mark (public/brand/iskcon-lotus.svg) beside the temple's name */}
           <Image
-            src="/brand/logo-black.png"
-            alt="ISKCON Coimbatore"
-            width={1031}
-            height={334}
+            src="/brand/iskcon-lotus.svg"
+            alt=""
+            width={516}
+            height={480}
             priority
-            className={styles.logoImage}
+            unoptimized
+            className={styles.lotus}
           />
+          <span className={styles.wordmark}>
+            <span className={styles.wordName}>ISKCON Coimbatore</span>
+            <span className={styles.wordRule} aria-hidden />
+            <span className={styles.wordSub}>Sri Jagannath Mandir</span>
+          </span>
         </Link>
 
         <nav className={styles.nav} aria-label="Main">
@@ -93,7 +99,11 @@ export function Header({ socials }) {
 
       {menuOpen && (
         <div className={styles.mobileMenu}>
-          <nav className={`container-x ${styles.mobileNav}`} aria-label="Mobile">
+          <nav
+            className={`container-x ${styles.mobileNav}`}
+            aria-label="Mobile"
+            onClick={(e) => e.target.closest('a') && setOpenOn(null)}
+          >
             <ul className={styles.mobileList}>
               {NAV.map((item) => (
                 <li key={item.label}>

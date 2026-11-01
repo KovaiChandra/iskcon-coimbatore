@@ -30,8 +30,7 @@ const icon = (d) => (
   </svg>
 )
 
-export default async function ContactPage({ searchParams }) {
-  const { topic } = await searchParams
+export default async function ContactPage() {
   const payload = await getPayloadClient()
   const photos = await getSitePhotos(payload)
   const [settings, timings, home] = await Promise.all([
@@ -89,7 +88,7 @@ export default async function ContactPage({ searchParams }) {
             <p className={styles.asideTitle} style={{ marginBottom: '1.5rem' }}>
               Send a message
             </p>
-            <ContactForm defaultCategory={topic} />
+            <ContactForm />
           </div>
           <div className={styles.sticky}>
             <ul className={styles.contactList}>

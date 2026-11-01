@@ -15,7 +15,7 @@ export function ScheduleTicker({ items }) {
     </ul>
   )
   return (
-    <div className={styles.ticker}>
+    <div className={styles.ticker} data-no-reveal>
       <div className={styles.row}>
         <span className={styles.label}>Today at the temple</span>
         <div className={styles.viewport}>

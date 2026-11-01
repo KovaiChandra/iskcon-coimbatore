@@ -74,6 +74,8 @@ export function GitaCourse({ whatsapp }) {
           </div>
         </div>
 
+        {/* Phones show the first 5 chapters; the checkbox reveals the rest (no script needed) */}
+        <input id="gita-all" type="checkbox" className={`sr-only ${styles.allToggle}`} />
         <ol className={styles.chapters} aria-label="The 18 chapters">
           {CHAPTERS.map((name, i) => (
             <li key={name} className={styles.chapter}>
@@ -82,6 +84,10 @@ export function GitaCourse({ whatsapp }) {
             </li>
           ))}
         </ol>
+        <label htmlFor="gita-all" className={styles.allButton}>
+          <span className={styles.showAll}>Show all 18 chapters</span>
+          <span className={styles.showLess}>Show fewer</span>
+        </label>
       </div>
     </section>
   )

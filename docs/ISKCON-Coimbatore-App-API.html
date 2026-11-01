@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ISKCON Coimbatore App API</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --red: #b74233; --ink: #24182f; --muted: #6b5f75; --purple: #3b1765; --gold: #f5b700;
+    --line: #ece4f3; --code-bg: #1c0a33; --code-ink: #f3ecfb; --tint: #faf6ef;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: #fff; color: var(--ink); font: 15px/1.6 Inter, system-ui, sans-serif; }
+  .page { max-width: 860px; margin: 0 auto; padding: 0 20px 64px; }
+
+  /* Cover */
+  .cover { padding: 56px 0 36px; border-bottom: 2px solid var(--gold); margin-bottom: 32px; }
+  .brand { display: flex; align-items: center; gap: 16px; }
+  .brand svg { width: 72px; height: auto; flex-shrink: 0; }
+  .brand .name { font: 600 26px/1 'EB Garamond', Garamond, serif; color: var(--red); letter-spacing: .02em; text-transform: uppercase; }
+  .brand .sub { margin-top: 8px; font: 500 10px/1 'Helvetica Neue', Helvetica, Arial, sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--red); }
+  .cover h1 { margin: 36px 0 8px; font: 600 40px/1.1 'EB Garamond', Georgia, serif; color: var(--purple); }
+  .cover .lede { margin: 0; font-size: 17px; color: var(--muted); max-width: 640px; }
+  .meta { margin-top: 24px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .meta div { background: var(--tint); border-radius: 12px; padding: 12px 14px; }
+  .meta b { display: block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #a86b00; margin-bottom: 4px; }
+  .meta span { font-size: 13px; word-break: break-word; }
+
+  h2 { margin: 48px 0 12px; padding-top: 8px; font: 600 28px/1.2 'EB Garamond', Georgia, serif; color: var(--purple); border-top: 1px solid var(--line); }
+  h3 { margin: 30px 0 8px; font: 600 17px/1.3 Inter, sans-serif; color: var(--ink); }
+  h3 code { font-size: 15px; }
+  p, li { color: var(--ink); }
+  a { color: var(--purple); }
+  hr { border: 0; height: 0; margin: 0; }
+  blockquote { margin: 16px 0; padding: 12px 16px; border-left: 3px solid var(--gold); background: #fff8e1; border-radius: 0 10px 10px 0; }
+  blockquote p { margin: 0; }
+
+  code { font: 500 13px/1.5 'JetBrains Mono', ui-monospace, Menlo, monospace; background: #f4eefa; color: #4b1d7a; padding: 1px 5px; border-radius: 5px; }
+  pre { margin: 12px 0 18px; padding: 14px 16px; background: var(--code-bg); border-radius: 12px; overflow-x: auto; }
+  pre code { display: block; background: none; color: var(--code-ink); padding: 0; font-size: 12.5px; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+  pre.diagram code { white-space: pre; word-break: normal; font-size: 11.5px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13.5px; }
+  th { text-align: left; font-weight: 600; background: var(--tint); color: var(--purple); }
+  th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td code { white-space: nowrap; }
+  .table-wrap { overflow-x: auto; }
+
+  .footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+
+  @media (max-width: 640px) {
+    body { font-size: 14.5px; }
+    .page { padding: 0 16px 48px; }
+    .cover h1 { font-size: 32px; }
+    .meta { grid-template-columns: 1fr; }
+    td code { white-space: normal; }
+  }
+
+  /* Print / PDF */
+  @page { size: A4; margin: 16mm 14mm 18mm; }
+  @media print {
+    .page { max-width: none; padding: 0; }
+    .cover { padding-top: 10mm; }
+    h2 { margin-top: 28px; }
+    h2, h3 { break-after: avoid; }
+    pre, table, blockquote, tr { break-inside: avoid; }
+    pre { background: #f7f2fc; }
+    pre code { color: #24182f; font-size: 11px; }
+    pre.diagram code { font-size: 9.6px; }
+    a { text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <section class="cover">
+    <div class="brand">
+
+<svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 516.1 479.6" style="enable-background:new 0 0 516.1 479.6;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#B74233;}
+</style>
+<g id="Group_311" transform="translate(-27.917 -57.723)">
+	<g id="Group_306" transform="translate(27.917 57.723)">
+		<g id="Group_304" transform="translate(0 0)">
+			<path id="Path_599" class="st0" d="M450.7,167.7c-12.9,20.5-12.8,42.9-26.2,74.9c-9.8-1-19.6-1.4-29.4-1
+				c1.5-7.7,2.2-15.5,2.1-23.3c-0.3-15.4-1.9-30.8-4.8-45.9C411.6,168.7,431.1,167.1,450.7,167.7z M388,221.2c0,7-0.6,14-1.9,20.9
+				c-26.3,2.1-51.6,11.1-73.4,26c18.7-20.3,29.1-46.9,29.2-74.5c0-0.9,0-1.7-0.1-2.6c12.7-7.4,26.3-12.9,40.5-16.4
+				C385.5,190,387.4,205.6,388,221.2z M300.9,280.8c24.2-18.7,53.3-29.7,83.8-31.9c-8.7,32.5-32.6,45.5-51.5,45.5
+				C321,294.4,309.4,289.5,300.9,280.8z M335.3,202c0,34.2-19.2,59.3-36.1,75.5c-2.4-5.6-3.6-11.5-3.5-17.6
+				c0-20.6,12-45.7,39.4-64.5C335.3,197.6,335.3,199.8,335.3,202L335.3,202z M292,258.9c0,5,0.8,10,2.5,14.7
+				c-4.8-9.2-7.3-19.5-7.3-29.9c0-33.9,15.3-65.6,35.8-91.3c5.7,11.3,9.5,23.4,11.4,35.8C308.1,205.9,292,230.6,292,258.9L292,258.9
+				z M307.3,289.4c7.7,5.3,16.9,8.2,26.2,8.4c29.5,0,51.6-18.2,60-49.4c9.3-0.3,18.7,0.1,28,1.1c0,0.1-0.1,0.1-0.1,0.1
+				c-16.2,35.1-46.5,53.7-76.3,53.7C331.2,303.9,317.6,298.9,307.3,289.4z M382.8,101.5c-7.1,21.6-5,44-1.6,65.7
+				c-13.9,3.8-27.2,9.3-39.7,16.5c-1.4-13.8-5.2-27.3-11.2-39.9C345.3,126.9,363.1,112.5,382.8,101.5L382.8,101.5z M286.6,74.1
+				c6.7,29.3,21.7,50.1,33.3,72.1c-16.5,20.4-28,44.4-33.3,70.1h0.6V74.1L286.6,74.1z M309.4,294.4c10.9,8.4,24.2,12.9,37.9,12.9
+				c32.6,0,64.7-18.7,83.7-56.6c15.9,2.5,31.6,6.6,46.6,12.3C443.7,272,406.8,313,360.4,313c-21.3,0-38.5-7.1-49.8-17.8L309.4,294.4
+				z M282.6,248.8c6,36,34.1,69.5,82.6,69.5c56,0,103.7-52.1,135.9-53.5c2.4-0.1,2.4-1.2,0.5-1.9c-21.6-9-44.1-15.4-67.2-19
+				c14-31.7,14.3-59.3,27.8-80.9c1.2-1.9,1-2.5-1.2-2.7c-23.3-2-46.8-0.5-69.7,4.5c-3.9-24.5-6.8-48.5,2.6-76
+				c0.7-2.1,0.3-3.1-1.9-2.1c-24.6,12.7-46.5,30-64.7,50.8C312,106.9,289.7,78.7,283.6,35c-0.4-2.7-1.8-2.5-1.8,0v199.3
+				c0,17.5-12.2,25.6-23.8,25.6c-11.6,0-23.8-8.2-23.8-25.6V35.1c0-2.5-1.4-2.7-1.8,0c-6.1,43.6-28.4,71.9-43.6,102.4
+				c-18.2-20.9-40.2-38.1-64.7-50.8c-2.1-1-2.6-0.1-1.9,2.1c9.5,27.6,6.6,51.5,2.6,76c-22.9-5-46.4-6.5-69.7-4.5
+				c-2.1,0.2-2.3,0.8-1.2,2.7c13.5,21.6,13.9,49.2,27.8,80.9c-23.1,3.6-45.7,10-67.2,19c-1.9,0.8-1.9,1.9,0.5,1.9
+				c32.1,1.3,79.9,53.5,135.9,53.5c48.6,0,76.6-33.5,82.6-69.5l-1,0.2c3.9,8.8,12.3,14.7,21.9,15.4l0.1-0.6
+				c-13.2,1.4-23.8,11.4-23.8,24.2c0,20.4,20,27,25.9,42.4c0.4,1,0.6,2.1,1.5,2.1c0.9,0,1-1,1.5-2.1c6-15.4,25.9-22,25.9-42.4
+				c-0.6-13-10.9-23.5-23.8-24.2l0.1,0.6c9.6-0.7,18-6.6,21.9-15.4L282.6,248.8z M123.7,172.5c-2.9,15.1-4.5,30.5-4.8,45.9
+				c0,7.8,0.7,15.6,2.1,23.3c-9.8-0.4-19.6-0.1-29.4,1c-13.4-32-13.3-54.4-26.2-74.9C84.9,167.1,104.4,168.7,123.7,172.5
+				L123.7,172.5z M133.7,174.7c14.2,3.5,27.8,9.1,40.5,16.4c0,0.9-0.1,1.7-0.1,2.6c0,27.6,10.5,54.2,29.2,74.5
+				c-21.8-14.9-47.1-23.9-73.4-26c-1.3-6.9-1.9-13.9-1.9-20.9C128.7,205.6,130.6,190.1,133.7,174.7L133.7,174.7z M182.9,294.5
+				c-18.9,0-42.8-13.1-51.5-45.5c30.5,2.1,59.6,13.2,83.8,31.9C206.7,289.5,195.1,294.4,182.9,294.5z M181,195.5
+				c27.4,18.8,39.4,43.9,39.4,64.5c0.1,6-1.1,12-3.5,17.6c-16.9-16.2-36.1-41.3-36.1-75.5C180.8,199.8,180.8,197.6,181,195.5
+				L181,195.5z M181.7,188.3c1.8-12.5,5.7-24.6,11.4-35.8c20.5,25.6,35.8,57.4,35.8,91.3c0,10.4-2.5,20.6-7.3,29.9
+				c1.7-4.7,2.5-9.7,2.5-14.7C224.1,230.6,208,205.9,181.7,188.3L181.7,188.3z M171,303.3c-29.8,0-60.1-18.6-76.3-53.7
+				c0-0.1-0.1-0.1-0.1-0.1c9.3-1,18.6-1.4,28-1.1c8.4,31.2,30.5,49.4,60,49.4c9.4-0.1,18.5-3,26.2-8.4
+				C198.6,298.9,184.9,303.9,171,303.3L171,303.3z M185.8,143.8c-6,12.6-9.8,26.1-11.2,39.9c-12.5-7.2-25.8-12.7-39.7-16.5
+				c3.4-21.8,5.5-44.1-1.6-65.7C153.1,112.6,170.8,126.9,185.8,143.8L185.8,143.8z M228.8,74.1v142.2h0.6
+				c-5.3-25.7-16.7-49.7-33.3-70.1c11.6-22.1,26.6-42.8,33.3-72.1L228.8,74.1z M205.5,295.1c-11.3,10.7-28.5,17.8-49.8,17.8
+				c-46.4,0-83.3-41-117.2-49.9c15.1-5.7,30.7-9.8,46.6-12.3c19,37.9,51.1,56.6,83.7,56.6c13.7,0,27.1-4.6,37.9-12.9L205.5,295.1z"
+				/>
+			<g id="Group_303" transform="translate(15.628 85.455)">
+				<g id="Group_302" transform="translate(0.307 5.154)">
+					<path id="Path_600" class="st0" d="M135,295.3c-0.9,0.1-1.3,0-1.5-0.6c-1-5.4-5.7-9.3-11.1-9.3c-4.7-0.6-8.9,2.8-9.5,7.4
+						c0,0.2,0,0.5-0.1,0.7c0,6,5,8.6,11.6,10.7c9.5,3.1,15.7,7,15.7,16.2s-7.2,15.7-19.6,15.7c-4.7,0.2-9.5-0.8-13.8-2.7
+						c-1-0.4-1.7-1.2-2-2.1c-1.1-3.3-1.7-6.8-1.6-10.3c0-0.6,0.6-0.8,1.3-0.9c0.7-0.1,1.2,0.1,1.3,0.6c2,5.3,6.2,12.4,14.6,12.4
+						c6.6,0,10.8-3.9,10.8-9.2c0-4.5-1.6-8.2-10.4-11.1c-8.8-2.9-16.1-7.5-16.1-16.4c0-7.7,6.3-14.3,18.7-14.3
+						c3.4,0.1,6.8,0.5,10.2,1.3c1.2,0.3,1.3,0.5,1.6,1.3c0.9,3.1,1.3,6.3,1.3,9.5C136.3,294.9,135.9,295.2,135,295.3z"/>
+					<path id="Path_601" class="st0" d="M276.9,321.2c0.7,0.1,1.1,0.4,1,0.8c-0.4,3.7-1.5,7.4-3.1,10.7c-0.3,0.6-0.8,1-1.5,1.2
+						c-4.6,1.6-9.4,2.4-14.3,2.5c-17.3,0-30.6-8.7-30.6-27.1c0-17.9,14.1-27.3,30.4-27.3c5.3,0.1,10.5,0.9,15.6,2.1
+						c1,0.2,1.1,0.4,1.2,1.3c0.1,2.2,0.3,6.1,1,10.8c0.1,0.5-0.2,0.7-1,0.9c-0.9,0.1-1.3,0-1.4-0.5c-1.4-7.1-7.9-12-15.1-11.4
+						c-9.9,0-19.9,7-19.9,23c0,16.6,10.4,24.8,20.5,24.8c7.3,0.1,13.8-4.6,16.1-11.5C275.8,321.2,276.2,321.1,276.9,321.2z"/>
+					<path id="Path_602" class="st0" d="M297,309.4c0.3-15.3,12.8-27.5,28.1-27.2c14.9,0.2,27,12.3,27.2,27.2
+						c-0.4,15.3-13.2,27.3-28.5,26.9C309.2,335.9,297.4,324.1,297,309.4z M324.7,333c9.4,0,16.9-10.1,16.9-23.6
+						c0-12.5-6.1-23.8-16.9-23.8c-10.8,0-16.9,11.4-16.9,23.8C307.7,322.9,315.2,333,324.7,333L324.7,333z"/>
+					<path id="Path_603" class="st0" d="M63.6,309.3v14.5c0,8.3-0.7,8.5-4.4,9l-1.7,0.2c-0.5,0.1-0.6,0.6-0.6,1.2
+						c0.1,0.6,0.2,1.1,0.7,1c0,0,6.8-0.2,10.5-0.2s10.5,0.2,10.5,0.2c0.5,0,0.7-0.4,0.7-1c0.1-0.6-0.1-1.2-0.6-1.2l-1.7-0.2
+						c-3.7-0.5-4.4-0.7-4.4-9v-29c0-8.3,0.7-8.5,4.4-9l1.7-0.2c0.5-0.1,0.6-0.6,0.6-1.2s-0.2-1-0.7-1c0,0-6.8,0.2-10.5,0.2
+						s-10.5-0.2-10.5-0.2c-0.5,0-0.7,0.4-0.7,1c-0.1,0.6,0.1,1.2,0.6,1.2l1.7,0.2c3.7,0.5,4.4,0.7,4.4,9V309.3z"/>
+					<path id="Path_604" class="st0" d="M197.2,330.8c0.9,1.2,0.2,1.8-0.8,2l-2,0.3c-0.5,0.1-0.6,0.5-0.5,1.2c0.1,0.7,0.3,1.1,0.7,1
+						c0,0,6.6-0.2,10.2-0.2c3.7,0,10.3,0.2,10.3,0.2c0.5,0,0.7-0.3,0.8-1.1c0.1-0.8-0.2-1.2-0.6-1.2c-3.2,0.1-6.2-1.3-8.1-3.8
+						c-5-5.6-14.9-18.3-18.9-23.6c-0.5-0.5-0.5-1.4,0-1.9c0,0,0.1-0.1,0.1-0.1c2.2-2.4,9.4-9.7,12.6-12.6c3.2-3.2,7.4-5.1,11.9-5.5
+						c0.4-0.1,0.7-0.6,0.6-1.3c-0.1-0.6-0.3-1-0.8-0.9c0,0-5.6,0.2-8.6,0.2s-8.6-0.2-8.6-0.2c-0.5,0-0.7,0.5-0.7,1
+						c-0.1,0.7,0.1,1.1,0.5,1.2l2.1,0.6c0.4,0.1,0.7,0.3,0.7,0.7c0.1,0.9-1.6,2.8-3.8,5.3c-3.1,3.5-8.5,9.2-11.4,12
+						c-2.4,2.3-3.4,2.7-4.3,2.2c-0.7-0.3-1-1.1-1-3.5v-8.2c0-8.3,0.7-8.5,4.4-9l1.7-0.2c0.5-0.1,0.6-0.6,0.6-1.2
+						c-0.1-0.6-0.2-1-0.7-1c0,0-6.8,0.2-10.5,0.2s-10.5-0.2-10.5-0.2c-0.5,0-0.7,0.4-0.7,1c-0.1,0.6,0.1,1.2,0.6,1.2l1.7,0.2
+						c3.7,0.5,4.4,0.7,4.4,9v29c0,8.3-0.7,8.5-4.4,9l-1.7,0.2c-0.5,0.1-0.6,0.6-0.6,1.2s0.2,1.1,0.7,1c0,0,6.8-0.2,10.5-0.2
+						s10.5,0.2,10.5,0.2c0.5,0,0.7-0.4,0.7-1c0.1-0.6-0.1-1.2-0.6-1.2l-1.7-0.2c-3.7-0.5-4.4-0.7-4.4-9v-11.6c0-1.3,0.5-2.1,1.3-2.3
+						c0.9-0.2,1.6,0.2,2.5,1.2C185.7,315.6,193.8,326.2,197.2,330.8z"/>
+					<path id="Path_605" class="st0" d="M381.1,294.3c9.9,10.2,25.2,27.9,36.8,41.8c0.5,0.6,1,0.7,2,0.3c0.9-0.4,1-0.7,1-1.4
+						c-0.2-3.9-0.3-7.6-0.3-11.1v-26.5c0-9.2,0.7-11,4.4-11.5l1.7-0.2c0.5-0.1,0.6-0.6,0.6-1.2s-0.2-1.1-0.7-1
+						c-3,0.2-5.9,0.2-7.9,0.2c-2.1,0-5.8-0.1-8.8-0.2c-0.5,0-0.7,0.4-0.7,1c-0.1,0.6,0.2,1.2,0.6,1.2c6.2,0.3,7,1.6,7,11.7v24.4
+						l0.6-0.6c-11.4-11.6-22-23.8-31.9-36.7c-0.5-0.7-0.6-1-1.5-0.9c-4.5,0.2-9,0.2-13.5-0.1c-0.5-0.1-0.7,0.4-0.7,1
+						c-0.1,0.6,0.1,1.1,0.6,1.2c6,1.2,7.7,3,7.7,9.2v26.5c0,9.2-0.7,11-4.4,11.5l-1.7,0.2c-0.5,0.1-0.6,0.6-0.6,1.2s0.2,1.1,0.7,1
+						c3-0.2,5.9-0.2,7.9-0.2c2.1,0,4.9,0.1,7.9,0.2c0.5,0,0.7-0.4,0.7-1c0.1-0.6-0.1-1.2-0.6-1.2l-1.7-0.2
+						c-3.7-0.5-4.4-2.3-4.4-11.5v-27.5L381.1,294.3z"/>
+				</g>
+				<path id="Path_606" class="st0" d="M427.1,273c0.9,0,1.6-1,1.6-2.6s-0.7-2.6-1.6-2.6H57.8c-0.9,0-1.6,1-1.6,2.6s0.7,2.6,1.6,2.6
+					H427.1z"/>
+				<path id="Path_607" class="st0" d="M427.1,361.1c0.9,0,1.6-1,1.6-2.6s-0.7-2.6-1.6-2.6H57.8c-0.9,0-1.6,1-1.6,2.6
+					s0.7,2.6,1.6,2.6H427.1z"/>
+			</g>
+		</g>
+		<g id="Group_305" transform="translate(117.801 78.707)">
+			<path id="Path_608" class="st0" d="M358.5,259.9c0.1,6-4.6,10.9-10.6,11c-6,0.1-10.9-4.6-11-10.6c-0.1-6,4.6-10.9,10.6-11
+				c0.1,0,0.2,0,0.2,0C353.6,249.3,358.5,254,358.5,259.9z M339.5,259.9c0.3,4.5,4.1,8,8.7,7.8c4.5-0.3,8-4.1,7.8-8.7
+				c-0.2-4.4-3.8-7.8-8.2-7.8C343.1,251.4,339.4,255.2,339.5,259.9z M344.2,257.5c0-1.1-0.2-1.6-0.9-1.7h-0.3
+				c-0.2-0.3-0.2-0.8,0.1-0.9c1.7-0.1,3.2-0.2,4.6-0.2c1.9,0,4.2,0.4,4.2,2.8c0,1-0.6,1.9-1.5,2.3c-0.2,0.1-0.2,0.2,0,0.6
+				c0.5,1.2,1.2,2.4,2.1,3.3c0.3,0.2,0.5,0.4,0.7,0.5c0.2,0,0.2,0.5,0,0.6c-0.4,0-0.8,0.1-1.2,0.1c-1.3,0.1-2.5-0.6-3.1-1.7
+				l-1.2-2.1c-0.1-0.3-0.4-0.5-0.7-0.5c-0.4,0-0.5,0.2-0.5,0.4v1.2c0,1.2,0,1.6,1.2,1.7l0.2,0.1c0.2,0.1,0.2,0.7,0,0.8
+				c-0.8,0-1.5-0.1-2.5-0.1c-0.9,0-1.7,0.1-2.4,0.1c-0.2-0.1-0.2-0.7-0.1-0.8l0.3-0.1c0.9-0.2,0.9-0.4,0.9-1.7L344.2,257.5
+				L344.2,257.5z M346.5,259.1c0,0.6,0.1,0.6,1,0.6c0.9,0.1,1.6-0.6,1.7-1.4c0-0.1,0-0.2,0-0.2c0-1.3-0.6-2.1-1.6-2.1
+				c-1,0-1.1,0.2-1.1,0.6L346.5,259.1z"/>
+		</g>
+	</g>
+</g>
+</svg>
+<div><div class="name">ISKCON Coimbatore</div><div class="sub">Sri Jagannath Mandir</div></div></div>
+    <h1>Mobile App API &mdash; v1</h1>
+    <p class="lede">Every endpoint the ISKCON Coimbatore app needs: texts and photos for each section, the contact, volunteer and subscribe forms, and online donations through the KCM payment gateway.</p>
+    <div class="meta">
+      <div><b>Base URL</b><span>https://iskcon-coimbatore-yztu.vercel.app/api/app/v1</span></div>
+      <div><b>Format</b><span>JSON in, JSON out</span></div>
+      <div><b>Updated</b><span>1 November 2026</span></div>
+    </div>
+  </section>
+  <h2>1. Basics</h2>
+<h3>Authentication</h3>
+<p>None by default. If the server sets the <code>APP_API_KEY</code> environment variable, every request must send it:</p>
+<pre><code>x-api-key: &lt;APP_API_KEY&gt;
+</code></pre>
+<p>Without it the API answers <code>401 {&quot;error&quot;:{&quot;code&quot;:&quot;unauthorised&quot;,...}}</code>.</p>
+<blockquote>
+<p>The payment gateway&#39;s secret is <strong>never</strong> needed in the app. The server talks to the gateway; the app only ever sees a <code>checkout</code> object or a <code>paymentUrl</code>.</p>
+</blockquote>
+<h3>Photos and videos</h3>
+<p>Every photo or video field is either <code>null</code> or a <strong>Photo</strong> object. All URLs are absolute.</p>
+<pre><code class="language-json">{
+  &quot;url&quot;: &quot;https://iskcon-coimbatore-yztu.vercel.app/api/media/file/srila-prabhupada.jpg&quot;,
+  &quot;alt&quot;: &quot;His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada&quot;,
+  &quot;width&quot;: 1200,
+  &quot;height&quot;: 1600,
+  &quot;mimeType&quot;: &quot;image/jpeg&quot;,
+  &quot;sizes&quot;: {
+    &quot;thumb&quot;: &quot;https://…/srila-prabhupada-400x533.jpg&quot;,
+    &quot;card&quot;:  &quot;https://…/srila-prabhupada-800x1067.jpg&quot;,
+    &quot;hero&quot;:  &quot;https://…/srila-prabhupada-1920x2560.jpg&quot;
+  }
+}
+</code></pre>
+<ul>
+<li>Use <code>sizes.thumb</code> (400 px wide) for lists, <code>sizes.card</code> (800 px) for cards, <code>sizes.hero</code> (1920 px) for full-screen. Any size may be <code>null</code> (for example, when the original is smaller); fall back to <code>url</code>.</li>
+<li>Videos have <code>mimeType</code> <code>video/mp4</code>, <code>video/quicktime</code> or <code>video/webm</code>, and <code>sizes</code> all <code>null</code>.</li>
+</ul>
+<h3>Rich text</h3>
+<p>Long texts written in the admin&#39;s editor (festival significance, blog posts) come as HTML strings in fields ending in <code>Html</code>. Render them in a WebView or an HTML text component.</p>
+<h3>Errors</h3>
+<p>Every error has the same shape:</p>
+<pre><code class="language-json">{ &quot;error&quot;: { &quot;code&quot;: &quot;validation_failed&quot;, &quot;message&quot;: &quot;Please enter a valid email.&quot;, &quot;field&quot;: &quot;email&quot; } }
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>HTTP</th>
+<th><code>code</code></th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>400</td>
+<td><code>invalid_json</code></td>
+<td>Body is missing or not JSON</td>
+</tr>
+<tr>
+<td>401</td>
+<td><code>unauthorised</code></td>
+<td><code>x-api-key</code> missing or wrong (only when the server requires it)</td>
+</tr>
+<tr>
+<td>404</td>
+<td><code>not_found</code> / <code>seva_unavailable</code></td>
+<td>Unknown slug or reference, or the seva is closed</td>
+</tr>
+<tr>
+<td>422</td>
+<td><code>validation_failed</code></td>
+<td>A field is wrong; <code>field</code> names it, <code>message</code> is ready to show the user</td>
+</tr>
+<tr>
+<td>500</td>
+<td><code>server_error</code></td>
+<td>Unexpected; safe to retry</td>
+</tr>
+</tbody></table></div>
+<p><code>message</code> texts are written for donors and can be shown as-is.</p>
+<h3>Caching</h3>
+<p>GET responses may be cached for up to 60 seconds. Content changed in the admin appears within about a minute.</p>
+<hr>
+<h2>2. Content endpoints (GET)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Screen</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GET /home</code></td>
+<td>Home screen: every home section in one call</td>
+</tr>
+<tr>
+<td><code>GET /settings</code></td>
+<td>Contact details, social links, 80G / UPI / bank details</td>
+</tr>
+<tr>
+<td><code>GET /timings</code></td>
+<td>Open / closed status and the daily schedule</td>
+</tr>
+<tr>
+<td><code>GET /photos</code></td>
+<td>Explore tiles, page banner photos, Kovai Chandra photos</td>
+</tr>
+<tr>
+<td><code>GET /sevas</code></td>
+<td>Seva (donation) list</td>
+</tr>
+<tr>
+<td><code>GET /sevas/{slug}</code></td>
+<td>One seva</td>
+</tr>
+<tr>
+<td><code>GET /festivals</code></td>
+<td>Festival calendar</td>
+</tr>
+<tr>
+<td><code>GET /festivals/{slug}</code></td>
+<td>One festival with schedule, significance and gallery</td>
+</tr>
+<tr>
+<td><code>GET /services</code></td>
+<td>Devotional services</td>
+</tr>
+<tr>
+<td><code>GET /courses</code></td>
+<td>Courses and classes</td>
+</tr>
+<tr>
+<td><code>GET /posts</code></td>
+<td>Blog list (paged)</td>
+</tr>
+<tr>
+<td><code>GET /posts/{slug}</code></td>
+<td>One blog post</td>
+</tr>
+<tr>
+<td><code>GET /daily-darshan</code></td>
+<td>Daily darshan photos (newest first, paged)</td>
+</tr>
+<tr>
+<td><code>GET /art-gallery</code></td>
+<td>All artworks</td>
+</tr>
+</tbody></table></div>
+<h3><code>GET /home</code></h3>
+<p>One call for the whole home screen. Sections that have no content are empty arrays or <code>null</code>.</p>
+<pre><code class="language-json">{
+  &quot;heroSlides&quot;: [
+    {
+      &quot;layout&quot;: &quot;cinematic&quot;,            // &quot;arch&quot; (portrait photo) | &quot;cinematic&quot; (full-bleed)
+      &quot;tone&quot;: &quot;purple&quot;,                 // purple | maroon | indigo | green | saffron | ivory
+      &quot;eyebrow&quot;: &quot;Hare Krishna · Welcome home&quot;,
+      &quot;heading&quot;: &quot;Abode of Sri Sri Jagannath, Baladeva &amp; Subhadra&quot;,
+      &quot;text&quot;: &quot;Come for darshan, stay for kirtan and prasadam.&quot;,
+      &quot;verse&quot;: null,
+      &quot;image&quot;: Photo,
+      &quot;video&quot;: Photo | null,            // MP4/MOV background video
+      &quot;videoWebm&quot;: Photo | null,
+      &quot;buttonLabel&quot;: &quot;Today&#39;s Darshan&quot;,
+      &quot;link&quot;: &quot;/daily-darshan&quot;          // website path; map to an app screen
+    }
+  ],
+  &quot;timings&quot;: Timings,                   // same as GET /timings
+  &quot;highlightSevas&quot;: [Seva],             // 3 featured sevas
+  &quot;donationSevas&quot;: [Seva],              // up to 4 donation cards
+  &quot;about&quot;: {
+    &quot;image&quot;: Photo, &quot;smallImage&quot;: Photo, &quot;cardImage&quot;: Photo,
+    &quot;cardTitle&quot;: &quot;Sri Jagannath&quot;, &quot;cardSubtitle&quot;: &quot;Lord of the Universe&quot;, &quot;text&quot;: &quot;…&quot;
+  },
+  &quot;founder&quot;: { &quot;image&quot;: Photo },
+  &quot;explore&quot;: { &quot;deities&quot;: Photo, &quot;kirtan&quot;: Photo, &quot;prasadam&quot;: Photo, &quot;goshala&quot;: Photo, &quot;kovaiChandra&quot;: Photo, &quot;visit&quot;: Photo },
+  &quot;visitImage&quot;: Photo,
+  &quot;livePuja&quot;: {                         // null when no live link is set in the admin
+    &quot;title&quot;: &quot;Live online puja&quot;, &quot;text&quot;: &quot;…&quot;, &quot;time&quot;: &quot;Every day · 7:00 PM IST&quot;,
+    &quot;schedule&quot;: &quot;Daily 4:15 AM Mangala Arati · 7:00 PM Sandhya Arati&quot;,
+    &quot;platform&quot;: &quot;YouTube · Free to join&quot;, &quot;link&quot;: &quot;https://www.youtube.com/…&quot;, &quot;image&quot;: Photo
+  },
+  &quot;upcomingFestivals&quot;: [Festival],      // next 4
+  &quot;featuredCourses&quot;: [Course],
+  &quot;featuredServices&quot;: [Service],
+  &quot;latestPosts&quot;: [Post],                // latest 3, without content
+  &quot;artGallery&quot;: [Artwork],              // first 8
+  &quot;instagramReels&quot;: [
+    { &quot;id&quot;: &quot;…&quot;, &quot;poster&quot;: &quot;https://…jpg&quot;, &quot;video&quot;: { &quot;url&quot;: &quot;https://…mp4&quot;, &quot;type&quot;: &quot;video/mp4&quot; } | null,
+      &quot;caption&quot;: &quot;Evening kirtan&quot;, &quot;alt&quot;: &quot;…&quot;, &quot;link&quot;: &quot;https://instagram.com/…&quot; | null }
+  ],
+  &quot;youtubeVideos&quot;: [ { &quot;title&quot;: &quot;…&quot;, &quot;url&quot;: &quot;https://youtube.com/…&quot;, &quot;date&quot;: &quot;2026-10-01T00:00:00.000Z&quot; | null } ],
+  &quot;settings&quot;: Settings                  // same as GET /settings
+}
+</code></pre>
+<h3><code>GET /settings</code></h3>
+<pre><code class="language-json">{
+  &quot;address&quot;: &quot;Sri Jagannath Mandir, Hare Krishna Road,\nCivil Aerodrome (PO), Coimbatore – 641014&quot;,
+  &quot;phone&quot;: &quot;+91 90422 16108&quot;,
+  &quot;whatsapp&quot;: &quot;919042216108&quot;,           // digits with country code → https://wa.me/&lt;whatsapp&gt;
+  &quot;email&quot;: &quot;iskcon.coimbatore@gmail.com&quot;,
+  &quot;mapUrl&quot;: &quot;https://maps.google.com/…&quot; | null,
+  &quot;social&quot;: { &quot;facebook&quot;: &quot;…&quot;, &quot;instagram&quot;: &quot;…&quot;, &quot;youtube&quot;: &quot;…&quot;, &quot;whatsappChannel&quot;: &quot;…&quot; },
+  &quot;donations&quot;: {
+    &quot;reg80G&quot;: &quot;…&quot; | null, &quot;reg80GValidity&quot;: &quot;…&quot; | null,
+    &quot;upiId&quot;: &quot;…&quot; | null, &quot;upiQr&quot;: Photo | null, &quot;bankDetails&quot;: &quot;…&quot; | null
+  }
+}
+</code></pre>
+<h3><code>GET /timings</code> → <strong>Timings</strong></h3>
+<pre><code class="language-json">{
+  &quot;status&quot;: { &quot;open&quot;: true, &quot;label&quot;: &quot;Temple Open · closes 1:00 PM&quot; },   // India time, computed on the server
+  &quot;openSessions&quot;: [ { &quot;opens&quot;: &quot;04:15&quot;, &quot;closes&quot;: &quot;13:00&quot; }, { &quot;opens&quot;: &quot;16:00&quot;, &quot;closes&quot;: &quot;20:15&quot; } ],
+  &quot;schedule&quot;: [ { &quot;time&quot;: &quot;4:15 AM&quot;, &quot;activity&quot;: &quot;Mangala Arati&quot; } ]
+}
+</code></pre>
+<h3><code>GET /photos</code></h3>
+<pre><code class="language-json">{
+  &quot;explore&quot;:     { &quot;deities&quot;: Photo, &quot;kirtan&quot;: Photo, &quot;prasadam&quot;: Photo, &quot;goshala&quot;: Photo, &quot;kovaiChandra&quot;: Photo, &quot;visit&quot;: Photo },
+  &quot;pageBanners&quot;: { &quot;services&quot;: Photo, &quot;courses&quot;: Photo, &quot;festivals&quot;: Photo, &quot;donate&quot;: Photo, &quot;volunteer&quot;: Photo,
+                   &quot;dailyDarshan&quot;: Photo, &quot;artGallery&quot;: Photo, &quot;blog&quot;: Photo, &quot;contact&quot;: Photo },
+  &quot;kovaiChandra&quot;: { &quot;banner&quot;: Photo, &quot;photos&quot;: [Photo] }
+}
+</code></pre>
+<p>Every slot is listed; empty slots are <code>null</code>.</p>
+<h3><code>GET /sevas</code> → <code>{ &quot;docs&quot;: [Seva] }</code></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Query</th>
+<th>Values</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>category</code></td>
+<td><code>regular</code>, <code>festival</code></td>
+<td>both</td>
+</tr>
+<tr>
+<td><code>monthly</code></td>
+<td><code>true</code> → only sevas offered as monthly Nitya Seva</td>
+<td>all</td>
+</tr>
+<tr>
+<td><code>includeClosed</code></td>
+<td><code>true</code> → also festival sevas outside their dates</td>
+<td>open only</td>
+</tr>
+</tbody></table></div>
+<p><strong>Seva</strong></p>
+<pre><code class="language-json">{
+  &quot;slug&quot;: &quot;annadaan&quot;,
+  &quot;title&quot;: &quot;Annadaan Seva&quot;,
+  &quot;category&quot;: &quot;regular&quot;,                // regular | festival
+  &quot;shortDescription&quot;: &quot;Feed devotees and visitors with sanctified Krishna prasadam.&quot;,
+  &quot;image&quot;: Photo, &quot;cardImage&quot;: Photo,
+  &quot;presetAmounts&quot;: [1500, 3000],        // quick-pick amounts in ₹
+  &quot;items&quot;: [ { &quot;label&quot;: &quot;Annadaan – 25 plates&quot;, &quot;price&quot;: 1000 } ],
+  &quot;allowMonthly&quot;: true,
+  &quot;startDate&quot;: null, &quot;endDate&quot;: null,   // festival sevas only
+  &quot;isOpen&quot;: true,
+  &quot;onlinePayment&quot;: true                 // false → donation is recorded, donor pays by UPI / bank transfer
+}
+</code></pre>
+<p><code>GET /sevas/{slug}</code> returns one <strong>Seva</strong>, or <code>404</code>.</p>
+<h3><code>GET /festivals</code> → <code>{ &quot;docs&quot;: [Festival] }</code></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Query</th>
+<th>Values</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>when</code></td>
+<td><code>upcoming</code> (date ≥ today, soonest first), <code>past</code> (newest first), <code>all</code></td>
+<td><code>upcoming</code></td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>1–100</td>
+<td>50</td>
+</tr>
+</tbody></table></div>
+<p><strong>Festival</strong></p>
+<pre><code class="language-json">{
+  &quot;slug&quot;: &quot;govardhan-puja&quot;, &quot;name&quot;: &quot;Govardhan Puja&quot;,
+  &quot;date&quot;: &quot;2026-11-20T00:00:00.000Z&quot;, &quot;timeLabel&quot;: &quot;5:30 AM onwards&quot;,
+  &quot;shortDescription&quot;: &quot;…&quot;, &quot;image&quot;: Photo,
+  &quot;seva&quot;: { &quot;slug&quot;: &quot;annadaan&quot;, &quot;title&quot;: &quot;Annadaan Seva&quot; } | null    // the &quot;Support&quot; button → donation for this seva
+}
+</code></pre>
+<p><code>GET /festivals/{slug}</code> adds:</p>
+<pre><code class="language-json">{ &quot;significanceHtml&quot;: &quot;&lt;p&gt;…&lt;/p&gt;&quot; | null,
+  &quot;schedule&quot;: [ { &quot;time&quot;: &quot;5:30 AM&quot;, &quot;activity&quot;: &quot;Mangala Arati&quot; } ],
+  &quot;gallery&quot;: [Photo] }
+</code></pre>
+<h3><code>GET /services</code> → <code>{ &quot;docs&quot;: [Service] }</code></h3>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1, &quot;title&quot;: &quot;Speak to a Priest&quot;, &quot;description&quot;: &quot;…&quot;, &quot;image&quot;: Photo,
+  &quot;action&quot;: &quot;whatsapp&quot;,                 // donate → open seva  | whatsapp → wa.me chat | enquiry → contact form | link → open url
+  &quot;seva&quot;: { &quot;slug&quot;: &quot;annadaan&quot;, &quot;title&quot;: &quot;…&quot; } | null,
+  &quot;url&quot;: &quot;https://…&quot; | null, &quot;buttonLabel&quot;: &quot;…&quot; | null, &quot;featured&quot;: true
+}
+</code></pre>
+<h3><code>GET /courses</code> → <code>{ &quot;docs&quot;: [Course] }</code></h3>
+<pre><code class="language-json">{ &quot;id&quot;: 1, &quot;title&quot;: &quot;Learn to Chant&quot;, &quot;description&quot;: &quot;…&quot;, &quot;image&quot;: Photo,
+  &quot;schedule&quot;: &quot;Every Saturday, 6:00 PM&quot;, &quot;mode&quot;: &quot;online&quot;, &quot;zoomLink&quot;: &quot;https://zoom.us/…&quot; | null, &quot;featured&quot;: true }
+</code></pre>
+<p><code>mode</code>: <code>online</code> | <code>temple</code> | <code>both</code>.</p>
+<h3><code>GET /posts</code> → paged list</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Query</th>
+<th>Values</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>page</code></td>
+<td>1…</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>1–50</td>
+<td>10</td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td><code>Festivals</code>, <code>Philosophy</code>, <code>Temple News</code>, <code>Tamil</code></td>
+<td>all</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-json">{ &quot;docs&quot;: [ { &quot;slug&quot;: &quot;…&quot;, &quot;title&quot;: &quot;…&quot;, &quot;category&quot;: &quot;Festivals&quot;, &quot;publishedAt&quot;: &quot;…&quot;, &quot;author&quot;: &quot;…&quot; | null,
+              &quot;image&quot;: Photo, &quot;excerpt&quot;: &quot;…&quot; } ],
+  &quot;page&quot;: 1, &quot;totalPages&quot;: 3, &quot;totalDocs&quot;: 27 }
+</code></pre>
+<p><code>GET /posts/{slug}</code> returns one post with <code>contentHtml</code>.</p>
+<h3><code>GET /daily-darshan</code> → paged, newest day first</h3>
+<p>Query <code>page</code> (default 1), <code>limit</code> (days per page, 1–31, default 7).</p>
+<pre><code class="language-json">{ &quot;docs&quot;: [ { &quot;date&quot;: &quot;2026-10-31T00:00:00.000Z&quot;, &quot;photos&quot;: [Photo] } ], &quot;page&quot;: 1, &quot;totalPages&quot;: 4 }
+</code></pre>
+<h3><code>GET /art-gallery</code> → <code>{ &quot;docs&quot;: [Artwork] }</code></h3>
+<pre><code class="language-json">{ &quot;id&quot;: 12, &quot;url&quot;: &quot;https://…jpg&quot;, &quot;width&quot;: 1600, &quot;height&quot;: 1200, &quot;alt&quot;: &quot;…&quot;, &quot;title&quot;: &quot;Govardhan-dhari&quot;, &quot;kind&quot;: &quot;Painting&quot; }
+</code></pre>
+<hr>
+<h2>3. Form endpoints (POST)</h2>
+<p>All return <code>201</code> with <code>{ &quot;ok&quot;: true, &quot;message&quot;: &quot;&lt;text to show the user&gt;&quot; }</code>, or a <code>422</code> error naming the field.</p>
+<h3><code>POST /contact</code> → Admin → Contact messages</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Rules</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>firstName</code></td>
+<td>string</td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td><code>lastName</code></td>
+<td>string</td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>string</td>
+<td>✓</td>
+<td>valid email</td>
+</tr>
+<tr>
+<td><code>phone</code></td>
+<td>string</td>
+<td>✓</td>
+<td>10–15 digits, may include <code>+</code>, spaces, <code>-</code></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td>string</td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>string</td>
+<td></td>
+<td><code>General</code> (default), <code>Donation / 80G receipt</code>, <code>Seva</code>, <code>Volunteer</code>, <code>Suggestion</code>, <code>Other</code></td>
+</tr>
+<tr>
+<td><code>consent</code></td>
+<td>boolean</td>
+<td></td>
+<td>agreed to WhatsApp/SMS updates</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-json">{ &quot;firstName&quot;: &quot;Radha&quot;, &quot;lastName&quot;: &quot;Devi&quot;, &quot;email&quot;: &quot;radha@example.com&quot;, &quot;phone&quot;: &quot;9876543210&quot;,
+  &quot;category&quot;: &quot;Seva&quot;, &quot;message&quot;: &quot;How can I sponsor Annadaan on my birthday?&quot;, &quot;consent&quot;: true }
+</code></pre>
+<h3><code>POST /volunteers</code> → Admin → Volunteers</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Rules</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td><code>mobile</code></td>
+<td>string</td>
+<td>✓</td>
+<td>10–15 digits</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>string</td>
+<td></td>
+<td>valid email if given</td>
+</tr>
+<tr>
+<td><code>area</code></td>
+<td>string</td>
+<td></td>
+<td>where they live</td>
+</tr>
+<tr>
+<td><code>interest</code></td>
+<td>string or string[]</td>
+<td></td>
+<td>e.g. <code>[&quot;Festivals&quot;,&quot;Goshala&quot;,&quot;Prasadam&quot;]</code></td>
+</tr>
+<tr>
+<td><code>availability</code></td>
+<td>string</td>
+<td></td>
+<td>e.g. <code>&quot;Weekends&quot;</code></td>
+</tr>
+<tr>
+<td><code>skills</code></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table></div>
+<h3><code>POST /subscribe</code> → Admin → Subscribers</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>string</td>
+<td>✓ (valid email; subscribing twice is fine)</td>
+</tr>
+<tr>
+<td><code>phone</code></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><code>consent</code></td>
+<td>boolean</td>
+<td></td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>4. Donations (online payment)</h2>
+<p>Payments go through the <strong>KCM Payment Gateway</strong> of ISKCON Coimbatore (Razorpay). The gateway issues the
+receipt and sends it to the donor on WhatsApp/email.</p>
+<h3>Flow</h3>
+<pre class="diagram"><code>App                                   This API                          KCM gateway / Razorpay
+ │ 1. POST /donations ───────────────▶ saves donation, finds donor ───▶ contacts/resolve
+ │                                     creates checkout session ──────▶ checkout/sessions
+ │ ◀── reference, paymentUrl, checkout
+ │ 2. open paymentUrl in a browser view ──────────────────────────────▶ Razorpay payment page
+ │                                                                       │ donor pays
+ │ 3. browser lands on  …/donate/thank-you?ref=SEVA-…  ◀────────────────┘ (gateway redirects)
+ │    → close the browser view
+ │ 4. GET /donations/{reference} ────▶ asks gateway for the real status
+ │ ◀── status: &quot;paid&quot; + receiptNo
+</code></pre>
+<h3>Step 1 — <code>POST /donations</code></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Rules</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>seva</code></td>
+<td>string</td>
+<td>✓</td>
+<td>seva <code>slug</code> from <code>GET /sevas</code></td>
+</tr>
+<tr>
+<td><code>amount</code></td>
+<td>number</td>
+<td>✓</td>
+<td>rupees, whole number ≥ 1</td>
+</tr>
+<tr>
+<td><code>fullName</code></td>
+<td>string</td>
+<td>✓</td>
+<td>at least 3 characters; printed on the receipt</td>
+</tr>
+<tr>
+<td><code>mobile</code></td>
+<td>string</td>
+<td>✓</td>
+<td>Indian mobile, 10–15 characters (<code>9876543210</code>, <code>+91 98765 43210</code>)</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>string</td>
+<td>✓</td>
+<td>valid email</td>
+</tr>
+<tr>
+<td><code>item</code></td>
+<td>string</td>
+<td></td>
+<td>exact <code>label</code> of one of the seva&#39;s <code>items</code> (e.g. <code>&quot;Annadaan – 25 plates&quot;</code>); then the gateway&#39;s catalog price for that item is charged</td>
+</tr>
+<tr>
+<td><code>frequency</code></td>
+<td>string</td>
+<td></td>
+<td><code>one-time</code> (default) or <code>monthly</code> — monthly charges the <strong>first month now</strong>; the temple follows up for later months</td>
+</tr>
+<tr>
+<td><code>occasion</code></td>
+<td>string</td>
+<td></td>
+<td>e.g. <code>&quot;Birthday&quot;</code></td>
+</tr>
+<tr>
+<td><code>pan</code></td>
+<td>string</td>
+<td></td>
+<td>for 80G receipt, format <code>ABCDE1234F</code></td>
+</tr>
+<tr>
+<td><code>address</code></td>
+<td>string</td>
+<td></td>
+<td>for 80G receipt</td>
+</tr>
+<tr>
+<td><code>pin</code></td>
+<td>string</td>
+<td></td>
+<td>PIN code</td>
+</tr>
+<tr>
+<td><code>consent</code></td>
+<td>boolean</td>
+<td></td>
+<td>receipts and updates on WhatsApp/email</td>
+</tr>
+</tbody></table></div>
+<p>Example:</p>
+<pre><code class="language-json">{
+  &quot;seva&quot;: &quot;annadaan&quot;,
+  &quot;amount&quot;: 1500,
+  &quot;fullName&quot;: &quot;Prabhupada Dasa&quot;,
+  &quot;mobile&quot;: &quot;9876543210&quot;,
+  &quot;email&quot;: &quot;prabhupada.dasa@example.com&quot;,
+  &quot;frequency&quot;: &quot;one-time&quot;,
+  &quot;occasion&quot;: &quot;Birthday&quot;,
+  &quot;pan&quot;: &quot;ABCDE1234F&quot;,
+  &quot;address&quot;: &quot;12, Anna Nagar, Coimbatore&quot;,
+  &quot;pin&quot;: &quot;641001&quot;,
+  &quot;consent&quot;: true
+}
+</code></pre>
+<p>Response <code>201</code>, <strong>online payment available</strong>:</p>
+<pre><code class="language-json">{
+  &quot;reference&quot;: &quot;SEVA-3B34CEA9E2&quot;,
+  &quot;amount&quot;: 1500,                      // ₹ actually charged (from the gateway)
+  &quot;frequency&quot;: &quot;one-time&quot;,
+  &quot;name&quot;: &quot;Prabhupada Dasa&quot;,
+  &quot;onlinePayment&quot;: true,
+  &quot;paymentUrl&quot;: &quot;https://iskcon-coimbatore-yztu.vercel.app/donate/pay?ref=SEVA-3B34CEA9E2&quot;,
+  &quot;checkout&quot;: {                         // only for apps using Razorpay checkout themselves; pass unchanged
+    &quot;key_id&quot;: &quot;rzp_live_…&quot;, &quot;amount&quot;: 150000, &quot;currency&quot;: &quot;INR&quot;, &quot;order_id&quot;: &quot;order_…&quot;,
+    &quot;name&quot;: &quot;ISKCON Coimbatore&quot;, &quot;description&quot;: &quot;Donation&quot;, &quot;image&quot;: &quot;https://…&quot;,
+    &quot;prefill&quot;: { &quot;name&quot;: &quot;Prabhupada Dasa&quot;, &quot;contact&quot;: &quot;9876543210&quot;, &quot;email&quot;: &quot;…&quot; },
+    &quot;callback_url&quot;: &quot;https://iskconcoimbatore.com/api/razorpay-verify&quot;, &quot;redirect&quot;: true
+  },
+  &quot;sessionId&quot;: &quot;kpg_…&quot;,
+  &quot;returnUrlPrefix&quot;: &quot;https://iskcon-coimbatore-yztu.vercel.app/donate/thank-you&quot;,
+  &quot;offlineReason&quot;: null,
+  &quot;offlinePayment&quot;: null
+}
+</code></pre>
+<p>Response <code>201</code>, <strong>online payment not available</strong> (the donation is still recorded; show the UPI / bank details):</p>
+<pre><code class="language-json">{
+  &quot;reference&quot;: &quot;SEVA-9E53B59678&quot;,
+  &quot;amount&quot;: 1000,
+  &quot;onlinePayment&quot;: false,
+  &quot;paymentUrl&quot;: null,
+  &quot;checkout&quot;: null,
+  &quot;sessionId&quot;: null,
+  &quot;offlineReason&quot;: &quot;seva_has_no_scheme_id&quot;,   // or gateway_not_configured | gateway_unavailable
+  &quot;offlinePayment&quot;: { &quot;reg80G&quot;: &quot;…&quot;, &quot;reg80GValidity&quot;: &quot;…&quot;, &quot;upiId&quot;: &quot;iskcon@upi&quot;, &quot;upiQr&quot;: Photo, &quot;bankDetails&quot;: &quot;…&quot; }
+}
+</code></pre>
+<p>For UPI, build: <code>upi://pay?pa=&lt;upiId&gt;&amp;pn=ISKCON%20Coimbatore&amp;am=&lt;amount&gt;&amp;cu=INR&amp;tn=&lt;reference&gt;</code>.</p>
+<h3>Step 2 — Pay</h3>
+<p>Open <code>paymentUrl</code> in an <strong>in-app browser</strong> (Android Custom Tabs / iOS <code>SFSafariViewController</code>) or a WebView. It opens Razorpay straight away. Do <strong>not</strong> change anything in the payment page or the <code>checkout</code> object.</p>
+<h3>Step 3 — Return</h3>
+<p>After payment the browser goes to a URL starting with <code>returnUrlPrefix</code>
+(<code>…/donate/thank-you?ref=SEVA-…</code>). The page itself shows the result, so it is fine to leave it open; or, in a WebView, watch for this URL, close the view and continue with step 4.</p>
+<h3>Step 4 — <code>GET /donations/{reference}</code></h3>
+<p>The <strong>only</strong> source of truth. Return-URL parameters are hints, not proof of payment.</p>
+<pre><code class="language-json">{
+  &quot;reference&quot;: &quot;SEVA-3B34CEA9E2&quot;,
+  &quot;status&quot;: &quot;paid&quot;,                     // created | paid | failed | expired | refunded
+  &quot;amount&quot;: 1500,
+  &quot;seva&quot;: &quot;Annadaan Seva&quot;,
+  &quot;name&quot;: &quot;Prabhupada Dasa&quot;,
+  &quot;receiptNo&quot;: &quot;12345&quot;,
+  &quot;paymentId&quot;: &quot;pay_…&quot;,
+  &quot;paidAt&quot;: &quot;2026-10-31T10:05:12.000Z&quot;,
+  &quot;failureReason&quot;: null,
+  &quot;onlinePayment&quot;: true
+}
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><code>status</code></th>
+<th>Meaning</th>
+<th>App should</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>created</code></td>
+<td>Not paid yet, or still being confirmed</td>
+<td>Poll every 3–5 s for up to 2 min, then show &quot;We&#39;ll confirm shortly&quot;</td>
+</tr>
+<tr>
+<td><code>paid</code></td>
+<td>Paid and receipt issued (<code>receiptNo</code> set)</td>
+<td>Show success with <code>receiptNo</code></td>
+</tr>
+<tr>
+<td><code>failed</code></td>
+<td>Payment failed</td>
+<td>Show <code>failureReason</code>; offer to start again (new <code>POST /donations</code>)</td>
+</tr>
+<tr>
+<td><code>expired</code></td>
+<td>Not paid in time</td>
+<td>Start again with a new <code>POST /donations</code></td>
+</tr>
+<tr>
+<td><code>refunded</code></td>
+<td>Refunded by the temple</td>
+<td>Show as refunded</td>
+</tr>
+</tbody></table></div>
+<p>A donation counts as successful <strong>only</strong> when <code>status</code> is <code>&quot;paid&quot;</code> <strong>and</strong> <code>receiptNo</code> is not null.</p>
+<h3>Testing donations in Postman</h3>
+<ul>
+<li>Run <strong>Donations → Start donation</strong>; the collection saves <code>reference</code> and <code>paymentUrl</code>.</li>
+<li>Open <code>paymentUrl</code> in a browser to pay; then run <strong>Donation status</strong>.</li>
+<li><strong>The production gateway takes real money.</strong> Use a seva with a small amount, or ask ISKCON IT (<a href="mailto:itsupport@iskconcoimbatore.com">itsupport@iskconcoimbatore.com</a>) for a staging gateway and secret.</li>
+<li>To test without paying: use a seva whose <code>onlinePayment</code> is <code>false</code> → the response has <code>onlinePayment: false</code> and nothing is charged.</li>
+</ul>
+<hr>
+<h2>5. For the temple team (admin setup)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Where</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Admin → <strong>Sevas</strong> → a seva → <strong>Gateway scheme ID</strong> (right sidebar)</td>
+<td>The open-amount scheme ID from ISKCON IT&#39;s gateway catalog, e.g. <code>1-51</code>. Without it, that seva shows UPI / bank details instead of online payment.</td>
+</tr>
+<tr>
+<td>Admin → <strong>Sevas</strong> → a seva → <strong>Items</strong> → <strong>Gateway scheme ID</strong></td>
+<td>Optional fixed-price scheme for that item; the gateway charges its own catalog price.</td>
+</tr>
+<tr>
+<td>Admin → <strong>Donations</strong></td>
+<td>Every donation with its reference, status, receipt number, Razorpay ids and whether it came from the website or the app.</td>
+</tr>
+<tr>
+<td>Vercel → Environment Variables</td>
+<td><code>KCM_PAYMENT_GATEWAY_SECRET</code> (required for online payment), <code>SITE_URL</code> (optional; defaults to the Vercel production address), <code>KCM_PAYMENT_GATEWAY_URL</code> (optional; defaults to production gateway), <code>APP_API_KEY</code> (optional; requires <code>x-api-key</code> on the app API).</td>
+</tr>
+<tr>
+<td>ISKCON IT</td>
+<td>Must allowlist the return URL <code>https://iskcon-coimbatore-yztu.vercel.app/donate/thank-you</code> (any <code>?ref=…</code> query).</td>
+</tr>
+</tbody></table></div>
+
+  <p class="footer">ISKCON Coimbatore &middot; Sri Jagannath Mandir &middot; Mobile App API v1 &middot; 1 November 2026. Test with the Postman collection sent with this document (ISKCON-Coimbatore-App-API.postman_collection.json).</p>
+</div>
+</body>
+</html>

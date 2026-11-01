@@ -42,9 +42,9 @@ function statusAt(now, slots) {
   return { state: next.left <= COUNTDOWN ? 'countdown' : 'closed', ...next }
 }
 
-/** Development loop (dev server, or ?darshanDemo on the URL), one full cycle per minute:
-    closed 10s → countdown 15s → open 35s. */
-const DEMO = { closed: 10, countdown: 15, open: 35 }
+/** Development loop (dev server, or ?darshanDemo on the URL), one full cycle every 10 seconds:
+    closed 2s → countdown 3s → open 5s. */
+const DEMO = { closed: 2, countdown: 3, open: 5 }
 function demoStatus(startedAt) {
   const cycle = DEMO.closed + DEMO.countdown + DEMO.open
   const t = Math.floor((Date.now() - startedAt) / 1000) % cycle
@@ -61,8 +61,8 @@ const hhmm = (secs) =>
   secs >= 3600 ? `${Math.floor(secs / 3600)}h ${pad(Math.floor((secs % 3600) / 60))}m` : clock(secs)
 
 /**
- * The live darshan "screen": the deity photo (children) behind two minimal doors that slide
- * open at darshan time and close again after 45 minutes. A countdown appears 10 minutes before.
+ * The live darshan "screen": the deity photo (children) behind two sandal-coloured curtains that
+ * draw back at darshan time and close again after 45 minutes. A countdown appears 10 minutes before.
  * slots: [{ label, time, start }] from lib/darshan-slots.
  * demo:  loop every minute instead of following the real timings (the home page sets this
  *        on the development server only).
@@ -103,9 +103,10 @@ export function LiveScreen({ slots = [], demo = false, children }) {
         )}
       </div>
 
-      {/* The doors */}
+      {/* The curtains, under a valance that stays in place */}
       <div className={`${styles.door} ${styles.left}`} aria-hidden />
       <div className={`${styles.door} ${styles.right}`} aria-hidden />
+      <div className={styles.valance} aria-hidden />
 
       {/* Message on the closed screen */}
       <div className={styles.panel} aria-hidden={open}>

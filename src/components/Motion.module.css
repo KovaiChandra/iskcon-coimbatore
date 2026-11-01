@@ -1,0 +1,27 @@
+/* Thin gold loading bar across the top while the next page loads. Colour → background. */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron-500), var(--saffron-300), var(--saffron-500));
+  box-shadow: 0 0 10px rgb(245 183 0 / 0.7);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  opacity: 0;
+  pointer-events: none;
+}
+.progress[data-state='loading'] {
+  opacity: 1;
+  transform: scaleX(0.8);
+  transition: transform 8s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+.progress[data-state='done'] {
+  opacity: 0;
+  transform: scaleX(1);
+  transition:
+    transform 0.25s ease-out,
+    opacity 0.35s 0.2s;
+}

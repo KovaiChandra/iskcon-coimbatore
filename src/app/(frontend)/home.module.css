@@ -4,6 +4,9 @@
    ========================================================================= */
 
 /* ---------- Shared ---------- */
+.eyebrow svg {
+  animation: spin-slow 14s linear infinite;
+}
 .eyebrow {
   margin-bottom: 0.75rem;
   display: inline-flex;
@@ -34,11 +37,20 @@
   color: var(--muted);
 }
 .moreLink {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 0.35rem;
   font-weight: 600;
   color: var(--purple-700);
+  background: linear-gradient(var(--saffron-500), var(--saffron-500)) 0 100% / 0 2px no-repeat;
+  transition:
+    color 0.2s,
+    background-size 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .moreLink:hover {
   color: var(--purple-900);
+  background-size: 100% 2px;
 }
 .btnBig {
   padding: 0.75rem 1.75rem;
@@ -189,7 +201,13 @@
 }
 .accent {
   font-style: italic;
-  color: var(--purple-600);
+  /* Purple-to-gold sheen that drifts slowly through the word */
+  background: linear-gradient(100deg, var(--purple-600) 0%, var(--purple-600) 35%, #c98a00 50%, var(--purple-600) 65%, var(--purple-600) 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gold-shimmer 7s linear infinite;
 }
 .aboutText {
   margin-top: 1.5rem;
@@ -1275,10 +1293,10 @@
   background: var(--cream);
 }
 .explorePhoto img {
-  transition: transform 0.6s ease;
+  transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .exploreTile:hover .explorePhoto img {
-  transform: scale(1.04);
+  transform: scale(1.09);
 }
 .exploreTitle {
   display: flex;
@@ -1319,7 +1337,56 @@
 
 /* ---------- About (card layout) ---------- */
 .about2 {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
   padding: 6rem 0;
+}
+/* Drifting lotus petals. Count → page.jsx; colours → background; speed → animation duration */
+.petals {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.petals span {
+  position: absolute;
+  bottom: -3rem;
+  left: var(--x);
+  width: var(--s);
+  height: calc(var(--s) * 1.6);
+  border-radius: 50% 0 50% 0;
+  background: linear-gradient(160deg, rgb(255 200 220 / 0.9), rgb(245 183 0 / 0.55));
+  opacity: 0;
+  animation: petal-drift var(--d) linear var(--delay) infinite;
+}
+.petals span:nth-child(1) { --x: 6%; --s: 14px; --d: 19s; --delay: 0s; }
+.petals span:nth-child(2) { --x: 18%; --s: 10px; --d: 24s; --delay: -6s; }
+.petals span:nth-child(3) { --x: 31%; --s: 16px; --d: 21s; --delay: -12s; }
+.petals span:nth-child(4) { --x: 47%; --s: 9px; --d: 26s; --delay: -3s; }
+.petals span:nth-child(5) { --x: 58%; --s: 13px; --d: 20s; --delay: -15s; }
+.petals span:nth-child(6) { --x: 70%; --s: 11px; --d: 23s; --delay: -9s; }
+.petals span:nth-child(7) { --x: 82%; --s: 15px; --d: 18s; --delay: -4s; }
+.petals span:nth-child(8) { --x: 91%; --s: 10px; --d: 25s; --delay: -18s; }
+.petals span:nth-child(9) { --x: 39%; --s: 12px; --d: 22s; --delay: -20s; }
+@keyframes petal-drift {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  10% {
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate(40px, -55vh) rotate(160deg);
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-20px, -110vh) rotate(320deg);
+  }
 }
 .about2Grid {
   display: grid;
@@ -1375,21 +1442,33 @@
   border-radius: 9999px;
   background: var(--saffron-500);
 }
-/* One row of cards that scrolls sideways (all screen sizes). Card width → .about2Cards > * flex-basis */
-.about2Cards {
+/* Endless strip of About cards. Speed → .cardsTrack animation duration; card width → flex-basis */
+.cardsMarquee {
   margin-top: 3rem;
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  /* Room for the hover lift and shadow, which would otherwise be clipped */
-  padding: 0.25rem 0.25rem 1.25rem;
-  scrollbar-width: thin;
-  scrollbar-color: rgb(59 23 101 / 0.25) transparent;
+  overflow: hidden;
+  padding: 0.5rem 0 1.75rem;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
-.about2Cards > * {
+.cardsTrack {
+  display: flex;
+  width: max-content;
+  animation: marquee 50s linear infinite;
+}
+.cardsMarquee:hover .cardsTrack,
+.cardsMarquee:focus-within .cardsTrack {
+  animation-play-state: paused;
+}
+.cardsTrack > * {
   flex: 0 0 17rem;
-  scroll-snap-align: start;
+  margin-right: 1.25rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cardsMarquee {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
 }
 /* About cards: warm tint, gold border and a solid gold icon so they stand out on the white page */
 .about2Card {
@@ -1458,6 +1537,7 @@
   box-shadow: 0 30px 60px -28px rgb(28 10 51 / 0.5);
 }
 .collageSmall {
+  animation: float-soft 7s ease-in-out infinite;
   position: absolute;
   left: 0;
   top: 6%;
@@ -1469,6 +1549,7 @@
   box-shadow: 0 18px 36px -18px rgb(28 10 51 / 0.5);
 }
 .collageFounder {
+  animation: float-soft 8s ease-in-out -3s infinite;
   position: absolute;
   right: 0;
   bottom: 0;
@@ -1540,9 +1621,6 @@
     scroll-snap-align: start;
     min-width: 0;
   }
-  .about2Cards.swipe > * {
-    flex-basis: 62%;
-  }
 
   /* Section spacing and headings */
   .about2,
@@ -1551,8 +1629,11 @@
   .courses,
   .live,
   .explore {
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .cardsMarquee {
+    padding-bottom: 0.5rem;
   }
   .serve,
   .subscribe {
@@ -1583,8 +1664,11 @@
     font-size: 1rem;
     margin-top: 1rem;
   }
-  .about2Cards {
+  .cardsMarquee {
     margin-top: 1.5rem;
+  }
+  .cardsTrack > * {
+    flex-basis: 15rem;
   }
 
   /* Explore: tiles in the swipe row */
@@ -1684,5 +1768,31 @@
     align-self: flex-start;
     padding: 0.55rem 1.25rem;
     font-size: 0.875rem;
+  }
+}
+
+/* Animations used above (style files keep their own copies; names are local to this file) */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes gold-shimmer {
+  to {
+    background-position: 250% center;
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
   }
 }

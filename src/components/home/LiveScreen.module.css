@@ -1,7 +1,7 @@
 /* =========================================================================
-   Live darshan screen: two deep purple doors with a thin gold seam slide apart
+   Live darshan screen: two sandal-coloured temple curtains draw back to the sides
    at darshan time and close after 45 minutes; a ring countdown 10 minutes before.
-   Door colour → .door background. Animation speed → .door transition.
+   Curtain colour → --sandal-*. Animation speed → .door transition.
    ========================================================================= */
 .screen {
   position: relative;
@@ -29,7 +29,17 @@
   filter: none;
 }
 
-/* ---------- Doors ---------- */
+/* ---------- Curtains ----------
+   Two sandal-coloured temple curtains with soft pleats, a gold zari border on the inner edge and
+   the hem, under a scalloped valance. At darshan time each curtain gathers towards its side
+   (it narrows from the outer edge, so the pleats bunch up like real cloth).
+   Cloth colour → --sandal-*; speed → .door transition. */
+.screen {
+  --sandal-light: #f1dcb6;
+  --sandal: #e2c18e;
+  --sandal-deep: #c99a5e;
+  --zari: #d9a514;
+}
 .door {
   position: absolute;
   top: 0;
@@ -37,38 +47,100 @@
   z-index: 2;
   width: 50.5%;
   background:
-    radial-gradient(ellipse 90% 60% at 50% 45%, rgb(255 255 255 / 0.05), transparent 70%),
-    linear-gradient(160deg, #2d1250, #1a0833 55%, #12061f);
-  transition: transform 1.9s cubic-bezier(0.7, 0, 0.2, 1);
+    /* pleats: light ridges and soft shadowed folds */
+    repeating-linear-gradient(
+      90deg,
+      rgb(255 255 255 / 0.22) 0,
+      rgb(255 255 255 / 0.05) 9px,
+      rgb(122 72 24 / 0.16) 18px,
+      rgb(255 255 255 / 0.05) 27px,
+      rgb(255 255 255 / 0.22) 36px
+    ),
+    /* light falling from above, deeper towards the floor */
+    linear-gradient(180deg, var(--sandal-light), var(--sandal) 55%, var(--sandal-deep));
+  transition:
+    transform 2.6s cubic-bezier(0.65, 0, 0.25, 1),
+    filter 2.6s;
+  will-change: transform;
 }
 .left {
   left: 0;
-  box-shadow: inset -1px 0 0 rgb(245 183 0 / 0.55);
+  transform-origin: 0 50%;
 }
 .right {
   right: 0;
-  box-shadow: inset 1px 0 0 rgb(245 183 0 / 0.55);
+  transform-origin: 100% 50%;
 }
-/* A faint gold hairline frame inside each door */
+/* Gold zari border down the inner edge, with a woven dot pattern */
+.door::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  background:
+    radial-gradient(circle, rgb(255 243 204 / 0.95) 1.4px, transparent 1.8px) 50% 0 / 14px 14px,
+    linear-gradient(90deg, #a87a0c, var(--zari) 30%, #ffe08a 50%, var(--zari) 70%, #a87a0c);
+  box-shadow: 0 0 10px rgb(122 72 24 / 0.35);
+}
+.left::before {
+  right: 0;
+}
+.right::before {
+  left: 0;
+}
+/* Gold hem along the bottom */
 .door::after {
   content: '';
   position: absolute;
-  inset: 1.1rem;
-  border: 1px solid rgb(245 183 0 / 0.14);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 16px;
+  background:
+    radial-gradient(circle at 50% 0, rgb(255 243 204 / 0.9) 2px, transparent 2.5px) 0 4px / 16px 12px,
+    linear-gradient(180deg, #ffe08a, var(--zari) 40%, #a87a0c);
 }
-.left::after {
-  border-radius: 0.75rem 0 0 0.75rem;
-  right: 0.6rem;
-}
-.right::after {
-  border-radius: 0 0.75rem 0.75rem 0;
-  left: 0.6rem;
-}
-.isOpen .left {
-  transform: translateX(-101%);
-}
+/* Opening: each curtain gathers to its side, with a gentle sway as it moves */
+.isOpen .left,
 .isOpen .right {
-  transform: translateX(101%);
+  transform: scaleX(0.07);
+  filter: brightness(0.92);
+}
+.isOpen .door {
+  animation: sway 2.6s cubic-bezier(0.65, 0, 0.25, 1);
+}
+@keyframes sway {
+  35% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  60% {
+    rotate: 0.4deg;
+  }
+  80% {
+    rotate: -0.2deg;
+  }
+}
+
+/* Scalloped valance across the top: maroon with gold edging, stays in place */
+.valance {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  height: 2.6rem;
+  pointer-events: none;
+  background:
+    /* gold scallop edge */
+    radial-gradient(circle at 50% 0, transparent 13px, var(--zari) 13.5px, var(--zari) 16px, transparent 16.5px) 0 100% / 32px 17px
+      repeat-x,
+    /* maroon scallops */
+    radial-gradient(circle at 50% 0, #7a1f1f 13px, transparent 13.5px) 0 100% / 32px 17px repeat-x,
+    /* gold band and maroon pelmet */
+    linear-gradient(180deg, #5e1414 0, #7a1f1f 55%, var(--zari) 55%, #ffe08a 62%, var(--zari) 68%, #7a1f1f 68%) 0 0 / 100% calc(100% - 17px) no-repeat;
+  filter: drop-shadow(0 6px 8px rgb(60 20 10 / 0.35));
 }
 
 /* ---------- Closed-screen message ---------- */
@@ -82,8 +154,9 @@
   justify-content: center;
   gap: 1.25rem;
   padding: 2rem;
+  padding-top: 3.5rem;
   text-align: center;
-  color: var(--white);
+  color: #4a1d0f;
   transition: opacity 0.6s;
 }
 .isOpen .panel {
@@ -91,7 +164,7 @@
   pointer-events: none;
 }
 .emblem {
-  color: var(--saffron-300);
+  color: #a86b00;
   opacity: 0.9;
 }
 .caption {
@@ -101,7 +174,7 @@
   font-weight: 600;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgb(239 231 248 / 0.65);
+  color: rgb(74 29 15 / 0.7);
 }
 .captionStrong {
   font-family: var(--font-serif);
@@ -109,11 +182,11 @@
   font-weight: 400;
   letter-spacing: 0;
   text-transform: none;
-  color: var(--white);
+  color: #4a1d0f;
 }
 .captionSoft {
   font-size: 0.6875rem;
-  color: var(--saffron-300);
+  color: #8a4b00;
 }
 
 /* ---------- Countdown ring ---------- */
@@ -135,10 +208,10 @@
   stroke-width: 2;
 }
 .ringTrack {
-  stroke: rgb(255 255 255 / 0.12);
+  stroke: rgb(122 72 24 / 0.2);
 }
 .ringFill {
-  stroke: var(--saffron-500);
+  stroke: #a86b00;
   stroke-linecap: round;
   transition: stroke-dashoffset 1s linear;
 }
@@ -151,23 +224,24 @@
   font-weight: 600;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgb(239 231 248 / 0.65);
+  color: rgb(74 29 15 / 0.7);
 }
 .digits {
   font-family: var(--font-serif);
   font-size: 2.6rem;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  color: var(--saffron-300);
+  color: #7a1f1f;
 }
 
 /* ---------- Live bar (open screen) ---------- */
 .liveBar {
   position: absolute;
-  left: 1.25rem;
-  right: 1.25rem;
-  top: 1.25rem;
-  z-index: 1;
+  /* Clear of the gathered curtains (about 4% of the width on each side) */
+  left: calc(4% + 0.75rem);
+  right: calc(4% + 0.75rem);
+  top: 3.4rem;
+  z-index: 5;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -223,6 +297,7 @@
   .view,
   .liveBar {
     transition: none;
+    animation: none;
   }
 }
 @media (min-width: 768px) and (max-width: 1023px) {

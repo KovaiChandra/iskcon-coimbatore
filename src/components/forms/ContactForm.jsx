@@ -1,13 +1,19 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useEffect, useRef } from 'react'
 import { sendContactMessage } from '@/app/(frontend)/actions/forms'
 import styles from './Form.module.css'
 
 const CATEGORIES = ['General', 'Donation / 80G receipt', 'Seva', 'Volunteer', 'Suggestion', 'Other']
 
-export function ContactForm({ defaultCategory = 'General' }) {
+/** Topic is preselected from ?topic= in the address (read here so the page itself stays cached). */
+export function ContactForm() {
   const [state, action, pending] = useActionState(sendContactMessage, null)
+  const topicRef = useRef(null)
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get('topic')
+    if (t && CATEGORIES.includes(t) && topicRef.current) topicRef.current.value = t
+  }, [])
 
   if (state?.ok) {
     return (
@@ -44,7 +50,8 @@ export function ContactForm({ defaultCategory = 'General' }) {
         <span className={styles.label}>Topic</span>
         <select
           name="category"
-          defaultValue={CATEGORIES.includes(defaultCategory) ? defaultCategory : 'General'}
+          ref={topicRef}
+          defaultValue="General"
           className={styles.input}
         >
           {CATEGORIES.map((c) => (

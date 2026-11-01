@@ -238,6 +238,12 @@ export default async function HomePage() {
 
       {/* About */}
       <section className={styles.about2}>
+        {/* Lotus petals drifting slowly upward behind the section */}
+        <div className={styles.petals} aria-hidden data-no-reveal>
+          {Array.from({ length: 9 }, (_, i) => (
+            <span key={i} />
+          ))}
+        </div>
         <div className={`container-x ${styles.about2Grid}`}>
           {/* Collage: large deity photo, small photo top-left, Prabhupada card bottom-left */}
           <div className={styles.collage}>
@@ -287,69 +293,76 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
-        {/* Cards: one row that scrolls sideways on every screen size */}
-        <div className="container-x">
-          <ul className={`${styles.about2Cards} ${styles.swipe}`}>
-            {[
-              {
-                title: 'Spiritual guidance',
-                text: 'Classes, counselling and japa for every age',
-                icon: <path d="M4 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4zM20 5h-4a3 3 0 0 0-3 3" />,
-              },
-              {
-                title: 'Festivals & seva',
-                text: 'Kirtan, abhishek and a community to serve with',
-                icon: (
-                  <path d="M12 3c2 3 2 6 0 9-2-3-2-6 0-9ZM5 14c3 0 6 2 7 6 1-4 4-6 7-6M4 20h16" />
-                ),
-              },
-              {
-                title: 'Prasadam for all',
-                text: 'Sanctified food offered with love, every day',
-                icon: <path d="M4 12h16a8 8 0 0 1-16 0ZM12 4v4M8 6v2M16 6v2" />,
-              },
-              {
-                title: 'Daily arati',
-                text: 'From Mangala Arati at 4:15 AM to Sandhya Arati at 7 PM',
-                icon: (
-                  <path d="M3 13c0 3 4 5 9 5s9-2 9-5H3ZM12 4c1.6 2 1.6 4.5 0 6.5-1.6-2-1.6-4.5 0-6.5ZM9 21h6" />
-                ),
-              },
-              {
-                title: 'Gau seva',
-                text: 'Care for the cows at our goshala',
-                icon: (
-                  <path d="M5 9 3 6M19 9l2-3M7 8h10v6a5 5 0 0 1-10 0ZM10 13h.01M14 13h.01M10.5 17h3" />
-                ),
-              },
-              {
-                title: 'Annadaan',
-                text: 'Prasadam served to those in need across Coimbatore',
-                icon: (
-                  <path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z" />
-                ),
-              },
-            ].map((c) => (
-              <li key={c.title} className={styles.about2Card}>
-                <span className={styles.about2Icon}>
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="22"
-                    height="22"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden
-                  >
-                    {c.icon}
-                  </svg>
-                </span>
-                <p className={styles.about2CardTitle}>{c.title}</p>
-                <p className={styles.about2CardText}>{c.text}</p>
-              </li>
-            ))}
+        {/* Cards: an endless strip that drifts slowly sideways (pauses on hover). The list is
+            drawn twice so the strip loops without a gap; the copy is hidden from screen readers. */}
+        <div className={styles.cardsMarquee} data-no-reveal>
+          <ul className={styles.cardsTrack}>
+            {[0, 1].map((copy) =>
+              [
+                {
+                  title: 'Spiritual guidance',
+                  text: 'Classes, counselling and japa for every age',
+                  icon: <path d="M4 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4zM20 5h-4a3 3 0 0 0-3 3" />,
+                },
+                {
+                  title: 'Festivals & seva',
+                  text: 'Kirtan, abhishek and a community to serve with',
+                  icon: (
+                    <path d="M12 3c2 3 2 6 0 9-2-3-2-6 0-9ZM5 14c3 0 6 2 7 6 1-4 4-6 7-6M4 20h16" />
+                  ),
+                },
+                {
+                  title: 'Prasadam for all',
+                  text: 'Sanctified food offered with love, every day',
+                  icon: <path d="M4 12h16a8 8 0 0 1-16 0ZM12 4v4M8 6v2M16 6v2" />,
+                },
+                {
+                  title: 'Daily arati',
+                  text: 'From Mangala Arati at 4:15 AM to Sandhya Arati at 7 PM',
+                  icon: (
+                    <path d="M3 13c0 3 4 5 9 5s9-2 9-5H3ZM12 4c1.6 2 1.6 4.5 0 6.5-1.6-2-1.6-4.5 0-6.5ZM9 21h6" />
+                  ),
+                },
+                {
+                  title: 'Gau seva',
+                  text: 'Care for the cows at our goshala',
+                  icon: (
+                    <path d="M5 9 3 6M19 9l2-3M7 8h10v6a5 5 0 0 1-10 0ZM10 13h.01M14 13h.01M10.5 17h3" />
+                  ),
+                },
+                {
+                  title: 'Annadaan',
+                  text: 'Prasadam served to those in need across Coimbatore',
+                  icon: (
+                    <path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z" />
+                  ),
+                },
+              ].map((c) => (
+                <li
+                  key={`${copy}-${c.title}`}
+                  className={styles.about2Card}
+                  aria-hidden={copy === 1 || undefined}
+                >
+                  <span className={styles.about2Icon}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="22"
+                      height="22"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      {c.icon}
+                    </svg>
+                  </span>
+                  <p className={styles.about2CardTitle}>{c.title}</p>
+                  <p className={styles.about2CardText}>{c.text}</p>
+                </li>
+              )),
+            )}
           </ul>
         </div>
       </section>

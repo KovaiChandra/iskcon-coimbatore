@@ -161,3 +161,51 @@
     font-size: 1.6rem;
   }
 }
+
+/* ---------- Phones: first 5 chapters, then "Show all 18 chapters" ---------- */
+.allButton {
+  display: none;
+}
+@media (max-width: 767px) {
+  .chapters {
+    padding: 0.5rem 1.25rem;
+  }
+  .chapter:nth-child(n + 6) {
+    display: none;
+  }
+  .allToggle:checked + .chapters .chapter {
+    display: flex;
+    animation: chapter-in 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .allButton {
+    margin: 1rem auto 0;
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgb(245 183 0 / 0.6);
+    border-radius: 9999px;
+    padding: 0.7rem 1.4rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--purple-800);
+    cursor: pointer;
+  }
+  .showLess,
+  .allToggle:checked ~ .allButton .showAll {
+    display: none;
+  }
+  .allToggle:checked ~ .allButton .showLess {
+    display: inline;
+  }
+  .allToggle:focus-visible ~ .allButton {
+    outline: 2px solid var(--purple-700);
+    outline-offset: 2px;
+  }
+}
+@keyframes chapter-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
