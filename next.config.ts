@@ -8,8 +8,12 @@ const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
   images: {
-    // Hero photos are served at 90 for sharper deity details; everything else at the default 75.
-    qualities: [75, 90],
+    // AVIF first (much smaller than JPEG), WebP for browsers without it
+    formats: ['image/avif', 'image/webp'],
+    // Hero photos at 70 (sharp enough on every screen, far lighter); everything else at 75.
+    qualities: [70, 75],
+    // Uploaded photos come straight from Vercel Blob's CDN on the live site
+    remotePatterns: [{ protocol: 'https', hostname: '*.public.blob.vercel-storage.com' }],
     localPatterns: [
       {
         pathname: '/api/media/file/**',

@@ -1,6 +1,7 @@
 'use server'
 
 import { startDonation, validateDonation } from '@/lib/donations'
+import { ENQUIRY_THANKS, validateEnquiry } from '@/lib/enquiries'
 import { getPayloadClient } from '@/lib/payload'
 
 const str = (formData, key) => String(formData.get(key) ?? '').trim()
@@ -72,4 +73,14 @@ export async function createDonation(_prev, formData) {
   const result = await startDonation(await getPayloadClient(), checked.input, 'website')
   if (!result.ok) return { ok: false, message: result.message }
   return { ok: true, ...result.donation }
+}
+
+/** Course "Register" and "Speak to a priest" forms → Admin → Enquiries */
+export async function sendEnquiry(_prev, formData) {
+  if (isBot(formData)) return { ok: true }
+  const checked = validateEnquiry(Object.fromEntries(formData), 'website')
+  if (!checked.ok) return { ok: false, message: checked.message }
+  const payload = await getPayloadClient()
+  await payload.create({ collection: 'enquiries', data: checked.data })
+  return { ok: true, message: ENQUIRY_THANKS[checked.data.type] }
 }

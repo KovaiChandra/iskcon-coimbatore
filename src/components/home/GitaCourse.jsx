@@ -1,5 +1,5 @@
 import { Sparkle } from '@/components/art/Mandala'
-import { waLink } from '@/lib/format'
+import { EnquiryButton } from '@/components/forms/EnquiryButton'
 import styles from './GitaCourse.module.css'
 
 /** The 18 chapters of the Bhagavad-gita, one per class */
@@ -30,12 +30,8 @@ const FACTS = [
   ['All', 'ages welcome, no experience needed'],
 ]
 
-/** Home page: the 18-chapter Bhagavad-gita course, with registration on WhatsApp. */
-export function GitaCourse({ whatsapp }) {
-  const register = whatsapp
-    ? waLink(whatsapp, 'Hare Krishna! I would like to join the 18-chapter Bhagavad-gita course.')
-    : '/contact?topic=General'
-
+/** Home page: the 18-chapter Bhagavad-gita course, with a registration form (Admin → Enquiries). */
+export function GitaCourse() {
   return (
     <section className={styles.section} aria-labelledby="gita-course-title">
       <div className={`container-x ${styles.grid}`}>
@@ -62,15 +58,14 @@ export function GitaCourse({ whatsapp }) {
           </dl>
 
           <div className={styles.cta}>
-            <a
-              href={register}
-              target={whatsapp ? '_blank' : undefined}
-              rel={whatsapp ? 'noopener noreferrer' : undefined}
+            <EnquiryButton
+              type="course"
+              course="Bhagavad-gita course (18 chapters)"
               className={`btn-donate ${styles.button}`}
             >
               Register for the course <span aria-hidden>→</span>
-            </a>
-            <p className={styles.note}>Next batch details on WhatsApp</p>
+            </EnquiryButton>
+            <p className={styles.note}>We will call you with the next batch dates</p>
           </div>
         </div>
 

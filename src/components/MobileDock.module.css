@@ -54,23 +54,11 @@
     background: linear-gradient(145deg, var(--saffron-300), var(--saffron-500));
     color: var(--purple-950);
     box-shadow: 0 8px 20px -6px rgb(245 183 0 / 0.75);
-    animation: donate-glow 3s ease-in-out infinite;
   }
 }
 @keyframes dock-in {
   from {
     opacity: 0;
     transform: translateY(120%);
-  }
-}
-@keyframes donate-glow {
-  0%,
-  100% {
-    box-shadow: 0 8px 20px -6px rgb(245 183 0 / 0.75);
-  }
-  50% {
-    box-shadow:
-      0 8px 26px -4px rgb(245 183 0 / 0.95),
-      0 0 0 6px rgb(245 183 0 / 0.12);
   }
 }

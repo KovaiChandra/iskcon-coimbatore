@@ -70,7 +70,11 @@ function SlideVideo({ slide, active, onDuration }) {
       loop
       playsInline
       preload={active ? 'auto' : 'metadata'}
-      poster={slide.image?.url}
+      poster={
+        slide.image?.url
+          ? `/_next/image?url=${encodeURIComponent(slide.image.url)}&w=1200&q=70`
+          : undefined
+      }
       onLoadedMetadata={(e) => onDuration?.(slide.id, e.currentTarget.duration)}
       aria-hidden
     >
@@ -89,7 +93,7 @@ function SlideVisual({ slide, active, priority, variant }) {
   const image = slide.image
   const shared = {
     src: image.url,
-    quality: 90,
+    quality: 70,
     placeholder: image.blur ? 'blur' : 'empty',
     blurDataURL: image.blur,
     ...(priority ? { priority: true } : { loading: 'eager' }),
@@ -139,7 +143,7 @@ function SlideVisual({ slide, active, priority, variant }) {
       alt={variant === 'arch' || slide.layout === 'cinematic' ? slide.image.alt : ''}
       fill
       {...(priority ? { priority: true } : { loading: 'eager' })}
-      quality={90}
+      quality={70}
       sizes={variant === 'arch' ? '(min-width: 1024px) 480px, 1px' : '100vw'}
       placeholder={slide.image.blur ? 'blur' : 'empty'}
       blurDataURL={slide.image.blur}
@@ -182,7 +186,7 @@ function Title({ slide, className }) {
 }
 
 /** Arch layout: text on the left, photo in a tall temple arch on the right (desktop). */
-function ArchSlide({ slide, slides, index, paused }) {
+function ArchSlide({ slide, slides, index, paused, ready }) {
   return (
     <div className={`container-x ${styles.archGrid}`}>
       <div key={slide.id} className={styles.archText} aria-live={paused ? 'polite' : 'off'}>
@@ -221,7 +225,7 @@ function ArchSlide({ slide, slides, index, paused }) {
               key={s.id}
               className={`${styles.archSlide} ${i === index ? '' : styles.archSlideOff}`}
             >
-              <SlideVisual slide={s} active={i === index} variant="arch" />
+              {ready.has(i) && <SlideVisual slide={s} active={i === index} variant="arch" />}
             </div>
           ))}
           <div className={styles.archFrameShade} />
@@ -268,6 +272,22 @@ export function HeroSlider({ slides }) {
 
   const go = useCallback((i) => setIndex(((i % count) + count) % count), [count])
 
+  // Only the first slide loads with the page (so the first screen is fast). The next slide loads
+  // a few seconds later, and every slide shown pulls in the one after it.
+  const [ready, setReady] = useState(() => new Set([0]))
+  const prepare = useCallback(
+    (...ids) => setReady((r) => (ids.every((i) => r.has(i)) ? r : new Set([...r, ...ids]))),
+    [],
+  )
+  useEffect(() => {
+    const id = setTimeout(() => prepare(1 % count), 2500)
+    return () => clearTimeout(id)
+  }, [count, prepare])
+  useEffect(() => {
+    const id = setTimeout(() => prepare(index, (index + 1) % count), 0)
+    return () => clearTimeout(id)
+  }, [index, count, prepare])
+
   // Video slides last as long as their video (once its length is known)
   const [videoLengths, setVideoLengths] = useState({})
   const onDuration = useCallback(
@@ -310,7 +330,7 @@ export function HeroSlider({ slides }) {
         touchX.current = null
       }}
     >
-      {/* Backdrops for every slide, cross-faded. All load up front so changing slide never waits. */}
+      {/* Backdrops for every slide, cross-faded. A slide's photo/video is added once it is ready. */}
       {slides.map((s, i) => (
         <div
           key={s.id}
@@ -325,7 +345,7 @@ export function HeroSlider({ slides }) {
                 : styles.backdropOffZoom
           }`}
         >
-          {s.video ? (
+          {!ready.has(i) ? null : s.video ? (
             <SlideVideo slide={s} active={i === index} onDuration={onDuration} />
           ) : (
             <SlideVisual slide={s} active={i === index} priority={i === 0} variant="backdrop" />
@@ -355,7 +375,7 @@ export function HeroSlider({ slides }) {
       {cinematic ? (
         <CinematicSlide slide={slide} paused={paused} />
       ) : (
-        <ArchSlide slide={slide} slides={slides} index={index} paused={paused} />
+        <ArchSlide slide={slide} slides={slides} index={index} paused={paused} ready={ready} />
       )}
 
       {/* Slide navigation: thin progress segments, counter, arrows */}

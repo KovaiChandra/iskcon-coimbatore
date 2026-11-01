@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
+import { EnquiryButton } from '@/components/forms/EnquiryButton'
 import { WhatsAppIcon, YoutubeIcon } from '@/components/Icons'
 import { Mandala, Sparkle } from '@/components/art/Mandala'
 import { ArtGallery } from '@/components/home/ArtGallery'
@@ -238,12 +239,6 @@ export default async function HomePage() {
 
       {/* About */}
       <section className={styles.about2}>
-        {/* Lotus petals drifting slowly upward behind the section */}
-        <div className={styles.petals} aria-hidden data-no-reveal>
-          {Array.from({ length: 9 }, (_, i) => (
-            <span key={i} />
-          ))}
-        </div>
         <div className={`container-x ${styles.about2Grid}`}>
           {/* Collage: large deity photo, small photo top-left, Prabhupada card bottom-left */}
           <div className={styles.collage}>
@@ -726,7 +721,7 @@ export default async function HomePage() {
       </section>
 
       {/* 18-chapter Bhagavad-gita course */}
-      <GitaCourse whatsapp={settings.whatsapp} />
+      <GitaCourse />
 
       {/* Courses — numbered list */}
       {courses.docs.length > 0 && (
@@ -768,9 +763,12 @@ export default async function HomePage() {
                       Join on Zoom
                     </a>
                   ) : (
-                    <Link href="/courses" className={`btn-outline ${styles.courseButton}`}>
-                      Register
-                    </Link>
+                    <EnquiryButton
+                      type="course"
+                      course={c.title}
+                      label="Register"
+                      className={`btn-outline ${styles.courseButton}`}
+                    />
                   )}
                 </li>
               ))}
@@ -780,7 +778,7 @@ export default async function HomePage() {
       )}
 
       {/* Speak to a priest */}
-      <SpeakToPriest whatsapp={settings.whatsapp} phone={settings.phone} />
+      <SpeakToPriest />
 
       {/* Blog */}
       {posts.docs.length > 0 && (

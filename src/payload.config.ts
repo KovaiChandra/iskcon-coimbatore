@@ -15,7 +15,7 @@ import { Services } from './collections/Services'
 import { Courses } from './collections/Courses'
 import { Posts } from './collections/Posts'
 import { DarshanDays } from './collections/DarshanDays'
-import { ContactMessages, Donations, Subscribers, Volunteers } from './collections/Submissions'
+import { ContactMessages, Donations, Enquiries, Subscribers, Volunteers } from './collections/Submissions'
 import { SiteSettings } from './globals/SiteSettings'
 import { TempleTimings } from './globals/TempleTimings'
 import { appEndpoints } from './endpoints/app'
@@ -46,6 +46,7 @@ export default buildConfig({
     Subscribers,
     Volunteers,
     ContactMessages,
+    Enquiries,
     Users,
   ],
   globals: [HomePage, SitePhotos, TempleTimings, SiteSettings],
@@ -68,7 +69,9 @@ export default buildConfig({
     // Uploads go to Vercel Blob when its token is set (production); otherwise to the local media/ folder.
     vercelBlobStorage({
       enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
-      collections: { media: true },
+      // Photos and videos are served straight from Blob's CDN instead of through this site's
+      // server (much faster, especially the banner video). Media is public anyway.
+      collections: { media: { disablePayloadAccessControl: true } },
       token: process.env.BLOB_READ_WRITE_TOKEN || '',
       // Browser uploads straight to Blob, so large videos skip the 4.5 MB server request limit
       clientUploads: true,

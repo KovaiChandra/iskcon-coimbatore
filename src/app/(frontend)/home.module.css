@@ -4,9 +4,6 @@
    ========================================================================= */
 
 /* ---------- Shared ---------- */
-.eyebrow svg {
-  animation: spin-slow 14s linear infinite;
-}
 .eyebrow {
   margin-bottom: 0.75rem;
   display: inline-flex;
@@ -201,13 +198,7 @@
 }
 .accent {
   font-style: italic;
-  /* Purple-to-gold sheen that drifts slowly through the word */
-  background: linear-gradient(100deg, var(--purple-600) 0%, var(--purple-600) 35%, #c98a00 50%, var(--purple-600) 65%, var(--purple-600) 100%);
-  background-size: 250% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: gold-shimmer 7s linear infinite;
+  color: var(--purple-600);
 }
 .aboutText {
   margin-top: 1.5rem;
@@ -1342,52 +1333,6 @@
   overflow: clip;
   padding: 6rem 0;
 }
-/* Drifting lotus petals. Count → page.jsx; colours → background; speed → animation duration */
-.petals {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-}
-.petals span {
-  position: absolute;
-  bottom: -3rem;
-  left: var(--x);
-  width: var(--s);
-  height: calc(var(--s) * 1.6);
-  border-radius: 50% 0 50% 0;
-  background: linear-gradient(160deg, rgb(255 200 220 / 0.9), rgb(245 183 0 / 0.55));
-  opacity: 0;
-  animation: petal-drift var(--d) linear var(--delay) infinite;
-}
-.petals span:nth-child(1) { --x: 6%; --s: 14px; --d: 19s; --delay: 0s; }
-.petals span:nth-child(2) { --x: 18%; --s: 10px; --d: 24s; --delay: -6s; }
-.petals span:nth-child(3) { --x: 31%; --s: 16px; --d: 21s; --delay: -12s; }
-.petals span:nth-child(4) { --x: 47%; --s: 9px; --d: 26s; --delay: -3s; }
-.petals span:nth-child(5) { --x: 58%; --s: 13px; --d: 20s; --delay: -15s; }
-.petals span:nth-child(6) { --x: 70%; --s: 11px; --d: 23s; --delay: -9s; }
-.petals span:nth-child(7) { --x: 82%; --s: 15px; --d: 18s; --delay: -4s; }
-.petals span:nth-child(8) { --x: 91%; --s: 10px; --d: 25s; --delay: -18s; }
-.petals span:nth-child(9) { --x: 39%; --s: 12px; --d: 22s; --delay: -20s; }
-@keyframes petal-drift {
-  0% {
-    opacity: 0;
-    transform: translate(0, 0) rotate(0deg);
-  }
-  10% {
-    opacity: 0.75;
-  }
-  50% {
-    transform: translate(40px, -55vh) rotate(160deg);
-  }
-  90% {
-    opacity: 0.6;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-20px, -110vh) rotate(320deg);
-  }
-}
 .about2Grid {
   display: grid;
   align-items: center;
@@ -1537,7 +1482,6 @@
   box-shadow: 0 30px 60px -28px rgb(28 10 51 / 0.5);
 }
 .collageSmall {
-  animation: float-soft 7s ease-in-out infinite;
   position: absolute;
   left: 0;
   top: 6%;
@@ -1549,7 +1493,6 @@
   box-shadow: 0 18px 36px -18px rgb(28 10 51 / 0.5);
 }
 .collageFounder {
-  animation: float-soft 8s ease-in-out -3s infinite;
   position: absolute;
   right: 0;
   bottom: 0;
@@ -1772,27 +1715,8 @@
 }
 
 /* Animations used above (style files keep their own copies; names are local to this file) */
-@keyframes spin-slow {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes gold-shimmer {
-  to {
-    background-position: 250% center;
-  }
-}
 @keyframes marquee {
   to {
     transform: translateX(-50%);
-  }
-}
-@keyframes float-soft {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
   }
 }

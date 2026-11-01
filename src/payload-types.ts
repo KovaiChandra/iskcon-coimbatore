@@ -78,6 +78,7 @@ export interface Config {
     subscribers: Subscriber;
     volunteers: Volunteer;
     'contact-messages': ContactMessage;
+    enquiries: Enquiry;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -97,6 +98,7 @@ export interface Config {
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     volunteers: VolunteersSelect<false> | VolunteersSelect<true>;
     'contact-messages': ContactMessagesSelect<false> | ContactMessagesSelect<true>;
+    enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -466,6 +468,41 @@ export interface ContactMessage {
   createdAt: string;
 }
 /**
+ * Course registrations and requests to speak to a priest, from the website and the app.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enquiries".
+ */
+export interface Enquiry {
+  id: number;
+  type: 'course' | 'priest';
+  /**
+   * The course they registered for
+   */
+  course?: string | null;
+  topic?:
+    | (
+        | 'Spiritual question'
+        | 'Bhagavad-gita'
+        | 'Japa and chanting'
+        | 'Samskara or home puja'
+        | 'Personal guidance'
+        | 'Other'
+      )
+    | null;
+  preferredMode?: ('At the temple' | 'Phone call' | 'Video call') | null;
+  name: string;
+  phone: string;
+  email?: string | null;
+  preferredTime?: string | null;
+  message?: string | null;
+  consent?: boolean | null;
+  status?: ('new' | 'contacted' | 'done') | null;
+  source?: ('website' | 'app') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -558,6 +595,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-messages';
         value: number | ContactMessage;
+      } | null)
+    | ({
+        relationTo: 'enquiries';
+        value: number | Enquiry;
       } | null)
     | ({
         relationTo: 'users';
@@ -846,6 +887,26 @@ export interface ContactMessagesSelect<T extends boolean = true> {
   category?: T;
   message?: T;
   consent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enquiries_select".
+ */
+export interface EnquiriesSelect<T extends boolean = true> {
+  type?: T;
+  course?: T;
+  topic?: T;
+  preferredMode?: T;
+  name?: T;
+  phone?: T;
+  email?: T;
+  preferredTime?: T;
+  message?: T;
+  consent?: T;
+  status?: T;
+  source?: T;
   updatedAt?: T;
   createdAt?: T;
 }

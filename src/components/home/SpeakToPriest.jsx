@@ -1,7 +1,6 @@
 import Image from 'next/image'
-import { WhatsAppIcon } from '@/components/Icons'
 import { Sparkle } from '@/components/art/Mandala'
-import { waLink } from '@/lib/format'
+import { EnquiryButton } from '@/components/forms/EnquiryButton'
 import styles from './SpeakToPriest.module.css'
 
 const icon = (paths) => (
@@ -23,8 +22,8 @@ const icon = (paths) => (
 /** Three simple steps to speak with a priest */
 const TOPICS = [
   {
-    title: 'Send a message',
-    text: 'Tell us on WhatsApp what you would like to ask or discuss',
+    title: 'Fill in a short form',
+    text: 'Tell us what you would like to ask or discuss',
     // A chat bubble
     icon: icon(<path d="M4 5.5h16v10H9l-5 4v-14Z" />),
   },
@@ -52,8 +51,8 @@ const TOPICS = [
   },
 ]
 
-/** Home page: invite visitors to speak with a temple priest on WhatsApp or by phone. */
-export function SpeakToPriest({ whatsapp, phone }) {
+/** Home page: invite visitors to speak with a temple priest, through a short form (Admin → Enquiries). */
+export function SpeakToPriest() {
   return (
     <section className={styles.section} aria-labelledby="priest-title">
       {/* Faint ISKCON lotus watermark behind the section */}
@@ -98,21 +97,7 @@ export function SpeakToPriest({ whatsapp, phone }) {
         </ul>
 
         <div className={styles.actions}>
-          {whatsapp && (
-            <a
-              href={waLink(whatsapp, 'Hare Krishna! I would like to speak to a priest.')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.primary}
-            >
-              <WhatsAppIcon size={20} /> Message a priest
-            </a>
-          )}
-          {phone && (
-            <a href={`tel:${phone.replace(/\s/g, '')}`} className={styles.secondary}>
-              Call {phone}
-            </a>
-          )}
+          <EnquiryButton type="priest" label="Speak to a priest" className={styles.primary} />
         </div>
       </div>
     </section>

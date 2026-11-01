@@ -1,6 +1,6 @@
 import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
 import { PageHero } from '@/components/PageHero'
-import { waLink } from '@/lib/format'
+import { EnquiryButton } from '@/components/forms/EnquiryButton'
 import { getPayloadClient } from '@/lib/payload'
 import { bannerFor, getSitePhotos } from '@/lib/site-photos'
 import styles from '../pages.module.css'
@@ -17,10 +17,7 @@ const MODE = { online: 'Online (Zoom)', temple: 'At the temple', both: 'Online &
 export default async function CoursesPage() {
   const payload = await getPayloadClient()
   const photos = await getSitePhotos(payload)
-  const [courses, settings] = await Promise.all([
-    payload.find({ collection: 'courses', sort: 'order', limit: 50 }),
-    payload.findGlobal({ slug: 'site-settings' }),
-  ])
+  const courses = await payload.find({ collection: 'courses', sort: 'order', limit: 50 })
 
   return (
     <>
@@ -72,21 +69,12 @@ export default async function CoursesPage() {
                           Join on Zoom
                         </a>
                       )}
-                      {settings.whatsapp && (
-                        <a
-                          href={waLink(
-                            settings.whatsapp,
-                            `Hare Krishna! I would like to join the ${c.title}.`,
-                          )}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={
-                            c.zoomLink && c.mode !== 'temple' ? styles.more : 'btn-primary'
-                          }
-                        >
-                          Register on WhatsApp
-                        </a>
-                      )}
+                      <EnquiryButton
+                        type="course"
+                        course={c.title}
+                        label="Register"
+                        className={c.zoomLink && c.mode !== 'temple' ? styles.more : 'btn-primary'}
+                      />
                     </div>
                   </div>
                 </article>

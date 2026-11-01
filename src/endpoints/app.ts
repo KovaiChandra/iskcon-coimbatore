@@ -2,6 +2,7 @@ import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
 import type { Endpoint, PayloadRequest, Where } from 'payload'
 import { getArtworks } from '../lib/art-gallery'
 import { getDonationStatus, startDonation, validateDonation } from '../lib/donations'
+import { ENQUIRY_THANKS, validateEnquiry } from '../lib/enquiries'
 import { getReels } from '../lib/instagram-reels'
 import { getLiveStatus } from '../lib/youtube-live'
 import { isSevaActive } from '../lib/sevas'
@@ -489,6 +490,18 @@ export const appEndpoints: Endpoint[] = [
     if (data.email && !/^\S+@\S+\.\S+$/.test(data.email)) return error(422, 'validation_failed', 'Please check your email.', 'email')
     await req.payload.create({ collection: 'volunteers', data: data as never })
     return Response.json({ ok: true, message: 'Hare Krishna! Thank you for offering your time. Our volunteer team will call you soon.' }, { status: 201 })
+  }),
+
+  // Course registration or "speak to a priest" → Admin → Enquiries
+  route('post', '/enquiries', async (req) => {
+    const b = await body(req)
+    if (!b) return error(400, 'invalid_json', 'Send a JSON body')
+    const checked = validateEnquiry(b, 'app') as
+      | { ok: true; data: { type: 'course' | 'priest' } }
+      | { ok: false; message: string; field?: string }
+    if (!checked.ok) return error(422, 'validation_failed', checked.message, checked.field)
+    await req.payload.create({ collection: 'enquiries', data: checked.data as never })
+    return Response.json({ ok: true, message: ENQUIRY_THANKS[checked.data.type] }, { status: 201 })
   }),
 
   route('post', '/subscribe', async (req) => {

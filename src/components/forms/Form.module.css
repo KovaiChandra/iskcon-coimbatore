@@ -212,3 +212,59 @@ textarea.input {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ---------- Pop-up form (EnquiryButton) ---------- */
+.dialog {
+  width: min(34rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  border: 0;
+  border-radius: 1.25rem;
+  padding: 0;
+  background: var(--white);
+  color: var(--ink);
+  /* Don't inherit the section's alignment (e.g. centred text around the button) */
+  text-align: left;
+  box-shadow: 0 30px 60px -20px rgb(28 10 51 / 0.5);
+}
+.dialog::backdrop {
+  background: rgb(21 10 36 / 0.55);
+}
+.dialog[open] {
+  animation: dialog-in 0.2s ease-out;
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.dialogBody {
+  position: relative;
+  padding: 1.75rem 1.5rem 1.5rem;
+}
+.dialogTitle {
+  margin-bottom: 1.25rem;
+  padding-right: 2rem;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--purple-900);
+}
+.dialogClose {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border-radius: 9999px;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--muted);
+}
+.dialogClose:hover {
+  background: var(--purple-50);
+  color: var(--purple-900);
+}

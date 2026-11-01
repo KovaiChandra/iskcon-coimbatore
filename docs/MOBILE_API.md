@@ -323,6 +323,28 @@ All return `201` with `{ "ok": true, "message": "<text to show the user>" }`, or
 | `availability` | string | | e.g. `"Weekends"` |
 | `skills` | string | | |
 
+### `POST /enquiries` → Admin → Enquiries
+Course registration (`type: "course"`) or a request to speak to a priest (`type: "priest"`).
+
+| Field | Type | Required | Rules |
+|---|---|---|---|
+| `type` | string | ✓ | `course` or `priest` |
+| `course` | string | for `course` | the course title, e.g. `"Learn to Chant"` (from `GET /courses`) |
+| `name` | string | ✓ | at least 2 characters |
+| `phone` | string | ✓ | 10–15 digits, may include `+`, spaces, `-` |
+| `email` | string | | valid email if given |
+| `topic` | string | | `priest` only: `Spiritual question`, `Bhagavad-gita`, `Japa and chanting`, `Samskara or home puja`, `Personal guidance`, `Other` |
+| `preferredMode` | string | | `priest` only: `At the temple`, `Phone call`, `Video call` |
+| `preferredTime` | string | | e.g. `"Weekday evenings"` |
+| `message` | string | for `priest` | the question; optional note for `course` |
+| `consent` | boolean | | agreed to WhatsApp/SMS updates |
+
+```json
+{ "type": "priest", "name": "Radha Devi", "phone": "9876543210", "topic": "Japa and chanting",
+  "preferredMode": "Phone call", "preferredTime": "Weekday evenings",
+  "message": "How many rounds should a beginner chant?" }
+```
+
 ### `POST /subscribe` → Admin → Subscribers
 | Field | Type | Required |
 |---|---|---|

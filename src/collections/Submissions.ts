@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { authenticated } from '../access'
+import { PRIEST_MODES, PRIEST_TOPICS } from '../lib/enquiry-options'
 
 // Records created by the public site (via server code), read and exported by staff.
 const staffOnly = { read: authenticated, create: authenticated, update: authenticated, delete: authenticated }
@@ -88,5 +89,72 @@ export const ContactMessages: CollectionConfig = {
     },
     { name: 'message', type: 'textarea', required: true },
     { name: 'consent', type: 'checkbox' },
+  ],
+}
+
+/** "Register" on a course and "Speak to a priest" forms (website and app). */
+export const Enquiries: CollectionConfig = {
+  slug: 'enquiries',
+  labels: { singular: 'Enquiry', plural: 'Enquiries' },
+  admin: {
+    useAsTitle: 'name',
+    defaultColumns: ['name', 'type', 'course', 'topic', 'phone', 'status', 'createdAt'],
+    group: 'Records',
+    description: 'Course registrations and requests to speak to a priest, from the website and the app.',
+  },
+  access: staffOnly,
+  defaultSort: '-createdAt',
+  fields: [
+    {
+      name: 'type',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Course registration', value: 'course' },
+        { label: 'Speak to a priest', value: 'priest' },
+      ],
+    },
+    {
+      name: 'course',
+      type: 'text',
+      admin: { condition: (d) => d?.type === 'course', description: 'The course they registered for' },
+    },
+    {
+      name: 'topic',
+      type: 'select',
+      options: PRIEST_TOPICS,
+      admin: { condition: (d) => d?.type === 'priest' },
+    },
+    {
+      name: 'preferredMode',
+      type: 'select',
+      label: 'How they would like to speak',
+      options: PRIEST_MODES,
+      admin: { condition: (d) => d?.type === 'priest' },
+    },
+    { name: 'name', type: 'text', required: true },
+    { name: 'phone', type: 'text', required: true },
+    { name: 'email', type: 'email' },
+    { name: 'preferredTime', type: 'text', label: 'Best time to reach them' },
+    { name: 'message', type: 'textarea', label: 'Question or details' },
+    { name: 'consent', type: 'checkbox', label: 'Agreed to WhatsApp/SMS updates' },
+    {
+      name: 'status',
+      type: 'select',
+      defaultValue: 'new',
+      options: [
+        { label: 'New', value: 'new' },
+        { label: 'Contacted', value: 'contacted' },
+        { label: 'Done', value: 'done' },
+      ],
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'source',
+      type: 'select',
+      defaultValue: 'website',
+      options: ['website', 'app'],
+      admin: { position: 'sidebar', readOnly: true },
+    },
   ],
 }

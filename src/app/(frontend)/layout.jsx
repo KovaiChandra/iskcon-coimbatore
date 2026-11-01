@@ -14,7 +14,7 @@ const marcellus = Marcellus({ subsets: ['latin'], weight: '400', variable: '--fo
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 // ISKCON identity manual: logo lettering is Adobe Garamond. EB Garamond is the free Garamond
 // revival closest to it; swap for Adobe Garamond if the temple has an Adobe Fonts licence.
-const garamond = EB_Garamond({ subsets: ['latin'], weight: ['500', '600'], variable: '--font-garamond' })
+const garamond = EB_Garamond({ subsets: ['latin'], weight: '600', variable: '--font-garamond' })
 
 export const metadata = {
   title: {

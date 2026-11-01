@@ -164,21 +164,6 @@ summary {
     transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
     box-shadow 0.25s;
 }
-/* A band of light sweeps across a button on hover */
-.btn-donate::after,
-.btn-primary::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.45) 50%, transparent 70%);
-  transform: translateX(-120%);
-  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-.btn-donate:hover::after,
-.btn-primary:hover::after {
-  transform: translateX(120%);
-}
 .btn-donate:hover,
 .btn-primary:hover {
   transform: translateY(-2px);
@@ -231,9 +216,6 @@ summary {
 @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 @keyframes progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes marquee { to { transform: translateX(-50%); } }
-@keyframes page-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-@keyframes gold-shimmer { to { background-position: 200% center; } }
-@keyframes float-soft { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
 .art-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: flame 1.6s ease-in-out infinite; }
 .art-glow { animation: glow 4s ease-in-out infinite; }
@@ -249,8 +231,7 @@ summary {
 
 .text-gold-gradient {
   background: linear-gradient(100deg, #ffd75e 0%, #f5b700 40%, #fff3cc 55%, #f5b700 70%, #e0a100 100%);
-  background-size: 200% auto;
-  animation: gold-shimmer 6s linear infinite;
+
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -260,80 +241,17 @@ summary {
 .arch { border-radius: 999px 999px 1.5rem 1.5rem; }
 
 /* ---------- Scroll reveal and page changes (components/Motion.jsx) ---------- */
-/* Each new page fades up into place */
-.page-enter { animation: page-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-.float-soft { animation: float-soft 6s ease-in-out infinite; }
 
 /* Elements rise into view as you scroll; list items follow one another (--reveal-delay) */
 .motion-on [data-reveal] {
   transition:
-    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms),
-    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms);
+    opacity 0.7s ease-out var(--reveal-delay, 0ms),
+    transform 0.7s ease-out var(--reveal-delay, 0ms);
 }
 .motion-on [data-reveal]:not(.is-in) {
   opacity: 0;
-  transform: translateY(32px);
+  transform: translateY(18px);
 }
-/* Headings come into focus as they rise */
-.motion-on [data-reveal='focus'] {
-  transition:
-    opacity 1s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms),
-    transform 1s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms),
-    filter 1s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms),
-    letter-spacing 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms);
-}
-.motion-on [data-reveal='focus']:not(.is-in) {
-  filter: blur(10px);
-  letter-spacing: 0.06em;
-}
-/* Photos open like a curtain from the middle, from soft grey into full colour */
-.motion-on [data-reveal='wipe'] {
-  transition:
-    clip-path 1.3s cubic-bezier(0.7, 0, 0.2, 1) var(--reveal-delay, 0ms),
-    filter 1.6s ease var(--reveal-delay, 0ms);
-}
-.motion-on [data-reveal='wipe'].is-in {
-  clip-path: inset(0 0 0 0 round 0);
-}
-.motion-on [data-reveal='wipe']:not(.is-in) {
-  opacity: 1;
-  transform: none;
-  clip-path: inset(50% 0 50% 0 round 0);
-  filter: saturate(0.2) brightness(1.15);
-}
-.motion-on [data-reveal='wipe'] img {
-  transition: transform 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms);
-}
-.motion-on [data-reveal='wipe']:not(.is-in) img {
-  transform: scale(1.18);
-}
-
-/* Cards that tilt towards the pointer (components/Motion.jsx), with a soft light that follows it */
-[data-tilt] {
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.25s ease-out !important;
-  will-change: transform;
-}
-[data-tilt]::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  border-radius: inherit;
-  background: radial-gradient(
-    circle at var(--glare-x, 50%) var(--glare-y, 50%),
-    rgb(255 255 255 / 0.28),
-    transparent 55%
-  );
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-[data-tilt]:hover::before {
-  opacity: 1;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }

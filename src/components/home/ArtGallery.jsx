@@ -106,7 +106,7 @@ export function ArtGallery({ works, layout = 'rows', moreHref, heading = true })
                   src={w.url}
                   alt={w.alt}
                   fill
-                  quality={90}
+                  quality={75}
                   sizes={
                     mosaic && MOSAIC[i] === 'big'
                       ? '(min-width: 1024px) 50vw, 100vw'
@@ -164,7 +164,7 @@ export function ArtGallery({ works, layout = 'rows', moreHref, heading = true })
                 alt={work.alt}
                 fill
                 sizes="100vw"
-                quality={90}
+                quality={75}
                 className={styles.stagePhoto}
               />
             </div>
