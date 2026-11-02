@@ -12,3 +12,9 @@ export function mediaUrl(m, size) {
 /** WhatsApp chat link. Without a number (Site settings not filled in yet) it opens WhatsApp's own picker. */
 export const waLink = (number, text) =>
   `https://wa.me/${(number ?? '').replace(/\D/g, '')}${text ? `?text=${encodeURIComponent(text)}` : ''}`
+
+export const YOUTUBE_CHANNEL = 'https://www.youtube.com/@ISKCON_Coimbatore'
+
+/** A social link from admin, or null if it is empty or just a site's home page (a placeholder). */
+export const realLink = (url) =>
+  url && !/^https?:\/\/(www\.)?(facebook|instagram|youtube)\.com\/?$/i.test(url.trim()) ? url : null

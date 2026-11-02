@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import Script from 'next/script'
 import { useActionState, useEffect, useState } from 'react'
 import { createDonation } from '@/app/(frontend)/actions/forms'
@@ -285,6 +286,10 @@ export function DonateForm({ seva, initialAmount, initialFrequency, pay }) {
         <input type="checkbox" name="consent" />
         Send me receipts and festival updates on WhatsApp and email.
       </label>
+      <p className={styles.legalNote}>
+        By offering this seva you agree to our <Link href="/terms">Terms</Link>,{' '}
+        <Link href="/refund-policy">Refund Policy</Link> and <Link href="/privacy">Privacy Policy</Link>.
+      </p>
       <input name="website" tabIndex={-1} autoComplete="off" className={styles.hp} aria-hidden />
       {state?.ok === false && (
         <p className={styles.error} role="alert">

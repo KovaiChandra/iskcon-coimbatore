@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { waLink } from '@/lib/format'
+import { realLink, waLink, YOUTUBE_CHANNEL } from '@/lib/format'
 import { WhatsAppIcon } from './Icons'
 import { SocialLinks } from './SocialLinks'
 import styles from './Footer.module.css'
@@ -88,7 +88,7 @@ export function Footer({ settings, timings }) {
             <p className={styles.address}>{settings.address}</p>
             <p>
               Phone:{' '}
-              <a href={`tel:${settings.phone}`} className={styles.hoverGold}>
+              <a href={`tel:${settings.phone.replace(/\s/g, '')}`} className={styles.hoverGold}>
                 {settings.phone}
               </a>
             </p>
@@ -106,7 +106,7 @@ export function Footer({ settings, timings }) {
                 {col.links.map((l) => (
                   <li key={l.label}>
                     <Link
-                      href={l.href === 'youtube' ? settings.youtube || '#' : l.href}
+                      href={l.href === 'youtube' ? (realLink(settings.youtube) ?? YOUTUBE_CHANNEL) : l.href}
                       className={styles.hoverWhite}
                     >
                       {l.label}

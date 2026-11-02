@@ -16,7 +16,7 @@ import { VisitSection } from '@/components/home/VisitSection'
 import { getArtworks } from '@/lib/art-gallery'
 import { blurDataURL } from '@/lib/blur'
 import { darshanSlots } from '@/lib/darshan-slots'
-import { formatDate, inr, mediaUrl, waLink } from '@/lib/format'
+import { formatDate, inr, mediaUrl, realLink, waLink, YOUTUBE_CHANNEL } from '@/lib/format'
 import { getReels } from '@/lib/instagram-reels'
 import { getPayloadClient } from '@/lib/payload'
 import { getSitePhotos } from '@/lib/site-photos'
@@ -632,7 +632,7 @@ export default async function HomePage() {
                 <p className={styles.liveCtaTitle}>Join the livestream</p>
                 <p className={styles.liveCtaText}>Free on our YouTube channel, every day</p>
                 <a
-                  href={home.livePuja.link}
+                  href={realLink(home.livePuja.link) ?? `${YOUTUBE_CHANNEL}/streams`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.liveButton}
@@ -809,7 +809,7 @@ export default async function HomePage() {
       )}
 
       {/* Instagram: recent reels and a Follow button */}
-      {settings.instagram && reels.length > 0 && (
+      {realLink(settings.instagram) && reels.length > 0 && (
         <InstagramReels
           reels={reels}
           href={settings.instagram}

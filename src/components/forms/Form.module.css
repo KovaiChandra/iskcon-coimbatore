@@ -268,3 +268,15 @@ textarea.input {
   background: var(--purple-50);
   color: var(--purple-900);
 }
+
+/* "By offering this seva you agree to…" under the donation form */
+.legalNote {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.legalNote a {
+  color: var(--purple-700);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

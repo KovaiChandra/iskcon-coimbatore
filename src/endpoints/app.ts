@@ -3,6 +3,7 @@ import type { Endpoint, PayloadRequest, Where } from 'payload'
 import { getArtworks } from '../lib/art-gallery'
 import { getDonationStatus, startDonation, validateDonation } from '../lib/donations'
 import { ENQUIRY_THANKS, validateEnquiry } from '../lib/enquiries'
+import { realLink, YOUTUBE_CHANNEL } from '../lib/format'
 import { getReels } from '../lib/instagram-reels'
 import { getLiveStatus } from '../lib/youtube-live'
 import { isSevaActive } from '../lib/sevas'
@@ -180,9 +181,9 @@ const settingsOut = (s: Doc, base: string) => ({
   email: s.email ?? null,
   mapUrl: s.mapUrl ?? null,
   social: {
-    facebook: s.facebook ?? null,
-    instagram: s.instagram ?? null,
-    youtube: s.youtube ?? null,
+    facebook: realLink(s.facebook),
+    instagram: realLink(s.instagram),
+    youtube: realLink(s.youtube) ?? YOUTUBE_CHANNEL,
     whatsappChannel: s.whatsappChannel ?? null,
   },
   donations: {
@@ -259,7 +260,7 @@ export const appEndpoints: Endpoint[] = [
             time: h.livePuja.time ?? null,
             schedule: h.livePuja.schedule ?? null,
             platform: h.livePuja.platform ?? null,
-            link: h.livePuja.link,
+            link: realLink(h.livePuja.link) ?? `${YOUTUBE_CHANNEL}/streams`,
             image: photo(h.livePuja.image, base),
           }
         : null,

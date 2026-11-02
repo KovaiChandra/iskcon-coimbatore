@@ -1,13 +1,13 @@
-import { waLink } from '@/lib/format'
+import { realLink, waLink, YOUTUBE_CHANNEL } from '@/lib/format'
 import { FacebookIcon, InstagramIcon, WhatsAppIcon, YoutubeIcon } from './Icons'
 import styles from './SocialLinks.module.css'
 
 /** `gap` is the space between icons in rem; `className` lets the parent set the colour. */
 export function SocialLinks({ settings, className = '', gap }) {
   const links = [
-    { href: settings.facebook, label: 'Facebook', Icon: FacebookIcon },
-    { href: settings.instagram, label: 'Instagram', Icon: InstagramIcon },
-    { href: settings.youtube, label: 'YouTube', Icon: YoutubeIcon },
+    { href: realLink(settings.facebook), label: 'Facebook', Icon: FacebookIcon },
+    { href: realLink(settings.instagram), label: 'Instagram', Icon: InstagramIcon },
+    { href: realLink(settings.youtube) ?? YOUTUBE_CHANNEL, label: 'YouTube', Icon: YoutubeIcon },
     {
       href: settings.whatsapp ? waLink(settings.whatsapp) : null,
       label: 'WhatsApp',
