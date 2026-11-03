@@ -1,8 +1,17 @@
 'use server'
 
+import { headers } from 'next/headers'
 import { getPayloadClient } from '@/lib/payload'
+import { checkForm } from '@/lib/spam'
 
 export async function subscribe(_prev, formData) {
+  const payload = await getPayloadClient()
+  const blocked = await checkForm(payload, await headers(), formData, 'subscribe', {
+    names: [formData.get('name')],
+    texts: [],
+  })
+  if (blocked) return blocked
+
   const name = String(formData.get('name') ?? '').trim()
   const email = String(formData.get('email') ?? '')
     .trim()
@@ -14,7 +23,6 @@ export async function subscribe(_prev, formData) {
     return { ok: false, message: 'Please enter your name and a valid email.' }
   }
 
-  const payload = await getPayloadClient()
   const existing = await payload.find({
     collection: 'subscribers',
     where: { email: { equals: email } },

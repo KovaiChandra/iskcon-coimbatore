@@ -119,6 +119,10 @@ summary {
 
 /* Phones: space for the bottom quick-action bar (components/MobileDock) */
 @media (max-width: 767px) {
+  html {
+    /* Scrolling to a field or button stops above the bar, never underneath it */
+    scroll-padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+  }
   body {
     padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
   }

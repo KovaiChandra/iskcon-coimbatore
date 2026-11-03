@@ -8,6 +8,7 @@ import styles from './Motion.module.css'
  * Site-wide motion, added once in the layout:
  *  - scroll reveal: headings, cards and photos fade gently up into view, list items one after another
  *  - a thin gold loading bar while the next page loads
+ *  - an anonymous page-view report for Admin → Analytics
  *  - html[data-scrolled] once the page is scrolled (the header turns to frosted glass)
  * Nothing is hidden until this script runs, and it does nothing for visitors who prefer reduced motion.
  * To keep an element still, put data-no-reveal on it or on a parent.
@@ -133,8 +134,22 @@ function useNavProgress(pathname) {
   return bar
 }
 
+/** Reports each page view for Admin → Analytics. Anonymous, no cookies (endpoints/track.ts). */
+function usePageViews(pathname) {
+  const last = useRef(null)
+  useEffect(() => {
+    if (last.current === pathname) return
+    const first = last.current === null
+    last.current = pathname
+    const utm = new URLSearchParams(window.location.search).get('utm_source')
+    const body = JSON.stringify({ path: pathname, ref: first ? document.referrer : '', utm })
+    navigator.sendBeacon?.('/api/track', new Blob([body], { type: 'application/json' }))
+  }, [pathname])
+}
+
 export function Motion() {
   const pathname = usePathname()
+  usePageViews(pathname)
   useScrollReveal(pathname)
   useScrolledFlag()
   const bar = useNavProgress(pathname)

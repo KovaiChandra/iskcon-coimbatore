@@ -63,7 +63,14 @@ export default function PrivacyPage() {
         </li>
       </ul>
 
-      <h2>Cookies and embedded video</h2>
+      <h2>Visitor statistics, cookies and embedded video</h2>
+      <p>
+        We count visits to understand which pages are useful. This uses no cookies and does not
+        identify you: we record the page viewed, the type of device, the site or campaign that
+        brought you here and your approximate city. Your IP address is never stored: visit counts use
+        a scrambled code that changes every day, and our limits on repeated form submissions (to
+        prevent spam) use a scrambled code that is cleared regularly.
+      </p>
       <p>
         This website does not use advertising cookies. Your browser may remember your donation
         reference so that we can show your receipt after payment. When the live darshan stream is

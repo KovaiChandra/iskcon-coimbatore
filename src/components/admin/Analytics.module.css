@@ -1,0 +1,272 @@
+/* Admin → Analytics. Colours follow the admin's light/dark theme (--theme-*); chart colour → --viz. */
+.page {
+  --viz: #7440ad;
+  --ink: var(--theme-text);
+  --ink-soft: var(--theme-elevation-500);
+  --line: var(--theme-elevation-100);
+  --card: var(--theme-elevation-50);
+  padding-top: 1.5rem;
+  padding-bottom: 3rem;
+  color: var(--ink);
+}
+:global(html[data-theme='dark']) .page {
+  --viz: #a07bd8;
+}
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.title {
+  margin: 0;
+}
+.ranges {
+  display: flex;
+  gap: 0.35rem;
+}
+.range {
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.875rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.range:hover {
+  background: var(--card);
+}
+.rangeOn {
+  border-color: var(--ink);
+  font-weight: 600;
+}
+
+/* Number tiles */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.tile {
+  border-radius: 0.75rem;
+  background: var(--card);
+  padding: 1rem 1.1rem;
+}
+.tileLabel {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+.tileValue {
+  margin: 0.2rem 0 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.tileNote {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+/* Cards */
+.card {
+  border-radius: 0.75rem;
+  background: var(--card);
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+.page > .card {
+  margin-bottom: 1rem;
+}
+.cardTitle {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.hint {
+  margin: -0.5rem 0 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+.empty {
+  margin: 0;
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+.grid {
+  display: grid;
+  /* Three across on a desktop, so the six cards make two even rows; one column on phones */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+/* Horizontal bars */
+.bars {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.barHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+.barLabel {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.barValue {
+  flex-shrink: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.barTrack {
+  height: 8px;
+}
+.barFill {
+  display: block;
+  min-width: 4px;
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+  background: var(--viz);
+}
+
+/* Visits per day */
+.chart {
+  display: flex;
+  gap: 0.6rem;
+}
+.axis {
+  display: flex;
+  height: 200px;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 1.75rem;
+  font-size: 0.75rem;
+  line-height: 0;
+  text-align: right;
+  color: var(--ink-soft);
+}
+.plot {
+  position: relative;
+  flex: 1;
+  height: 200px;
+  min-width: 0;
+}
+.gridLines {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.gridLines i {
+  display: block;
+  height: 1px;
+  background: var(--line);
+}
+.columns {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: stretch;
+}
+/* The whole day's height is the hover target, bigger than the bar itself */
+.column {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 1px;
+  outline-offset: -1px;
+}
+.column:hover,
+.column:focus-visible {
+  background: var(--line);
+}
+.columnFill {
+  display: block;
+  width: 100%;
+  max-width: 24px;
+  min-height: 2px;
+  border-radius: 4px 4px 0 0;
+  background: var(--viz);
+}
+.tooltip {
+  position: absolute;
+  top: 0.25rem;
+  z-index: 2;
+  display: grid;
+  gap: 0.1rem;
+  transform: translateX(10px);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--theme-elevation-0);
+  padding: 0.45rem 0.65rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  color: var(--ink-soft);
+  box-shadow: 0 8px 20px -10px rgb(0 0 0 / 0.35);
+  pointer-events: none;
+}
+.tooltip[data-flip] {
+  transform: translateX(calc(-100% - 10px));
+}
+.tooltip strong {
+  font-size: 0.875rem;
+  color: var(--ink);
+}
+.xAxis {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.4rem 0 0 2.35rem;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+.tableToggle {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+}
+.tableToggle summary {
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+.table {
+  width: 100%;
+  max-width: 28rem;
+  margin-top: 0.5rem;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.table th,
+.table td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.3rem 0.5rem;
+  text-align: left;
+}
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.footnote {
+  margin: 1.25rem 0 0;
+  max-width: 48rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}

@@ -6,6 +6,7 @@ import Script from 'next/script'
 import { useActionState, useEffect, useState } from 'react'
 import { createDonation } from '@/app/(frontend)/actions/forms'
 import { inr, waLink } from '@/lib/format'
+import { SpamGuard } from './SpamGuard'
 import styles from './Form.module.css'
 
 /** Opens Razorpay checkout with the gateway's checkout object, unchanged. */
@@ -290,7 +291,7 @@ export function DonateForm({ seva, initialAmount, initialFrequency, pay }) {
         By offering this seva you agree to our <Link href="/terms">Terms</Link>,{' '}
         <Link href="/refund-policy">Refund Policy</Link> and <Link href="/privacy">Privacy Policy</Link>.
       </p>
-      <input name="website" tabIndex={-1} autoComplete="off" className={styles.hp} aria-hidden />
+      <SpamGuard />
       {state?.ok === false && (
         <p className={styles.error} role="alert">
           {state.message}

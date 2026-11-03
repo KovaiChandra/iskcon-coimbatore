@@ -3,6 +3,7 @@
 import { useActionState, useRef } from 'react'
 import { sendEnquiry } from '@/app/(frontend)/actions/forms'
 import { PRIEST_MODES, PRIEST_TOPICS } from '@/lib/enquiry-options'
+import { SpamGuard } from './SpamGuard'
 import styles from './Form.module.css'
 
 /**
@@ -100,7 +101,7 @@ export function EnquiryButton({ type, course, label, className, children }) {
                 <input type="checkbox" name="consent" />
                 Send me updates on WhatsApp and SMS.
               </label>
-              <input name="website" tabIndex={-1} autoComplete="off" className={styles.hp} aria-hidden />
+              <SpamGuard />
               {state?.ok === false && (
                 <p className={styles.error} role="alert">
                   {state.message}

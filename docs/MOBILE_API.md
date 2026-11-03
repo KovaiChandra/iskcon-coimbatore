@@ -62,9 +62,14 @@ Every error has the same shape:
 | 401 | `unauthorised` | `x-api-key` missing or wrong (only when the server requires it) |
 | 404 | `not_found` / `seva_unavailable` | Unknown slug or reference, or the seva is closed |
 | 422 | `validation_failed` | A field is wrong; `field` names it, `message` is ready to show the user |
+| 422 | `looks_like_spam` | The text has web links in a name, several links, or is far too long |
+| 429 | `too_many_requests` | Too many POSTs from this device; wait a few minutes (`Retry-After` header, in seconds) |
 | 500 | `server_error` | Unexpected; safe to retry |
 
 `message` texts are written for donors and can be shown as-is.
+
+### Spam limits
+POST routes allow, per device: 8 donation attempts, contact messages, enquiries or subscriptions, and 5 volunteer sign-ups, every 10 minutes. Donations are also limited to 10 attempts per hour for each mobile number. Show the `message` from a `429` to the user.
 
 ### Caching
 GET responses may be cached for up to 60 seconds. Content changed in the admin appears within about a minute.

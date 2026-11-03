@@ -2,6 +2,7 @@
 
 import { useActionState } from 'react'
 import { registerVolunteer } from '@/app/(frontend)/actions/forms'
+import { SpamGuard } from './SpamGuard'
 import styles from './Form.module.css'
 
 const INTERESTS = [
@@ -78,7 +79,7 @@ export function VolunteerForm() {
         </span>
         <textarea name="skills" className={styles.input} />
       </label>
-      <input name="website" tabIndex={-1} autoComplete="off" className={styles.hp} aria-hidden />
+      <SpamGuard />
       {state?.ok === false && (
         <p className={styles.error} role="alert">
           {state.message}

@@ -15,10 +15,12 @@ import { Services } from './collections/Services'
 import { Courses } from './collections/Courses'
 import { Posts } from './collections/Posts'
 import { DarshanDays } from './collections/DarshanDays'
+import { PageViews, RateLimits } from './collections/Analytics'
 import { ContactMessages, Donations, Enquiries, Subscribers, Volunteers } from './collections/Submissions'
 import { SiteSettings } from './globals/SiteSettings'
 import { TempleTimings } from './globals/TempleTimings'
 import { appEndpoints } from './endpoints/app'
+import { trackEndpoint } from './endpoints/track'
 import { HomePage } from './globals/HomePage'
 import { SitePhotos } from './globals/SitePhotos'
 
@@ -30,6 +32,13 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     meta: { titleSuffix: ' · ISKCON Coimbatore' },
+    components: {
+      // Visitors and donations at a glance: /admin/analytics
+      afterNavLinks: ['/components/admin/AnalyticsNavLink#AnalyticsNavLink'],
+      views: {
+        analytics: { Component: '/components/admin/AnalyticsView#AnalyticsView', path: '/analytics' },
+      },
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
@@ -47,11 +56,13 @@ export default buildConfig({
     Volunteers,
     ContactMessages,
     Enquiries,
+    PageViews,
+    RateLimits,
     Users,
   ],
   globals: [HomePage, SitePhotos, TempleTimings, SiteSettings],
   // Mobile app API: /api/app/v1/... (docs/MOBILE_API.md)
-  endpoints: appEndpoints,
+  endpoints: [...appEndpoints, trackEndpoint],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

@@ -183,7 +183,7 @@
     <div class="meta">
       <div><b>Base URL</b><span>https://iskcon-coimbatore-yztu.vercel.app/api/app/v1</span></div>
       <div><b>Format</b><span>JSON in, JSON out</span></div>
-      <div><b>Updated</b><span>2 November 2026</span></div>
+      <div><b>Updated</b><span>3 November 2026</span></div>
     </div>
   </section>
   <h2>1. Basics</h2>
@@ -249,12 +249,24 @@
 <td>A field is wrong; <code>field</code> names it, <code>message</code> is ready to show the user</td>
 </tr>
 <tr>
+<td>422</td>
+<td><code>looks_like_spam</code></td>
+<td>The text has web links in a name, several links, or is far too long</td>
+</tr>
+<tr>
+<td>429</td>
+<td><code>too_many_requests</code></td>
+<td>Too many POSTs from this device; wait a few minutes (<code>Retry-After</code> header, in seconds)</td>
+</tr>
+<tr>
 <td>500</td>
 <td><code>server_error</code></td>
 <td>Unexpected; safe to retry</td>
 </tr>
 </tbody></table></div>
 <p><code>message</code> texts are written for donors and can be shown as-is.</p>
+<h3>Spam limits</h3>
+<p>POST routes allow, per device: 8 donation attempts, contact messages, enquiries or subscriptions, and 5 volunteer sign-ups, every 10 minutes. Donations are also limited to 10 attempts per hour for each mobile number. Show the <code>message</code> from a <code>429</code> to the user.</p>
 <h3>Caching</h3>
 <p>GET responses may be cached for up to 60 seconds. Content changed in the admin appears within about a minute.</p>
 <hr>
@@ -998,7 +1010,7 @@ receipt and sends it to the donor on WhatsApp/email.</p>
 </tr>
 </tbody></table></div>
 
-  <p class="footer">ISKCON Coimbatore &middot; Sri Jagannath Mandir &middot; Mobile App API v1 &middot; 2 November 2026. Test with the Postman collection sent with this document (ISKCON-Coimbatore-App-API.postman_collection.json).</p>
+  <p class="footer">ISKCON Coimbatore &middot; Sri Jagannath Mandir &middot; Mobile App API v1 &middot; 3 November 2026. Test with the Postman collection sent with this document (ISKCON-Coimbatore-App-API.postman_collection.json).</p>
 </div>
 </body>
 </html>

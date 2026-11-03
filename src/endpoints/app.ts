@@ -7,6 +7,7 @@ import { realLink, YOUTUBE_CHANNEL } from '../lib/format'
 import { getReels } from '../lib/instagram-reels'
 import { getLiveStatus } from '../lib/youtube-live'
 import { isSevaActive } from '../lib/sevas'
+import { allowAttempt, clientIp, looksLikeSpam, SPAM_TEXT_MESSAGE, TOO_MANY_MESSAGE } from '../lib/spam'
 import { templeStatus } from '../lib/temple-status'
 
 /**
@@ -41,6 +42,26 @@ function unauthorised(req: PayloadRequest) {
   return key && req.headers.get('x-api-key') !== key
     ? error(401, 'unauthorised', 'Missing or wrong x-api-key header')
     : null
+}
+
+/** Spam checks for the app's POST routes: an error response to send back, or null to carry on. */
+async function blockedPost(
+  req: PayloadRequest,
+  action: 'donation' | 'contact' | 'enquiry' | 'volunteer' | 'subscribe',
+  b: Record<string, unknown>,
+  names: string[],
+  texts: string[],
+) {
+  if (looksLikeSpam({ names: names.map((k) => b[k]), texts: texts.map((k) => b[k]) })) {
+    return error(422, 'looks_like_spam', SPAM_TEXT_MESSAGE)
+  }
+  if (!(await allowAttempt(req.payload, action, clientIp(req.headers)))) {
+    return new Response(JSON.stringify({ error: { code: 'too_many_requests', message: TOO_MANY_MESSAGE } }), {
+      status: 429,
+      headers: { 'Content-Type': 'application/json', 'Retry-After': '600', 'Cache-Control': 'no-store' },
+    })
+  }
+  return null
 }
 
 const route = (
@@ -416,8 +437,13 @@ export const appEndpoints: Endpoint[] = [
   route('post', '/donations', async (req) => {
     const b = await body(req)
     if (!b) return error(400, 'invalid_json', 'Send a JSON body')
+    const blocked = await blockedPost(req, 'donation', b, ['fullName'], ['occasion', 'address'])
+    if (blocked) return blocked
     const checked = validateDonation(b)
     if (!checked.ok) return error(422, 'validation_failed', checked.message, checked.field)
+    if (!(await allowAttempt(req.payload, 'donationMobile', checked.input.mobile.replace(/\D/g, '').slice(-10)))) {
+      return error(429, 'too_many_requests', TOO_MANY_MESSAGE)
+    }
     const result = await startDonation(req.payload, checked.input, 'app')
     if (!result.ok) return error(result.status, 'seva_unavailable', result.message, 'seva')
     const { reference, amount, frequency, name, checkout, sessionId, offlineReason } = result.donation
@@ -452,6 +478,8 @@ export const appEndpoints: Endpoint[] = [
   route('post', '/contact', async (req) => {
     const b = await body(req)
     if (!b) return error(400, 'invalid_json', 'Send a JSON body')
+    const blocked = await blockedPost(req, 'contact', b, ['firstName', 'lastName'], ['message'])
+    if (blocked) return blocked
     const s = (k: string) => String(b[k] ?? '').trim()
     const data = {
       firstName: s('firstName'),
@@ -476,6 +504,8 @@ export const appEndpoints: Endpoint[] = [
   route('post', '/volunteers', async (req) => {
     const b = await body(req)
     if (!b) return error(400, 'invalid_json', 'Send a JSON body')
+    const blocked = await blockedPost(req, 'volunteer', b, ['name'], ['skills', 'area', 'availability'])
+    if (blocked) return blocked
     const s = (k: string) => String(b[k] ?? '').trim()
     const data = {
       name: s('name'),
@@ -497,6 +527,8 @@ export const appEndpoints: Endpoint[] = [
   route('post', '/enquiries', async (req) => {
     const b = await body(req)
     if (!b) return error(400, 'invalid_json', 'Send a JSON body')
+    const blocked = await blockedPost(req, 'enquiry', b, ['name'], ['message', 'preferredTime'])
+    if (blocked) return blocked
     const checked = validateEnquiry(b, 'app') as
       | { ok: true; data: { type: 'course' | 'priest' } }
       | { ok: false; message: string; field?: string }
@@ -508,6 +540,8 @@ export const appEndpoints: Endpoint[] = [
   route('post', '/subscribe', async (req) => {
     const b = await body(req)
     if (!b) return error(400, 'invalid_json', 'Send a JSON body')
+    const blocked = await blockedPost(req, 'subscribe', b, ['name'], [])
+    if (blocked) return blocked
     const name = String(b.name ?? '').trim()
     const email = String(b.email ?? '').trim().toLowerCase()
     const phone = String(b.phone ?? '').trim()

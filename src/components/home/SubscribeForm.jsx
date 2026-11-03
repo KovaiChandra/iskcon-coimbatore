@@ -2,6 +2,7 @@
 
 import { useActionState } from 'react'
 import { subscribe } from '@/app/(frontend)/actions/subscribe'
+import { SpamGuard } from '@/components/forms/SpamGuard'
 import styles from './SubscribeForm.module.css'
 
 export function SubscribeForm() {
@@ -12,6 +13,7 @@ export function SubscribeForm() {
   const input = styles.input
   return (
     <form action={action} className={styles.form}>
+      <SpamGuard />
       <div className={styles.fields}>
         <input name="name" required placeholder="Name" aria-label="Name" className={input} />
         <input

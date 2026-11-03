@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef } from 'react'
 import { sendContactMessage } from '@/app/(frontend)/actions/forms'
+import { SpamGuard } from './SpamGuard'
 import styles from './Form.module.css'
 
 const CATEGORIES = ['General', 'Donation / 80G receipt', 'Seva', 'Volunteer', 'Suggestion', 'Other']
@@ -67,7 +68,7 @@ export function ContactForm() {
         <input type="checkbox" name="consent" />
         You may contact me on WhatsApp or phone about my message.
       </label>
-      <input name="website" tabIndex={-1} autoComplete="off" className={styles.hp} aria-hidden />
+      <SpamGuard />
       {state?.ok === false && (
         <p className={styles.error} role="alert">
           {state.message}

@@ -3,6 +3,7 @@ import * as migration_20261012_161819_blob_object_key from './20261012_161819_bl
 import * as migration_20261031_123559_site_photos from './20261031_123559_site_photos';
 import * as migration_20261031_150609_payment_gateway from './20261031_150609_payment_gateway';
 import * as migration_20261101_193721_enquiries from './20261101_193721_enquiries';
+import * as migration_20261102_181824_analytics_and_spam from './20261102_181824_analytics_and_spam';
 
 export const migrations = [
   {
@@ -28,6 +29,11 @@ export const migrations = [
   {
     up: migration_20261101_193721_enquiries.up,
     down: migration_20261101_193721_enquiries.down,
-    name: '20261101_193721_enquiries'
+    name: '20261101_193721_enquiries',
+  },
+  {
+    up: migration_20261102_181824_analytics_and_spam.up,
+    down: migration_20261102_181824_analytics_and_spam.down,
+    name: '20261102_181824_analytics_and_spam'
   },
 ];

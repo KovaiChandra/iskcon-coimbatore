@@ -79,6 +79,8 @@ export interface Config {
     volunteers: Volunteer;
     'contact-messages': ContactMessage;
     enquiries: Enquiry;
+    'page-views': PageView;
+    'rate-limits': RateLimit;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -99,6 +101,8 @@ export interface Config {
     volunteers: VolunteersSelect<false> | VolunteersSelect<true>;
     'contact-messages': ContactMessagesSelect<false> | ContactMessagesSelect<true>;
     enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
+    'page-views': PageViewsSelect<false> | PageViewsSelect<true>;
+    'rate-limits': RateLimitsSelect<false> | RateLimitsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -504,6 +508,30 @@ export interface Enquiry {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-views".
+ */
+export interface PageView {
+  id: number;
+  day: string;
+  path: string;
+  visitor: string;
+  device?: string | null;
+  source?: string | null;
+  city?: string | null;
+  country?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rate-limits".
+ */
+export interface RateLimit {
+  id: number;
+  key: string;
+  count: number;
+  windowStart: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -599,6 +627,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'enquiries';
         value: number | Enquiry;
+      } | null)
+    | ({
+        relationTo: 'page-views';
+        value: number | PageView;
+      } | null)
+    | ({
+        relationTo: 'rate-limits';
+        value: number | RateLimit;
       } | null)
     | ({
         relationTo: 'users';
@@ -909,6 +945,28 @@ export interface EnquiriesSelect<T extends boolean = true> {
   source?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-views_select".
+ */
+export interface PageViewsSelect<T extends boolean = true> {
+  day?: T;
+  path?: T;
+  visitor?: T;
+  device?: T;
+  source?: T;
+  city?: T;
+  country?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rate-limits_select".
+ */
+export interface RateLimitsSelect<T extends boolean = true> {
+  key?: T;
+  count?: T;
+  windowStart?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
