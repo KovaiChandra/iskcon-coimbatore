@@ -110,7 +110,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   fallbackLocale: null;
   globals: {
@@ -160,9 +160,9 @@ export interface UserAuthOperations {
  * via the `definition` "darshan-days".
  */
 export interface DarshanDay {
-  id: number;
+  id: string;
   date: string;
-  photos: (number | Media)[];
+  photos: (string | Media)[];
   updatedAt: string;
   createdAt: string;
 }
@@ -171,7 +171,7 @@ export interface DarshanDay {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -216,7 +216,7 @@ export interface Media {
  * via the `definition` "festivals".
  */
 export interface Festival {
-  id: number;
+  id: string;
   name: string;
   slug: string;
   date: string;
@@ -224,7 +224,7 @@ export interface Festival {
    * e.g. "5:30 AM onwards"
    */
   timeLabel?: string | null;
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
   /**
    * Illustration shown until a photo is uploaded
    */
@@ -256,8 +256,8 @@ export interface Festival {
   /**
    * Donation form opened by "Support"
    */
-  seva?: (number | null) | Seva;
-  gallery?: (number | Media)[] | null;
+  seva?: (string | null) | Seva;
+  gallery?: (string | Media)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -266,18 +266,18 @@ export interface Festival {
  * via the `definition` "sevas".
  */
 export interface Seva {
-  id: number;
+  id: string;
   title: string;
   slug: string;
   category: 'regular' | 'festival';
   startDate?: string | null;
   endDate?: string | null;
   shortDescription: string;
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
   /**
    * Optional different photo for the "Offer a seva" donation cards (uses the main photo if empty)
    */
-  cardImage?: (number | null) | Media;
+  cardImage?: (string | null) | Media;
   /**
    * Illustration shown until a photo is uploaded
    */
@@ -319,12 +319,12 @@ export interface Seva {
  * via the `definition` "services".
  */
 export interface Service {
-  id: number;
+  id: string;
   title: string;
   description: string;
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
   action: 'donate' | 'whatsapp' | 'enquiry' | 'link';
-  seva?: (number | null) | Seva;
+  seva?: (string | null) | Seva;
   url?: string | null;
   buttonLabel?: string | null;
   featured?: boolean | null;
@@ -337,10 +337,10 @@ export interface Service {
  * via the `definition` "courses".
  */
 export interface Course {
-  id: number;
+  id: string;
   title: string;
   description: string;
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
   /**
    * e.g. "Every Sunday, 6:00 PM"
    */
@@ -357,13 +357,13 @@ export interface Course {
  * via the `definition` "posts".
  */
 export interface Post {
-  id: number;
+  id: string;
   title: string;
   slug: string;
   category: 'Festivals' | 'Philosophy' | 'Temple News' | 'Tamil';
   publishedAt: string;
   author?: string | null;
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
   excerpt: string;
   content: {
     root: {
@@ -389,14 +389,14 @@ export interface Post {
  * via the `definition` "donations".
  */
 export interface Donation {
-  id: number;
+  id: string;
   fullName: string;
   mobile: string;
   email: string;
   pan?: string | null;
   address?: string | null;
   pin?: string | null;
-  seva: number | Seva;
+  seva: string | Seva;
   amount: number;
   occasion?: string | null;
   frequency?: ('one-time' | 'monthly') | null;
@@ -431,7 +431,7 @@ export interface Donation {
  * via the `definition` "subscribers".
  */
 export interface Subscriber {
-  id: number;
+  id: string;
   name: string;
   email: string;
   phone?: string | null;
@@ -444,7 +444,7 @@ export interface Subscriber {
  * via the `definition` "volunteers".
  */
 export interface Volunteer {
-  id: number;
+  id: string;
   name: string;
   mobile: string;
   email?: string | null;
@@ -460,7 +460,7 @@ export interface Volunteer {
  * via the `definition` "contact-messages".
  */
 export interface ContactMessage {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -478,7 +478,7 @@ export interface ContactMessage {
  * via the `definition` "enquiries".
  */
 export interface Enquiry {
-  id: number;
+  id: string;
   type: 'course' | 'priest';
   /**
    * The course they registered for
@@ -511,7 +511,7 @@ export interface Enquiry {
  * via the `definition` "page-views".
  */
 export interface PageView {
-  id: number;
+  id: string;
   day: string;
   path: string;
   visitor: string;
@@ -525,7 +525,7 @@ export interface PageView {
  * via the `definition` "rate-limits".
  */
 export interface RateLimit {
-  id: number;
+  id: string;
   key: string;
   count: number;
   windowStart: string;
@@ -535,7 +535,7 @@ export interface RateLimit {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -561,7 +561,7 @@ export interface User {
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: number;
+  id: string;
   key: string;
   data:
     | {
@@ -578,72 +578,72 @@ export interface PayloadKv {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: string;
   document?:
     | ({
         relationTo: 'darshan-days';
-        value: number | DarshanDay;
+        value: string | DarshanDay;
       } | null)
     | ({
         relationTo: 'festivals';
-        value: number | Festival;
+        value: string | Festival;
       } | null)
     | ({
         relationTo: 'sevas';
-        value: number | Seva;
+        value: string | Seva;
       } | null)
     | ({
         relationTo: 'services';
-        value: number | Service;
+        value: string | Service;
       } | null)
     | ({
         relationTo: 'courses';
-        value: number | Course;
+        value: string | Course;
       } | null)
     | ({
         relationTo: 'posts';
-        value: number | Post;
+        value: string | Post;
       } | null)
     | ({
         relationTo: 'media';
-        value: number | Media;
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'donations';
-        value: number | Donation;
+        value: string | Donation;
       } | null)
     | ({
         relationTo: 'subscribers';
-        value: number | Subscriber;
+        value: string | Subscriber;
       } | null)
     | ({
         relationTo: 'volunteers';
-        value: number | Volunteer;
+        value: string | Volunteer;
       } | null)
     | ({
         relationTo: 'contact-messages';
-        value: number | ContactMessage;
+        value: string | ContactMessage;
       } | null)
     | ({
         relationTo: 'enquiries';
-        value: number | Enquiry;
+        value: string | Enquiry;
       } | null)
     | ({
         relationTo: 'page-views';
-        value: number | PageView;
+        value: string | PageView;
       } | null)
     | ({
         relationTo: 'rate-limits';
-        value: number | RateLimit;
+        value: string | RateLimit;
       } | null)
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -653,10 +653,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -676,7 +676,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -1036,7 +1036,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "home-page".
  */
 export interface HomePage {
-  id: number;
+  id: string;
   /**
    * Extra slides shown first in the slideshow. Upcoming festivals and running festival sevas are added automatically after these.
    */
@@ -1063,15 +1063,15 @@ export interface HomePage {
         /**
          * Photo. For a video slide, this is shown while the video loads
          */
-        image?: (number | null) | Media;
+        image?: (string | null) | Media;
         /**
          * Optional background video (MP4 or MOV) for "Full photo" slides. Plays silently; the slide lasts as long as the video
          */
-        video?: (number | null) | Media;
+        video?: (string | null) | Media;
         /**
          * Optional WebM version of the same video, for browsers that cannot play the MP4/MOV (e.g. Firefox)
          */
-        videoWebm?: (number | null) | Media;
+        videoWebm?: (string | null) | Media;
         /**
          * Used when there is no image. "Lamps" also gives the slide a warm Kartik lamplight look.
          */
@@ -1087,24 +1087,24 @@ export interface HomePage {
   /**
    * 3 cards overlapping the bottom of the banner
    */
-  highlightSevas?: (number | Seva)[] | null;
+  highlightSevas?: (string | Seva)[] | null;
   /**
    * Donation cards row. Festival sevas outside their dates are hidden automatically.
    */
-  donationSevas?: (number | Seva)[] | null;
+  donationSevas?: (string | Seva)[] | null;
   about?: {
     /**
      * Large photo in the About collage
      */
-    image?: (number | null) | Media;
+    image?: (string | null) | Media;
     /**
      * Small photo, top-left of the collage
      */
-    smallImage?: (number | null) | Media;
+    smallImage?: (string | null) | Media;
     /**
      * Framed card, bottom-left of the collage (uses the founder photo if empty)
      */
-    cardImage?: (number | null) | Media;
+    cardImage?: (string | null) | Media;
     /**
      * e.g. "Sri Jagannath"
      */
@@ -1118,18 +1118,18 @@ export interface HomePage {
   /**
    * Photo beside the darshan timings card on the home page
    */
-  visitImage?: (number | null) | Media;
+  visitImage?: (string | null) | Media;
   founder?: {
     /**
      * Portrait of Srila Prabhupada
      */
-    image?: (number | null) | Media;
+    image?: (string | null) | Media;
   };
   livePuja?: {
     /**
      * Deity photo beside the live puja text
      */
-    image?: (number | null) | Media;
+    image?: (string | null) | Media;
     title?: string | null;
     text?: string | null;
     /**
@@ -1162,21 +1162,21 @@ export interface HomePage {
  * via the `definition` "site-photos".
  */
 export interface SitePhoto {
-  id: number;
+  id: string;
   explore?: {
-    deities?: (number | null) | Media;
-    kirtan?: (number | null) | Media;
-    prasadam?: (number | null) | Media;
-    goshala?: (number | null) | Media;
-    kovaiChandra?: (number | null) | Media;
-    visit?: (number | null) | Media;
+    deities?: (string | null) | Media;
+    kirtan?: (string | null) | Media;
+    prasadam?: (string | null) | Media;
+    goshala?: (string | null) | Media;
+    kovaiChandra?: (string | null) | Media;
+    visit?: (string | null) | Media;
   };
   /**
    * Home page mosaic order: large square, tall, square, square, wide, wide, tall, tall
    */
   artGallery?:
     | {
-        image: number | Media;
+        image: string | Media;
         title: string;
         /**
          * e.g. Darshan, Painting, Festival, Temple
@@ -1190,11 +1190,11 @@ export interface SitePhoto {
         /**
          * Shown before the video plays, or alone if there is no video
          */
-        poster: number | Media;
+        poster: string | Media;
         /**
          * Optional MP4 of the reel. Plays silently on the page
          */
-        video?: (number | null) | Media;
+        video?: (string | null) | Media;
         caption: string;
         /**
          * The reel on Instagram. If empty, opens the Instagram profile from Site settings
@@ -1207,22 +1207,22 @@ export interface SitePhoto {
     /**
      * Top of the Kovai Chandra page and on the About page
      */
-    banner?: (number | null) | Media;
+    banner?: (string | null) | Media;
     /**
      * Construction photos shown on the Kovai Chandra page
      */
-    photos?: (number | Media)[] | null;
+    photos?: (string | Media)[] | null;
   };
   banners?: {
-    services?: (number | null) | Media;
-    courses?: (number | null) | Media;
-    festivals?: (number | null) | Media;
-    donate?: (number | null) | Media;
-    volunteer?: (number | null) | Media;
-    dailyDarshan?: (number | null) | Media;
-    artGallery?: (number | null) | Media;
-    blog?: (number | null) | Media;
-    contact?: (number | null) | Media;
+    services?: (string | null) | Media;
+    courses?: (string | null) | Media;
+    festivals?: (string | null) | Media;
+    donate?: (string | null) | Media;
+    volunteer?: (string | null) | Media;
+    dailyDarshan?: (string | null) | Media;
+    artGallery?: (string | null) | Media;
+    blog?: (string | null) | Media;
+    contact?: (string | null) | Media;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1232,7 +1232,7 @@ export interface SitePhoto {
  * via the `definition` "temple-timings".
  */
 export interface TempleTiming {
-  id: number;
+  id: string;
   /**
    * When the temple is open. Drives the "Temple Open / Closed" status in the top bar. 24-hour time, e.g. 04:15.
    */
@@ -1260,7 +1260,7 @@ export interface TempleTiming {
  * via the `definition` "site-settings".
  */
 export interface SiteSetting {
-  id: number;
+  id: string;
   address: string;
   phone: string;
   /**
@@ -1279,7 +1279,7 @@ export interface SiteSetting {
   reg80G?: string | null;
   reg80GValidity?: string | null;
   upiId?: string | null;
-  upiQr?: (number | null) | Media;
+  upiQr?: (string | null) | Media;
   bankDetails?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;

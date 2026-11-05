@@ -25,7 +25,7 @@ export async function LegalPage({ title, intro, updated, children }) {
             ))}
             {settings.phone && (
               <>
-                Phone: <a href={`tel:${settings.phone.replace(/\s/g, '')}`}>{settings.phone}</a>
+                Phone: <a href={`tel:${(settings.phone ?? '').replace(/\s/g, '')}`}>{settings.phone}</a>
                 <br />
               </>
             )}

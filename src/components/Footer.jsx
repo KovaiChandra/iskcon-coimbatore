@@ -86,18 +86,22 @@ export function Footer({ settings, timings }) {
               className={styles.logoImage}
             />
             <p className={styles.address}>{settings.address}</p>
-            <p>
-              Phone:{' '}
-              <a href={`tel:${settings.phone.replace(/\s/g, '')}`} className={styles.hoverGold}>
-                {settings.phone}
-              </a>
-            </p>
-            <p>
-              Email:{' '}
-              <a href={`mailto:${settings.email}`} className={styles.hoverGold}>
-                {settings.email}
-              </a>
-            </p>
+            {settings.phone && (
+              <p>
+                Phone:{' '}
+                <a href={`tel:${settings.phone.replace(/\s/g, '')}`} className={styles.hoverGold}>
+                  {settings.phone}
+                </a>
+              </p>
+            )}
+            {settings.email && (
+              <p>
+                Email:{' '}
+                <a href={`mailto:${settings.email}`} className={styles.hoverGold}>
+                  {settings.email}
+                </a>
+              </p>
+            )}
             <SocialLinks settings={settings} className={styles.socials} />
           </div>
           {COLUMNS.map((col) => {

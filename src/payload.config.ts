@@ -1,3 +1,4 @@
+import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
@@ -68,13 +69,19 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  // Postgres when DATABASE_URL is a postgres:// URL (Vercel/Neon); SQLite file for local development.
-  db: databaseUrl.startsWith('postgres')
-    ? postgresAdapter({
-        pool: { connectionString: databaseUrl },
-        migrationDir: path.resolve(dirname, 'migrations'),
+  // Chosen from DATABASE_URL: mongodb:// or mongodb+srv:// (Atlas), postgres:// (Vercel/Neon),
+  // otherwise a SQLite file. src/migrations holds SQL migrations only, so MongoDB has its own folder.
+  db: databaseUrl.startsWith('mongodb')
+    ? mongooseAdapter({
+        url: databaseUrl,
+        migrationDir: path.resolve(dirname, 'migrations-mongo'),
       })
-    : sqliteAdapter({ client: { url: databaseUrl } }),
+    : databaseUrl.startsWith('postgres')
+      ? postgresAdapter({
+          pool: { connectionString: databaseUrl },
+          migrationDir: path.resolve(dirname, 'migrations'),
+        })
+      : sqliteAdapter({ client: { url: databaseUrl } }),
   sharp,
   plugins: [
     // Uploads go to Vercel Blob when its token is set (production); otherwise to the local media/ folder.

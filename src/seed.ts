@@ -15,14 +15,14 @@ async function upsert<T extends 'sevas' | 'festivals' | 'services' | 'courses'>(
   key: 'slug' | 'title',
   data: Record<string, unknown>[],
 ) {
-  const ids: number[] = []
+  const ids: string[] = []
   for (const doc of data) {
     const found = await payload.find({ collection, where: { [key]: { equals: doc[key] } }, limit: 1 })
     const existing = found.docs[0]
     const id = existing
       ? (await payload.update({ collection, id: existing.id, data: doc as never })).id
       : (await payload.create({ collection, data: doc as never })).id
-    ids.push(id as number)
+    ids.push(id as string)
   }
   return ids
 }

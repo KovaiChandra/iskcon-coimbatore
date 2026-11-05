@@ -19,6 +19,7 @@
     "seed": "cross-env NODE_OPTIONS=--no-deprecation payload run src/seed.ts"
   },
   "dependencies": {
+    "@payloadcms/db-mongodb": "3.90.2",
     "@payloadcms/db-postgres": "^3.90.2",
     "@payloadcms/db-sqlite": "3.90.2",
     "@payloadcms/next": "3.90.2",
