@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { ImageOrPlaceholder } from '@/components/ImageOrPlaceholder'
 import { PageHero } from '@/components/PageHero'
 import { DonateForm } from '@/components/forms/DonateForm'
@@ -29,7 +29,8 @@ export async function generateMetadata({ params }) {
 export default async function SevaPage({ params, searchParams }) {
   const [{ slug }, query] = await Promise.all([params, searchParams])
   const seva = await getSeva(slug)
-  if (!seva) notFound()
+  // A seva that is missing or removed: show all the ways to give rather than a 404
+  if (!seva) redirect('/donate')
 
   const payload = await getPayloadClient()
   const settings = await payload.findGlobal({ slug: 'site-settings', depth: 1 })
